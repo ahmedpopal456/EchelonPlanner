@@ -12,7 +12,7 @@ Params={}
 Params["ctl00$PageBody$ddlYear"]="2014"
 Params["ctl00$PageBody$ddlSess"]="A"
 Params["ctl00$PageBody$ddlLevl"]="U"
-Params["ctl00$PageBody$ddlDept"]="0405"
+Params["ctl00$PageBody$ddlDept"]="0403"
 Params["ctl00$PageBody$txtCournam"]="comp"
 Params["ctl00$PageBody$txtCournum"]="352"
 Params["ctl00$PageBody$txtKeyTtle"]=""
@@ -37,4 +37,3 @@ concordiaSite = urllib.request.urlopen("http://fcms.concordia.ca/fcms/asc002_stu
 output = open("output.txt","w")
 output.write(str(concordiaSite.read().decode('utf-8')))
 output.close()
-
