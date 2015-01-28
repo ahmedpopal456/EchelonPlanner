@@ -15,6 +15,8 @@ for tr in table.find_all("tr"):
     for td in tr.find_all("td"):
         outputClearFile.write(str(i) + ": ")
         outputClearFile.write((td.get_text()) + "\n")
+
+
         if i is 8:
             department = (td.get_text())[:4]
             number = (td.get_text())[-3:]
@@ -34,5 +36,3 @@ for tr in table.find_all("tr"):
                 output2.write(("Prerequisites: NONE \n"))
 
         i= i+1
-
-
