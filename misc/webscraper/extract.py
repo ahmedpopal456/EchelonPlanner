@@ -13,26 +13,84 @@ table = soup.find("table", attrs={"id": "ctl00_PageBody_tblBodyShow1"})
 i = 1
 for tr in table.find_all("tr"):
     for td in tr.find_all("td"):
-        outputClearFile.write(str(i) + ": ")
-        outputClearFile.write((td.get_text()) + "\n")
+        text = (td.get_text())
+        outputClearFile.write(text + "\n")
 
+outputClearFile.close()
 
-        if i is 8:
-            department = (td.get_text())[:4]
-            number = (td.get_text())[-3:]
+with open("outputClearFile.txt", "r") as lines:
+    for text in lines:
+        # Find the Course, then extract Dept, Num, Name and Credits
+        if (len(text))is 9 and re.match('[A-Z]{4} \d{3}', text):
+            department = text[:4]
+            number = text[-4:-1]
             output2.write(("Department: "+department + "\n" +"Course Number: "+number + "\n"))
-        if i is 9:
-            name = (td.get_text())
-            output2.write(("Course Name: "+name + "\n"))
-        if i is 10:
-            Credits = (td.get_text())[:1]
+            text = next(lines,0)
+            name = text
+            output2.write(("Course Name: "+name))
+            text = next(lines,0)
+            Credits = text[:1]
             output2.write(("Credits: "+Credits + "\n"))
-        if i is 13:
-            text = (td.get_text())
+        #Extract Preq
+        if text.find("Prerequisite") is not -1:
+            text = next(lines,0)
             try:
                 prereq = re.findall('[A-Z]{4} \d{3}',text)
                 output2.write(("Prerequisites: "+str(prereq) + "\n"))
             except AttributeError:
                 output2.write(("Prerequisites: NONE \n"))
+        #Extract Summer class
+        if text == "Summer\n":
+            text = next(lines,0)
+            output2.write("Semester: Summer"+ "\n")
+            output2.write(str(text))
 
-        i= i+1
+            #Skip lines under Summer term until it hits line with LECT XX
+            while "Lect" not in text:
+                text = next(lines,0)
+
+            #Type Lect plus section
+            output2.write(text)
+            # Under Lect get days/time
+
+            text = next(lines,0)
+            days = text[:7]
+            matchtime = re.findall('[0-9]{2}:[0-9]{2}-',text)
+            starttime = matchtime[0][:-1]
+            matchtime = re.findall('[0-9]{2}:[0-9]{2}[)]{1}',text)
+            endtime = matchtime[0][:-1]
+            output2.write("Days: "+days+ "\n" )
+            output2.write("Start Time: "+str(starttime)+ "\n" )
+            output2.write("End Time: "+str(endtime)+ "\n" )
+
+            #Location
+            text = next(lines,0)
+            location = text
+            output2.write("Location: "+location )
+
+            #Prof
+            text = next(lines,0)
+            prof = text
+            output2.write("Prof: "+prof )
+
+            while "Tut" not in text:
+                text = next(lines,0)
+
+            #Type Tut plus section
+            output2.write(text)
+            text = next(lines,0)
+            days = text[:7]
+            matchtime = re.findall('[0-9]{2}:[0-9]{2}-',text)
+            starttime = matchtime[0][:-1]
+            matchtime = re.findall('[0-9]{2}:[0-9]{2}[)]{1}',text)
+            endtime = matchtime[0][:-1]
+            output2.write("Days: "+days+ "\n" )
+            output2.write("Start Time: "+str(starttime)+ "\n" )
+            output2.write("End Time: "+str(endtime)+ "\n" )
+
+            #Location
+            text = next(lines,0)
+            location = text
+            output2.write("Location: "+location)
+
+            #TODO seperate into different functions, i.e Extractlect, extractTut.
