@@ -23,14 +23,18 @@
 				</p>
 				<p class=top id=logindetails>Login Details</p>
 				<div class=inner>
-					<p id=userpara>
-						Username* <input type=text id="user"></input><img
-							src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=uwarning>
-					</p>
-					<p id=passpara>
-						Password* <input type=password id="pass" onblur="passcheck();"></input><img
-							src="{% static 'app/images/exclamation_red.png' %}" alt="warning">
-					</p>
+					  <table>
+						<tr>
+							<td>Username*</td>
+							<td><input type=text id="user"></input><img
+								src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=uwarning></td>
+						</tr>
+						<tr>
+							<td>Password*</td>
+							<td><input type=password id="pass" onblur="passcheck();"></input><img
+								src="{% static 'app/images/exclamation_red.png' %}" alt="warning"></td>
+						</tr>
+						</table>
 					<!-- onchange could be used, but it isn't exactly the same as it also includes "enter" -->
 				</div>
 				<p id=end>
