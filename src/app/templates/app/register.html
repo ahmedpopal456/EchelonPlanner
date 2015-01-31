@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Registration</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'app/content/overall.css' %}" />
+	<script src="{% static 'app/scripts/exercise3.js' %}"></script>
+</head>
+<body>
+	<script>
+		translate();
+	</script>
+	<div id=outermost>
+		<h1 id=regist>Registration</h1>
+		<div id=outer>
+			<form onsubmit="return submitCheck()">
+				<p id=formfill>
+					Please fill out the form <img src="{% static 'app/images/french-flag.gif' %}"
+						alt="Francais" id=flag onclick="readFlag();">
+				</p>
+
+				<p class=top id=logindetails>Login Details</p>
+				<div class=inner>
+					<p id=userpara>
+						Username* <input type=text id="user"></input><img
+							src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=uwarning>
+					</p>
+					<p id=passpara>
+						Password* <input type=password id="pass" onblur="passcheck();"></input><img
+							src="{% static 'app/images/exclamation_red.png' %}" alt="warning">
+					</p>
+					<p id=repasspara>
+						Retype Password* <input type=password id="repass"
+							onblur="passcheck();"></input><img
+							src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=pwarning>
+					</p>
+					<!-- onchange could be used, but it isn't exactly the same as it also includes "enter" -->
+				</div>
+
+				<p class=top id=userdata>User Data</p>
+				<div class=inner id=lowest>
+					<p id=fnpara>
+						First Name* <input type=text id="fname"></input><img
+							src="{% static 'app/images/exclamation_red.png' %}" id=firstwarning>
+					</p>
+					<p id=mnpara>
+						Middle Name <input type=text id="mname"></input><img
+							src="{% static 'app/images/exclamation_red.png' %}" id=midwarning>
+					</p>
+					<p id=lnpara>
+						Last Name* <input type=text id="lname"></input><img
+							src="{% static 'app/images/exclamation_red.png' %}" id=lastwarning>
+					</p>
+					<p id=emailpara>
+						Email* <input type=text id="email" onchange="emailcheck();"></input><img
+							src="{% static 'app/images/exclamation_red.png' %}" id=ewarning>
+					</p>
+				</div>
+				<p id=end>
+					<input type=submit value="Submit" id=subbut></input>
+				</p>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
