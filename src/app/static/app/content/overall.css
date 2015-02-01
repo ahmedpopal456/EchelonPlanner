@@ -3,11 +3,23 @@
 	font-family: helvetica;
 	color: #E3E3EA ;
 }
+
+table{
+	margin-left:auto;
+	margin-right:auto;
+	text-align:left;
+}
+td{
+	padding-bottom:2px;
+	padding-top:2px;
+	text-align:right;
+}
+
 body{
   	position: fixed;
   	top:45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  	left: 50%;
+  	transform: translate(-50%, -50%);
 	background-color: #B29E8C;
 	text-align:center;
 	min-width:400px;
@@ -20,7 +32,7 @@ h1 {
 	padding-bottom: 10px;
 	margin: 0px;
 	color: #71191A;
-	text-shadow:none;  
+	text-shadow:none;
 }
 
 div {
@@ -33,7 +45,7 @@ div {
     -1px -1px 0 #140B0F,
     1px -1px 0 #140B0F,
     -1px 1px 0 #140B0F,
-    1px 1px 0 #140B0F;  
+    1px 1px 0 #140B0F;
 }
 
 input[type=text] {
@@ -50,7 +62,7 @@ input[type=password] {
 
 .inner {
 	top: -20px;
-	text-align:center
+	text-align:center;
 }
 
 #CoA{
@@ -62,6 +74,7 @@ input[type=password] {
 }
 
 #outermost {
+	min-width:440px;
 	background-color:#B88A57;
 	text-align:center;
 }
@@ -92,7 +105,7 @@ form {
 }
 
 #userdata {
-	top: -32px;
+	top:-32px;
 	width: 80px;
 }
 
@@ -102,6 +115,10 @@ form {
 
 #end {
 	text-align: center;
+	padding-top:1px;
+	margin-top:1px;
+	margin-bottom:1px;
+	height:50px;
 }
 
 #subbut{
