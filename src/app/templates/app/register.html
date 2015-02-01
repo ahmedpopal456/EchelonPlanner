@@ -22,41 +22,50 @@
 
 				<p class=top id=logindetails>Login Details</p>
 				<div class=inner>
-					<p id=userpara>
-						Username* <input type=text id="user"></input><img
-							src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=uwarning>
-					</p>
-					<p id=passpara>
-						Password* <input type=password id="pass" onblur="passcheck();"></input><img
-							src="{% static 'app/images/exclamation_red.png' %}" alt="warning">
-					</p>
-					<p id=repasspara>
-						Retype Password* <input type=password id="repass"
-							onblur="passcheck();"></input><img
-							src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=pwarning>
-					</p>
-					<!-- onchange could be used, but it isn't exactly the same as it also includes "enter" -->
+					<table>
+						<tr>
+							<td>Username*</td>
+							<td><input type=text id="user"></input><img
+								src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=uwarning></td>
+						</tr>
+						<tr>
+							<td>Password*</td>
+							<td><input type=password id="pass" onblur="passcheck();"></input><img
+								src="{% static 'app/images/exclamation_red.png' %}" alt="warning"></td>
+						</tr>
+						<tr>
+							<td>Retype Password*</td>
+							<td><input type=password id="repass" onblur="passcheck();"></input><img
+								src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=pwarning></td>
+						</tr>
+					</table>
 				</div>
-
 				<p class=top id=userdata>User Data</p>
 				<div class=inner id=lowest>
-					<p id=fnpara>
-						First Name* <input type=text id="fname"></input><img
-							src="{% static 'app/images/exclamation_red.png' %}" id=firstwarning>
-					</p>
-					<p id=mnpara>
-						Middle Name <input type=text id="mname"></input><img
-							src="{% static 'app/images/exclamation_red.png' %}" id=midwarning>
-					</p>
-					<p id=lnpara>
-						Last Name* <input type=text id="lname"></input><img
-							src="{% static 'app/images/exclamation_red.png' %}" id=lastwarning>
-					</p>
-					<p id=emailpara>
-						Email* <input type=text id="email" onchange="emailcheck();"></input><img
-							src="{% static 'app/images/exclamation_red.png' %}" id=ewarning>
-					</p>
+					<table>
+						<tr>
+							<td>First Name*</td>
+							<td><input type=text id="fname"></input><img
+								src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=firstwarning></td>
+						</tr>
+						<tr>
+							<td>Middle Name</td>
+							<td><input type=text id="mname"></input><img
+								src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=midwarning></td>
+						</tr>
+						<tr>
+							<td>Last Name*</td>
+							<td><input type=text id="lname"></input><img
+								src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=lastwarning></td>
+						</tr>
+						<tr>
+							<td>Email*</td>
+							<td><input type=text id="email" onchange="emailcheck();"></input><img
+								src="{% static 'app/images/exclamation_red.png' %}" alt="warning" id=ewarning></td>
+						</tr>
+					</table>
 				</div>
+
 				<p id=end>
 					<input type=submit value="Submit" id=subbut></input>
 				</p>
