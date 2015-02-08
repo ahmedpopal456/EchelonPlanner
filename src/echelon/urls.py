@@ -13,4 +13,6 @@ urlpatterns = patterns('',
     url(r'^$', 'app.views.index', name='index'),
     url(r'^login/','app.views.home',name = 'home'),
     url(r'^register/','app.views.register',name = 'register'),
+    url(r'^menu/', 'app.views.menu', name='menu'),
+
 )

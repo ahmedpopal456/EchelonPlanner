@@ -24,3 +24,9 @@ def register(request):
         request,
         'app/register.html'
     )
+
+def menu(request):
+    return render(
+        request,
+        'app/menu.html'
+    )
