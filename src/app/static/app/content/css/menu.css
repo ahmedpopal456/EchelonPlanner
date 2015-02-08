@@ -5898,7 +5898,17 @@ td.visible-print {
     display: none !important;
   }
 }
+.navbar-nav li a {padding-top:10px !important; padding-bottom:10px !important;}
 
-#littlelogo{
-    padding-right:10%;
+.navbar {min-height:70px !important}
+
+.navbar .nav li a {
+  @elementHeight: 20px;
+  padding:  10px;
+  line-height: 20px;
 }
+body{
+    padding-top:64px;
+}
+
+
