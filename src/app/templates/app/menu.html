@@ -11,92 +11,73 @@
 
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div class="col-xs-3"><img class="bg-primary"
+                                   src="{% static 'app/images/rsz_concordia_coa.png' %}"
+                                   id=CoA
+                                   alt="Magister Dixit"> <!-- Brand -->
+        </div>
+    </div>
 
     <div class="row">
         <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="col-xs-3"><img class="bg-primary"
-                                           src="{% static 'app/images/rsz_concordia_coa.png' %}"
-                                           id=CoA
-                                           alt="Magister Dixit"> <!-- Brand -->
-                </div>
-            </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Link</a></li>
-                    <li><a href="#">Link</a></li>
-                    <li><a href="#">Link</a></li>
-                    <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
-                </ul>
 
-            </div>
+            <ul class="nav nav-tabs">
+
+                <li class="active"><a data-toggle="tab" href="#sectionA">Section A</a></li>
+
+                <li><a data-toggle="tab" href="#sectionB">Section B</a></li>
+
+                <li><a data-toggle="tab" href="#sectionC">Section C</a></li>
+
+            </ul>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container-fluid -->
+
+        <div class="row">
+            <div class="container-fluid">
+            <div class="tab-content">
+
+                <div id="sectionA" class="tab-pane fade in active">
+                    <a id="Stewart">Hello test</a>
+                </div>
+
+                <div id="sectionB" class="tab-pane fade">
+<a id="Stewart">KEK</a>
+
+                </div>
+                <div id="sectionC" class="tab-pane fade">
+<a id="Stewart">HOWDY</a>
+
+                </div>
+            </div>
+                </div>
+        </div>
+
     </div>
+
     <div class="row">
 
     </div>
 </nav>
-<!--
-<div class="navbar navbar-inverse navbar-fixed-top">
-
-        <div class="container">
-            <div class="col-xs-3"> <span id="littlelogo"><img class="bg-primary"
-                                                              src="{% static 'app/images/rsz_concordia_coa.png' %}"
-                                                              id=CoA
-                                                              alt="Magister Dixit"></span></div>
-            <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-            <ul class="nav navbar-nav" role="tablist">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">HTML</a></li>
-                <li><a href="#">CSS</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-        </div>
-</div>
-!-->
 
 <div class="container body-content">
     <div class="row">
         <div class="col-xs-2"><h2>Ave, Cesar</h2></div>
         <div class="col-xs-8"><h2>What</h2>
-
             <p>Some text no one cared about.</p></div>
-        <div class="col-xs-2"><h2>Morituri, Te Salutant</h2></div>
+        <div class="col-xs-2"><h2>Morituri Te Salutant</h2></div>
     </div>
 </div>
-
-
 </body>
 </html>
