@@ -7180,6 +7180,9 @@ td.visible-print {
     }
 }
 
+
+/* beginning of my edits */
+
 .navbar-nav li a {
     padding-top: 10px !important;
     padding-bottom: 10px !important;
@@ -7222,22 +7225,38 @@ td.visible-print {
     cursor: default;
 }
 
-.nav{
-    min-height:100px;
-}
-
 body {
     padding-top: 160px;
 }
 
-.tab-content > .active,
-.pill-content > .active {
-    display: block;
-    padding-left:100px;
+.tab-content{
+    position:relative; /*this allows moving it up by hand*/
+    background-color:#BFB19E;
+    margin-left:83px;
+    border-radius: 0 4px 4px 4px;
+    max-width: 700px;
+    top: -20px;
+    margin-bottom:-20px;
 }
 
-#Stewart{
-    background-color: red;
+.tab-content a{
+    background-color: #925140;
+    color:#141011;
+    padding:5px;
+    border-radius: 4px 4px 4px 4px;
 }
+
+.tab-content li{
+    padding-top:20px;
+    padding-left: 20px;
+    min-height:60px;
+}
+
+
+.container-fluid{
+    max-height:64px;
+}
+
+
 
 

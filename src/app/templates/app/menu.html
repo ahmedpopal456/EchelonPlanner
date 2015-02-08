@@ -5,8 +5,9 @@
     <title>Concordia YouSched</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.min.js' %}"></script>
 
-    <script src="{% static 'app/scripts/defjs/exercise3.js' %}"></script>
 </head>
 
 <body>
@@ -27,54 +28,44 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="container-fluid">
-
-
-            <ul class="nav nav-tabs">
-
-                <li class="active"><a data-toggle="tab" href="#sectionA">Section A</a></li>
-
-                <li><a data-toggle="tab" href="#sectionB">Section B</a></li>
-
-                <li><a data-toggle="tab" href="#sectionC">Section C</a></li>
-
-            </ul>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
-
-        <div class="row">
-            <div class="container-fluid">
-            <div class="tab-content">
-
-                <div id="sectionA" class="tab-pane fade in active">
-                    <a id="Stewart">Hello test</a>
-                </div>
-
-                <div id="sectionB" class="tab-pane fade">
-<a id="Stewart">KEK</a>
-
-                </div>
-                <div id="sectionC" class="tab-pane fade">
-<a id="Stewart">HOWDY</a>
-
-                </div>
-            </div>
-                </div>
-        </div>
-
+    <div class="container-fluid">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#sectionA">Section A</a></li>
+            <li><a data-toggle="tab" href="#sectionB">Section B</a></li>
+            <li><a data-toggle="tab" href="#sectionC">Section C</a></li>
+        </ul>
     </div>
 
-    <div class="row">
-
+    <div class="tab-content">
+        <div id="sectionA" class="tab-pane fade in active">
+            <ul class="list-inline">
+                <li class="active"><a href="/">Hohoho!</a></li>
+                <li class=""><a href="/preview">Yessir.</a></li>
+                 <li class=""><a href="/">NOT ME</a></li>
+                <li class=""><a href="/preview">Yes.</a></li>
+            </ul>
+        </div>
+        <div id="sectionB" class="tab-pane fade">
+            <ul class="list-inline">
+                <li class="active"><a href="/">NOT ME</a></li>
+                <li class=""><a href="/preview">Yes.</a></li>
+            </ul>
+        </div>
+        <div id="sectionC" class="tab-pane fade">
+            <ul class="list-inline">
+                <li class="active"><a href="/">CAPTAIN</a></li>
+                <li class=""><a href="/preview">FALCON</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
+
 
 <div class="container body-content">
     <div class="row">
         <div class="col-xs-2"><h2>Ave, Cesar</h2></div>
         <div class="col-xs-8"><h2>What</h2>
+
             <p>Some text no one cared about.</p></div>
         <div class="col-xs-2"><h2>Morituri Te Salutant</h2></div>
     </div>
