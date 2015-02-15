@@ -7184,9 +7184,9 @@ td.visible-print {
 /* beginning of my edits */
 
 .form-control:focus {
-    border-color: #B88A57;
+    border-color: #263958;
     outline: 0px none;
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(233, 139, 35, 0.60);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(94, 164, 233, 0.60);
 }
 
 

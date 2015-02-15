@@ -19,21 +19,28 @@ def home(request):
         # })
     )
 
-def register(request):
-    return render(
-        request,
-        'app/register.html'
-    )
-
-def menu(request):
-    return render(
-        request,
-        'app/menu.html'
-    )
 
 
 def login2(request):
     return render(
         request,
         'app/login2.html'
+    )
+
+def register(request):
+    return render(
+        request,
+        'app/register.html'
+    )
+
+def register2(request):
+    return render(
+        request,
+        'app/register2.html'
+    )
+
+def menu(request):
+    return render(
+        request,
+        'app/menu.html'
     )
