@@ -7183,26 +7183,19 @@ td.visible-print {
 
 /* beginning of my edits */
 
-.navbar-nav li a {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-}
-
-.navbar {
-    min-height: 70px !important
-}
-
+/*
 .navbar .nav li a {
 @elementHeight : 20 px;
     padding: 10px;
     line-height: 20px;
 }
-
+*/
 
 .nav-tabs {
     padding-top:10px; /*Make menu buttons drop down a little*/
     border-bottom: none;
 }
+
 
 .nav-tabs > li > a {
     background-color: #BA9363;
@@ -7211,6 +7204,7 @@ td.visible-print {
     border: none;
     border-radius: 4px 4px 0 0;
 }
+
 
 .nav-tabs > li > a:hover {
     border: none;
@@ -7239,17 +7233,10 @@ body {
     margin-bottom:-20px;
 }
 
-.tab-content a{
-    background-color: #925140;
-    color:#141011;
-    padding:5px;
-    border-radius: 4px 4px 4px 4px;
-}
-
 .tab-content li{
-    padding-top:20px;
+    padding-top:5px;
     padding-left: 20px;
-    min-height:60px;
+    min-height:30px;
 }
 
 
