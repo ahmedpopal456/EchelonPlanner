@@ -30,3 +30,10 @@ def menu(request):
         request,
         'app/menu.html'
     )
+
+
+def login2(request):
+    return render(
+        request,
+        'app/login2.html'
+    )

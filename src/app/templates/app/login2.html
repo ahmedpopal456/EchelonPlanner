@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Concordia YouSched</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/login.css' %}"/>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.min.js' %}"></script>
+
+</head>
+
+<body>
+
+<div class="container body-content" id="test">
+    <div class="row">
+        <div class="col-xs-3"></div>
+        <div class="col-xs-6"><img class="bg-primary"
+                                   src="{% static 'app/images/concordia_coa.png' %}"
+                                   id=CoA
+                                   alt="Magister Dixit">
+
+            <div class="container" id="loginblock"><h1>Login</h1>
+                    <form class="form-signin">
+                        <h2 class="form-signin-heading">Please log in</h2>
+                        <label for="inputUser" class="sr-only">Enter Username</label>
+                        <input id="inputUser" class="form-control" placeholder="Enter Username" required="" autofocus=""
+                               type="email">
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input id="inputPassword" class="form-control" placeholder="Password" required=""
+                               type="password">
+                        <div class="checkbox">
+                            <label>
+                                <input value="remember-me" type="checkbox"> Remember me
+                            </label>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    </form>
+            </div>
+
+        </div>
+        <div class="col-xs-3"></div>
+    </div>
+
+</div>
+</body>
+</html>
