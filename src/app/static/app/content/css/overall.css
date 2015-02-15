@@ -124,7 +124,7 @@ form {
 #subbut{
 	padding: 5px 10px;
     display: inline;
-    background: #71191A url("images/button.png") repeat-x bottom;
+    background: #71191A url("../images/button.png") repeat-x bottom;
     border: thin solid #191016;
     color: #E3E3EA;
     cursor: pointer;
@@ -133,7 +133,7 @@ form {
 }
 
 #subbut:hover{
-	background: #263958 url("images/button.png") repeat-x bottom;
+	background: #263958 url("../images/button.png") repeat-x bottom;
 	background-position: 0 -48px;
 }
 
