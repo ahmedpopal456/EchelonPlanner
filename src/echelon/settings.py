@@ -57,10 +57,22 @@ WSGI_APPLICATION = 'echelon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+#Old config for SQLite3
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'echelon', #MySQL must contain this DB.
+        'USER': 'root',
+        'PASSWORD': 'SOEN341echelon!',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
