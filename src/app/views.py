@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpRequest
 # Create your views here.
 
+from django.views.decorators.csrf import csrf_exempt
+
 def index(request):
 	return home(request) #We'll have it hardcoded for now...
 
@@ -18,8 +20,6 @@ def home(request):
         #     'year':datetime.now().year,
         # })
     )
-
-
 
 def login2(request):
     return render(
@@ -44,3 +44,10 @@ def menu(request):
         request,
         'app/menu.html'
     )
+@csrf_exempt
+def nullHandler(request):
+    print("HELP")
+    print(request.POST)
+    return HttpRequest()
+
+
