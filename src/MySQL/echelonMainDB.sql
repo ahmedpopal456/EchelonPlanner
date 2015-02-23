@@ -129,7 +129,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'steele','0000-00-00 00:00:00',1,'jefz','javier','F','sniperjefz@hotmail.com',1,1,'0000-00-00 00:00:00'),(2,'pbkdf2_sha256$15000$VhTmrZcSGSl2$UiIveGXkAqbOfgT1rQpRU0UmhMSyhXidhFrwpTNySg8=','2015-02-15 23:03:40',1,'foxtrot','','','sniperjefz@hotmail.com',1,1,'2015-02-15 23:01:36');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$15000$VhTmrZcSGSl2$UiIveGXkAqbOfgT1rQpRU0UmhMSyhXidhFrwpTNySg8=','2015-02-15 23:03:40',1,'foxtrot','','','sniperjefz@hotmail.com',1,1,'2015-02-15 23:01:36');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
