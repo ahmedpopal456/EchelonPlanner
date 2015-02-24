@@ -21,14 +21,14 @@
                                    alt="Magister Dixit">
 
             <div class="container" id="loginblock"><h1>Login</h1>
-                    <form class="form-signin" method="post" action="/nullhandler/"
-                        enctype="multipart/form-data">
+                    <form class="form-signin" method="post" action="/nullhandler/">
+                        {% csrf_token %}
                         <h2 class="form-signin-heading">Please log in</h2>
                         <label for="inputUser" class="sr-only">Enter Username</label>
-                        <input id="inputUser" class="form-control" placeholder="Enter Username" required="" autofocus=""
+                        <input id="inputUser" class="form-control" placeholder="Enter Username" name="username"
                                type="text">
                         <label for="inputPassword" class="sr-only">Password</label>
-                        <input id="inputPassword" class="form-control" placeholder="Password" required=""
+                        <input id="inputPassword" class="form-control" placeholder="Password" name="password"
                                type="password">
                         <div class="checkbox">
                             <label>
