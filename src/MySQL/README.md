@@ -1,4 +1,4 @@
-MySQL Database Management
+# MySQL Database Management
 
 As a platform, MySQL is designed to reside on a single server and be accessed from several remote locations.
 In our development cycle, this is not a practical solution since we do not have a centralized server that can host our DB.
