@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     url(r'^menu/', 'app.views.menu', name='menu'),
     url(r'^login2/', 'app.views.login2', name='login2'),
     url(r'^register2/', 'app.views.register2', name='register2'),
-    url(r'^nullhandler/', 'app.views.nullHandler', name='nullHandler'),
+    url(r'^nullhandler/', 'app.views.nullhandler', name='nullhandler'),
+    url(r'^logout/', 'app.views.logouthandler'),
 )
