@@ -68,7 +68,7 @@ WSGI_APPLICATION = 'echelon.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': 'echelon', #MySQL must contain this DB.
+        'NAME': 'echelon',  # MySQL must contain this DB.
         'USER': 'root',
         'PASSWORD': 'SOEN341echelon!',
         'HOST': 'localhost',
