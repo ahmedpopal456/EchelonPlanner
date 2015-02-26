@@ -65,13 +65,22 @@ WSGI_APPLICATION = 'echelon.wsgi.application'
 #     }
 # }
 
+# Note on Databases:
+# If you do not have a local database, you can connect to a remote MySQL server which houses the exact copy of the DB
+# To connect to the remote DB, the DATABASE fields should match those below
+#        'USER': 'eve',
+#         'PASSWORD': 'SOEN341echelon!',
+#         'HOST': 'centcom.noip.me',
+#         'PORT': '3306',
+# Note that the remote DB at centcom.noip.me is 20x slower than having a local DB on your machine
+
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'echelon',  # MySQL must contain this DB.
-        'USER': 'root',
+        'USER': 'eve',
         'PASSWORD': 'SOEN341echelon!',
-        'HOST': 'localhost',
+        'HOST': 'centcom.noip.me',
         'PORT': '3306',
     }
 }
