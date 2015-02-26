@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpRequest
-# from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -78,5 +77,5 @@ def nullhandler(request):
 def logouthandler(request):
     logout(request)
     html = "<html><body>Your request was processed correctly and you are logged out</body></html>"
-    return(html)
+    return HttpResponse(html)
 
