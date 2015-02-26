@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `echelon` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `echelon`;
--- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: echelon
 -- ------------------------------------------------------
--- Server version	5.5.41-0ubuntu0.14.04.1
+-- Server version	5.6.22-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -120,7 +118,7 @@ CREATE TABLE `auth_user` (
   `date_joined` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +127,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$15000$VhTmrZcSGSl2$UiIveGXkAqbOfgT1rQpRU0UmhMSyhXidhFrwpTNySg8=','2015-02-15 23:03:40',1,'foxtrot','','','sniperjefz@hotmail.com',1,1,'2015-02-15 23:01:36');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$15000$VhTmrZcSGSl2$UiIveGXkAqbOfgT1rQpRU0UmhMSyhXidhFrwpTNySg8=','2015-02-26 00:55:58',1,'foxtrot','','','sniperjefz@hotmail.com',1,1,'2015-02-15 23:01:36'),(3,'pbkdf2_sha256$15000$H2sO9WqJX0yQ$6j6eGRMrF7evRP+9l3pd1YxwFHyajtaeIz/LFLVFD0s=','2015-02-26 01:00:31',1,'root','','','',1,1,'2015-02-26 01:00:04');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,7 +297,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('fyqmzb03d4chypethp0itwvig2lw3sgf','ZGY2NjI1MTViZTM1Y2U2ODYxN2QzMDg3NzAwZDczOTg1YTUyZTRlMDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYTc2N2ViNTJkZmZkNzY5NTdmZjc4MmVjOWQzOWE2NWQ4ZTYwN2U4MSIsIl9hdXRoX3VzZXJfaWQiOjJ9','2015-03-01 23:03:40');
+INSERT INTO `django_session` VALUES ('alsd3vietc3u51pjni10fk7gz3bu188w','ZGY1YjgxMmZjNTI1N2YzNjQ4N2EyZTA4MjU0ZGQwYmY2ODRiNjRiYjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZTQ5Y2U2M2I2YjZhZjkyOTM5Yzg2YmI4OGIzNTRjZWY2OWNkZTgzYSIsIl9hdXRoX3VzZXJfaWQiOjN9','2015-03-12 01:00:31'),('fyqmzb03d4chypethp0itwvig2lw3sgf','ZGY2NjI1MTViZTM1Y2U2ODYxN2QzMDg3NzAwZDczOTg1YTUyZTRlMDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYTc2N2ViNTJkZmZkNzY5NTdmZjc4MmVjOWQzOWE2NWQ4ZTYwN2U4MSIsIl9hdXRoX3VzZXJfaWQiOjJ9','2015-03-01 23:03:40');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -312,4 +310,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-15 18:31:36
+-- Dump completed on 2015-02-25 20:04:32
