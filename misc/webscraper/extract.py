@@ -1,9 +1,56 @@
 from bs4 import BeautifulSoup
 import re
 
+def extractSemester(text):
+    semesterlist = []
+    position = []
+    index = 0
+    for i in text:
+        if i == "Summer\n" or i == "Fall\n" or i == "Winter\n" or i=="Fall&Winter\n":
+            position.append(index)
+        index+=1
+
+    j=0
+    while j < len(position)-1:
+        semesterlist.append(text[position[j]:position[j+1]])
+        j+=1
+    semesterlist.append(text[position[j]:])
+
+    for semester in semesterlist:
+        extractLecture(semester)
+
+    return semesterlist
+
+
+def extractLecture(semester):
+    lecture = []
+    position = []
+    index = 0
+
+    for i in semester:
+        if "Lect" in i:
+            position.append(index)
+        index+=1
+    j=0
+
+    while j < len(position)-1:
+        lecture.append(semester[position[j]:position[j+1]])
+        j+=1
+    lecture.append(semester[position[j]:])
+
+    return lecture
+
+
+
+#def extractTutorial(lecture):
+
+#def extractLab(tutorial):
+
+
 inputFile = open("output.txt")
 outputClearFile = open("outputClearFile.txt", "w")
 output2 = open("output2.txt","w")
+output3 = open("output3.txt", "w")
 
 soup = BeautifulSoup(inputFile)
 table = soup.find("table", attrs={"id": "ctl00_PageBody_tblBodyShow1"})
@@ -17,6 +64,15 @@ for tr in table.find_all("tr"):
         outputClearFile.write(text + "\n")
 
 outputClearFile.close()
+
+file_content = open("outputClearFile.txt")
+file_content = file_content.readlines()
+course_info  = extractSemester(file_content)
+for semester in course_info:
+    for lines in semester:
+        output3.write(lines)
+    output3.write("----------------------------\n")
+
 
 with open("outputClearFile.txt", "r") as lines:
     for text in lines:
@@ -39,7 +95,7 @@ with open("outputClearFile.txt", "r") as lines:
                 output2.write(("Prerequisites: "+str(prereq) + "\n"))
             except AttributeError:
                 output2.write(("Prerequisites: NONE \n"))
-        #Extract Summer class
+        #Extract  Semester Summer class
         if text == "Summer\n":
             text = next(lines,0)
             output2.write("Semester: Summer"+ "\n")
