@@ -5,6 +5,7 @@
     <title>Concordia YouSched</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
     <script src="{% static 'app/scripts/bootjs/bootstrap.min.js' %}"></script>
 
@@ -33,7 +34,7 @@
             <li class="active"><a data-toggle="tab" href="#sectionA" title="Some Section">Section A</a></li>
             <li><a data-toggle="tab" href="#sectionB" title="Next section">Section B</a></li>
             <li><a data-toggle="tab" href="#sectionC" title="Last Section">Section C</a></li>
-            <li><a data-toggle="tab" href="/logout/" title="Last Section">Logout</a></li>
+            <li><a href="/logout" title="Last Section">Logout</a></li>
         </ul>
     </div>
 
