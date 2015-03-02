@@ -57,20 +57,11 @@ WSGI_APPLICATION = 'echelon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-# Old config for SQLite3
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 # Note on Databases:
-# If you do not have a local database, you can connect to a remote MySQL server which houses the exact copy of the DB
-# To connect to the remote DB, the DATABASE fields should match those below
+# If you do have a local database, feel free to use it. However, for convenience, we will be switching to a centralized one
 #        'USER': 'eve',
 #         'PASSWORD': 'SOEN341echelon!',
-#         'HOST': 'centcom.noip.me',
+#         'HOST': 'bbbtimmy.noip.me', # OR centcom.noip.me
 #         'PORT': '3306',
 # Note that the remote DB at centcom.noip.me is 20x slower than having a local DB on your machine
 
@@ -78,9 +69,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'echelon',  # MySQL must contain this DB.
-        'USER': 'root',
+        'USER': 'eve',
         'PASSWORD': 'SOEN341echelon!',
-        'HOST': 'localhost',
+        'HOST': 'bbbtimmy.noip.me',
         'PORT': '3306',
     }
 }
