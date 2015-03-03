@@ -76,15 +76,39 @@ DATABASES = {
     }
 }
 
-# TODO: Set up a complete logging scheme
+# Logging
+#
+# The logging system will output a log at various levels ranging from DEBUG to CRITICAL into a file (django-debug.log)
+# The default logger that will be used will show a timestamp, the level of the log, and the message attached.
+# The possible levels are:
+#   - DEBUG: used to follow the actions in debug mode
+#   - INFO: used for general system information
+#   - WARNING: used to indicate a minor problem
+#   - ERROR: used to indicate a a major problem
+#   - CRITICAL: used to indicate a critical problem
+# To use the logger,
+# - import logging into your file
+# - make an instance of the logger using:
+#       logger = logging.getLogger(__name__)
+# - to use the logger:
+#       logger.error("This is the message to be transmitted")
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': 'django-debug.log',
+            'formatter': 'simple',
         },
     },
     'loggers': {
