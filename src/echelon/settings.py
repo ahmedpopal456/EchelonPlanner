@@ -53,6 +53,9 @@ ROOT_URLCONF = 'echelon.urls'
 
 WSGI_APPLICATION = 'echelon.wsgi.application'
 
+# Default Login URL
+LOGIN_URL='/login/'
+
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases

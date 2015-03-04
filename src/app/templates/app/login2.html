@@ -21,8 +21,13 @@
                                    id=CoA
                                    alt="Magister Dixit">
 
-            <div class="container" id="loginblock"><h1>Login</h1>
-                    <form class="form-signin" method="post" action="/nullhandler/">
+            <div class="container" id="loginblock">
+                    <h1>Login</h1>
+                    <!-- TODO: change variable name to be able to display any message necessary. -->
+                    {% if not successfulLogin %}
+                        <p>{{ message }}</p>
+                    {% endif %}
+                    <form class="form-signin" method="post" action="/loginhandler/">
                         {% csrf_token %}
                         <h2 class="form-signin-heading">Please log in</h2>
                         <label for="inputUser" class="sr-only">Enter Username</label>
