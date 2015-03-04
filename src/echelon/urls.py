@@ -18,4 +18,5 @@ urlpatterns = patterns('',
     url(r'^register2/', 'app.views.register2', name='register2'),
     url(r'^nullhandler/', 'app.views.nullhandler', name='nullhandler'),
     url(r'^logout/', 'app.views.logouthandler'),
+    url(r'^loginhandler/','app.views.loginhandler')
 )
