@@ -23,13 +23,14 @@
 
             <div class="container" id="loginblock">
                     <h1>Login</h1>
-                    <!-- TODO: change variable name to be able to display any message necessary. -->
-                    {% if not successfulLogin %}
+                    {% if hasMessage %}
                         <p>{{ message }}</p>
                     {% endif %}
                     <form class="form-signin" method="post" action="/loginhandler/">
                         {% csrf_token %}
-                        <h2 class="form-signin-heading">Please log in</h2>
+                        <h2 class="form-signin-heading">
+                            Please log in or <a href="/register">register here</a>
+                        </h2>
                         <label for="inputUser" class="sr-only">Enter Username</label>
                         <input id="inputUser" class="form-control" placeholder="Enter Username" name="username"
                                type="text">

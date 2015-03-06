@@ -14,15 +14,14 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-	return home(request) #We'll have it hardcoded for now...
+    return home(request)  # We'll have it hardcoded for now...
 
 
 def home(request):
-    """Renders the home page."""
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/login2.html'
+        'app/login.html'
         # #Below info is not needed for now.
         # context_instance = RequestContext(request,
         # {
@@ -35,27 +34,26 @@ def home(request):
 def login2(request):
     return render(
         request,
-        'app/login2.html'
+        'app/login.html'
     )
 
 
 def register(request):
     return render(
         request,
-        'app/register2.html'
+        'app/register.html'
     )
 
 
 def register2(request):
     return render(
         request,
-        'app/register2.html'
+        'app/register.html'
     )
 
 
 @login_required
 def menu(request):
-    # TODO: More Elegantly, Block access to menu with a sign-in
     if request.user.is_authenticated():
         return render(
             request,
@@ -76,48 +74,26 @@ def loginhandler(request):
         if user:
             # If successful,
             login(request, user)
-            context_instance = RequestContext(request,
-            {
-                'successfulLogin': True,
-                'message': str('Welcome '+username),
-            })
-            return render(request,'app/menu.html', {'successfulLogin': True,'message': str('Welcome '+username)})
+            return render(request, 'app/menu.html', {'hasMessage': False, 'message': str()})
         else:
             # print ("Invalid login details: {0}, {1}".format(username, password))
-            context_instance = RequestContext(request,
-            {
-                'successfulLogin': False,
-                'message': str('Login not successful. Check your username and password.'),
-            })
             return render(request,
-                          'app/login2.html',
-                          {'successfulLogin': False, 'message': 'Login not successful. Check your username and password.'})
-    logger.debug( str(request.POST) )
-    # return render(request, 'app/menu.html', context_instance)
+                          'app/login.html',
+                          {'hasMessage': True, 'message': 'Login not successful. Check your username and password.'})
+    # End loginhandler()
+
+def logouthandler(request):
+    logout(request)
+    return render(request,
+                  'app/login.html',
+              {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
 
 # TODO: Remove this method and correctly handle HTTP Post requests for login/register!
 
 
 def nullhandler(request):
-    # This method does nothing other than log the request it receives.
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(username=username, password=password)
-
-        if user:
-            login(request, user)
-            html = "<html><body>Your request was processed correctly and you are logged in</body></html>"
-        else:
-            # print ("Invalid login details: {0}, {1}".format(username, password))
-            html = "<html><body>There was a problem with your request</body></html>"
-    logger.debug( str(request.POST) )
-    return HttpResponse(html)
-
-
-def logouthandler(request):
-    logout(request)
-    html = "<html><body>Your request was processed correctly and you are logged out</body></html>"
+    # This method does nothing other than print out the stuff it is receiving
+    html = "<html><body>Transaction Logged</body></html>"
+    logger.debug(str(request.POST))
     return HttpResponse(html)
 
