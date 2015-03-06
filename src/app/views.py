@@ -31,21 +31,7 @@ def home(request):
     )
 
 
-def login2(request):
-    return render(
-        request,
-        'app/login.html'
-    )
-
-
 def register(request):
-    return render(
-        request,
-        'app/register.html'
-    )
-
-
-def register2(request):
     return render(
         request,
         'app/register.html'
@@ -60,7 +46,7 @@ def menu(request):
             'app/menu.html'
         )
     else:
-        return register2(request)
+        return register(request)
 
 
 def loginhandler(request):
@@ -88,7 +74,13 @@ def logouthandler(request):
                   'app/login.html',
               {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
 
-# TODO: Remove this method and correctly handle HTTP Post requests for login/register!
+##################################################################################################
+# Dev methods to test features and not break flow
+
+
+def work_in_progress(request):
+    html = "<html><body>The website template you requested is currently being worked on</body></html>"
+    return HttpResponse(html)
 
 
 def nullhandler(request):
