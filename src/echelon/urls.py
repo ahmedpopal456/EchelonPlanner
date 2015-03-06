@@ -14,9 +14,8 @@ urlpatterns = patterns('',
     url(r'^login/','app.views.home',name = 'home'),
     url(r'^register/','app.views.register',name = 'register'),
     url(r'^menu/', 'app.views.menu', name='menu'),
-    url(r'^login2/', 'app.views.login2', name='login2'),
-    url(r'^register2/', 'app.views.register2', name='register2'),
     url(r'^nullhandler/', 'app.views.nullhandler', name='nullhandler'),
     url(r'^logout/', 'app.views.logouthandler'),
-    url(r'^loginhandler/','app.views.loginhandler')
+    url(r'^loginhandler/','app.views.loginhandler'),
+    url(r'^work_in_progress/', 'app.views.work_in_progress')
 )
