@@ -23,7 +23,7 @@ def extractSemester(text):
 
 
 def extractLecture(semester):
-    lecture = []
+    lecturelist = []
     position = []
     index = 0
 
@@ -34,11 +34,11 @@ def extractLecture(semester):
     j=0
 
     while j < len(position)-1:
-        lecture.append(semester[position[j]:position[j+1]])
+        lecturelist.append(semester[position[j]:position[j+1]])
         j+=1
-    lecture.append(semester[position[j]:])
+    lecturelist.append(semester[position[j]:])
 
-    return lecture
+    return lecturelist
 
 
 
