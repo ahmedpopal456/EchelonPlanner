@@ -61,7 +61,7 @@ LOGIN_URL='/login/'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 # Note on Databases:
-# If you do have a local database, feel free to use it. However, for convenience, we will be switching to a centralized one
+# If you do have a local database, feel free to use it. But for convenience, we will be switching to a centralized one
 #        'USER': 'eve',
 #         'PASSWORD': 'SOEN341echelon!',
 #         'HOST': 'bbbtimmy.noip.me', # OR centcom.noip.me

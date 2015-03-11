@@ -12,64 +12,8 @@
 </head>
 
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <div class="col-xs-3"><img class="bg-primary"
-                                   src="{% static 'app/images/rsz_concordia_coa.png' %}"
-                                   id=CoA
-                                   alt="Magister Dixit"> <!-- Brand -->
-        </div>
-    </div>
-
-    <div class="container-fluid">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#sectionA" title="Manage your schedule and registration">
-                Schedule Management</a></li>
-            <li><a data-toggle="tab" href="#sectionB" title="View your student record and online profile">
-                My Profile</a></li>
-            <li><a data-toggle="tab" href="#sectionC" title="Helpful links to other sites"> <!-- bullshit -->
-                Tools</a></li>
-            <li><a href="/work_in_progress/" title="Site help section">Help</a></li>
-            <li><a href="/logout" title="Last Section">Logout</a></li>
-        </ul>
-    </div>
-
-    <div class="tab-content">
-        <div id="sectionA" class="tab-pane fade in active">
-            <ul class="list-inline">
-                <li class="active"><a href="/">Generate</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/preview">View</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/preview">Manage preferences</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/preview">Browse all courses</a></li>
-            </ul>
-        </div>
-
-        <div id="sectionB" class="tab-pane fade">
-            <ul class="list-inline">
-                <li class="active"><a href="/">NOT ME</a></li>
-                <li class=""><a href="/preview">Yes.</a></li>
-            </ul>
-        </div>
-
-        <div id="sectionC" class="tab-pane fade">
-            <ul class="list-inline">
-                <li class="active"><a href="/">CAPTAIN</a></li>
-                <li class=""><a href="/preview">FALCON</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<!-- Load the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
 
 
 <div class="container body-content">
