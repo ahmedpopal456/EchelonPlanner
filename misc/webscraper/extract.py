@@ -38,13 +38,65 @@ def extractLecture(semester):
         j+=1
     lecturelist.append(semester[position[j]:])
 
+    for lecture in lecturelist:
+        extractTutorial(lecture)
+
     return lecturelist
 
 
 
-#def extractTutorial(lecture):
+def extractTutorial(lecture):
+    tutorialList = []
+    position = []
+    index = 0
 
-#def extractLab(tutorial):
+    for i in lecture:
+        if "Tut" in i:
+            position.append(index)
+        index+=1
+
+    if position.__len__() == 0:
+        return 0
+
+    j=0
+
+    while j < len(position)-1:
+        tutorialList.append(lecture[position[j]:position[j+1]])
+        j+=1
+    tutorialList.append(lecture[position[j]:])
+
+    for tutorial in tutorialList:
+        extractLab(tutorial)
+
+    return tutorialList
+
+
+def extractLab(tutorial):
+
+    labList = []
+    position = []
+    index = 0
+
+    for i in tutorial:
+        if "Lab" in i:
+            position.append(index)
+        index+=1
+
+    if position.__len__() == 0:
+        return 0
+
+    j=0
+
+    while j < len(position)-1:
+        labList.append(tutorial[position[j]:position[j+1]])
+        j+=1
+    labList.append(tutorial[position[j]:])
+
+    for lab in labList:
+        extractLab(lab)
+
+    return labList
+
 
 
 inputFile = open("output.txt")
