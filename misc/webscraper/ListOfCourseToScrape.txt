@@ -40,81 +40,63 @@ COMP 361 	Elementary Numerical Methods 	3.00
 
 Basic Science, Pick 2 (6 Credits):
 BIOL 206 	Elementary Genetics 	3.00
-BIOL 208 	Environmental Biology 	3.00
 BIOL 226 	Biodiversity and Ecology 	3.00
 BIOL 261 	Molecular and General Genetics 	3.00
 CHEM 209 	Discovering Biotechnology 	3.00
 CHEM 217 	Introductory Analytical Chemistry I 	3.00
 CHEM 221 	Introductory Organic Chemistry I 	3.00
 CHEM 234 	Physical Chemistry I: Thermodynamics 	3.00
-GEOL 206 	Earthquakes, Drifting Continents and Volcanoes 	3.00
-GEOL 208 	The Earth, Moon and the Planets 	3.00
 PHYS 252 	Optics 	3.00
 PHYS 253 	Electricity and Magnetism I 	3.00
-PHYS 273 	Energy and Environment 	3.00
 PHYS 334 	Thermodynamics 	3.00
 PHYS 354 	Electricity and Magnetism II 	3.00
-PHYS 384 	Introduction to Astronomy 	3.00
-PHYS 385 	Astrophysics 	3.00
 
 General Education elective 	3.00 Pick (up to 3 credits) from list:
-AHSC 242 – Recreation and Leisure in Canada
-ANTH 202 – Introduction to Culture
-ECON 201 – Introduction to Microeconomics
-ECON 203 – Introduction to Macroeconomics
-EDUC 230 – Introduction to Philosophy of Education
-ENCS 483 – Creativity, Innovation and Critical Thinking in Science and Technology
-GEOG 203 – Canadian Environmental Issues
-GEOG 204 – Global Environmental Issues
-GEOG 210 – Geography of Global Change
-GEOG 220 – The Human Environment: Place, Space, and Identity
-INST 250 – Introduction to Library Research Practices
-LING 222 – Language and Mind: The Chomskyan Program
-LING 300 – Sociolinguistics
-POLI 202 – Introduction to Political Science
-POLI 213 – Contemporary Issues in Global Politics
-POLI 390 – Ethics and Competing Political Perspectives
-RELI 214 – Religions of the West
-RELI 215 – Religions of Asia
-RELI 216 – Encountering Religions
-RELI 218 – Wisdom, Traditions, and Enlightenment
-RELI 310 – Self and Other: Exploring Value Choices in Personal and Interpersonal Relations
-RELI 312 – Justice and Social Conflict in a Globalized World
-RELI 374 – Religion and Science
-SCPA 201 – Introduction to Public Policy and the Public Interest
-SCPA 215 – Economics for Public Policy and Community Development
-SOCI 203 – Introduction to Society
-WSDB 290 – Introduction to Women’s Studies I
-WSDB 291 – Introduction to Women’s Studies II
-ARTH 353 – Technology and Contemorary Art
-ARTH 354 – Studies in Interdisciplinarity in the Visual Arts
-CLAS 266 – An Introduction to Classical Archaeology
-COMS 360 – Mass Communication
-ENGL 224 – The Creative Process
-ENGL 233 – Critical Reading
-FLIT 230 – Introduction à la culture francophone
-FLIT 240 – Introduction à la littérature francophone
-FMST 214 – English-Canadian Film
-FMST 215 – Le cinéma québécois
-HIST 201 – Introduction to European History to 1789
-HIST 202 – Introduction to European History, from 1789 to the Present
-HIST 205 – History of Canada, Post-Confederation
-HIST 281 – Film in History
-HIST 283 – The 20th Century: A Global History
-LBCL 201 – Great Books: Western History and Thought from Antiquity through the Renaissance
-LBCL 202 – Great Books: Western Culture and Expression from Antiquity through the Renaissance
-LBCL 203 – Great Books: Western History and Thought from the Reformation through Modernity
-LBCL 204 – Great Books: Western Culture and Expression from the Reformation through Modernity
-PHIL 201 – Problems of Philosophy
-PHIL 210 – Critical Thinking
-PHIL 232 – Introduction to Ethics
-PHIL 233 – Applied Ethics: Moral Sensitivity and Human Well-Being
-PHIL 235 – Biomedical Ethics
-PHIL 275 – From Modern to Postmodern: Philosophical Thought and Cultural Critique
-PHIL 330 – Contemporary Ethical Theory
-THEO 202 – Introduction to Biblical Studies
-THEO 204 – Introduction to Christian Ethics
-THEO 233 – Religious Pluralism in a Secular Culture
+AHSC 242 ï¿½ Recreation and Leisure in Canada
+ANTH 202 ï¿½ Introduction to Culture
+ECON 201 ï¿½ Introduction to Microeconomics
+ECON 203 ï¿½ Introduction to Macroeconomics
+EDUC 230 ï¿½ Introduction to Philosophy of Education
+ENCS 483 ï¿½ Creativity, Innovation and Critical Thinking in Science and Technology
+GEOG 203 ï¿½ Canadian Environmental Issues
+GEOG 204 ï¿½ Global Environmental Issues
+GEOG 210 ï¿½ Geography of Global Change
+GEOG 220 ï¿½ The Human Environment: Place, Space, and Identity
+INST 250 ï¿½ Introduction to Library Research Practices
+LING 222 ï¿½ Language and Mind: The Chomskyan Program
+LING 300 ï¿½ Sociolinguistics
+POLI 202 ï¿½ Introduction to Political Science
+RELI 214 ï¿½ Religions of the West
+RELI 215 ï¿½ Religions of Asia
+RELI 310 ï¿½ Self and Other: Exploring Value Choices in Personal and Interpersonal Relations
+RELI 312 ï¿½ Justice and Social Conflict in a Globalized World
+SCPA 201 ï¿½ Introduction to Public Policy and the Public Interest
+SCPA 215 ï¿½ Economics for Public Policy and Community Development
+SOCI 203 ï¿½ Introduction to Society
+WSDB 290 ï¿½ Introduction to Womenï¿½s Studies I
+WSDB 291 ï¿½ Introduction to Womenï¿½s Studies II
+ARTH 353 ï¿½ Technology and Contemorary Art
+CLAS 266 ï¿½ An Introduction to Classical Archaeology
+COMS 360 ï¿½ Mass Communication
+ENGL 224 ï¿½ The Creative Process
+ENGL 233 ï¿½ Critical Reading
+FLIT 230 ï¿½ Introduction ï¿½ la culture francophone
+FMST 214 ï¿½ English-Canadian Film
+FMST 215 ï¿½ Le cinï¿½ma quï¿½bï¿½cois
+HIST 201 ï¿½ Introduction to European History to 1789
+HIST 202 ï¿½ Introduction to European History, from 1789 to the Present
+HIST 205 ï¿½ History of Canada, Post-Confederation
+HIST 281 ï¿½ Film in History
+HIST 283 ï¿½ The 20th Century: A Global History
+PHIL 201 ï¿½ Problems of Philosophy
+PHIL 210 ï¿½ Critical Thinking
+PHIL 232 ï¿½ Introduction to Ethics
+PHIL 235 ï¿½ Biomedical Ethics
+PHIL 275 ï¿½ From Modern to Postmodern: Philosophical Thought and Cultural Critique
+PHIL 330 ï¿½ Contemporary Ethical Theory
+THEO 202 ï¿½ Introduction to Biblical Studies
+THEO 204 ï¿½ Introduction to Christian Ethics
+THEO 233 ï¿½ Religious Pluralism in a Secular Culture
 
 Options: 
 
@@ -127,7 +109,6 @@ COMP 426 	Multicore Programming 	4.00
 COMP 428 	Parallel Programming 	4.00
 COMP 442 	Compiler Design 	4.00
 COMP 445 	Data Communication and Computer Networks 	4.00
-COMP 451 	Database Design 	4.00
 COMP 465 	Design and Analysis of Algorithms 	3.00
 COMP 472 	Artificial Intelligence 	4.00
 COMP 473 	Pattern Recognition 	4.00
@@ -137,9 +118,6 @@ COMP 479 	Information Retrieval and Web Search 	4.00
 SOEN 298 	System Hardware Lab 	1.00
 SOEN 422 	Embedded Systems and Software 	4.00
 SOEN 423 	Distributed Systems 	4.00
-SOEN 431 	Formal Methods 	3.00
-SOEN 448 	Management of Evolving Systems 	3.00
-SOEN 491 	Software Engineering Project 	1.00
 ENGR 411 	Special Technical Report 	1.00
 
 Computer Games: Min 15 credits from list. All *, and at least one **. Rest(up to 17) from General
@@ -164,7 +142,6 @@ AERO 480 	Flight Control Systems** 	3.50
 AERO 482 	Avionic Navigation Systems** 	3.00
 COEN 320 	Introduction to Real-Time Systems 	3.00
 COMP 345 	Advanced Program Design with C++ 	4.00
-COMP 444 	System Software Design 	4.00
 SOEN 422 	Embedded Systems and Software* 	4.00
 SOEN 423 	Distributed Systems* 	4.00
 
