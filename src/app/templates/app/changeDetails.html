@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Concordia YouSched</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.min.js' %}"></script>
+
+</head>
+
+<body>
+
+<div class="container body-content">
+    <div class="row" >
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <!-- not sure if form-signin should be class -->
+            <form class="form-signin" method="post" action="/detailsChange/">
+                    {% csrf_token %}
+
+                    <h2 class="form-signin-heading">User Details</h2>
+                    {% if hasHomePhone %}
+                        <input id="inputHomePhone" class="form-control" placeholder= {{HomePhone}} name="homePhone" autofocus="" type="text">
+                    {% else %}
+                         <input id="inputHomePhone" class="form-control" placeholder= "Enter home phone number" name="homePhone" autofocus="" type="text">
+                    {% endif %}
+
+                    {% if hasCellPhone %}
+                        <input id="inputCellPhone" class="form-control" placeholder= {{CellPhone}} name="cellPhone" autofocus="" type="text">
+                    {% else %}
+                        <input id="inputCellPhone" class="form-control" placeholder= "Enter cellphone number" name="cellPhone" autofocus="" type="text">
+                    {% endif %}
+
+                    {% if hasAddress %}
+                        <input id="inputAddress" class="form-control" placeholder= {{Address}} name="address" autofocus="" type="text">
+                    {% else %}
+                        <input id="inputAddress" class="form-control" placeholder= "Enter address" name="address" autofocus="" type="text">
+                    {% endif %}
+
+                    <!--only system admin can change the director and professor exclusive fields-->
+                    <!--also id number never changes, and if it does, its the system's admin responsibility, too-->
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Save Changes</button>
+                </form>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+</div>
+
+
+</body>
+
+</html>
