@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Concordia YouSched</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.min.js' %}"></script>
+
+</head>
+
+<body>
+
+<div class="container body-content">
+    <div class="row" >
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <!-- not sure if form-signin should be class -->
+            <form class="form-signin" method="post" action="/emailChange/">
+                {% csrf_token %}
+                <h2 class="form-signin-heading">Email Change</h2>
+
+                <label for="inputNewEmail" class="sr-only">Enter new password</label>
+                <input id="inputNewEmail" class="form-control" placeholder="Enter New Email" name="email1" type="email">
+
+                <label for="verifyNewEmail" class="sr-only">Verify new password</label>
+                <input id="verifyNewEmail" class="form-control" placeholder="Verify New Email" name="email2" type="email">
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Change Email</button>
+            </form>
+
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+</div>
+
+</body>
+
+</hmtl>
