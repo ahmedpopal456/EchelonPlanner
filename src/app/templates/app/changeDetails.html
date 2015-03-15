@@ -13,15 +13,17 @@
 
 <body>
 
+<!-- no nav bar for these "change x screens" as this seems to be the standard in most sites -->
+
 <div class="container body-content">
     <div class="row" >
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
             <!-- not sure if form-signin should be class -->
-            <form class="form-signin" method="post" action="/detailsChange/">
+            <form class="form" method="post" action="/detailsChange/">
                     {% csrf_token %}
 
-                    <h2 class="form-signin-heading">User Details</h2>
+                    <h2 class="form">User Details</h2>
                     {% if hasHomePhone %}
                         <input id="inputHomePhone" class="form-control" placeholder= {{HomePhone}} name="homePhone" autofocus="" type="text">
                     {% else %}
