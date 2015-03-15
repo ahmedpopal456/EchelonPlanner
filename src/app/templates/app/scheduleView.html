@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Concordia YouSched</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.min.js' %}"></script>
+
+</head>
+
+<body>
+<!-- Load the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+
+<div class="container body-content">
+    <div class="row" >
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for time in timeSlots %}
+                    <tr>
+                        <td>{{ time }}</td>
+                        {% for class in currentSchedule %}
+                            {% if class.startTime ==  time%}
+                                <td colspan = {{class.timeSlotLength }}>{{ class.schedInfo }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+</div>
+</body>
+</html>
