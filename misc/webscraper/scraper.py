@@ -53,6 +53,7 @@ for course in courselist:
     Params["ctl00$PageBody$txtCournam"] = course[0]
     Params["ctl00$PageBody$txtCournum"] = course[1]
 
+
     #Send the huge string of bytes.
     data = (HardcodedParams+Params["ctl00$PageBody$ddlSess"]+\
            "&ctl00%24PageBody%24ddlLevl="+Params["ctl00$PageBody$ddlLevl"]+\
