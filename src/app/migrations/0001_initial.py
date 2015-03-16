@@ -82,7 +82,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='lab',
             name='tutorial',
-            field=models.ForeignKey(blank=True, null=True, to='app.Tutorial'),
+            field=models.ForeignKey(to='app.Tutorial', blank=True, null=True),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(
