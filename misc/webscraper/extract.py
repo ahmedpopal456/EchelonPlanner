@@ -101,12 +101,15 @@ def extractLecture(semester, department, number):
         matchtime = re.findall('[0-9]{2}:[0-9]{2}[)]{1}', lecture[1])
         endtime = matchtime[0][:-1]
         prof = lecture[3]
-        print("Lecture : {} {}, {}, {}, {}, {}, {}, {}, {}".format
-              (department, number, semestername, section, days, starttime, endtime, location, prof))
-              # would be sent to DB Lectures, with key section, and links to courses with dept+num
-        outputDB.write("Lecture : {} {}, {}, {}, {}, {}, {}, {}, {}".format
-              (department, number, semestername, section, days, starttime, endtime, location, prof))
-        extractTutorial(lecture, section, department, number)
+
+        # ignore cancelled sections
+        if section != "*Canceled*":
+            print("Lecture : {} {}, {}, {}, {}, {}, {}, {}, {}".format
+                  (department, number, semestername, section, days, starttime, endtime, location, prof))
+                  # would be sent to DB Lectures, with key section, and links to courses with dept+num
+            outputDB.write("Lecture : {} {}, {}, {}, {}, {}, {}, {}, {}".format
+                  (department, number, semestername, section, days, starttime, endtime, location, prof))
+            extractTutorial(lecture, section, department, number)
     outputDB.write("\n")
 
     return lecturelist
