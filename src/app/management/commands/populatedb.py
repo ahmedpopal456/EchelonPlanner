@@ -42,8 +42,11 @@ class Command(BaseCommand):
                         prereq = re.findall('[A-Z]{4} \d{3}',line)
                     except AttributeError:
                         prereq = ["NONE"]
+                    break
 
             print('Course: {}, {}, {}, {} Credits, {}\n'.format(department, number, name, Credits, prereq)) # goes into DB course table
+            c = Course(name=name, department=department, number=number, deptnum=department+number,credits=Credits, yearSpan="14-15")
+            c.save()
             outputDB.write('Course: {}, {}, {}, {} Credits, {}\n'.format(department, number, name, Credits, prereq))
 
 
