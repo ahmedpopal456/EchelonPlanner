@@ -75,6 +75,18 @@ def logouthandler(request):
               {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
 
 ##################################################################################################
+# Methods yet to be correctly implemented
+
+
+@login_required
+def user_profile(request):
+    return render(
+        request,
+        'app/user_profile.html'
+    )
+
+
+##################################################################################################
 # Dev methods to test features and not break flow
 
 
