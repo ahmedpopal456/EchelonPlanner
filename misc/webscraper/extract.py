@@ -28,7 +28,7 @@ def extractSemester(text):
                 prereq = re.findall('[A-Z]{4} \d{3}',line)
             except AttributeError:
                 prereq = ["NONE"]
-
+            break
     print('Course: {}, {}, {}, {} Credits, {}\n'.format(department, number, name, Credits, prereq)) # goes into DB course table
     outputDB.write('Course: {}, {}, {}, {} Credits, {}\n'.format(department, number, name, Credits, prereq))
 
