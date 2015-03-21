@@ -1,0 +1,85 @@
+{% load staticfiles %}
+<div class="container body-content" id="test">
+    <div class="row">
+        <div class="col-xs-3"></div>
+        <div class="col-xs-6"><img class="bg-primary"
+                                   src="{% static 'app/images/concordia_coa.png' %}"
+                                   id=CoA
+                                   alt="Magister Dixit">
+
+            <div class="container" id="loginblock">
+                    <h1>Account Settings</h1>
+                    {% if hasMessage %}
+                        <p>{{ message }}</p>
+                    {% endif %}
+
+                    {% if hasFName %}
+                        <p>First Name:{{fName}}</p>
+                    {% else %}
+                        <p>Who are you?</p>
+                    {% endif %}
+
+                    {% if hasLName %}
+                        <p>Last Name:{{lName}}:</p>
+                    {% else %}
+                        <p>Who are you?</p>
+                    {% endif %}
+
+                    {% if hasEmail %}
+                        <p>Email:{{email}}:</p>
+                    {% else %}
+                        <p>You don't have an email?</p>
+                    {% endif %}
+
+                    {% if hasPass %}
+                        <p>Password:{{pass}}:</p>
+                    {% else %}
+                        <p>You don't have password?</p>
+                    {% endif %}
+
+                    <a class="btn btn-lg btn-primary btn-block" href="/change_pass">Change Password</a>
+                    <a class="btn btn-lg btn-primary btn-block" href="/change_email">Change Email</a>
+
+                    <p>Note: if you want to change your name or last name, talk to our excellent staff at a campus near you.</p>
+
+                    <h1>User Details</h1>
+
+                    {% if hasHomePhone %}
+                        <p>Home Phone Number:{{homePhone}}</p>
+                    {% else %}
+                        <p>You don't have a home phone number?</p>
+                    {% endif %}
+
+                    {% if hasCellPhone %}
+                        <p>Home Phone Number:{{cellPhone}}</p>
+                    {% else %}
+                        <p>You don't have a cellphone number?</p>
+                    {% endif %}
+
+                    {% if hasAddress %}
+                        <p>Address:{{address}}</p>
+                    {% else %}
+                        <p>You don't have an address?</p>
+                    {% endif %}
+
+                    {% if isProf %}
+                        <p>Engineer status:{{isEng}}:</p>
+                    {% endif %}
+
+                    {% if isDirector %}
+                        {% if hasDept %}
+                        <p>Department:{{dept}}:</p>
+                        {% else %}
+                        <p>You are not assigned to a department.</p>
+                        {% endif %}
+                    {% endif %}
+
+                    <a class="btn btn-lg btn-primary btn-block" href="/change_details">Change Details</a>
+
+            </div>
+
+        </div>
+        <div class="col-xs-3"></div>
+    </div>
+
+</div>
