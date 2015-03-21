@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpRequest
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -66,7 +65,8 @@ def loginhandler(request):
         if user:
             # If successful,
             login(request, user)
-            return menu(request)
+            return HttpResponseRedirect('/')  # This eliminates the loginhandler from the path
+
         else:
             # print ("Invalid login details: {0}, {1}".format(username, password))
             return render(request,
