@@ -115,6 +115,30 @@ def change_email(request):
         'app/change_email.html'
     )
 
+
+@login_required
+def schedule_make(request):
+    return render(
+        request,
+        'app/schedule_make.html'
+    )
+
+
+@login_required
+def schedule_select(request):
+    return render(
+        request,
+        'app/schedule_select.html'
+    )
+
+
+@login_required
+def schedule_view(request):
+    return render(
+        request,
+        'app/schedule_view.html'
+    )
+
 ##################################################################################################
 # Dev methods to test features and not break flow
 
