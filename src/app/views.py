@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate, login, logout
 import logging
 
@@ -17,8 +18,12 @@ def index(request):
     return home(request)  # We'll have it hardcoded for now...
 
 
+@cache_control(no_cache=True, must_revalidate=True)
 def home(request):
     assert isinstance(request, HttpRequest)
+    if request.user.is_authenticated():
+        return menu(request)
+    # else, then redirect
     return render(
         request,
         'app/login.html'
@@ -39,6 +44,7 @@ def register(request):
 
 
 @login_required
+@cache_control(no_cache=True, must_revalidate=True)
 def menu(request):
     if request.user.is_authenticated():
         return render(
@@ -60,7 +66,7 @@ def loginhandler(request):
         if user:
             # If successful,
             login(request, user)
-            return render(request, 'app/menu.html', {'hasMessage': False, 'message': str()})
+            return menu(request)
         else:
             # print ("Invalid login details: {0}, {1}".format(username, password))
             return render(request,
@@ -72,7 +78,7 @@ def logouthandler(request):
     logout(request)
     return render(request,
                   'app/login.html',
-              {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
+                {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
 
 ##################################################################################################
 # Methods yet to be correctly implemented
@@ -85,6 +91,29 @@ def user_profile(request):
         'app/user_profile.html'
     )
 
+
+@login_required
+def change_details(request):
+    return render(
+        request,
+        'app/change_details.html'
+    )
+
+
+@login_required
+def change_pass(request):
+    return render(
+        request,
+        'app/change_pass.html'
+    )
+
+
+@login_required
+def change_email(request):
+    return render(
+        request,
+        'app/change_email.html'
+    )
 
 ##################################################################################################
 # Dev methods to test features and not break flow
