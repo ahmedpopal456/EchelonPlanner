@@ -9,10 +9,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <div class="col-xs-3"><img class="bg-primary"
-                                   src="{% static 'app/images/rsz_concordia_coa.png' %}"
-                                   id=CoA
-                                   alt="Magister Dixit"> <!-- Brand -->
+        <div class="col-xs-3">
+            <a href="/">
+                <img class="bg-primary"
+                     src="{% static 'app/images/rsz_concordia_coa.png' %}"
+                     id=CoA
+                     alt="Magister Dixit"> <!-- Brand -->
+            </a>
         </div>
     </div>
 
@@ -44,8 +47,10 @@
 
         <div id="sectionB" class="tab-pane fade">
             <ul class="list-inline">
-                <li class="active"><a href="/">NOT ME</a></li>
-                <li class=""><a href="/preview">Yes.</a></li>
+                <li class="active"><a href="/user_profile">profile</a></li>
+                <li class=""><a href="/change_details">details</a></li>
+                <li class=""><a href="/change_email">details</a></li>
+                <li class=""><a href="/change_pass">details</a></li>
             </ul>
         </div>
 
