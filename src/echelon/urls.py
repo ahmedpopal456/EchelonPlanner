@@ -21,4 +21,7 @@ urlpatterns = patterns('',
     url(r'^change_details/', 'app.views.change_details'),
     url(r'^change_pass/', 'app.views.change_pass'),
     url(r'^change_email/', 'app.views.change_email'),
+    url(r'^schedule_make/', 'app.views.schedule_make'),
+    url(r'^schedule_select/', 'app.views.schedule_select'),
+    url(r'^schedule_view/', 'app.views.schedule_view'),
 )
