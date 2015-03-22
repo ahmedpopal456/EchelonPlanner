@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate, login, logout
+from app.subsystem.courses.course import *
 import logging
 
 # For Dev Purposes Only. This logger object can be identified as 'apps.view'
@@ -139,6 +140,15 @@ def schedule_view(request):
         'app/schedule_view.html'
     )
 
+@login_required
+def browse_all_courses(request):
+    courseList = Course.objects.all()  # List of all courses
+    return render(
+        request,
+        'app/browse_all_courses.html',
+        {'courseList': courseList}  # Send it off to the template for rendering
+    )
+
 ##################################################################################################
 # Dev methods to test features and not break flow
 
@@ -151,6 +161,8 @@ def work_in_progress(request):
 def nullhandler(request):
     # This method does nothing other than print out the stuff it is receiving
     html = "<html><body>Transaction Logged</body></html>"
+    for some in Course.objects.all():
+        print(str(some.deptnum)+":"+str(some.name))
     logger.debug(str(request.POST))
     return HttpResponse(html)
 
