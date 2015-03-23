@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'app.subsystem.courses',
     'app.subsystem.event',
+    'django.contrib.admindocs',
     'app'
 )
 
