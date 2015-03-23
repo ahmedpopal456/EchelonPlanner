@@ -129,7 +129,7 @@ def schedule_make(request):
 def schedule_select(request):
     return render(
         request,
-        'app/schedule_select.html'
+        'app/schedule_sort.html'
     )
 
 

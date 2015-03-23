@@ -7,42 +7,58 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
-    <script src="{% static 'app/scripts/bootjs/bootstrap.min.js' %}"></script>
-    <script src="{% static 'app/scripts/defjs/scheduleSlotMaker.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/npm.js' %}"></script>
 </head>
 
 <body>
 <!-- Load the Navbar at the top of the page.-->
 {% include "app/navbar.html" %}
 
+<script type="text/javascript">
+
+    //this script allows the dropdown to save the selected option as its label.
+    $(document.body).on('click', '.dropdown-menu li', function (event) {
+
+        var $target = $(event.currentTarget);
+
+        $target.closest('.btn-group')
+                .find('[data-bind="label"]').text($target.text())
+                .end()
+                .children('.dropdown-toggle').dropdown('toggle');
+
+        return false;
+
+    });</script>
+
 <div class="container body-content">
-    <div class="row" >
+    <div class="row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
-             <form class="form" method="post" action="/schedule_make/">
+            <form class="form" method="post" action="/schedule_make/">
+                {% csrf_token %}
                 <h1 class="form">Schedule Builder</h1>
 
-                    <button class="btn btn-lg btn-primary btn-block" type="button" id="automaticGenerator">AIN'T NOBODY GOT TIME FOR THAT!</button>
+                <button class="btn btn-lg btn-primary btn-block" type="button" id="automaticGenerator">AIN'T NOBODY GOT
+                    TIME FOR THAT!
+                </button>
 
-                    <h2>Select Number of Courses</h2>
-                    <label for="totalNumber" class="control-label input-group">Number of Courses</label>
-
-                    <div class="btn-group" role = "group">
-                            <button type="button" onclick = "javascript:generateSlots(1)" data-switch-set="totalNumber" data-switch-value="1" class="btn btn-default">1</button>
-                            <button type="button" onclick = "javascript:generateSlots(2)" data-switch-set="totalNumber" data-switch-value="2" class="btn btn-default">2</button>
-                            <button type="button" onclick = "javascript:generateSlots(3)" data-switch-set="totalNumber" data-switch-value="3" class="btn btn-default">3</button>
-                            <button type="button" onclick = "javascript:generateSlots(4)" data-switch-set="totalNumber" data-switch-value="4" class="btn btn-default">4</button>
-                            <button type="button" onclick = "javascript:generateSlots(5)" data-switch-set="totalNumber" data-switch-value="5" class="btn btn-default">5</button>
-                            <button type="button" onclick = "javascript:generateSlots(6)" data-switch-set="totalNumber" data-switch-value="6" class="btn btn-default">6</button>
-                            <button type="button" onclick = "javascript:generateSlots(7)" data-switch-set="totalNumber" data-switch-value="7" class="btn btn-default">7</button>
-                            <button type="button" onclick = "javascript:generateSlots(8)" data-switch-set="totalNumber" data-switch-value="8" class="btn btn-default">8</button>
+                <h2>Select Elective Courses</h2>
+                {% for number in numberOfElectives %}
+                    <label for="totalNumber" class="control-label input-group">Elective {{ number }}:</label>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle form-control"
+                                data-toggle="dropdown">
+                            <span data-bind="label">Select One</span>&nbsp;<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            {% for elective in availableElectives %}
+                                <li><a href="#">{{ elective.deptcode }} {{ elective.name }}</a></li>
+                            {% endfor %}
+                        </ul>
                     </div>
+                {% endfor %}
 
-                    <div class="row" id="classSlots"><!--shows the course slots with the javascript -->
-
-                    </div>
-
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
             </form>
         </div>
         <div class="col-xs-2"></div>
