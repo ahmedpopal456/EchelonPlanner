@@ -24,4 +24,5 @@ urlpatterns = patterns('',
     url(r'^schedule_make/', 'app.views.schedule_make'),
     url(r'^schedule_select/', 'app.views.schedule_select'),
     url(r'^schedule_view/', 'app.views.schedule_view'),
+    url(r'^browse_all_courses/', 'app.views.browse_all_courses'),
 )
