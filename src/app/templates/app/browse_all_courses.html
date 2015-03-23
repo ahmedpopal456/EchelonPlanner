@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Concordia YouSched</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.min.js' %}"></script>
+
+</head>
+
+<body>
+<!-- Load the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+<div class="container body-content">
+    <div class="row" >
+        <div class="col-xs-3">
+
+                <h1>Filter Courses</h1>
+                <label for="department" class="control-label input-group">Department</label>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default">
+                        <input type="radio" name="department" value="SOEN">SOEN
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="department" value="COMP">COMP
+                    </label>
+                    <label class="btn btn-default active">
+                        <input type="radio" name="department" value="OTHER" checked="">OTHER
+                    </label>
+                </div>
+                <label for="credits" class="control-label input-group">Credits</label>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default">
+                        <input type="radio" name="credits" value="1">1
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="credits" value="2">2
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="credits" value="3">3
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="credits" value="4≤">4≤
+                    </label>
+
+                </div>
+
+        </div>
+        <div class="col-xs-8">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Course Code</th>
+                    <th>Course Name</th>
+                    <th>Credits</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in courseList %}
+                    <tr>
+                        <td>{{  item.deptnum }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.credits }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-1"></div>
+    </div>
+</div>
+
+</body>
+
+</html>
