@@ -34,6 +34,8 @@ class Command(BaseCommand):
                     number = line[-4:-1]
                     name = text[index+1][:-1]  #remove trailing newline from name
                     Credits = text[index+2][:1]
+                    if Credits == "1":
+                        Credits = "1.5"
 
                 #Extract Preq
                 if line.find("Prerequisite") is not -1:

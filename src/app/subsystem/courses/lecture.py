@@ -7,6 +7,7 @@ class Lecture(models.Model):
     course = models.ForeignKey(Course, primary_key=False)
     session = models.CharField(max_length=120, default="Fall", primary_key=False)
     isOnline = models.BooleanField(default=False, primary_key=False)
+    event = models.TimeField(default="0:00")
 
 
     class Meta:
