@@ -15,6 +15,10 @@ class Event(models.Model):
     semester = models.CharField(max_length=120, )
     yearSpan = models.CharField(max_length=120, null=True, blank=True, primary_key=False) #scrapper has this info, but not sure how to incorp
 
+
+    def __str__(self):
+        return (self.semester+" "+self.days+" "+str(self.starttime)+"-"+str(self.endtime)+ " "+self.location)
+
     class Meta:
         app_label = 'app'
         managed = True

@@ -4,7 +4,13 @@ import urllib.parse
 import urllib.error
 from bs4 import BeautifulSoup
 import re
+import time
 from app.subsystem.courses.course import Course
+from app.subsystem.courses.lab import Lab
+from app.subsystem.courses.tutorial import Tutorial
+from  app.subsystem.courses.lecture import Lecture
+from app.subsystem.event.event import Event
+
 
 from django.core.management.base import BaseCommand, CommandError
 
@@ -80,6 +86,7 @@ class Command(BaseCommand):
             endtime = ""
             days = ""
             location =""
+            isOnline = False
 
             lecturelist = []
             position = []
@@ -111,8 +118,10 @@ class Command(BaseCommand):
                 for i in sectionline:
                     if "Lect" or "OnLine" not in i:
                         section = i
+                        isOnline = False;
                     if "OnLine" == i:
                         location = location+"(Online)"
+                        isOnline = True;
                 section = section.strip()
                 days = lecture[1][:7]
                 matchtime = re.findall('[0-9]{2}:[0-9]{2}-', lecture[1])
@@ -128,6 +137,17 @@ class Command(BaseCommand):
                           # would be sent to DB Lectures, with key section, and links to courses with dept+num
                     outputDB.write("Lecture : {} {}, {}, {}, {}, {}, {}, {}, {}".format
                           (department, number, semestername, section, days, starttime, endtime, location, prof))
+
+                    c =  Course.objects.get(pk=(department+number))
+                    print(type(starttime))
+                    temptime = time.strptime(str(starttime), "%H:%M")
+                    temptime2 = time.strptime(str(endtime), "%H:%M")
+                    e = Event(days =days, starttime = starttime, endtime=endtime, building = location, location = location,
+                              semester = semestername)
+                    e.save()
+                    l = Lecture(section=section, session = semestername, isOnline=isOnline, event=e)
+                    c.lecture_set.add(l)
+
                     extractTutorial(lecture, section, department, number)
             outputDB.write("\n")
 

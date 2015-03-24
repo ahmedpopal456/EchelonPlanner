@@ -12,6 +12,8 @@ coursedept = ""
 coursenum = ""
 courselist = []
 unfilteredcourselist = open("ListOfCourseToScrape.txt", "r").readlines()
+outputDB2 = open("outputDB2.txt", "w")
+output = []
 
 #to debug courses not  offered, timeconsuming to go through whole list
 #unfilteredcourselist = open("debugcourselist.txt").readlines()
@@ -65,4 +67,6 @@ for course in courselist:
     concordiaSite = urllib.request.urlopen("http://fcms.concordia.ca/fcms/asc002_stud_all.aspx",data)
 
 
-    extract.extract(str(concordiaSite.read().decode('utf-8')))
+    output.append( extract.extract(str(concordiaSite.read().decode('utf-8'))))
+
+    outputDB2.write(str(output))
