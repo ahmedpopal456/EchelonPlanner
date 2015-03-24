@@ -17,11 +17,11 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=120, default='Test')),
                 ('department', models.CharField(max_length=120, default='SOEN')),
                 ('number', models.IntegerField(default=0)),
-                ('deptnum', models.CharField(primary_key=True, serialize=False, max_length=120, default='SOEN101')),
-                ('type', models.CharField(null=True, max_length=120, blank=True)),
+                ('deptnum', models.CharField(max_length=120, serialize=False, default='SOEN101', primary_key=True)),
+                ('type', models.CharField(blank=True, max_length=120, null=True)),
                 ('credits', models.FloatField(default=0)),
-                ('yearSpan', models.CharField(null=True, max_length=120, blank=True)),
-                ('prerequisites', models.ManyToManyField(related_name='prerequisites_rel_+', to='app.Course', null=True, blank=True)),
+                ('yearSpan', models.CharField(blank=True, max_length=120, null=True)),
+                ('prerequisites', models.ManyToManyField(blank=True, null=True, to='app.Course')),
             ],
             options={
                 'managed': True,
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Event',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('days', models.CharField(max_length=120, default='Test')),
                 ('starttime', models.TimeField(default=datetime.time(0, 0))),
                 ('endtime', models.TimeField(default=datetime.time(0, 0))),
@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('room', models.IntegerField(default=0)),
                 ('location', models.CharField(max_length=120, default='SGW H101')),
                 ('semester', models.CharField(max_length=120)),
-                ('yearSpan', models.CharField(null=True, max_length=120, blank=True)),
+                ('yearSpan', models.CharField(blank=True, max_length=120, null=True)),
             ],
             options={
                 'managed': True,
@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Lab',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('section', models.CharField(max_length=120, default='A')),
                 ('course', models.ForeignKey(to='app.Course')),
             ],
@@ -61,7 +61,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Lecture',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('section', models.CharField(max_length=120, default='A')),
                 ('session', models.CharField(max_length=120, default='Fall')),
                 ('isOnline', models.BooleanField(default=False)),
@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tutorial',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('section', models.CharField(max_length=120, default='A')),
                 ('course', models.ForeignKey(to='app.Course')),
                 ('lecture', models.ForeignKey(to='app.Lecture')),
@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='lab',
             name='tutorial',
-            field=models.ForeignKey(null=True, to='app.Tutorial', blank=True),
+            field=models.ForeignKey(blank=True, null=True, to='app.Tutorial'),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(

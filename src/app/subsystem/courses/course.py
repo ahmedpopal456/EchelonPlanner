@@ -19,7 +19,7 @@ class Course(models.Model):
     deptnum = models.CharField (max_length=120, primary_key=True, default="SOEN101") # concat of dept and num
     type = models.CharField(max_length=120, null=True, blank=True, primary_key=False) # scrapper doesn't know type yet
     credits = models.FloatField(default=0, primary_key=False)
-    prerequisites = models.ManyToManyField("self", null=True, blank=True)
+    prerequisites = models.ManyToManyField("self", null=True, blank=True, symmetrical=False)
     #equivalence = models.ForeignKey(null = True, blank= True) #scrapper doesn't know equivalence
     yearSpan = models.CharField(max_length=120, null=True, blank=True, primary_key=False) #scrapper has this info, but not sure how to incorp
 
