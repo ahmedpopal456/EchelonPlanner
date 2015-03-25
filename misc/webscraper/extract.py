@@ -26,7 +26,9 @@ def extractSemester(text):
             department = line[:4]
             number = line[-4:-1]
             name = text[index+1][:-1]  #remove trailing newline from name
-            Credits = text[index+2][:1]
+            Credits = text[index+2]
+            Credits = Credits.strip()
+            Credits = Credits.replace(" credits","")
 
         #Extract Preq
         if line.find("Prerequisite") is not -1:

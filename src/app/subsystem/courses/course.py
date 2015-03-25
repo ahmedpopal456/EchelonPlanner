@@ -21,7 +21,7 @@ class Course(models.Model):
     credits = models.FloatField(default=0, primary_key=False)
     prerequisites = models.ManyToManyField("self", null=True, blank=True, symmetrical=False)
     #equivalence = models.ForeignKey(null = True, blank= True) #scrapper doesn't know equivalence
-    yearSpan = models.CharField(max_length=120, null=True, blank=True, primary_key=False) #scrapper has this info, but not sure how to incorp
+    yearSpan = models.CharField(max_length=120, null=True, blank=True, primary_key=False, default="14-15") #scrapper has this info, but not sure how to incorp
 
     class Meta:
         app_label = 'app'
