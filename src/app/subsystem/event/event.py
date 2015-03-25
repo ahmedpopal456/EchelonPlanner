@@ -9,7 +9,7 @@ class Event(models.Model):
     starttime= models.TimeField(null=False, blank=False, primary_key=False, default=datetime.time(0,0,0))
     endtime = models.TimeField(null=False, blank=False,  primary_key=False, default=datetime.time(0,0,0))
     #Recurance (have not implemented yet)
-    building = models.CharField (max_length=120, default="SGW H")
+    building = models.CharField (max_length=120, default="SGW H", null=True, blank=True)
     room = models.IntegerField(null=False, blank=False, default=0, primary_key=False)
     location = models.CharField (max_length=120, default="SGW H101") # concat of dept and num
     semester = models.CharField(max_length=120, )
