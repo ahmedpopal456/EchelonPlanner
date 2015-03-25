@@ -80,7 +80,15 @@ DATABASES = {
         'PASSWORD': 'SOEN341echelon!',
         'HOST': 'bbbtimmy.noip.me',
         'PORT': '3306',
+        'TEST': {
+            'NAME': None,
+            'CREATE_DB': False,
+            'CREATE_USER': False,
+            'USER': 'eve',
+            'PASSWORD': 'SOEN341echelon!',
+        }
     }
+
 }
 
 # Logging
