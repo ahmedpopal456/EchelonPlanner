@@ -4,6 +4,10 @@ from app.subsystem.courses.tutorial import Tutorial
 from app.subsystem.courses.lab import Lab
 from app.subsystem.event.event import Event
 from itertools import chain
+import logging
+import django.db
+
+logger = logging.getLogger(__name__)
 
 
 class CourseCatalog(object):
@@ -22,9 +26,13 @@ class CourseCatalog(object):
 
         return result_list
 
-    def searchCoursesByCredits(lowerCreditLimit, upperCreditLimit):
+    # either define a limit or an exact credit value to check. Limits are inclusive.
+    def searchCoursesByCredits(lowerCreditLimit, upperCreditLimit=None):
 
-        result_list = Course.objects.filter(credits__gte=lowerCreditLimit, credits__lte=upperCreditLimit)
+        if upperCreditLimit is not None:
+            result_list = Course.objects.filter(credits__gte=lowerCreditLimit, credits__lte=upperCreditLimit)
+        else:
+            result_list = Course.objects.filter(credits=lowerCreditLimit)
 
         return result_list
 
@@ -36,19 +44,73 @@ class CourseCatalog(object):
     #outputs true if removed, false if not
     def removeCourse(department, number):
 
-        primarykey = department+number;
+        primarykey = department+str(number);
         try:
             Course.objects.get(pk=primarykey).delete()
             return True
         except Course.DoesNotExist:
+            logger.warn("Course not found: "+department+str(number)+". Cannot remove Course")
             return False
 
 
-	# def addCourse(name, number, department, credits, ):
+    def modifyCredits(department, number, credits):
+
+        try:
+            C = Course.objects.get(pk=department+number)
+            C.credits = credits
+            C.save()
+            return True
+        except Course.DoesNotExist:
+            logger.warn("Course not found: "+department+number+". Cannot modify Credits")
+            return False
+
+    def addCourse(name, number, department, credits=None):
+
+        if len(Course.objects.filter(pk=department+number)) is not 0:
+            logger.warn("Course already exists: "+department+number+". Cannot add")
+            return False # Course already exisits
+
+        else:
+            c = Course(name=name, number=number, department=department, deptnum=department+number)
+            if credits is not None:
+                c.credits = credits
+
+            c.save()
+            return True
+
+    def addLectureToCourse(section, department, number, starttime, endtime, days, semester, location, isOnline):
+
+        try:
+            c = Course.objects.get(pk=(department+str(number)))
+            e = Event(days =days, starttime = starttime, endtime=endtime,  location = location,
+                semester = semester)
+            e.save()
+            l = Lecture(section=section, session = semester, isOnline=isOnline, event=e)
+            l.save()
+            c.lecture_set.add(l)
+            return True
+        except Course.DoesNotExist :
+            logger.warn("Course not found: "+department+str(number)+". Cannot add to Course")
+            return False
+        except django.db.IntegrityError:
+            logger.warn(("Lecture already in DB: {}{}, {}-{}. Cannot add to Course").format(department,number, section,semester))
+            return False
 
 
+    def removeLecture(section, department, number, semester): #removes any labs/tut under
 
-    #
+        primarykey = department+str(number);
+        try:
+            C = Course.objects.get(pk=primarykey)
+            C.lecture_set.get(session =semester, section= section).delete()
+            return True
+        except Course.DoesNotExist:
+            logger.warn("Course not found: "+department+str(number)+". Cannot remove Lecture from Course")
+            return False
+        except Lecture.DoesNotExist:
+            logger.warn(("Lecture not found: {}{}, {}-{}. Cannot remove from Course").format(department,number, section,semester))
+            return False
+
 	# def modifyCourseCapacity(newCapacity):
 	# 	pass
     #
