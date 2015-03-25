@@ -139,21 +139,22 @@ class Command(BaseCommand):
                           (department, number, semestername, section, days, starttime, endtime, location, prof))
 
                     c =  Course.objects.get(pk=(department+number))
-                    print(type(starttime))
                     temptime = time.strptime(str(starttime), "%H:%M")
                     temptime2 = time.strptime(str(endtime), "%H:%M")
                     e = Event(days =days, starttime = starttime, endtime=endtime, building = location, location = location,
                               semester = semestername)
                     e.save()
                     l = Lecture(section=section, session = semestername, isOnline=isOnline, event=e)
-                    c.lecture_set.add(l)
-
-                    extractTutorial(lecture, section, department, number)
+                    try:
+                        c.lecture_set.add(l)
+                    except :
+                        print("Lecture already exists in table")
+                    extractTutorial(lecture, section, department, number, semestername)
             outputDB.write("\n")
 
             return lecturelist
 
-        def extractTutorial(lecture, lecturesection, department, number):
+        def extractTutorial(lecture, lecturesection, department, number, semestername):
             section = ""
             days = ""
             starttime = ""
@@ -170,7 +171,7 @@ class Command(BaseCommand):
 
             if position.__len__() == 0:
                 #no tutorial for this section, see if there are labs
-                extractLab(lecture, lecturesection, department, number)
+                extractLab(lecture, lecturesection, department, number, semestername, lecturesection)
                 return 0
 
             j = 0
@@ -198,12 +199,25 @@ class Command(BaseCommand):
                       # would be sent to DB Tutorials, with key section, and links to Lectures with lecturesection and dept+num
                 outputDB.write("Tutorial {} {} {} : {}, {}, {}, {}, {}\n".format
                       (department, number, lecturesection, section, days, starttime, endtime, location))
-                extractLab(tutorial, section, department, number)
+                c =  Course.objects.get(pk=(department+number))
+                l = Lecture.objects.get(session = semestername, section = lecturesection, course=c)
+                e = Event(days =days, starttime = starttime, endtime=endtime, building = location, location = location,
+                          semester = semestername)
+                e.save()
+                try:
+                    t = Tutorial(section=section, event=e, course=c, lecture=l)
+                    t.save()
+                except:
+                    print("Tutorial already exists")
+
+                extractLab(tutorial, section, department, number, semestername, lecturesection)
+
+
             outputDB.write("\n")
             print("\n")
             return tutorialList
 
-        def extractLab(tutorial, tutorialsection, dept, num):
+        def extractLab(tutorial, tutorialsection, dept, num, semestername, lecturesection):
 
             labList = []
             section = ""
@@ -249,6 +263,25 @@ class Command(BaseCommand):
                 outputDB.write("Lab {} {} {} : {}, {}, {}, {}, {}".format
                       (dept, num, tutorialsection, section, days, starttime, endtime, location))
                 outputDB.write("\n")
+                c =  Course.objects.get(pk=(dept+num))
+                l = Lecture.objects.get(session = semestername, section = lecturesection, course=c)
+                e = Event(days =days, starttime = starttime, endtime=endtime, building = location, location = location,
+                          semester = semestername)
+                e.save()
+
+                try:
+                    t = Tutorial.objects.get(section=tutorialsection, course=c, lecture=l)
+                except:
+                    try:
+                        lab = Lab(section=section, event = e, course=c, lecture=l)
+                        lab.save()
+                    except:
+                        "Lab already exists"
+                try:
+                    lab = Lab(section=section, event = e, tutorial=t, course=c, lecture=l)
+                    lab.save()
+                except:
+                    "Lab already exists"
             print("\n")
 
 
