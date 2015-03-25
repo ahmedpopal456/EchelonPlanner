@@ -66,7 +66,7 @@ def register(request):
     return render(request,
             'app/register.html',
             )
-    # Finish Register Method
+    # End Register Method
 
 
 @login_required
@@ -170,6 +170,8 @@ def schedule_view(request):
 def browse_all_courses(request):
     courseList = Course.objects.all()  # List of all courses
     if request.method == 'POST':
+        # There should be post parameters with certain parameters to throw at the course catalogue
+        # the return would be, therefore be a subset of the full course set.
         print()
     return render(
         request,
