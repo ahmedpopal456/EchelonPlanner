@@ -11,8 +11,7 @@ class CourseCatalog(object):
     #
     # Returns List of Courses that contain partialName in either Name or in Deptnum
     # or Department or Number
-
-     def searchCourses(partialName):
+    def searchCourses(partialName):
         nospacesstring = partialName.replace(" ","")
         c1 = Course.objects.filter(name__icontains=partialName)
         c2 = Course.objects.filter(department__icontains=partialName)
@@ -23,16 +22,35 @@ class CourseCatalog(object):
 
         return result_list
 
-	# def addCourse(, name, number):
-	# 	pass
-    #
-	# def removeCourse(, name, number):
-	# 	pass
+    def searchCoursesByCredits(lowerCreditLimit, upperCreditLimit):
+
+        result_list = Course.objects.filter(credits__gte=lowerCreditLimit, credits__lte=upperCreditLimit)
+
+        return result_list
+
+
+	# Removes Course from database, removes any lecture,tut or lab under it as well
+    #inputs
+    # 4 letter department, case sensitive i.e SOEN
+    # 3 number course number i.e 341
+    #outputs true if removed, false if not
+    def removeCourse(department, number):
+
+        primarykey = department+number;
+        try:
+            Course.objects.get(pk=primarykey).delete()
+            return True
+        except Course.DoesNotExist:
+            return False
+
+
+	# def addCourse(name, number, department, credits, ):
+
+
+
     #
 	# def modifyCourseCapacity(newCapacity):
 	# 	pass
     #
 	# def __init__(self):
 	# 	pass
-
-

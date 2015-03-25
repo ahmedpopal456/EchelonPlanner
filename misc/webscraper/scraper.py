@@ -69,4 +69,4 @@ for course in courselist:
 
     output.append( extract.extract(str(concordiaSite.read().decode('utf-8'))))
 
-    outputDB2.write(str(output))
+outputDB2.write(str(output))
