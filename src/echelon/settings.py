@@ -84,7 +84,7 @@ DATABASES = {
             'NAME': None,
             'CREATE_DB': False,
             'CREATE_USER': False,
-            'USER': 'eve',
+            'USER': 'korra',
             'PASSWORD': 'SOEN341echelon!',
         }
     }
