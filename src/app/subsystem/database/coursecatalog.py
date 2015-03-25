@@ -8,9 +8,10 @@ from itertools import chain
 
 class CourseCatalog(object):
 
-
+    #
     # Returns List of Courses that contain partialName in either Name or in Deptnum
-    #or Department or Number
+    # or Department or Number
+
      def searchCourses(partialName):
         nospacesstring = partialName.replace(" ","")
         c1 = Course.objects.filter(name__icontains=partialName)
