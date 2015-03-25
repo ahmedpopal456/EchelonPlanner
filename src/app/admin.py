@@ -1,7 +1,7 @@
 # Register your models here.
-from src.app.subsystem.usermanagement.professor import *
-from src.app.subsystem.usermanagement.programdirector import *
-from src.app.subsystem.usermanagement.student import *
+from app.subsystem.usermanagement.professor import *
+from app.subsystem.usermanagement.programdirector import *
+from app.subsystem.usermanagement.student import *
 
 
 # admin.site.register(Professor)
