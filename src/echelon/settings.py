@@ -86,9 +86,9 @@ DATABASES = {
             'CREATE_USER': 'False',
             'USER': 'korra',
             'PASSWORD': 'SOEN341echelon!',
-        }
+            'TBLSPACE': 'test_echelon',
+            }
     }
-
 }
 
 # Logging
