@@ -1,13 +1,30 @@
-import unittest
+from django.test import TestCase
+import app.subsystem.database.coursecatalog as coursecatalog
+import app.subsystem.courses.course as course
+# import app.management.commands.populatedb as pop
+import mysql.connector as mysql
 
 
-class TestDatabases(unittest.TestCase):
+class TestDatabases(TestCase):
     def setUp(self):
-        print("4")
+        print('Adding some courses to DB')
+        # To test locally, put your user and passwd
+        # conn = mysql.connect(host='localhost', user='????', passwd='????', db='test_echelon')
+        conn = mysql.connect(host='bbbtimmy.noip.me', user='korra', passwd='SOEN341echelon!', db='test_echelon')
+        cur = conn.cursor()
+        cur.execute('SET GLOBAL FOREIGN_KEY_CHECKS=0')
+        cur.execute('DROP TABLE IF EXISTS app_course ')
+        cur.execute('SET GLOBAL FOREIGN_KEY_CHECKS=0')
+        cur.execute('CREATE TABLE app_course (name VARCHAR(120), department VARCHAR(120), number INT, deptnum VARCHAR(120) PRIMARY KEY, type VARCHAR(120), credits FLOAT, yearSpan VARCHAR(120))')
+        cur.execute('INSERT INTO app_course '
+                    ' (name, department, number, deptnum, type, credits, yearSpan)'
+                    ' VALUES ("Software Processes", "SOEN", 341, "SOEN341", NULL, 3, "14-15")')
         # setup
 
     def test_getCourses(self):
-        print("5.1")
+        print("Checking retrieval of courses")
+        myRetrievedCourse = coursecatalog.CourseCatalog.searchCourses("341")
+        TestCase.assertEqual(self, 1, len(myRetrievedCourse), "The course was not retrieved")
         # get course
         # ensure that the course retrieved is the right one
 
@@ -17,7 +34,15 @@ class TestDatabases(unittest.TestCase):
         # ensure that the course retrieved nothing
 
     def test_addCourse(self):
-        print("6.1")
+        print("6")
+        # '''
+        # Test that addCourse inserts a course into the DB
+        # :return:
+        # '''
+        # coursecatalog.CourseCatalog.addCourse("Software Processes", 341, "SOEN", 3)
+        # cur = self.conn.cursor()
+        # addedCourse = cur.execute('SELECT * FROM app_courses')
+        # TestCase.assertEqual(self, "Software Processes", addedCourse.getName(), "The course was not added")
         # add the course
         # ensure that the course is in the db
 
@@ -78,4 +103,4 @@ class TestDatabases(unittest.TestCase):
         # ensure that nothing happens
 
 if __name__ == '__main__':
-    unittest.main()
+    TestCase.main()

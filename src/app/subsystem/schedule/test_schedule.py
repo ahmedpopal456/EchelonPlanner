@@ -1,7 +1,7 @@
-import unittest
+from django.test import TestCase
 
 
-class TestSchedule(unittest.TestCase):
+class TestSchedule(TestCase):
     def setUp(self):
         print("12")
         # setup
@@ -30,4 +30,4 @@ class TestSchedule(unittest.TestCase):
         # try to generate a schedule with so many preferences that it is impossible
 
 if __name__ == '__main__':
-    unittest.main()
+    TestCase.main()
