@@ -81,9 +81,9 @@ DATABASES = {
         'HOST': 'bbbtimmy.noip.me',
         'PORT': '3306',
         'TEST': {
-            'NAME': None,
-            'CREATE_DB': False,
-            'CREATE_USER': False,
+            'NAME': 'test_echelon',
+            'CREATE_DB': 'False',
+            'CREATE_USER': 'False',
             'USER': 'korra',
             'PASSWORD': 'SOEN341echelon!',
         }
