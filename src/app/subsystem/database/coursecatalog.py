@@ -56,7 +56,7 @@ class CourseCatalog(object):
     def modifyCredits(department, number, credits):
 
         try:
-            C = Course.objects.get(pk=department+number)
+            C = Course.objects.get(pk=department+str(number))
             C.credits = credits
             C.save()
             return True
@@ -66,12 +66,12 @@ class CourseCatalog(object):
 
     def addCourse(name, number, department, credits=None):
 
-        if len(Course.objects.filter(pk=department+number)) is not 0:
+        if len(Course.objects.filter(pk=department+str(number))) is not 0:
             logger.warn("Course already exists: "+department+number+". Cannot add")
             return False # Course already exisits
 
         else:
-            c = Course(name=name, number=number, department=department, deptnum=department+number)
+            c = Course(name=name, number=number, department=department, deptnum=department+str(number))
             if credits is not None:
                 c.credits = credits
 
