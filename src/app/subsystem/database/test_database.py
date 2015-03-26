@@ -1,104 +1,201 @@
 from django.test import TestCase
 import app.subsystem.database.coursecatalog as coursecatalog
 import app.subsystem.courses.course as course
-# import app.management.commands.populatedb as pop
-import mysql.connector as mysql
 
 
 class TestDatabases(TestCase):
-    def setUp(self):
-        print('Adding some courses to DB')
-        # To test locally, put your user and passwd
-        # conn = mysql.connect(host='localhost', user='????', passwd='????', db='test_echelon')
-        conn = mysql.connect(host='bbbtimmy.noip.me', user='korra', passwd='SOEN341echelon!', db='test_echelon')
-        cur = conn.cursor()
-        cur.execute('SET GLOBAL FOREIGN_KEY_CHECKS=0')
-        cur.execute('DROP TABLE IF EXISTS app_course ')
-        cur.execute('SET GLOBAL FOREIGN_KEY_CHECKS=0')
-        cur.execute('CREATE TABLE app_course (name VARCHAR(120), department VARCHAR(120), number INT, deptnum VARCHAR(120) PRIMARY KEY, type VARCHAR(120), credits FLOAT, yearSpan VARCHAR(120))')
-        cur.execute('INSERT INTO app_course '
-                    ' (name, department, number, deptnum, type, credits, yearSpan)'
-                    ' VALUES ("Software Processes", "SOEN", 341, "SOEN341", NULL, 3, "14-15")')
-        # setup
+    """
+    Test class for Databases (courses and users)
+    """
 
-    def test_getCourses(self):
-        print("Checking retrieval of courses")
-        myRetrievedCourse = coursecatalog.CourseCatalog.searchCourses("341")
-        TestCase.assertEqual(self, 1, len(myRetrievedCourse), "The course was not retrieved")
-        # get course
-        # ensure that the course retrieved is the right one
+    def setUp(self):
+        """
+        Setup adds 3 set courses to the course catalog database
+        """
+        self.myCourseCatalog = coursecatalog.CourseCatalog
+        self.myCourseCatalog.addCourse("Test 1", 341, "COMP", 3)
+        self.myCourseCatalog.addCourse("Test 2", 342, "SOEN", 3.5)
+        self.myCourseCatalog.addCourse("Test 3", 341, "SOEN", 4)
+
+    def tearDown(self):
+        """
+        teardown removes the 3 courses from the course catalog database
+        """
+        self.myCourseCatalog.removeCourse("COMP", 341)
+        self.myCourseCatalog.removeCourse("SOEN", 342)
+        self.myCourseCatalog.removeCourse("SOEN", 341)
+
+    def test_getCourseBasedOnNumber(self):
+        """
+        Test adds 3 courses, and retrieves only the 2 with course number 341
+        """
+        myRetrievedCourses = coursecatalog.CourseCatalog.searchCourses("341")
+        courses = []
+        for c in myRetrievedCourses:
+            courses.append(course.Course(c).getName())
+        TestCase.assertEqual(self, 2, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
+        TestCase.assertIn(self, "SOEN341", courses, "The  course was not retrieved from the database")
+        TestCase.assertIn(self, "COMP341", courses, "The  course was not retrieved from the database")
+
+    def test_getCourseBasedOnName(self):
+        """
+        Test adds 3 courses, and retrieves only the 1 with course name Test 2
+        """
+        myRetrievedCourses = coursecatalog.CourseCatalog.searchCourses("Test 2")
+        TestCase.assertEqual(self, 1, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
+        TestCase.assertEqual(self, "SOEN342", course.Course(myRetrievedCourses[0]).getName(), "The course was not retrieved from the database")
+
+    def test_getCourseBasedOnDepartment(self):
+        """
+        Test adds 3 courses, and retrieves only the 2 with department SOEN
+        """
+        myRetrievedCourses = coursecatalog.CourseCatalog.searchCourses("SOEN")
+        courses = []
+        for c in myRetrievedCourses:
+            courses.append(course.Course(c).getName())
+        TestCase.assertEqual(self, 2, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
+        TestCase.assertIn(self, "SOEN341", courses, "The  course was not retrieved from the database")
+        TestCase.assertIn(self, "SOEN342", courses, "The  course was not retrieved from the database")
+
+    def test_getCourseBasedOnPartialNumber(self):
+        """
+        Test adds 3 courses, and retrieves only the 2 with course number containing 1
+        """
+        myRetrievedCourses = coursecatalog.CourseCatalog.searchCourses("1")
+        courses = []
+        for c in myRetrievedCourses:
+            courses.append(course.Course(c).getName())
+        TestCase.assertEqual(self, 2, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
+        TestCase.assertIn(self, "SOEN341", courses, "The  course was not retrieved from the database")
+        TestCase.assertIn(self, "COMP341", courses, "The  course was not retrieved from the database")
+
+    def test_getCourseBasedOnPartialName(self):
+        """
+        Test adds 3 courses, and retrieves the 3 with name that contains "est"
+        """
+        myRetrievedCourses = coursecatalog.CourseCatalog.searchCourses("est")
+        courses = []
+        for c in myRetrievedCourses:
+            courses.append(course.Course(c).getName())
+        TestCase.assertEqual(self, 3, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
+        TestCase.assertIn(self, "SOEN341", courses, "The  course was not retrieved from the database")
+        TestCase.assertIn(self, "COMP341", courses, "The  course was not retrieved from the database")
+        TestCase.assertIn(self, "SOEN342", courses, "The  course was not retrieved from the database")
+
+    def test_getCourseBasedOnPartialDepartment(self):
+        """
+        Test adds 3 courses, and retrieves only the 2 with partial department "EN"
+        """
+        myRetrievedCourses = coursecatalog.CourseCatalog.searchCourses("EN")
+        courses = []
+        for c in myRetrievedCourses:
+            courses.append(course.Course(c).getName())
+        TestCase.assertEqual(self, 2, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
+        TestCase.assertIn(self, "SOEN341", courses, "The  course was not retrieved from the database")
+        TestCase.assertIn(self, "SOEN342", courses, "The  course was not retrieved from the database")
+
+    def test_getCourseBasedOnCredits(self):
+        """
+        Test adds 3 courses, and retrieves only the 1 with 3.5 credits
+        """
+        myRetrievedCourses = coursecatalog.CourseCatalog.searchCoursesByCredits(3.5, 3.5)
+        TestCase.assertEqual(self, 1, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
+        TestCase.assertEqual(self, "SOEN342", course.Course(myRetrievedCourses[0]).getName(), "The course was not retrieved from the database")
 
     def test_getCourses_courseNotExists(self):
-        print("5.2")
-        # get course
-        # ensure that the course retrieved nothing
-
-    def test_addCourse(self):
-        print("6")
-        # '''
-        # Test that addCourse inserts a course into the DB
-        # :return:
-        # '''
-        # coursecatalog.CourseCatalog.addCourse("Software Processes", 341, "SOEN", 3)
-        # cur = self.conn.cursor()
-        # addedCourse = cur.execute('SELECT * FROM app_courses')
-        # TestCase.assertEqual(self, "Software Processes", addedCourse.getName(), "The course was not added")
-        # add the course
-        # ensure that the course is in the db
+        """
+        Test adds 3 courses, and retrieves none, since none match the criteria
+        """
+        myRetrievedCourses = coursecatalog.CourseCatalog.searchCourses("z")
+        TestCase.assertEqual(self, 0, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
 
     def test_addCourse_courseAlreadyExists(self):
-        print("6.2")
-        # add the course
-        # ensure that the course is not added but is still in db
+        """
+        Test that addCourse does not insert a course that already exists into the database,
+        but that the course remains in the database
+        """
+        myCourse = self.myCourseCatalog.searchCourses("SOEN 341")
+        TestCase.assertEqual(self, len(myCourse), 1, "The course does not already exist")
+        self.myCourseCatalog.addCourse("Test 3", 341, "SOEN", 3)
+        myRetrievedCourse = self.myCourseCatalog.searchCourses("SOEN 341")
+        TestCase.assertLess(self, len(myRetrievedCourse), 2, "The course was added twice")
+        TestCase.assertGreater(self, len(myRetrievedCourse), 0, "The course was removed")
+        TestCase.assertEqual(self, "SOEN341", course.Course(myRetrievedCourse[0]).getName(), "The course was not added")
 
     def test_removeCourse(self):
-        print("7.1")
-        # remove the course
-        # ensure that it is not in db nor in memory
+        """
+        Test that a course was added, and then removed
+        """
+        self.myCourseCatalog.addCourse("Test 4", 343, "SOEN", 3)
+        myCourse = self.myCourseCatalog.searchCourses("SOEN 343")
+        TestCase.assertEqual(self, len(myCourse), 1, "The course was not added")
+        TestCase.assertEqual(self, "SOEN343", (course.Course(myCourse[0])).getName(), "The course was not added")
+        self.myCourseCatalog.removeCourse("SOEN", 343)
+        myRetrievedCourse = self.myCourseCatalog.searchCourses("SOEN 343")
+        TestCase.assertEqual(self, len(myRetrievedCourse), 0, "The course was not removed")
 
     def test_removeCourse_courseNotExists(self):
-        print("7.2")
-        # remove the course
-        # ensure that nothing happens
+        """
+        Test tries to remove a course that does not exist, then makes sure that the other
+        courses are not affected.
+        """
+        allCourses = self.myCourseCatalog.searchCourses(" ")
+        TestCase.assertEqual(self, len(allCourses), 3, "There are not the correct amount of courses in the database")
+        self.myCourseCatalog.removeCourse("COEN", 341)
+        allCourses = self.myCourseCatalog.searchCourses(" ")
+        TestCase.assertLess(self, len(allCourses), 4, "One or many courses have been added")
+        TestCase.assertGreater(self, len(allCourses), 2, "One or many courses have been removed")
 
-    def test_modifyCourseCapacity(self):
-        print("8.1")
-        # modify course capacity
-        # get course from db
-        # ensure that the course capacity is correct
+    def test_modifyCourseCredits(self):
+        """
+        Test modifies the number of credits a course that exists is worth
+        """
+        myCourse = self.myCourseCatalog.searchCoursesByCredits(4, 4)
+        TestCase.assertEqual(self, (course.Course(myCourse[0])).getName(), "SOEN341", "The course does not have the expected number of credits")
+        self.myCourseCatalog.modifyCredits("SOEN", 341, 5)
+        myCourse = self.myCourseCatalog.searchCoursesByCredits(5, 5)
+        TestCase.assertEqual(self, (course.Course(myCourse[0])).getName(), "SOEN341", "The course does not have the modified number of credits")
 
-    def test_modifyCourseCapacity_courseNotExists(self):
-        print("8.2")
-        # modify course capacity
-        # ensure that nothing happens
+    def test_modifyCourseCredits_CourseNotExist(self):
+        """
+        Test attempts to modify the number of credits a course that does not exist, and then
+        verifies that the course still does not exist
+        """
+        myCourse = self.myCourseCatalog.searchCourses("COEN 341")
+        TestCase.assertEqual(self, len(myCourse), 0, "The course exists already")
+        self.myCourseCatalog.modifyCredits("COEN", 341, 5)
+        myCourse = self.myCourseCatalog.searchCourses("COEN 341")
+        TestCase.assertEqual(self, len(myCourse), 0, "The course has been added from an attempt to modify credits")
+
+# TODO: search by credits not exists, search by credits limits, add and remove lecture
 
     def test_getProfessor(self):
-        print("9.1")
+        a = 1
         # get professor
         # ensure that the correct professor is retrieved
 
     def test_getProfessor_profNotExists(self):
-        print("9.2")
+        a = 1
         # get professor
         # ensure that nothing happens
 
     def test_enrollStudent(self):
-        print("10.1")
+        a = 1
         # enroll student
         # try to fetch them from the db
 
     def test_enrollStudent_studentAlreadyExists(self):
-        print("10.2")
+        a = 1
         # enroll student
         # nothing happens, i.e. student with same ID still exists as it did before
         # try to fetch them from the db
 
     def test_removeStudent(self):
-        print("11.1")
+        a = 1
         # remove an enrolled student
 
     def test_removeStudent_studentNotExists(self):
-        print("11.2")
+        a = 1
         # remove student
         # ensure that nothing happens
 
