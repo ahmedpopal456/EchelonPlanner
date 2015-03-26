@@ -67,6 +67,6 @@ for course in courselist:
     concordiaSite = urllib.request.urlopen("http://fcms.concordia.ca/fcms/asc002_stud_all.aspx",data)
 
 
-    output.append( extract.extract(str(concordiaSite.read().decode('utf-8'))))
+    output.append(extract.extract(str(concordiaSite.read().decode('utf-8'))))
 
 outputDB2.write(str(output))
