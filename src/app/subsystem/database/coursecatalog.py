@@ -17,14 +17,12 @@ class CourseCatalog(object):
     # or Department or Number
     def searchCourses(partialName):
         nospacesstring = partialName.replace(" ","")
-        c1 = Course.objects.filter(name__icontains=partialName)
-        c2 = Course.objects.filter(department__icontains=partialName)
-        c3 = Course.objects.filter(number__icontains=partialName)
-        c4 = Course.objects.filter(deptnum__icontains=nospacesstring)
+        c1 = set(list(Course.objects.filter(name__icontains=partialName)))
+        c1.update(list(Course.objects.filter(department__icontains=partialName)))
+        c1.update(list(Course.objects.filter(number__icontains=partialName)))
+        c1.update(list(Course.objects.filter(deptnum__icontains=nospacesstring)))
 
-        result_list = list(chain(c1, c2, c3, c4))
-
-        return result_list
+        return list(c1)
 
     # either define a limit or an exact credit value to check. Limits are inclusive.
     def searchCoursesByCredits(lowerCreditLimit, upperCreditLimit=None):
