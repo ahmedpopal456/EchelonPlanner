@@ -3,9 +3,6 @@ import re
 import json
 import time
 
-# Master DB file
-outputDB = open("outputDB.txt", "w")
-
 
 
 def extractSemester(text):
@@ -62,7 +59,7 @@ def extractSemester(text):
     for semester in semesterlist:
         lecture = extractLecture(semester, department, number)
 
-    data = {'Course':{'department': department, 'number':number, 'name':name, 'Credits':Credits, 'prereq':prereq}}
+    data = {'department': department, 'number':number, 'name':name, 'Credits':Credits, 'prereq':prereq, 'Lecture':lecture}
 
     return data
 
@@ -126,10 +123,11 @@ def extractLecture(semester, department, number):
             outputDB.write("Lecture : {} {}, {}, {}, {}, {}, {}, {}, {}".format
                   (department, number, semestername, section, days, starttime, endtime, location, prof))
             #outputDB2.write(json.dumps({'semestername':semestername, 'section':section, 'days': days,'starttime':starttime, 'endtime':endtime, 'location':location, 'prof':prof, 'tutorial':[] }, sort_keys=True, indent=4))
-            jsonlecture.append(json.dumps({'semestername':semestername, 'section':section, 'days': days,'starttime':starttime, 'endtime':endtime, 'location':location, 'prof':prof, 'tutorial':[] }, sort_keys=True, indent=4))
+            tutorial = extractTutorial(lecture, section, department, number)
+            jsonlecture.append({'semestername':semestername, 'section':section, 'days': days,'starttime':starttime, 'endtime':endtime, 'location':location, 'prof':prof, 'tutorial':tutorial })
             newtime = time.strptime(str(starttime), "%H:%M")
             print(str(newtime))
-            tutorial = extractTutorial(lecture, section, department, number)
+
 
     outputDB.write("\n")
 
@@ -156,7 +154,7 @@ def extractTutorial(lecture, lecturesection, department, number):
     if position.__len__() == 0:
         #no tutorial for this section, see if there are labs
         lab = extractLab(lecture, lecturesection, department, number)
-        jsontutorial.append(json.dumps({"Lab":lab}, sort_keys=True, indent=4))
+        jsontutorial.append({"Lab":lab})
         return jsontutorial
 
     j = 0
@@ -185,10 +183,10 @@ def extractTutorial(lecture, lecturesection, department, number):
         outputDB.write("Tutorial {} {} {} : {}, {}, {}, {}, {}\n".format
               (department, number, lecturesection, section, days, starttime, endtime, location))
         lab = extractLab(tutorial, section, department, number)
-        data = json.dumps({'section':section, 'days': days,'starttime':starttime, 'endtime':endtime, 'location':location, "Lab":lab}, sort_keys=True, indent=4)
+        jsontutorial.append({'section':section, 'days': days,'starttime':starttime, 'endtime':endtime, 'location':location, "Lab":lab})
     outputDB.write("\n")
     print("\n")
-    return data
+    return jsontutorial
 
 
 def extractLab(tutorial, tutorialsection, dept, num):
@@ -238,7 +236,7 @@ def extractLab(tutorial, tutorialsection, dept, num):
         outputDB.write("Lab {} {} {} : {}, {}, {}, {}, {}".format
               (dept, num, tutorialsection, section, days, starttime, endtime, location))
         outputDB.write("\n")
-        jsonlab.append(json.dumps({'section':section, 'days': days,'starttime':starttime, 'endtime':endtime, 'location':location}, sort_keys=True, indent=4))
+        jsonlab.append({'section':section, 'days': days,'starttime':starttime, 'endtime':endtime, 'location':location})
     print("\n")
 
 
@@ -248,7 +246,7 @@ def extractLab(tutorial, tutorialsection, dept, num):
 
 def extract(inputFile):
     #used as intermediary file to extract each course
-    outputClearFile = open("outputClearFile.txt", "w")
+    outputClearFile = open("outputClearFile.txt", "r")
 
     soup = BeautifulSoup(inputFile)
     table = soup.find("table", attrs={"id": "ctl00_PageBody_tblBodyShow1"})
