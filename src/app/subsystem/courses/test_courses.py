@@ -1,7 +1,7 @@
-import unittest
+from django.test import TestCase
 
 
-class TestCourses(unittest.TestCase):
+class TestCourses(TestCase):
     def setUp(self):
         print("1")
         # setup
@@ -17,4 +17,4 @@ class TestCourses(unittest.TestCase):
         # ensure that the student is not in the db nor in memory
 
 if __name__ == '__main__':
-    unittest.main()
+    TestCase.main()

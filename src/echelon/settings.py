@@ -91,6 +91,25 @@ DATABASES = {
     }
 }
 
+# Used for local testing (Put your own user and password
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mysql.connector.django',
+#         'NAME': 'echelon',  # MySQL must contain this DB.
+#         'USER': '????',
+#         'PASSWORD': '????',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#         'TEST': {
+#             'NAME': 'test_echelon',
+#             'CREATE_DB': 'False',
+#             'CREATE_USER': 'False',
+#             'USER': '????',
+#             'PASSWORD': '????',
+#         }
+#     }
+# }
+
 # Logging
 #
 # The logging system will output a log at various levels ranging from DEBUG to CRITICAL into a file (django-debug.log)
