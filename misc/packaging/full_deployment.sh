@@ -77,6 +77,7 @@ verifyDependecies()
 
 doEchelonTests()
 { # Make the program run the tests
+    # FYI: the way to run unit tests is to go to EchelonPlanner/src/ and do "python manage.py test"
     echo "testy!"
 }
 
