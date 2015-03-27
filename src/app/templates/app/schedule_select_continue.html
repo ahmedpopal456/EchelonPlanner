@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Concordia YouSched</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+
+
+</head>
+
+<body>
+<!-- Load the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+<div class="container body-content">
+    <div class="row">
+        <form class="form" method="post" action="/schedule_select/">
+            {% csrf_token %}
+            <h1 class="form">Schedule Select (Final Step)</h1>
+            {% for year in totalYears %}
+                <div class="text-center">
+                    <h2>Year {{ year }}</h2>
+                    {% for semester in year %}
+                        <h3>{{ semester }}</h3>
+                        {% for course in semester %}
+                            <div class="col-xs-10">{{ course.deptnum }}
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle form-control"
+                                            data-toggle="dropdown">
+                                        <span data-bind="label">Select Section</span>&nbsp;<span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">AUTO</a></li>
+                                        {% for section in course.Sections %}
+                                            <li><a href="#">{{ section.name }} ({{ section.time }})</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
