@@ -32,7 +32,7 @@ def home(request):
         # #Below info is not needed for now.
         # context_instance = RequestContext(request,
         # {
-        #     'title':'Home Page',
+        # 'title':'Home Page',
         #     'year':datetime.now().year,
         # })
     )
@@ -58,22 +58,18 @@ def register(request):
         email = request.POST['email']
 
         if username == "":
-            message += "Please enter a valid username"
+            message += "Please enter a valid username /n"
 
         if password1 == "" or password2 == "":
-
-            message += "Please fill in both password blocks"
+            message += "Please fill in both password blocks  /n"
 
         if firstname == "" or lastname == "":
-
-            message += "Please fully fill in your name and last name"
+            message += "Please fully fill in your name and last name /n"
 
         if email == "":
+            message += "Please fill in the email address block /n"
 
-            message += "Please fill in the email address block"
-
-        if password1 == password2:
-
+        if (password1 == password2) and (message != ""):
             studentuser.user.set_password(password1)
             studentuser.user.set_username(username)
             studentuser.user.set_email(email)
@@ -83,17 +79,18 @@ def register(request):
             studentuser.user.set_is_staff(0)
             studentuser.user.set_is_superuser(0)
             studentuser.user.save()
-
             isregistered = True
 
-          else:
+            return render(request,
+                      'app/register.html',
+                      {'hasMessage': True, 'message': 'Registration is successful.', 'registered': isregistered})
 
+        else:
+            return render(request,
+                      'app/register.html',
+                      {'hasMessage': True, 'message': message, 'registered': isregistered})
 
-    return render(request,
-            'app/register.html',
-            {'hasMessage': True, 'message': message, 'registered': isregistered})
-
-    # End Register Method
+        # End Register Method
 
 
 @login_required
@@ -126,13 +123,15 @@ def loginhandler(request):
             return render(request,
                           'app/login.html',
                           {'hasMessage': True, 'message': 'Login not successful. Check your username and password.'})
-    # End loginhandler()
+            # End loginhandler()
+
 
 def logouthandler(request):
     logout(request)
     return render(request,
                   'app/login.html',
-                {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
+                  {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
+
 
 ##################################################################################################
 # Methods yet to be correctly implemented
@@ -200,6 +199,7 @@ def schedule_view(request):
         'app/schedule_view.html'
     )
 
+
 @login_required
 def browse_all_courses(request):
     courseList = Course.objects.all()  # List of all courses
@@ -212,6 +212,7 @@ def browse_all_courses(request):
         'app/browse_all_courses.html',
         {'courseList': courseList}  # Send it off to the template for rendering
     )
+
 
 ##################################################################################################
 # Dev methods to test features and not break flow
@@ -226,7 +227,7 @@ def nullhandler(request):
     # This method does nothing other than print out the stuff it is receiving
     html = "<html><body>Transaction Logged</body></html>"
     for some in Course.objects.all():
-        print(str(some.deptnum)+":"+str(some.name))
+        print(str(some.deptnum) + ":" + str(some.name))
     logger.debug(str(request.POST))
     return HttpResponse(html)
 
