@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 
-
 def index(request):
     return home(request)  # We'll have it hardcoded for now...
 
@@ -109,6 +108,13 @@ def logouthandler(request):
 
 ##################################################################################################
 # Methods yet to be correctly implemented
+
+@login_required
+def error_404(request):
+    return render(
+        request,
+        'app/error_404.html'
+    )
 
 
 @login_required
