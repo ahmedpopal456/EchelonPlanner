@@ -39,6 +39,7 @@ class Command(BaseCommand):
                     e = Event(days =days, starttime = starttime, endtime=endtime, location = location,
                               semester = semester)
                     l = Lecture(section=section, session = semester, isOnline=isOnline, event=e)
+                    l.save()
                     c.lecture_set.add(l)
                     c.save()
                     for tutorial in lecture["tutorial"]:
@@ -47,18 +48,24 @@ class Command(BaseCommand):
                             starttime = tutorial["starttime"]
                             location = tutorial["location"]
                             days = tutorial["days"]
+                            section = tutorial["section"]
                             e = Event(days =days, starttime = starttime, endtime=endtime, building = location, location = location,
                               semester = semester)
+                            e.save()
                             t = Tutorial(section=section, event=e, course=c, lecture=l)
+                            t.save()
                             l.tutorial_set.add(t)
                         for lab in tutorial["lab"]:
                             endtime = lab["endtime"]
                             starttime = lab["starttime"]
                             location = lab["location"]
                             days = lab["days"]
+                            section = lab["section"]
                             e = Event(days =days, starttime = starttime, endtime=endtime, building = location, location = location,
                               semester = semester)
+                            e.save()
                             lab = Lab(section=section, event = e, course=c, lecture=l)
+                            lab.save()
                             if t is not None:
                                 t.lab_set.add(lab)
             except django.db.DatabaseError:
