@@ -7,7 +7,7 @@ from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from app.subsystem.courses.course import *
-from app.subsystem.usermanagement.student import Student
+import app.subsystem.usermanagement.student
 
 import logging
 
@@ -79,16 +79,23 @@ def register(request):
             studentuser.user.set_is_staff(0)
             studentuser.user.set_is_superuser(0)
             studentuser.user.save()
+            studentuser.save()
             isregistered = True
 
+            return render(request,
+                      'app/login.html',
+                      {'hasMessage': True, 'message': 'Registration is successful.', 'registered': isregistered})
+        # Something failed :/
+        else:
             return render(request,
                       'app/register.html',
                       {'hasMessage': True, 'message': 'Registration is successful.', 'registered': isregistered})
 
-        else:
-            return render(request,
-                      'app/register.html',
-                      {'hasMessage': True, 'message': message, 'registered': isregistered})
+    # end If Request==Post
+
+    else:  # Request is not Post, just serve the damn page
+        return render(request,
+                  'app/register.html')
 
         # End Register Method
 
