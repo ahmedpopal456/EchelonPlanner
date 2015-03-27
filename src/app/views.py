@@ -7,6 +7,8 @@ from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from app.subsystem.courses.course import *
+from app.subsystem.usermanagement.student import Student
+
 import logging
 
 # For Dev Purposes Only. This logger object can be identified as 'apps.view'
@@ -39,32 +41,58 @@ def home(request):
 def register(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
-    registered = False
-
     # If it's a HTTP POST, we're interested in processing form data.
+
     if request.method == 'POST':
         # Attempt to grab information from the raw form information.
-        # Note that we make use of both UserForm and UserProfileForm.
-        newUser = User()
-        # Dump all the info in the POST requests and save it
-        # Now we hash the password with the set_password method.
-        # Once hashed, we can update the user object.
-        newUser.set_password(newUser.password)
-        newUser.save()
 
-        # Now sort out the UserProfile instance.
-        # Since we need to set the user attribute ourselves, we set commit=False.
-        # This delays saving the model until we're ready to avoid integrity problems.
+        studentuser = Student()
+        message = ""
+        isregistered = False
 
-        # Now we save the UserProfile model instance.
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        username = request.POST['username']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        email = request.POST['email']
 
-        # Update our variable to tell the template registration was successful.
-        registered = True
+        if username == "":
+            message += "Please enter a valid username"
 
-    # Render the template depending on the context.
+        if password1 == "" or password2 == "":
+
+            message += "Please fill in both password blocks"
+
+        if firstname == "" or lastname == "":
+
+            message += "Please fully fill in your name and last name"
+
+        if email == "":
+
+            message += "Please fill in the email address block"
+
+        if password1 == password2:
+
+            studentuser.user.set_password(password1)
+            studentuser.user.set_username(username)
+            studentuser.user.set_email(email)
+            studentuser.user.set_firstname(firstname)
+            studentuser.user.set_lastname(lastname)
+            studentuser.user.set_is_active(1)
+            studentuser.user.set_is_staff(0)
+            studentuser.user.set_is_superuser(0)
+            studentuser.user.save()
+
+            isregistered = True
+
+          else:
+
+
     return render(request,
             'app/register.html',
-            )
+            {'hasMessage': True, 'message': message, 'registered': isregistered})
+
     # End Register Method
 
 
