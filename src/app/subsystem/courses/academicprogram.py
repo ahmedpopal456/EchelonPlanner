@@ -3,6 +3,7 @@ from app.subsystem.courses.option import Option
 
 class AcademicProgram(models.Model):
 
+
     def __str__(self):
         return self.name
 
