@@ -21,3 +21,4 @@ def __unicode__(self):
 
 def __init__(self):
     self.__IDNumber = None
+    self.user = User()
