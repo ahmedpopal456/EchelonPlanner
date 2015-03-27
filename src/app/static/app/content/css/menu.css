@@ -7255,3 +7255,12 @@ body {
     padding-bottom: 10px;
 }
 
+#centertable {
+    text-align: center;
+    background-color: #BA9363;
+}
+
+#centertable th{
+     text-align: center;
+}
+
