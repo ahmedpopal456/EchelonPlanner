@@ -69,7 +69,7 @@ def register(request):
         if email == "":
             message += "Please fill in the email address block /n"
 
-        if (password1 == password2) and (message != ""):
+        if (password1 == password2) and (message == ""):
             studentuser.user.set_password(password1)
             studentuser.user.set_username(username)
             studentuser.user.set_email(email)
