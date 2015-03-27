@@ -12,9 +12,6 @@ class Course(models.Model):
     def removeStudent(IDNumber):
         pass
 
-    def getName(self):
-        return str(self.name)
-
 
     name = models.CharField(max_length=120, null=False, blank=False, default="Test", primary_key=False)
     department = models.CharField(max_length=120, null=False, blank=False, default="SOEN", primary_key=False)
