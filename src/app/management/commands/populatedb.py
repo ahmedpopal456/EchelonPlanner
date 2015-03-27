@@ -61,5 +61,5 @@ class Command(BaseCommand):
                             lab = Lab(section=section, event = e, course=c, lecture=l)
                             if t is not None:
                                 t.lab_set.add(lab)
-            except:
+            except django.db.DatabaseError:
                 logger.warn("Course or lecture or lab or tutorial already exists: "+deptnum)
