@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Concordia YouSched</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.min.js' %}"></script>
+
+</head>
+
+<body>
+<!-- Load the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+<div class="container body-content">
+    <div class="row">
+        <form class="form" method="post" action="/schedule_select/">
+            {% csrf_token %}
+            <h1 class="form">Schedule Select</h1>
+            <table class="table table-hover table-bordered" id="centertable">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th colspan=4>Year 1</th>
+                    <th colspan=4>Year 2</th>
+                    <th colspan=4>Year 3</th>
+                    <th colspan=4>Year 4</th>
+                </tr>
+                <tr>
+                    <th>Course</th>
+                    <th>Sum 1</th>
+                    <th>Sum 2</th>
+                    <th>Autumn</th>
+                    <th>Winter</th>
+                    <th>Sum 1</th>
+                    <th>Sum 2</th>
+                    <th>Autumn</th>
+                    <th>Winter</th>
+                    <th>Sum 1</th>
+                    <th>Sum 2</th>
+                    <th>Autumn</th>
+                    <th>Winter</th>
+                    <th>Sum 1</th>
+                    <th>Sum 2</th>
+                    <th>Autumn</th>
+                    <th>Winter</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for course in partialSelection %}
+                   <tr>
+                    <td>{{ course.deptnum }}</td>
+                    <div class="btn-group" data-toggle="buttons">
+                        {% for year in maxYear %}
+                            {% if course.duringSummer1 %}
+                        <td><label class="btn btn-default">
+                            <input type="radio" name={{ course.deptnum }}+"" value="{{ year }}Summer1"></label>
+                        </td>
+                            {% endif %}
+                            {% if course.duringSummer2 %}
+                        <td><label class="btn btn-default">
+                            <input type="radio" name={{ course.deptnum }}+"" value="{{ year }}Summer2"></label></td>
+                            {% endif %}
+                            {% if course.duringAutumn %}
+                        <td><label class="btn btn-default">
+                            <input type="radio" name={{ course.deptnum }}+"" value="{{ year }}Autumn"></label></td>
+                            {% endif %}
+                            {% if course.duringSummer %}
+                        <td><label class="btn btn-default">
+                            <input type="radio" name={{ course.deptnum }}+"" value="{{ year }}Winter">
+                        </label></td>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

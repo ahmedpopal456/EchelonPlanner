@@ -15,7 +15,7 @@
 
 {% include "app/navbar.html" %}
 
-{% if alternate %}
+{% if alternate %} <!--this is for non-student users not covered in the main user profile page -->
     {% include alternate %}
 {% else %}
     {% include "app/user_profile_main.html" %}
