@@ -1,6 +1,7 @@
 from django.test import TestCase
 import app.subsystem.database.coursecatalog as coursecatalog
 import app.subsystem.courses.course as course
+import django.db
 
 
 class TestDatabases(TestCase):
@@ -103,6 +104,25 @@ class TestDatabases(TestCase):
         TestCase.assertEqual(self, 1, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
         TestCase.assertEqual(self, "Test 1", myRetrievedCourses[0].name, "The course was not retrieved from the database")
 
+    def test_getCourseBasedOnCreditRange(self):
+        """
+        Test adds 3 courses, and retrieves only the 2 courses with 3 to 3.5 credits
+        """
+        myRetrievedCourses = coursecatalog.CourseCatalog.searchCoursesByCredits(3, 3.5)
+        courses = []
+        for c in myRetrievedCourses:
+            courses.append(c.name)
+        TestCase.assertEqual(self, 2, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
+        TestCase.assertIn(self, "Test 0", courses, "The  course was not retrieved from the database")
+        TestCase.assertIn(self, "Test 1", courses, "The  course was not retrieved from the database")
+
+    def test_getCourseBasedOnCredits_CourseNotExists(self):
+        """
+        Test adds 3 courses, and attempts to retrieve a course with les than 2 credits, which none of the courses have.
+        """
+        myRetrievedCourses = coursecatalog.CourseCatalog.searchCoursesByCredits(0, 2)
+        TestCase.assertEqual(self, 0, len(myRetrievedCourses), "The correct amount of courses was not retrieved")
+
     def test_getCourses_courseNotExists(self):
         """
         Test adds 3 courses, and retrieves none, since none match the criteria
@@ -122,7 +142,7 @@ class TestDatabases(TestCase):
         TestCase.assertLess(self, len(myRetrievedCourse), 2, "The course was added twice")
         TestCase.assertGreater(self, len(myRetrievedCourse), 0, "The course was removed")
         TestCase.assertEqual(self, "Test 2", myRetrievedCourse[0].name, "The course was not added")
-		# TODO rewrite this test now that searchCourses() has changed to not return duplicates 
+        # TODO rewrite this test now that searchCourses() has changed to not return duplicates
 
     def test_removeCourse(self):
         """
@@ -169,7 +189,7 @@ class TestDatabases(TestCase):
         myCourse = self.myCourseCatalog.searchCourses("COEN 341")
         TestCase.assertEqual(self, len(myCourse), 0, "The course has been added from an attempt to modify credits")
 
-# TODO: search by credits not exists, search by credits limits, add and remove lecture (maybe using credits?)
+# TODO: add and remove lecture
 
     def test_getProfessor(self):
         a = 1
