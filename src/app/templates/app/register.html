@@ -24,7 +24,11 @@
 
             <div class="container" id="loginblock"><h1>Registration</h1>
                 {% if hasMessage %}
-                    <p>{{ message }}</p>
+                    {% if not registered %}
+                        {% for lines in message %}
+                            <p><b>{{ lines }}</b></p>
+                        {% endfor %}
+                    {% endif %}
                 {% endif %}
                 <form class="form-signin" method="post" action="/register/">
                     {% csrf_token %}
@@ -46,13 +50,13 @@
                     <h2 class="form-signin-heading">User Data</h2>
 
                     <label for="inputFName" class="sr-only">Enter First Name</label>
-                    <input id="inputFName" class="form-control" placeholder="Enter First Name" autofocus="" name="firstName" type="text">
+                    <input id="inputFName" class="form-control" placeholder="Enter First Name" autofocus="" name="firstname" type="text">
 <!--
                     <label for="inputMName" class="sr-only">Enter Middle Name</label>
                     <input id="inputMName" class="form-control" placeholder="Enter Middle Name" name="middleName" type="text">
 -->
                     <label for="inputLName" class="sr-only">Enter Last Name</label>
-                    <input id="inputLName" class="form-control" placeholder="Enter Last Name" name="lastName" type="text">
+                    <input id="inputLName" class="form-control" placeholder="Enter Last Name" name="lastname" type="text">
 
                     <!-- TODO: Check email correctness somehow! -->
 
