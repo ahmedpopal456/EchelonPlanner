@@ -6,8 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from app.subsystem.courses.course import *
-import app.subsystem.usermanagement.student
+from .subsystem import *
 
 import logging
 
@@ -47,7 +46,7 @@ def register(request):
         # Attempt to grab information from the raw form information.
 
         studentuser = Student()
-        message = ""
+        message = []
         isregistered = False
 
         firstname = request.POST['firstname']
@@ -58,16 +57,16 @@ def register(request):
         email = request.POST['email']
 
         if username == "":
-            message += "Please enter a valid username /n"
+            message.append("Please enter a valid username")
 
         if password1 == "" or password2 == "":
-            message += "Please fill in both password blocks  /n"
+            message.append("Please fill in both password blocks")
 
         if firstname == "" or lastname == "":
-            message += "Please fully fill in your name and last name /n"
+            message.append("Please fully fill in your name and last name")
 
         if email == "":
-            message += "Please fill in the email address block /n"
+            message.append("Please fill in the email address block")
 
         if (password1 == password2) and (message == ""):
             studentuser.user.set_password(password1)
@@ -84,12 +83,12 @@ def register(request):
 
             return render(request,
                       'app/login.html',
-                      {'hasMessage': True, 'message': 'Registration is successful.', 'registered': isregistered})
+                      {'hasMessage': True, 'message': ['Registration is successful.'], 'registered': isregistered})
         # Something failed :/
         else:
             return render(request,
                       'app/register.html',
-                      {'hasMessage': True, 'message': 'Registration is successful.', 'registered': isregistered})
+                      {'hasMessage': True, 'message': message, 'registered': isregistered})
 
     # end If Request==Post
 
