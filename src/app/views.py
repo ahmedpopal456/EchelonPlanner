@@ -45,7 +45,8 @@ def register(request):
     if request.method == 'POST':
         # Attempt to grab information from the raw form information.
 
-        studentuser = Student()
+        studentUser = Student()
+        standardUser = User()
         message = []
         isregistered = False
 
@@ -55,6 +56,9 @@ def register(request):
         password1 = request.POST['password1']
         password2 = request.POST['password2']
         email = request.POST['email']
+
+        # Log Everything
+        logger.debug(str(request.POST))
 
         if username == "":
             message.append("Please enter a valid username")
@@ -68,17 +72,22 @@ def register(request):
         if email == "":
             message.append("Please fill in the email address block")
 
-        if (password1 == password2) and (message == ""):
-            studentuser.user.set_password(password1)
-            studentuser.user.set_username(username)
-            studentuser.user.set_email(email)
-            studentuser.user.set_firstname(firstname)
-            studentuser.user.set_lastname(lastname)
-            studentuser.user.set_is_active(1)
-            studentuser.user.set_is_staff(0)
-            studentuser.user.set_is_superuser(0)
-            studentuser.user.save()
-            studentuser.save()
+        if (password1 == password2) and (message == []):
+            standardUser.set_password(password1)
+            standardUser.username = username
+            standardUser.email = email
+            standardUser.first_name = firstname
+            standardUser.last_name = lastname
+            standardUser.is_active = True
+            standardUser.is_staff = False
+            standardUser.is_superuser = False
+            standardUser.save()
+            studentUser.save()
+            standardUser.student = studentUser
+            studentUser.user = standardUser
+            standardUser.save()
+            studentUser.save()
+
             isregistered = True
 
             return render(request,
