@@ -1,8 +1,8 @@
-from app.subsystem.courses.course import Course
-from app.subsystem.courses.lecture import Lecture
-from app.subsystem.courses.tutorial import Tutorial
-from app.subsystem.courses.lab import Lab
-from app.subsystem.event.event import Event
+from ..courses.course import Course
+from ..courses.lecture import Lecture
+from ..courses.tutorial import Tutorial
+from ..courses.lab import Lab
+from ..event.event import Event
 from itertools import chain
 import logging
 import django.db
@@ -41,9 +41,9 @@ class CourseCatalog(object):
     # 4 letter department, case sensitive i.e SOEN
     # 3 number course number i.e 341
     #outputs true if removed, false if not
-    def removeCourse(department, number):
+    def removeCourse(self, department, number):
 
-        primarykey = department + str(number);
+        primarykey = department + str(number)
         try:
             Course.objects.get(pk=primarykey).delete()
             return True
@@ -52,7 +52,7 @@ class CourseCatalog(object):
             return False
 
 
-    def modifyCredits(department, number, credits):
+    def modifyCredits(self, department, number, credits):
 
         try:
             C = Course.objects.get(pk=department + str(number))
@@ -92,7 +92,7 @@ class CourseCatalog(object):
             logger.warn("Course not found: " + department + str(number) + ". Cannot add to Course")
             return False
         except django.db.IntegrityError:
-            logger.warn(("Lecture already in DB: {}{}, {}-{}. Cannot add to Course").format(department, number, section,
+            logger.warn("Lecture already in DB: {}{}, {}-{}. Cannot add to Course".format(department, number, section,
                                                                                             semester))
             return False
 
@@ -109,7 +109,7 @@ class CourseCatalog(object):
             return False
         except Lecture.DoesNotExist:
             logger.warn(
-                ("Lecture not found: {}{}, {}-{}. Cannot remove from Course").format(department, number, section,
+                "Lecture not found: {}{}, {}-{}. Cannot remove from Course".format(department, number, section,
                                                                                      semester))
             return False
 
@@ -122,10 +122,10 @@ class CourseCatalog(object):
             lab = Lab(section=section, event=e)
 
 
+            lab.save()
             #Below, we try to add a lab to a course if the lab exists, otherwise we throw an exception
 
             c = Course.objects.get(pk=(department + str(number)))
-            lab.save()
             c.lab_set.add(lab)
             lecture = c.lecture_set.get(semester=semester, course=c, section=lecturesection)
             lecture.lab_set.add(lab)
@@ -152,10 +152,10 @@ class CourseCatalog(object):
     def removeLab(self, section, department, number, semester):
 
         #Try to get the course with the primary key, if it is available, delete the lab that is inside of it
-        primarykey = department + str(number);
+        primarykey = department + str(number)
         try:
             C = Course.objects.get(pk=primarykey)
-            C.lab_set.get(semester=semester, section=section, number=number).delete()
+            C.lab_set.get(event__semester=semester, section=section).delete()
             return True
         except Course.DoesNotExist:
             logger.warn("Course not found: " + department + str(number) + ". Cannot remove Lecture from Course")
@@ -184,7 +184,7 @@ class CourseCatalog(object):
             return False
         except django.db.IntegrityError:
             logger.warn(
-                ("Tutorial already in DB, it cannot be added to courses").format(department, number, section, semester))
+                "Tutorial already in DB, it cannot be added to courses".format(department, number, section, semester))
             return False
 
 
@@ -193,7 +193,7 @@ class CourseCatalog(object):
         primarykey = department + str(number);
         try:
             C = Course.objects.get(pk=primarykey)
-            C.tutorial_set.get(number=number, semester=semester, section=section).delete()
+            C.tutorial_set.get(event__semester=semester, section=section).delete()
             return True
 
         except Course.DoesNotExist:
@@ -201,11 +201,15 @@ class CourseCatalog(object):
             return False
         except Lecture.DoesNotExist:
             logger.warn(
-                ("Lecture not found: {}{}, {}-{}. Cannot remove from Course").format(department, number, section,
+                "Lecture not found: {}{}, {}-{}. Cannot remove from Course".format(department, number, section,
                                                                                      semester))
+            return False
+        except Tutorial.DoesNotExist:
+            logger.warn("Tutorial not found. It cannot be removed from the course.")
             return False
 
     # When given a section returns if this is Tutorial, Lab or Lecture. Functionality is used repeatedly elsewhere.
+    @staticmethod
     def typeofSection(section):
 
         typeofsection = str(type(section))
@@ -218,7 +222,7 @@ class CourseCatalog(object):
             else:
                 return "Tutorial"
 
-        # When given a section returns if it has tutorials. Functionality is used repeatedly elsewhere.
+    # When given a section returns if it has tutorials. Functionality is used repeatedly elsewhere.
     def hasTutorial(section):
 
         if CourseCatalog.typeofSection(section) == "Lecture":
@@ -235,7 +239,7 @@ class CourseCatalog(object):
             else:
                 return False
 
-       # When given a section returns if it has labs. Functionality is used repeatedly elsewhere.
+    # When given a section returns if it has labs. Functionality is used repeatedly elsewhere.
     def hasLab(section):
 
         if CourseCatalog.typeofSection(section) == "Lecture" or CourseCatalog.typeofSection(section) == "Tutorial":
