@@ -1,8 +1,8 @@
-from app.subsystem.courses.course import Course
-from app.subsystem.courses.lecture import Lecture
-from app.subsystem.courses.tutorial import Tutorial
-from app.subsystem.courses.lab import Lab
-from app.subsystem.event.event import Event
+from ..courses.course import Course
+from ..courses.lecture import Lecture
+from ..courses.tutorial import Tutorial
+from ..courses.lab import Lab
+from ..event.event import Event
 from itertools import chain
 import logging
 import django.db
@@ -15,6 +15,7 @@ class ScheduleGenerator(object):
     def generateSchedules(self, preferences):
         pass
 
+    @staticmethod
     def doDaysConflict(days1, days2):
 
         #Online courses no conflict
@@ -36,6 +37,7 @@ class ScheduleGenerator(object):
     """
     Takes two sections, and determines if time conflicts. Sections can be of any type, lecture/tut/labt
     """
+    @staticmethod
     def doTimesConflict(section1, section2):
 
         if section1.event.starttime < section2.event.endtime and section1.event.endtime > section2.event.starttime:
@@ -45,7 +47,7 @@ class ScheduleGenerator(object):
     # end doTimesConflict
 
     #TODO: Also incomplete, not sure if we even need
-    def comparetoLabTutLect(section1,section2):
+    def comparetoLabTutLect(section1, section2):
 
         daysfor1 = section1.event.days
 
@@ -108,7 +110,8 @@ class ScheduleGenerator(object):
     :returns: a list of the lowest type (lab < tutorial < lecture) that the course has that does not conflict
               with the section
     """
-    def findUnconflictingSections(self, section, coursename):
+    @staticmethod
+    def findUnconflictingSections(section, coursename):
 
         course = Course.objects.get(pk=coursename)
 
