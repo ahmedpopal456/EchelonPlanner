@@ -13,3 +13,5 @@ class Tutorial(models.Model):
         unique_together = ('section', 'course', 'lecture')
         app_label = 'app'
         managed= True
+
+# End class Tutorial

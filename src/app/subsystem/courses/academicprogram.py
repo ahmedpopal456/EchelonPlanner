@@ -15,5 +15,5 @@ class AcademicProgram(models.Model):
         app_label = 'app'
         managed= True
 
-
+# End class AcademicProgram
 
