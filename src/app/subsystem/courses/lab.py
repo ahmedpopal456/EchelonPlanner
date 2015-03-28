@@ -13,6 +13,9 @@ class Lab (models.Model):
     lecture = models.ForeignKey(Lecture, primary_key=False, null=True)
     event = models.OneToOneField(Event, null=True)
 
+    def __str__(self):
+        return (self.section)
+
     class Meta:
         unique_together = ('section', 'course', 'lecture', 'tutorial')
         app_label = 'app'
