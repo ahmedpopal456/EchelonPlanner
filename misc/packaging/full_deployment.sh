@@ -114,6 +114,7 @@ installDependencies()
         echo "Aborting"
         exit
     fi
+    
     apt-get install --install-suggests python3
     apt-get install mysql-server mysql-client
     apt-get install apache
