@@ -25,7 +25,7 @@ class Command(BaseCommand):
             t = None
             #try:
             c = Course(name=name, department=department, number=number, deptnum=deptnum,credits=credits, yearSpan="14-15")
-
+            c.save()
             for lecture in course["Lecture"]:
                 endtime = lecture["endtime"]
                 starttime = lecture["starttime"]
@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 e = Event(days =days, starttime = starttime, endtime=endtime, location = location,
                           semester = semester)
                 e.save()
-                l = Lecture(section=section, session = semester, isOnline=isOnline, event=e)
+                l = Lecture(section=section, session = semester, isOnline=isOnline, event=e, prof=prof)
                 l.save()
                 c.lecture_set.add(l)
                 c.save()

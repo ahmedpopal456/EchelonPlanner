@@ -9,6 +9,7 @@ class Lecture(models.Model):
     session = models.CharField(max_length=120, default="Fall", primary_key=False)
     isOnline = models.BooleanField(default=False, primary_key=False)
     event = models.OneToOneField(Event, null=True)
+    prof = models.CharField(max_length=120, default="Prof X", primary_key=False)
 
     def __str__(self):
         return (self.section)

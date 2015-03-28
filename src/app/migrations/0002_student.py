@@ -16,10 +16,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Student',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(auto_created=True, verbose_name='ID', primary_key=True, serialize=False)),
+                ('website', models.URLField(blank=True)),
                 ('homephone', models.IntegerField(default=0)),
                 ('cellphone', models.IntegerField(default=0)),
-                ('address', models.CharField(default='', max_length=120)),
+                ('address', models.CharField(max_length=120, default='')),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
             options={

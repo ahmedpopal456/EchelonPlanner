@@ -74,43 +74,43 @@ LOGIN_URL='/login/'
 #         'PORT': '3306',
 # Note that the remote DB at centcom.noip.me is 20x slower than having a local DB on your machine
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': 'echelon',  # MySQL must contain this DB.
-        'USER': 'eve',
-        'PASSWORD': 'SOEN341echelon!',
-        'HOST': 'bbbtimmy.noip.me',
-        'PORT': '3306',
-        'TEST': {
-            'NAME': 'test_echelon',
-            'CREATE_DB': 'False',
-            'CREATE_USER': 'False',
-            'USER': 'korra',
-            'PASSWORD': 'SOEN341echelon!',
-            'TBLSPACE': 'test_echelon',
-            }
-    }
-}
-
-# Used for local testing (Put your own user and password
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'mysql.connector.django',
 #         'NAME': 'echelon',  # MySQL must contain this DB.
-#         'USER': '????',
-#         'PASSWORD': '????',
-#         'HOST': 'localhost',
+#         'USER': 'eve',
+#         'PASSWORD': 'SOEN341echelon!',
+#         'HOST': 'bbbtimmy.noip.me',
 #         'PORT': '3306',
 #         'TEST': {
 #             'NAME': 'test_echelon',
 #             'CREATE_DB': 'False',
 #             'CREATE_USER': 'False',
-#             'USER': '????',
-#             'PASSWORD': '????',
-#         }
+#             'USER': 'korra',
+#             'PASSWORD': 'SOEN341echelon!',
+#             'TBLSPACE': 'test_echelon',
+#             }
 #     }
 # }
+
+# Used for local testing (Put your own user and password
+DATABASES = {
+    'default': {
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'echelon',  # MySQL must contain this DB.
+        'USER': 'root',
+        'PASSWORD': 'SOEN341echelon!',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'TEST': {
+            'NAME': 'test_echelon',
+            'CREATE_DB': 'False',
+            'CREATE_USER': 'False',
+            'USER': 'root',
+            'PASSWORD': 'SOEN341echelon!',
+        }
+    }
+}
 
 # Logging
 #

@@ -113,6 +113,9 @@ class ScheduleGenerator(object):
         nolecturesconf = course.lecture_set.all().filter(event__semester = semester)  # set initially to all lectures in course
         notutconf = []
         nolabconf = []
+        lecturestoremove = []
+        tutorialtoremove = []
+        labstoremove = []
 
         hasLabs = True
         hasTut = True
@@ -138,15 +141,18 @@ class ScheduleGenerator(object):
         for lecture in nolecturesconf:
             if ScheduleGenerator.doDaysConflict(lecturesection.event.days , lecture.event.days):
                 if ScheduleGenerator.doTimesConflict(lecturesection, lecture):
-                    nolecturesconf.remove(lecture)
+                    lecturestoremove.append(lecture)
             if tutorialsection is not None:
                 if ScheduleGenerator.doDaysConflict(tutorialsection.event.days, lecture.event.days):
                     if ScheduleGenerator.doTimesConflict(tutorialsection, lecture):
-                        nolecturesconf.remove(lecture)
+                        lecturestoremove.append(lecture)
             if labsection is not None:
                 if ScheduleGenerator.doDaysConflict(labsection.event.days, lecture.event.days):
                     if ScheduleGenerator.doTimesConflict(labsection, lecture):
-                        nolecturesconf.remove(lecture)
+                        lecturestoremove.append(lecture)
+
+        nolecturesconf = [lecture for lecture in nolecturesconf if lecture not in lecturestoremove]
+
         if len(nolecturesconf) is 0:
             return []
 
@@ -162,15 +168,18 @@ class ScheduleGenerator(object):
         for tutorial in notutconf:
             if ScheduleGenerator.doDaysConflict(lecturesection.event.days , tutorial.event.days):
                 if ScheduleGenerator.doTimesConflict(lecturesection, tutorial):
-                    notutconf.remove(tutorial)
+                    tutorialtoremove.append(tutorial)
             if tutorialsection is not None:
                 if ScheduleGenerator.doDaysConflict(tutorialsection.event.days, tutorial.event.days):
                     if ScheduleGenerator.doTimesConflict(tutorialsection, tutorial):
-                        notutconf.remove(tutorial)
+                        tutorialtoremove.append(tutorial)
             if labsection is not None:
                 if ScheduleGenerator.doDaysConflict(labsection.event.days, tutorial.event.days):
                     if ScheduleGenerator.doTimesConflict(labsection, tutorial):
-                        notutconf.remove(tutorial)
+                        tutorialtoremove.append(tutorial)
+
+        notutconf = [tutorial for tutorial in notutconf if tutorial not in tutorialtoremove]
+
         if len(notutconf) is 0 and hasTut:
             return []
 
@@ -190,15 +199,18 @@ class ScheduleGenerator(object):
         for lab in nolabconf:
             if ScheduleGenerator.doDaysConflict(lecturesection.event.days , lab.event.days):
                 if ScheduleGenerator.doTimesConflict(lecturesection, lab):
-                    nolabconf.remove(lab)
+                    labstoremove.append(lab)
             if tutorialsection is not None:
                 if ScheduleGenerator.doDaysConflict(tutorialsection.event.days, lab.event.days):
                     if ScheduleGenerator.doTimesConflict(tutorialsection, lab):
-                        nolabconf.remove(lab)
+                        labstoremove.append(lab)
             if labsection is not None:
                 if ScheduleGenerator.doDaysConflict(labsection.event.days, lab.event.days):
                     if ScheduleGenerator.doTimesConflict(labsection, lab):
-                        nolabconf.remove(lab)
+                        labstoremove.append(lab)
+
+        nolabconf = [lab for lab in nolabconf if lab not in labstoremove]
+
         if len(nolabconf) is 0 and hasLabs:
             return []
 
