@@ -12,7 +12,7 @@ class Lecture(models.Model):
     prof = models.CharField(max_length=120, default="Prof X", primary_key=False)
 
     def __str__(self):
-        return (self.section)
+        return (self.section+"-"+self.session)
 
     class Meta:
         unique_together = ('section', 'course', 'session')
