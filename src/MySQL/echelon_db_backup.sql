@@ -1,6 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `echelon` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `echelon`;
--- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
 -- Host: bbbtimmy.noip.me    Database: echelon
 -- ------------------------------------------------------
@@ -18,6 +16,30 @@ USE `echelon`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `app_academicprogram`
+--
+
+DROP TABLE IF EXISTS `app_academicprogram`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_academicprogram` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(120) NOT NULL,
+  `credits` double NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app_academicprogram`
+--
+
+LOCK TABLES `app_academicprogram` WRITE;
+/*!40000 ALTER TABLE `app_academicprogram` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_academicprogram` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `app_course`
 --
 
@@ -31,7 +53,7 @@ CREATE TABLE `app_course` (
   `deptnum` varchar(120) NOT NULL,
   `type` varchar(120) DEFAULT NULL,
   `credits` double NOT NULL,
-  `yearSpan` varchar(120),
+  `yearSpan` varchar(120) DEFAULT NULL,
   PRIMARY KEY (`deptnum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -118,7 +140,7 @@ CREATE TABLE `app_lab` (
   `section` varchar(120) NOT NULL,
   `course_id` varchar(120) DEFAULT NULL,
   `event_id` int(11) DEFAULT NULL,
-  `lecture_id` int(11),
+  `lecture_id` int(11) DEFAULT NULL,
   `tutorial_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `event_id` (`event_id`),
@@ -174,6 +196,205 @@ LOCK TABLES `app_lecture` WRITE;
 /*!40000 ALTER TABLE `app_lecture` DISABLE KEYS */;
 INSERT INTO `app_lecture` VALUES (1,'CC','Summer2',0,'ELEC275',1),(2,'T','Fall',0,'ELEC275',8),(3,'V','Fall',0,'ELEC275',13),(4,'JJ','Winter',0,'ELEC275',20),(5,'AA','Summer1',0,'ENCS282',29),(6,'AB','Summer1',0,'ENCS282',33),(7,'CC','Summer2',0,'ENCS282',37),(8,'A','Fall',0,'ENCS282',41),(9,'B','Fall',0,'ENCS282',46),(10,'BB','Fall',0,'ENCS282',51),(11,'Y','Winter',0,'ENCS282',56),(12,'EE','Winter',0,'ENCS282',61),(13,'AA','Summer1',0,'ENGR201',67),(14,'G','Fall',0,'ENGR201',72),(15,'H','Fall',0,'ENGR201',77),(16,'Q','Winter',0,'ENGR201',82),(17,'EC','Winter',0,'ENGR201',87),(18,'AA','Summer1',0,'ENGR202',92),(19,'G','Fall',0,'ENGR202',93),(20,'H','Fall',0,'ENGR202',94),(21,'R','Winter',0,'ENGR202',95),(22,'SS','Winter',0,'ENGR202',96),(23,'AA','Summer1',0,'ENGR213',97),(24,'P','Fall',0,'ENGR213',100),(25,'R','Fall',0,'ENGR213',103),(26,'T','Fall',0,'ENGR213',106),(27,'U','Fall',0,'ENGR213',109),(28,'V','Fall',0,'ENGR213',112),(29,'X','Fall',0,'ENGR213',115),(30,'XX','Fall',0,'ENGR213',118),(31,'F','Winter',0,'ENGR213',121),(32,'G','Winter',0,'ENGR213',127),(33,'J','Winter',0,'ENGR213',134),(34,'CC','Summer2',0,'ENGR233',139),(35,'P','Fall',0,'ENGR233',145),(36,'Q','Fall',0,'ENGR233',148),(37,'J','Winter',0,'ENGR233',151),(38,'R','Winter',0,'ENGR233',155),(39,'S','Winter',0,'ENGR233',159),(40,'T','Winter',0,'ENGR233',163),(41,'U','Winter',0,'ENGR233',167),(42,'V','Winter',0,'ENGR233',171),(43,'X','Winter',0,'ENGR233',175),(44,'AA','Summer1',0,'ENGR301',179),(45,'AB','Summer1',0,'ENGR301',184),(46,'G','Fall',0,'ENGR301',189),(47,'H','Fall',0,'ENGR301',194),(48,'FF','Fall',0,'ENGR301',199),(49,'II','Fall',0,'ENGR301',204),(50,'R','Winter',0,'ENGR301',209),(51,'SS','Winter',0,'ENGR301',214),(52,'CC','Summer2',0,'ENGR371',219),(53,'CD','Summer2',0,'ENGR371',223),(54,'R','Fall',0,'ENGR371',227),(55,'S','Fall',0,'ENGR371',230),(56,'FF','Fall',0,'ENGR371',233),(57,'T','Winter',0,'ENGR371',236),(58,'W','Winter',0,'ENGR371',239),(59,'UU','Winter',0,'ENGR371',242),(60,'AA','Summer1',0,'ENGR392',245),(61,'AB','Summer1',0,'ENGR392',246),(62,'CC','Summer2',0,'ENGR392',247),(63,'D','Fall',0,'ENGR392',248),(64,'F','Fall',0,'ENGR392',249),(65,'EE','Fall',0,'ENGR392',250),(66,'P','Winter',0,'ENGR392',251),(67,'Q','Winter',0,'ENGR392',252),(68,'RR','Winter',0,'ENGR392',253),(69,'H','Winter',0,'SOEN228',254),(70,'DD','Winter',0,'SOEN228',264),(71,'CC','Summer2',0,'SOEN287',272),(72,'Q','Fall',0,'SOEN287',275),(73,'S','Winter',0,'SOEN287',278),(74,'U','Winter',0,'SOEN287',281),(75,'GG','Fall',0,'SOEN321',286),(76,'U','Winter',0,'SOEN331',289),(77,'H','Fall',0,'SOEN341',292),(78,'S','Winter',0,'SOEN341',295),(79,'H','Fall',0,'SOEN342',299),(80,'H','Fall',0,'SOEN343',302),(81,'S','Winter',0,'SOEN344',305),(82,'S','Winter',0,'SOEN345',307),(83,'S','Winter',0,'SOEN357',310),(84,'F','Fall',0,'SOEN384',312),(85,'S','Winter',0,'SOEN385',314),(86,'S','Winter',0,'SOEN390',318),(87,'SS','Fall&Winter;',0,'SOEN490',323),(88,'AA','Summer1',0,'COMP232',326),(89,'Q','Fall',0,'COMP232',328),(90,'R','Fall',0,'COMP232',331),(91,'DD','Fall',0,'COMP232',334),(92,'S','Winter',0,'COMP232',337),(93,'NN','Winter',0,'COMP232',340),(94,'AA','Summer1',0,'COMP248',343),(95,'Q','Fall',0,'COMP248',347),(96,'R','Fall',0,'COMP248',352),(97,'EE','Fall',0,'COMP248',356),(98,'U','Winter',0,'COMP248',360),(99,'W','Winter',0,'COMP248',363),(100,'CC','Summer2',0,'COMP249',366),(101,'D','Fall',0,'COMP249',369),(102,'S','Winter',0,'COMP249',372),(103,'U','Winter',0,'COMP249',375),(104,'PP','Winter',0,'COMP249',378),(105,'AA','Summer1',0,'COMP335',383),(106,'E','Fall',0,'COMP335',386),(107,'G','Fall',0,'COMP335',389),(108,'N','Winter',0,'COMP335',391),(109,'CC','Summer2',0,'COMP346',393),(110,'DD','Fall',0,'COMP346',398),(111,'NN','Winter',0,'COMP346',403),(112,'WW','Winter',0,'COMP346',408),(113,'CC','Summer2',0,'COMP348',413),(114,'U','Fall',0,'COMP348',417),(115,'DD','Fall',0,'COMP348',420),(116,'E','Winter',0,'COMP348',423),(117,'AA','Summer1',0,'COMP352',426),(118,'G','Fall',0,'COMP352',429),(119,'H','Fall',0,'COMP352',433),(120,'X','Winter',0,'COMP352',436),(121,'AA','Summer1',0,'ENGR391',439),(122,'CC','Summer2',0,'ENGR391',442),(123,'F','Fall',0,'ENGR391',445),(124,'M','Fall',0,'ENGR391',448),(125,'S','Fall',0,'ENGR391',452),(126,'V','Winter',0,'ENGR391',455),(127,'X','Winter',0,'ENGR391',458),(128,'UU','Winter',0,'ENGR391',461),(129,'DD','Fall',0,'COMP361',464),(130,'NN','Winter',0,'COMP361',466),(131,'01','Winter',0,'BIOL206',468),(132,'01','Fall',0,'BIOL226',469),(133,'02','Winter',0,'BIOL226',470),(134,'01','Fall',0,'BIOL261',471),(135,'02','Winter',0,'BIOL261',480),(136,'51','Winter',0,'BIOL261',487),(137,'AA','Winter',0,'CHEM209',492),(138,'01','Fall',0,'CHEM217',493),(139,'51','Fall',0,'CHEM217',501),(140,'01','Fall',0,'CHEM221',509),(141,'51','Fall',0,'CHEM221',518),(142,'02','Winter',0,'CHEM221',527),(143,'52','Winter',0,'CHEM221',535),(144,'01','Fall',0,'CHEM234',543),(145,'51','Fall',0,'CHEM234',544),(146,'02','Winter',0,'CHEM234',545),(147,'01','Winter',0,'PHYS252',546),(148,'01','Fall',0,'PHYS253',547),(149,'01','Fall',0,'PHYS334',548),(150,'01','Winter',0,'PHYS354',549),(151,'EC','Summer1',0,'AHSC242',550),(152,'EC','Fall',0,'AHSC242',551),(153,'EC','Winter',0,'AHSC242',552),(154,'EC','Summer1',0,'ANTH202',553),(155,'A','Fall',0,'ANTH202',554),(156,'EC','Fall',0,'ANTH202',563),(157,'B','Winter',0,'ANTH202',564),(158,'EC','Winter',0,'ANTH202',565),(159,'EC','Summer1',0,'ECON201',566),(160,'A','Fall',0,'ECON201',567),(161,'B','Fall',0,'ECON201',571),(162,'C','Fall',0,'ECON201',575),(163,'D','Fall',0,'ECON201',579),(164,'E','Fall',0,'ECON201',583),(165,'F','Fall',0,'ECON201',585),(166,'EC','Fall',0,'ECON201',587),(167,'G','Winter',0,'ECON201',588),(168,'H','Winter',0,'ECON201',592),(169,'I','Winter',0,'ECON201',596),(170,'J','Winter',0,'ECON201',598),(171,'K','Winter',0,'ECON201',600),(172,'L','Winter',0,'ECON201',602),(173,'EC','Winter',0,'ECON201',604),(174,'EC','Summer1',0,'ECON203',605),(175,'A','Fall',0,'ECON203',606),(176,'B','Fall',0,'ECON203',610),(177,'C','Fall',0,'ECON203',614),(178,'D','Fall',0,'ECON203',616),(179,'EC','Fall',0,'ECON203',618),(180,'E','Winter',0,'ECON203',619),(181,'F','Winter',0,'ECON203',623),(182,'G','Winter',0,'ECON203',627),(183,'H','Winter',0,'ECON203',631),(184,'I','Winter',0,'ECON203',633),(185,'EC','Winter',0,'ECON203',635),(186,'AA','Summer1',0,'EDUC230',636),(187,'BB','Fall',0,'EDUC230',637),(188,'CC','Winter',0,'EDUC230',638),(189,'CC','Summer2',0,'ENCS483',639),(190,'DD','Fall',0,'ENCS483',640),(191,'W','Winter',0,'ENCS483',641),(192,'A','Fall',0,'GEOG203',642),(193,'AA','Winter',0,'GEOG204',643),(194,'A','Winter',0,'GEOG210',644),(195,'A','Fall',0,'GEOG220',645),(196,'A','Winter',0,'GEOG220',646),(197,'AA','Fall',0,'INST250',647),(198,'EC','Fall',0,'INST250',648),(199,'51','Winter',0,'INST250',649),(200,'EC','Winter',0,'INST250',650),(201,'A','Fall',0,'LING222',651),(202,'B','Winter',0,'LING222',652),(203,'A','Fall',0,'LING300',653),(204,'AA','Winter',0,'LING300',654),(205,'EC','Summer1',0,'POLI202',655),(206,'EC','Fall',0,'POLI202',656),(207,'EC','Winter',0,'POLI202',657),(208,'A','Fall',0,'RELI214',658),(209,'B','Winter',0,'RELI214',659),(210,'A','Winter',0,'RELI215',660),(211,'A','Fall',0,'RELI310',661),(212,'A','Fall',0,'RELI312',662),(213,'A','Winter',0,'RELI312',663),(214,'EC','Summer2',0,'SCPA201',664),(215,'A','Fall',0,'SCPA201',665),(216,'EC','Fall',0,'SCPA201',666),(217,'A','Fall',0,'SCPA215',667),(218,'A','Fall',0,'SOCI203',668),(219,'B','Fall',0,'SOCI203',681),(220,'C','Winter',0,'SOCI203',682),(221,'D','Winter',0,'SOCI203',683),(222,'A','Fall',0,'WSDB290',684),(223,'AA','Fall',0,'WSDB290',685),(224,'B','Winter',0,'WSDB290',686),(225,'A','Fall',0,'WSDB291',687),(226,'B','Winter',0,'WSDB291',688),(227,'AA','Winter',0,'WSDB291',689),(228,'A','Fall',0,'ARTH353',690),(229,'AA','Winter',0,'ARTH353',691),(230,'AA','Fall',0,'CLAS266',692),(231,'A','Winter',0,'CLAS266',693),(232,'01','Fall',0,'COMS360',694),(233,'51','Winter',0,'COMS360',695),(234,'A','Winter',0,'FLIT230',696),(235,'A','Fall',0,'FMST214',697),(236,'A','Winter',0,'FMST215',698),(237,'X','Fall',0,'HIST201',699),(238,'Y','Fall',0,'HIST201',700),(239,'XX','Fall',0,'HIST201',701),(240,'X','Winter',0,'HIST202',702),(241,'Y','Winter',0,'HIST202',703),(242,'XX','Winter',0,'HIST202',704),(243,'B','Winter',0,'HIST205',705),(244,'AA','Winter',0,'HIST205',706),(245,'A','Winter',0,'HIST281',707),(246,'A','Winter',0,'HIST283',708),(247,'AA','Summer1',0,'PHIL201',709),(248,'A','Fall',0,'PHIL201',710),(249,'B','Winter',0,'PHIL201',711),(250,'EC','Fall',0,'PHIL210',712),(251,'EC','Winter',0,'PHIL210',713),(252,'A','Fall',0,'PHIL232',714),(253,'B','Winter',0,'PHIL232',715),(254,'EC','Summer1',0,'PHIL235',716),(255,'EC','Fall',0,'PHIL235',717),(256,'EC','Winter',0,'PHIL235',718),(257,'A','Winter',0,'PHIL275',719),(258,'A','Fall',0,'PHIL330',720),(259,'A','Fall',0,'THEO202',721),(260,'A','Winter',0,'THEO202',722),(261,'EC','Summer1',0,'THEO204',723),(262,'EC','Winter',0,'THEO204',724),(263,'AA','Summer1',0,'THEO233',725),(264,'D','Fall',0,'COMP345',726),(265,'N','Fall',0,'COMP345',729),(266,'S','Winter',0,'COMP345',732),(267,'CC','Summer2',0,'COMP353',735),(268,'F','Fall',0,'COMP353',739),(269,'W','Winter',0,'COMP353',743),(270,'CC','Summer2',0,'COMP371',748),(271,'UU','Fall',0,'COMP371',752),(272,'WW','Winter',0,'COMP371',755),(273,'NN','Fall',0,'COMP426',758),(274,'FF','Fall',0,'COMP428',761),(275,'NN','Winter',0,'COMP442',766),(276,'D','Fall',0,'COMP445',769),(277,'W','Winter',0,'COMP445',772),(278,'N','Fall',0,'COMP465',775),(279,'F','Fall',0,'COMP472',777),(280,'NN','Winter',0,'COMP472',781),(281,'DD','Fall',0,'COMP473',785),(282,'UU','Winter',0,'COMP474',789),(283,'DD','Fall',0,'COMP478',793),(284,'D','Fall',0,'COMP479',796),(285,'W','Winter',0,'SOEN298',800),(286,'MM','Fall',0,'SOEN422',801),(287,'H','Fall',0,'SOEN423',805),(288,'W','Summer1',0,'ENGR411',808),(289,'BB','Summer1',0,'ENGR411',809),(290,'F','Fall',0,'ENGR411',810),(291,'W','Winter',0,'ENGR411',811),(292,'X','Winter',0,'ENGR411',812),(299,'W','Fall',0,'COMP376',832),(300,'X','Fall',0,'COMP376',836),(303,'N','Winter',0,'COMP476',848),(304,'N','Fall',0,'COMP477',852),(311,'F','Fall',0,'SOEN387',878),(312,'NN','Winter',0,'SOEN487',881),(313,'XX','Fall',0,'AERO480',884),(314,'X','Fall',0,'AERO482',892),(316,'S','Fall',0,'COEN320',894),(644,'JK','Winter',0,NULL,1824),(645,'JK','Winter',0,NULL,1825),(646,'JK','Winter',0,NULL,1826);
 /*!40000 ALTER TABLE `app_lecture` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `app_option`
+--
+
+DROP TABLE IF EXISTS `app_option`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_option` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(120) NOT NULL,
+  `option` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `academicprogram_id` int(11) NOT NULL,
+  `course_id` varchar(120) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `app_option_15134093` (`academicprogram_id`),
+  KEY `app_option_ea134da7` (`course_id`),
+  CONSTRAINT `app_option_course_id_308df1ed_fk_app_course_deptnum` FOREIGN KEY (`course_id`) REFERENCES `app_course` (`deptnum`),
+  CONSTRAINT `app_option_academicprogram_id_4164b3c1_fk_app_academicprogram_id` FOREIGN KEY (`academicprogram_id`) REFERENCES `app_academicprogram` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app_option`
+--
+
+LOCK TABLES `app_option` WRITE;
+/*!40000 ALTER TABLE `app_option` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_option` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `app_professor`
+--
+
+DROP TABLE IF EXISTS `app_professor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_professor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isEngineer` tinyint(1) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  CONSTRAINT `app_professor_user_id_5ca57ee7_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app_professor`
+--
+
+LOCK TABLES `app_professor` WRITE;
+/*!40000 ALTER TABLE `app_professor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_professor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `app_programdirector`
+--
+
+DROP TABLE IF EXISTS `app_programdirector`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_programdirector` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `department` varchar(120) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  CONSTRAINT `app_programdirector_user_id_30982487_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app_programdirector`
+--
+
+LOCK TABLES `app_programdirector` WRITE;
+/*!40000 ALTER TABLE `app_programdirector` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_programdirector` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `app_student`
+--
+
+DROP TABLE IF EXISTS `app_student`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_student` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `homephone` int(11) NOT NULL,
+  `cellphone` int(11) NOT NULL,
+  `address` varchar(120) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `IDNumber` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`),
+  CONSTRAINT `app_student_user_id_4dacc665_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app_student`
+--
+
+LOCK TABLES `app_student` WRITE;
+/*!40000 ALTER TABLE `app_student` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_student` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `app_studentrecord`
+--
+
+DROP TABLE IF EXISTS `app_studentrecord`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_studentrecord` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `GPA` double NOT NULL,
+  `currentStanding` varchar(120) NOT NULL,
+  `currentCredits` double NOT NULL,
+  `remainingCredits` double NOT NULL,
+  `academicProgram_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `app_studentrecord_5f4ad74d` (`academicProgram_id`),
+  CONSTRAINT `app_studen_academicProgram_id_79f7ddf3_fk_app_academicprogram_id` FOREIGN KEY (`academicProgram_id`) REFERENCES `app_academicprogram` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app_studentrecord`
+--
+
+LOCK TABLES `app_studentrecord` WRITE;
+/*!40000 ALTER TABLE `app_studentrecord` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_studentrecord` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `app_studentrecord_coursesTaken`
+--
+
+DROP TABLE IF EXISTS `app_studentrecord_coursesTaken`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_studentrecord_coursesTaken` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `studentrecord_id` int(11) NOT NULL,
+  `course_id` varchar(120) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `studentrecord_id` (`studentrecord_id`,`course_id`),
+  KEY `app_studentrecord_coursesTaken_e2d76079` (`studentrecord_id`),
+  KEY `app_studentrecord_coursesTaken_ea134da7` (`course_id`),
+  CONSTRAINT `app_studentrecord_cours_course_id_6e3f6543_fk_app_course_deptnum` FOREIGN KEY (`course_id`) REFERENCES `app_course` (`deptnum`),
+  CONSTRAINT `app_studentrec_studentrecord_id_2335c436_fk_app_studentrecord_id` FOREIGN KEY (`studentrecord_id`) REFERENCES `app_studentrecord` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app_studentrecord_coursesTaken`
+--
+
+LOCK TABLES `app_studentrecord_coursesTaken` WRITE;
+/*!40000 ALTER TABLE `app_studentrecord_coursesTaken` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_studentrecord_coursesTaken` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `app_studentrecord_registeredCourses`
+--
+
+DROP TABLE IF EXISTS `app_studentrecord_registeredCourses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `app_studentrecord_registeredCourses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `studentrecord_id` int(11) NOT NULL,
+  `course_id` varchar(120) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `studentrecord_id` (`studentrecord_id`,`course_id`),
+  KEY `app_studentrecord_registeredCourses_e2d76079` (`studentrecord_id`),
+  KEY `app_studentrecord_registeredCourses_ea134da7` (`course_id`),
+  CONSTRAINT `app_studentrecord_regis_course_id_73a37e93_fk_app_course_deptnum` FOREIGN KEY (`course_id`) REFERENCES `app_course` (`deptnum`),
+  CONSTRAINT `app_studentrec_studentrecord_id_3dfe69e6_fk_app_studentrecord_id` FOREIGN KEY (`studentrecord_id`) REFERENCES `app_studentrecord` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app_studentrecord_registeredCourses`
+--
+
+LOCK TABLES `app_studentrecord_registeredCourses` WRITE;
+/*!40000 ALTER TABLE `app_studentrecord_registeredCourses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_studentrecord_registeredCourses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -457,7 +678,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -466,7 +687,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (2,'auth','0001_initial','2015-02-15 22:52:39'),(3,'admin','0001_initial','2015-02-15 22:52:40'),(4,'sessions','0001_initial','2015-02-15 22:52:40'),(9,'contenttypes','0001_initial','2015-03-16 19:25:26'),(18,'app','0001_initial','2015-03-24 22:37:34'),(19,'app','0002_auto_20150324_2157','2015-03-25 01:58:03'),(20,'app','0003_auto_20150324_2359','2015-03-25 03:59:38');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2015-03-28 06:53:57'),(2,'auth','0001_initial','2015-03-28 06:54:02'),(3,'admin','0001_initial','2015-03-28 06:54:03'),(4,'app','0001_initial','2015-03-28 06:54:17'),(5,'app','0002_student','2015-03-28 06:54:19'),(6,'app','0003_auto_20150327_2131','2015-03-28 06:54:20'),(7,'app','0004_auto_20150328_0034','2015-03-28 06:54:21'),(8,'app','0005_studentrecord','2015-03-28 06:54:23'),(9,'app','0006_professor_programdirector','2015-03-28 06:54:27'),(10,'sessions','0001_initial','2015-03-28 06:54:29');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -505,4 +726,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-25 20:46:48
+-- Dump completed on 2015-03-28  2:58:06
