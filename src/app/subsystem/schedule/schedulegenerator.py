@@ -30,17 +30,19 @@ class ScheduleGenerator(object):
                 return True
 
         return False
+    #end doDaysConflict
+
 
     """
     Takes two sections, and determines if time conflicts. Sections can be of any type, lecture/tut/lab
     """
-
     def doTimesConflict(section1, section2):
 
         if section1.event.starttime < section2.event.endtime and section1.event.endtime > section2.event.starttime:
             return True
         else:
             return False
+    # end doTimesConflict
 
     #TODO: Also incomplete, not sure if we even need
     def comparetoLabTutLect(section1,section2):
@@ -79,6 +81,8 @@ class ScheduleGenerator(object):
 
 	# take 1 lab and compare with another lab, or tutorial if no lab
     # or lecture if no lab/tut
+    # end compareLabTutLect
+
     #TODO: This isn't complete, not sure if we still need this
     def conflicts(section1, section2):
 
@@ -96,6 +100,7 @@ class ScheduleGenerator(object):
 
             if "Lab" in type(section2):
                 lab2days = section2.event.days
+    # end conflicts
 
     """
     coursename is pk deptnum i.e SOEN341
@@ -220,10 +225,7 @@ class ScheduleGenerator(object):
 
 
         return nolabconf
-
-
-
-
+    # end findUnconflictingSections
 
     def __init__(self):
         self.studentPreferences = None
