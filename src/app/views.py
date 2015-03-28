@@ -73,6 +73,8 @@ def register(request):
             message.append("Please fill in the email address block")
 
         if (password1 == password2) and (message == []):
+            # Everything checks out and is all working fine :)
+            # Create the Standard User first and try storing it in the database
             standardUser.set_password(password1)
             standardUser.username = username
             standardUser.email = email
@@ -81,11 +83,11 @@ def register(request):
             standardUser.is_active = True
             standardUser.is_staff = False
             standardUser.is_superuser = False
-            standardUser.save()
-            studentUser.save()
-            standardUser.student = studentUser
+            standardUser.save() # Save the Django user in the Database.
+
+            # Now let's try putting that Student user in the DB
             studentUser.user = standardUser
-            standardUser.save()
+            # standardUser.save()
             studentUser.save()
 
             isregistered = True
