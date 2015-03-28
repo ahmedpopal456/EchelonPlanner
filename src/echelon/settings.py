@@ -37,12 +37,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app.subsystem.courses',
-    'app.subsystem.event',
-    'app.subsystem.usermanagement',
-    'app.subsystem.usermanagement.student',
     'django.contrib.admindocs',
-    'app'
+    'app',
+    'app.subsystem'
 )
 
 MIDDLEWARE_CLASSES = (
