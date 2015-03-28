@@ -157,7 +157,7 @@ def logouthandler(request):
 def error_404(request):
     return render(
         request,
-        'app/error_404.html'
+        '404.html'
     )
 
 
