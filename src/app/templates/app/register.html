@@ -34,8 +34,8 @@
                     {% csrf_token %}
                     <h2 class="form-signin-heading">Login Details</h2>
 
-                    <label for="inputUser" class="sr-only">Enter Username</label>
-                    <input id="inputUser" class="form-control" placeholder="Enter Username" name="username" autofocus="" type="text">
+                    <label for="inputEmail" class="sr-only">Enter Email</label>
+                    <input id="inputEmail" class="form-control" placeholder="Enter Email" name="email" type="email">
 
                     <!-- TODO: ADD a javascript file to compare password1 and password2 and prevent the submission from taking place
                             if password1!=password2-->
@@ -55,10 +55,10 @@
                     <label for="inputLName" class="sr-only">Enter Last Name</label>
                     <input id="inputLName" class="form-control" placeholder="Enter Last Name" name="lastname" type="text">
 
-                    <!-- TODO: Check email correctness somehow! -->
+                    <!-- TODO: Check ID is between 6 and 7 digits clientside-->
 
-                    <label for="inputEmail" class="sr-only">Enter Email</label>
-                    <input id="inputEmail" class="form-control" placeholder="Enter Email" name="email" type="email">
+                    <label for="idNum" class="sr-only">Enter Email</label>
+                    <input id="idNum" class="form-control" placeholder="Enter your Student ID" name="idnum" type="text">
 
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
                 </form>
