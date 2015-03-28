@@ -1,3 +1,2 @@
-from app.subsystem.event.event import Event
-
+from .event import Event
 __all__ = ['Event']
