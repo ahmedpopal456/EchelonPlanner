@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'app.subsystem.courses',
     'app.subsystem.event',
+    'app.subsystem.usermanagement',
+    'app.subsystem.usermanagement.student',
     'django.contrib.admindocs',
     'app'
 )
