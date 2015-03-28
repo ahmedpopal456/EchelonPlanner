@@ -61,7 +61,7 @@ class CourseCatalog(object):
             logger.warn("Course not found: " + department + str(number) + ". Cannot modify Credits")
             return False
 
-    def addCourse(name, number, department, credits=None):
+    def addCourse(self, name, number, department, credits=None):
 
         if len(Course.objects.filter(pk=department + str(number))) is not 0:
             logger.warn("Course already exists: " + department + str(number) + ". Cannot add")
