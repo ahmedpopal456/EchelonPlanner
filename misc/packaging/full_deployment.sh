@@ -33,12 +33,90 @@
 
 checkArguments()
 { #Verify the arguments being taken into this function coincide with any of the expected
-    echo "HI"
+    #1st argument is $1
+    # 1. Argument is empty
+    if [[ -z $1 ]]
+    then
+        echo "No Arguments Found. Try typing \'help\' for argument list"
+    fi
+
+    ### 2. Install ###
+    if [[ $1 = "install" ]]
+    then
+        #2.1 all
+        if [[ $1 = "all" ]]
+        then
+            echo "Installing all parts of EchelonPlanner"
+            installDependencies
+            unpackageTar
+            configureDependencies
+        fi
+        #2.2 dependencies
+        if [[ $1 = "dependencies" ]]
+        then
+            echo "Installing Dependencies Only"
+            installDependencies
+            configureDependencies
+        fi
+        #2.3 nigthly
+        if [[ $1 = "nightly" ]]
+        then
+            echo "VerifyingDependencies"
+            #If you're doing a nightly installation, I'll assume you have all the necessary dependencies
+            verifyDependencies
+            getDevelepmentSource
+            doEchelonTests
+        fi
+        #2.4 echelon
+        if [[ $1 = "echelon" ]]
+        then
+            unpackageTar
+            configureDependencies
+        fi
+    fi
+
+    ### 3. Uninstall ###
+    if [[ $1 = "uninstall" ]]
+    then
+        uninstallEchelon
+        uninstallAllDependencies
+        echo "Removing all"
+    fi
+
+    ### 4. Verify ###
+    if [[ $1 = "verify" ]]
+    then
+        verifyDependencies
+    fi
+
+    ### 5. test ###
+    if [[ $1 = "test" ]]
+    then
+        doEchelonTests
+    fi
+
+    # 6. time dilation
+    if [[ $1 = "time-dilation" ]]
+    then
+        doTimeDilation
+    fi
+
+    echo "Deployment Script Complete."
 
 }
 
 installDependencies()
 { #Do all the "apt-get installs" and "pip install" here
+    checkApt = $(which apt-get)
+    if [[ -z checkApt ]] # If we don't have apt-get, then exit
+    then
+        echo "Package Manager \'apt-get\' is not available in this system"
+        echo "Aborting"
+        exit
+    fi
+    apt-get install --install-suggests python3
+    apt-get install mysql-server mysql-client
+    apt-get install apache
     echo "INSTALL"
 }
 
@@ -70,7 +148,7 @@ uninstallAllDependencies()
 
 }
 
-verifyDependecies()
+verifyDependencies()
 { # See that all needed packages exist
     echo "checking"
 }
