@@ -77,7 +77,7 @@ class CourseCatalog(object):
             c.save()
             return True
 
-    def addLectureToCourse(section, department, number, starttime, endtime, days, semester, location, isOnline):
+    def addLectureToCourse(self, section, department, number, starttime, endtime, days, semester, location, isOnline):
 
         try:
             c = Course.objects.get(pk=(department + str(number)))
@@ -97,7 +97,7 @@ class CourseCatalog(object):
             return False
 
 
-    def removeLecture(section, department, number, semester):  #removes any labs/tut under
+    def removeLecture(self, section, department, number, semester):  #removes any labs/tut under
 
         primarykey = department + str(number);
         try:
@@ -114,7 +114,7 @@ class CourseCatalog(object):
             return False
 
 
-    def labToCourse(self, number, section, starttime, endtime, days, semester, location, department):
+    def labToCourse(self, section, department, number, starttime, endtime, days, semester, location):
 
 
         e = Event(days=days, starttime=starttime, endtime=endtime, location=location, semester=semester)
