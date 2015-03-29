@@ -39,6 +39,41 @@ def home(request):
     )
 
 
+
+
+@login_required
+@cache_control(no_cache=True, must_revalidate=True)
+def menu(request):
+    if request.user.is_authenticated():
+        return render(
+            request,
+            'app/menu.html'
+        )
+    else:
+        return register(request)
+
+
+def loginhandler(request):
+    # Handle login at any level and redirect to Menu.html
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            # If successful,
+            login(request, user)
+            return HttpResponseRedirect('/')  # This eliminates the loginhandler from the path
+
+        else:
+            # print ("Invalid login details: {0}, {1}".format(username, password))
+            return render(request,
+                          'app/login.html',
+                          {'hasMessage': True, 'message': 'Login not successful. Check your username and password.'})
+# End loginhandler()
+
+
 def register(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
@@ -118,41 +153,62 @@ def register(request):
     else:  # Request is not Post, just serve the damn page
         return render(request,
                   'app/register.html')
-
 # End Register Method
 
 
 @login_required
-@cache_control(no_cache=True, must_revalidate=True)
-def menu(request):
-    if request.user.is_authenticated():
-        return render(
-            request,
-            'app/menu.html'
-        )
-    else:
-        return register(request)
+def user_profile(request):
+    # Request Dictionary
+    all_info = {}
+    specific_info ={}
+    # Get all user information
+    mainProfile = request.user
+    all_info['firstname'] = mainProfile.first_name
+    all_info['lastname'] = mainProfile.last_name
+    all_info['email'] = mainProfile.email
+    all_info['dateJoined'] = mainProfile.date_joined
+    all_info['lastLogin'] = mainProfile.last_login
+
+    # Check for specific info
+    a = Student.objects.get(user_id=mainProfile.id)
+    if a:
+        specificProfile = a
+        specific_info = specificProfile.__unicode__()
+        specific_info['professor']=False
+
+    all_info.update(specific_info)
+
+    logger.debug(all_info)
+    return render(
+        request,
+        'app/user_profile.html',
+        all_info
+    )
+# end user_profile
 
 
-def loginhandler(request):
-    # Handle login at any level and redirect to Menu.html
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+@login_required
+def change_pass(request):
+    loadPage = 'app/change_pass.html'
+    message = str()
 
-        user = authenticate(username=username, password=password)
-
-        if user:
-            # If successful,
-            login(request, user)
-            return HttpResponseRedirect('/')  # This eliminates the loginhandler from the path
-
+    if request.method=='POST':
+        password1 = request.POST['password1']
+        if password1==request.POST['password2']:
+            request.user.set_password(password1)
+            request.user.save()
+            message = "Password Successfully Updated"
+            loadPage = str() # Automatically redirects to main profile page
         else:
-            # print ("Invalid login details: {0}, {1}".format(username, password))
-            return render(request,
-                          'app/login.html',
-                          {'hasMessage': True, 'message': 'Login not successful. Check your username and password.'})
-# End loginhandler()
+            message = "Error: Inputs did not match. Please Try Again."
+    # end if request is POST
+
+    return render(
+        request,
+        'app/user_profile.html',
+        {'alternate': loadPage, 'message': message}
+    )
+# end change_pass
 
 
 def logouthandler(request):
@@ -174,26 +230,10 @@ def error_404(request):
 
 
 @login_required
-def user_profile(request):
-    return render(
-        request,
-        'app/user_profile.html'
-    )
-
-
-@login_required
 def change_details(request):
     return render(
         request,
         'app/change_details.html'
-    )
-
-
-@login_required
-def change_pass(request):
-    return render(
-        request,
-        'app/change_pass.html'
     )
 
 

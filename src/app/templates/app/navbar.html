@@ -21,6 +21,7 @@
 
     <div class="container-fluid">
         <ul class="nav nav-tabs">
+            <li><a href="/" title="Home">Home</a></li>
             <li class="active"><a data-toggle="tab" href="#sectionA" title="Manage your schedule and registration">
                 Schedule Management</a></li>
             <li><a data-toggle="tab" href="#sectionB" title="View your student record and online profile">
@@ -32,6 +33,7 @@
         </ul>
     </div>
 
+    <!-- Inner Tab contents -->
     <div class="tab-content">
         <!-- Schedule Tab -->
         <div id="sectionA" class="tab-pane fade in active">
@@ -49,18 +51,24 @@
         <!-- Profile Tab -->
         <div id="sectionB" class="tab-pane fade">
             <ul class="list-inline">
-                <li class="active"><a href="/user_profile">profile</a></li>
-                <li class=""><a href="/change_details">details</a></li>
-                <li class=""><a href="/change_email">details</a></li>
-                <li class=""><a href="/change_pass">details</a></li>
+                <li class="active"><a href="/user_profile">Inspect</a></li>
+                <li class="active">|</li>
+                <li class=""><a href="/change_details">Modify Details</a></li>
+                <li class="active">|</li>
+                <li class=""><a href="/change_email">Change Email</a></li>
+                <li class="active">|</li>
+                <li class=""><a href="/change_pass">Change Password</a></li>
             </ul>
         </div>
 
         <!-- Tools and external sites Tab -->
         <div id="sectionC" class="tab-pane fade">
             <ul class="list-inline">
-                <li class="active"><a href="/">CAPTAIN</a></li>
-                <li class=""><a href="/work_in_progress">FALCON</a></li>
+                <li class="active"><a href="/">[concordia]</a></li>
+                <li class="active">|</li>
+                <li class=""><a href="/work_in_progress">[external links]</a></li>
+                <li class="active">|</li>
+                <li class=""><a href="/work_in_progress">[]</a></li>
             </ul>
         </div>
     </div>
