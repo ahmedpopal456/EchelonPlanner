@@ -9,7 +9,12 @@ class Tutorial(models.Model):
     lecture = models.ForeignKey(Lecture, primary_key=False, null=True)
     event = models.OneToOneField(Event, null=True)
 
+    def __str__(self):
+        return (self.section)
+
     class Meta:
         unique_together = ('section', 'course', 'lecture')
         app_label = 'app'
         managed= True
+
+# End class Tutorial
