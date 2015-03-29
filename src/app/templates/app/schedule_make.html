@@ -44,7 +44,7 @@
 
                 <h2>Select Elective Courses</h2>
                 {% for number in numberOfElectives %}
-                    <label for="totalNumber" class="control-label input-group">Elective {{ number }}:</label>
+                    <label for="totalNumber" class="control-label input-group">Elective {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order%}:</label>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle form-control"
                                 data-toggle="dropdown">
