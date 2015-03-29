@@ -160,12 +160,20 @@ installPythonDependencies()
 #        echo "Dependencies NOT met. Aborting"
 #        exit
 #    fi
+    python3 -m pip install virtualenv
+    echo "Creating Virtual Env"
+    mkdir /var/www/echelon
+    python3 -m virtualenv /var/www/echelon/env
+
+
+
     true_pip="python3 -m pip"
 
-    $true_pip install django
-    $true_pip install --allow-all-external mysql-connector-python
-    $true_pip install django-enumfield
-
+    pip install django
+    pip install --allow-all-external mysql-connector-python
+    pip install django-enumfield
+    pip install mod_wsgi
+    mod_wsgi-express install-module
 }
 
 configureDependencies()

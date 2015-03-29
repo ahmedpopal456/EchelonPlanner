@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'app',
     'sslserver',
-    # 'app.subsystem'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,13 +56,17 @@ ROOT_URLCONF = 'echelon.urls'
 
 WSGI_APPLICATION = 'echelon.wsgi.application'
 
-SESSION_COOKIE_SECURE = True
-
-CSRF_COOKIE_SECURE = True
-
-SESSION_EXPIRE_AT_BROWSER_CLOSE=True
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# NOTE:
+# To use SSL, uncomment the following lines and run
+#  "manage.py runsslserver"
+#
+# SESSION_COOKIE_SECURE = True
+#
+# CSRF_COOKIE_SECURE = True
+#
+# SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+#
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Default Login URL
