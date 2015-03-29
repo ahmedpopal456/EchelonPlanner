@@ -48,7 +48,7 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle form-control"
                                 data-toggle="dropdown">
-                            <span name = "choice" data-bind="label">Select One</span>&nbsp;<span class="caret"></span>
+                            <span name = "choice {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order%}" data-bind="label">Select One</span>&nbsp;<span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
                             {% for elective in availableElectives %}
