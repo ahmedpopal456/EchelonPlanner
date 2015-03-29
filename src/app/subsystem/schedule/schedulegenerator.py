@@ -34,7 +34,7 @@ class ScheduleGenerator(object):
 
 
     """
-    Takes two sections, and determines if time conflicts. Sections can be of any type, lecture/tut/lab
+    Takes two sections, and determines if time conflicts. Sections can be of any type, lecture/tut/labt
     """
     def doTimesConflict(section1, section2):
 

@@ -23,7 +23,7 @@ class StudentRecord(models.Model):
     GPA = models.FloatField(default=4.0, primary_key=False)
     currentStanding = models.CharField(max_length=120, null=False, blank=False, default="Good", primary_key=False)
     currentCredits = models.FloatField(default=0, primary_key=False)
-    remainingCredits = models.FloatField(default=0, primary_key=False)
+    remainingCredits = models.FloatField(default=120, primary_key=False)
 
     def viewStudentRecord(self):
         pass
