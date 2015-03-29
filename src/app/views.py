@@ -263,7 +263,7 @@ def change_email(request):
 
 
 @login_required
-def schedule_make(request):
+def schedule_make(request):#Needs to be looked at
     numberOfElectives = Option.option + Option.type  # How many electives are needed. Not sure if this is the method that should be used.
     availableElectives = Option.course #Not sure if this is the method
     if request.method == 'POST':
@@ -279,7 +279,7 @@ def schedule_make(request):
 
 
 @login_required
-def schedule_select(request):
+def schedule_select(request): #Needs to be looked at
     partialSelection = set(prelim_choices).union(academicprogram.course) #I want it to show the union between the courses in the academic program, but  I want it to exclude any other optional course not present in the prelim_choices. This does not do that.
     if request.method == 'Post':
         rawSchedule = request.POST('choice') #Needs to send the selected radio buttons' values to schedule_select_continue
