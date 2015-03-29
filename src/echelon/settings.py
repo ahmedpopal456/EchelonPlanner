@@ -37,10 +37,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app.subsystem.courses',
-    'app.subsystem.event',
     'django.contrib.admindocs',
-    'app'
+    'app',
+    'app.subsystem'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -96,8 +95,8 @@ DATABASES = {
 #     'default': {
 #         'ENGINE': 'mysql.connector.django',
 #         'NAME': 'echelon',  # MySQL must contain this DB.
-#         'USER': '????',
-#         'PASSWORD': '????',
+#         'USER': 'root',
+#         'PASSWORD': 'SOEN341echelon!',
 #         'HOST': 'localhost',
 #         'PORT': '3306',
 #         'TEST': {

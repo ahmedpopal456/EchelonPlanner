@@ -1,1 +1,931 @@
-{"Course":[{"Credits":"3.50","prereq":["ENGR 213"],"department":"ELEC","number":"275","name":"PRINCIPLES OF ELEC. ENGG."},{"Credits":"3","prereq":[],"department":"ENCS","number":"282","name":"TECH. WRITING + COMMUNIC N."},{"Credits":"1.50","prereq":[],"department":"ENGR","number":"201","name":"PROFESS L. PRACTICE+RESPONS."},{"Credits":"1.50","prereq":[],"department":"ENGR","number":"202","name":"SUSTAIN.DEV.+ENVIRO.STEWART."},{"Credits":"3","prereq":[],"department":"ENGR","number":"213","name":"APP.ORDINARY DIFF.EQUATIONS"},{"Credits":"3","prereq":[],"department":"ENGR","number":"233","name":"APPLIED ADVANCED CALCULUS"},{"Credits":"3","prereq":[],"department":"ENGR","number":"301","name":"ENGR.MGMT.PRINCIP.+ECONOMICS"},{"Credits":"3","prereq":["ENGR 213"],"department":"ENGR","number":"371","name":"PROBABILITY+STATISTICS/ENGR."},{"Credits":"3","prereq":["ENCS 282","ENGR 201"],"department":"ENGR","number":"392","name":"IMPACT/TECHNOLOGY ON SOCIETY"},{"Credits":"4","prereq":[],"department":"SOEN","number":"228","name":"SYSTEM HARDWARE"},{"Credits":"3","prereq":["COMP 248"],"department":"SOEN","number":"287","name":"WEB PROGRAMMING"},{"Credits":"3","prereq":["COMP 346"],"department":"SOEN","number":"321","name":"INFORMATION SYSTEMS SECURITY"},{"Credits":"3","prereq":["COMP 232","COMP 249"],"department":"SOEN","number":"331","name":"INTRO TO FML MTHDS FOR SOEN"},{"Credits":"3","prereq":["COMP 229","COMP 352","ENCS 282"],"department":"SOEN","number":"341","name":"SOFTWARE PROCESS"},{"Credits":"3","prereq":["SOEN 341"],"department":"SOEN","number":"342","name":"SW REQUIREMENTS + SPECS."},{"Credits":"3","prereq":["SOEN 341","SOEN 342"],"department":"SOEN","number":"343","name":"S.W. ARCHITECURE & DESIGN I"},{"Credits":"3","prereq":["SOEN 343"],"department":"SOEN","number":"344","name":"S.W. ARCHITECURE & DESIGN II"},{"Credits":"3","prereq":["SOEN 341","SOEN 343"],"department":"SOEN","number":"345","name":"S.W. TESTING, VERIF & QA"},{"Credits":"3","prereq":["SOEN 342"],"department":"SOEN","number":"357","name":"USER INTERFACE DESIGN"},{"Credits":"3","prereq":["ENCS 282","SOEN 337"],"department":"SOEN","number":"384","name":"MGMT+QUALITY CTRL./SW DEV."},{"Credits":"3","prereq":["ENGR 213","ENGR 233"],"department":"SOEN","number":"385","name":"CONTROL SYSTEMS+APPLICATIONS"},{"Credits":"3.50","prereq":["SOEN 344","SOEN 357"],"department":"SOEN","number":"390","name":"SOFTWARE ENGR. TEAM PROJECT"},{"Credits":"4","prereq":["SOEN 337","SOEN 342","SOEN 343","SOEN 344","SOEN 390"],"department":"SOEN","number":"490","name":"CAPSTONE SW ENGR DESIGN PROJ"},{"Credits":"3","prereq":[],"department":"COMP","number":"232","name":"MATH. FOR COMPUTER SCIENCE"},{"Credits":"3","prereq":[],"department":"COMP","number":"248","name":"OBJ-ORIENTED PROGRAMMING I"},{"Credits":"3","prereq":["COMP 248"],"department":"COMP","number":"249","name":"OBJ-ORIENTED PROGRAMMING II"},{"Credits":"3","prereq":["COMP 232","COEN 231","COMP 249","COEN 244"],"department":"COMP","number":"335","name":"INTRO/THEORETICAL COMP SCI"},{"Credits":"4","prereq":["COMP 228","SOEN 228","COMP 352"],"department":"COMP","number":"346","name":"OPERATING SYSTEMS"},{"Credits":"3","prereq":["COMP 249"],"department":"COMP","number":"348","name":"PRIN./PROGRAMMING LANGUAGES"},{"Credits":"3","prereq":["COMP 232","COMP 249"],"department":"COMP","number":"352","name":"DATA STRUCTURES + ALGORITHMS"},{"Credits":"3","prereq":["ENGR 213","COMP 248"],"department":"ENGR","number":"391","name":"NUMERICAL METHODS IN ENGR"},{"Credits":"3","prereq":["COMP 232","COMP 249"],"department":"COMP","number":"361","name":"ELEMENTARY NUMERICAL METHODS"},{"Credits":"3","prereq":[],"department":"BIOL","number":"206","name":"ELEMENTARY GENETICS"},{"Credits":"3","prereq":[],"department":"BIOL","number":"226","name":"BIODIVERSITY AND ECOLOGY"},{"Credits":"3","prereq":[],"department":"BIOL","number":"261","name":"MOLECULAR & GENERAL GENETICS"},{"Credits":"3","prereq":[],"department":"CHEM","number":"209","name":"DISCOVERING BIOTECHNOLOGY"},{"Credits":"3","prereq":[],"department":"CHEM","number":"217","name":"INTRO ANALYTICAL CHEMISTRY I"},{"Credits":"3","prereq":[],"department":"CHEM","number":"221","name":"INTRO - ORGANIC CHEMISTRY I"},{"Credits":"3","prereq":[],"department":"CHEM","number":"234","name":"PHYS.CHEM I:THERMODYNAMICS"},{"Credits":"3","prereq":[],"department":"PHYS","number":"252","name":"OPTICS"},{"Credits":"3","prereq":[],"department":"PHYS","number":"253","name":"ELECTRICITY & MAGNETISM I"},{"Credits":"3","prereq":[],"department":"PHYS","number":"334","name":"THERMODYNAMICS"},{"Credits":"3","prereq":[],"department":"PHYS","number":"354","name":"ELECTRICITY & MAGNETISM II"},{"Credits":"3","prereq":[],"department":"AHSC","number":"242","name":"RECREATION/LEISURE IN CANADA"},{"Credits":"3","prereq":[],"department":"ANTH","number":"202","name":"INTRODUCTION TO CULTURE"},{"Credits":"3","prereq":[],"department":"ECON","number":"201","name":"INTRODUCTION-MICROECONOMICS"},{"Credits":"3","prereq":[],"department":"ECON","number":"203","name":"INTRODUCTION-MACROECONOMICS"},{"Credits":"3","prereq":[],"department":"EDUC","number":"230","name":"INTRO TO PHILOSOPHY OF EDUC"},{"Credits":"3","prereq":[],"department":"ENCS","number":"483","name":"INN.&CRITICL; THKNG SCI&TECH;"},{"Credits":"3","prereq":[],"department":"GEOG","number":"203","name":"CANADIAN ENVIRONM TAL ISSUES"},{"Credits":"3","prereq":[],"department":"GEOG","number":"204","name":"GLOBAL ENVIRONMENTAL ISSUES"},{"Credits":"3","prereq":[],"department":"GEOG","number":"210","name":"GEOGRAPHY OF GLOBAL CHANGE"},{"Credits":"3","prereq":[],"department":"GEOG","number":"220","name":"PLACE, SPACE AND IDENTITY"},{"Credits":"3","prereq":[],"department":"INST","number":"250","name":"INTROINFOLITERACYSKILLS"},{"Credits":"3","prereq":[],"department":"LING","number":"222","name":"LANG & MIND: CHOMSKYAN PROG"},{"Credits":"3","prereq":[],"department":"LING","number":"300","name":"SOCIOLINGUISTICS"},{"Credits":"3","prereq":[],"department":"POLI","number":"202","name":"INTRO TO POLITICAL SCIENCE"},{"Credits":"3","prereq":[],"department":"RELI","number":"214","name":"RELIGIONS OF THE WEST"},{"Credits":"3","prereq":[],"department":"RELI","number":"215","name":"RELIGIONS OF ASIA"},{"Credits":"3","prereq":[],"department":"RELI","number":"310","name":"SELF/OTHER: IDTY & ETHICS"},{"Credits":"3","prereq":[],"department":"RELI","number":"312","name":"JUSTICE & SOCIAL CONFLICT"},{"Credits":"3","prereq":[],"department":"SCPA","number":"201","name":"PUBLIC POLICY &INTEREST;"},{"Credits":"3","prereq":[],"department":"SCPA","number":"215","name":"ECON FOR PUB POL&COM; DEV"},{"Credits":"3","prereq":[],"department":"SOCI","number":"203","name":"INTRODUCTION TO SOCIETY"},{"Credits":"3","prereq":[],"department":"WSDB","number":"290","name":"INTRO TO HIST. PERSP. IN WS"},{"Credits":"3","prereq":[],"department":"WSDB","number":"291","name":"INTRO CONT.  PERSP.  IN WS"},{"Credits":"3","prereq":[],"department":"ARTH","number":"353","name":"TECHNOLOGY & CONTEMP. ART"},{"Credits":"3","prereq":[],"department":"CLAS","number":"266","name":"INTRO CLASSICAL ARCHAEOLOGY"},{"Credits":"3","prereq":[],"department":"COMS","number":"360","name":"MASS COMMUNICATION"},{"Credits":"3","prereq":[],"department":"FLIT","number":"230","name":"INTRO CULTURE FRANCOPHONE"},{"Credits":"3","prereq":[],"department":"FMST","number":"214","name":"ENGLISH-CANADIAN FILM"},{"Credits":"3","prereq":[],"department":"FMST","number":"215","name":"LE CINEMA QUEBECOIS"},{"Credits":"3","prereq":[],"department":"HIST","number":"201","name":"INTRO:EUROPEAN HIST TO 1789"},{"Credits":"3","prereq":[],"department":"HIST","number":"202","name":"INTRO:EUROPEAN 1789-PRESENT"},{"Credits":"3","prereq":[],"department":"HIST","number":"205","name":"CANADA: POST-CONFEDERATION"},{"Credits":"3","prereq":[],"department":"HIST","number":"281","name":"FILM IN HISTORY"},{"Credits":"3","prereq":[],"department":"HIST","number":"283","name":"THE 20TH C: GLOBAL HISTORY"},{"Credits":"3","prereq":[],"department":"PHIL","number":"201","name":"PROBLEMS OF PHILOSOPHY"},{"Credits":"3","prereq":[],"department":"PHIL","number":"210","name":"CRITICAL THINKING"},{"Credits":"3","prereq":[],"department":"PHIL","number":"232","name":"INTRO TO  ETHICS"},{"Credits":"3","prereq":[],"department":"PHIL","number":"235","name":"BIOMEDICAL ETHICS"},{"Credits":"3","prereq":[],"department":"PHIL","number":"275","name":"MODERN TO POSTMODERN"},{"Credits":"3","prereq":["PHIL 232"],"department":"PHIL","number":"330","name":"CONTEMPORARY ETHICAL THEORY"},{"Credits":"3","prereq":[],"department":"THEO","number":"202","name":"INTRO. TO BIBLICAL STUDIES"},{"Credits":"3","prereq":[],"department":"THEO","number":"204","name":"INTRO.TO CHRISTIAN ETHICS"},{"Credits":"3","prereq":[],"department":"THEO","number":"233","name":"RELG. PLURALISM/SECULAR CULT"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"345","name":"ADVANCED PROGRAM DESIGN, C++"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"353","name":"DATABASES"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"371","name":"COMPUTER GRAPHICS"},{"Credits":"4","prereq":["COMP 346"],"department":"COMP","number":"426","name":"MULTICORE PROGRAMMING"},{"Credits":"4","prereq":["COMP 346"],"department":"COMP","number":"428","name":"PARALLEL PROGRAMMING"},{"Credits":"4","prereq":["COMP 229","COMP 335","COMP 352"],"department":"COMP","number":"442","name":"COMPILER DESIGN"},{"Credits":"4","prereq":["COMP 346"],"department":"COMP","number":"445","name":"DATA COMM + COMP NETWORKS"},{"Credits":"3","prereq":["COMP 335","COMP 352"],"department":"COMP","number":"465","name":"DESIGN+ANALYSIS/ALGORITHMS"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"472","name":"ARTIFICIAL INTELLIGENCE"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"473","name":"PATTERN RECOGNITION"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"474","name":"INTELLIGENT SYSTEMS"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"478","name":"IMAGE PROCESSING"},{"Credits":"4","prereq":["COMP 233","ENGR 371"],"department":"COMP","number":"479","name":"INFO. RETRIEVAL & WEB SEARCH"},{"Credits":"1","prereq":[],"department":"SOEN","number":"298","name":"SYSTEM HARDWARE LAB"},{"Credits":"4","prereq":["COMP 346"],"department":"SOEN","number":"422","name":"EMBEDDED SYSTEMS/SOFTWARE"},{"Credits":"4","prereq":["COMP 346"],"department":"SOEN","number":"423","name":"DISTRIBUTED SYSTEMS"},{"Credits":"1","prereq":["ENCS 282"],"department":"ENGR","number":"411","name":"SPECIAL TECHNICAL REPORT"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"345","name":"ADVANCED PROGRAM DESIGN, C++"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"371","name":"COMPUTER GRAPHICS"},{"Credits":"4","prereq":[],"department":"COMP","number":"376","name":"INTRO. TO GAME DEVELOPMENT"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"472","name":"ARTIFICIAL INTELLIGENCE"},{"Credits":"4","prereq":["COMP 376","COMP 361","ENGR 391"],"department":"COMP","number":"476","name":"ADVANCED GAME DEVELOPMENT"},{"Credits":"4","prereq":["COMP 371","COMP 361","ENGR 391"],"department":"COMP","number":"477","name":"ANIMATION FOR COMPUTER GAMES"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"353","name":"DATABASES"},{"Credits":"4","prereq":["COMP 346"],"department":"COMP","number":"445","name":"DATA COMM + COMP NETWORKS"},{"Credits":"4","prereq":["COMP 233","ENGR 371"],"department":"COMP","number":"479","name":"INFO. RETRIEVAL & WEB SEARCH"},{"Credits":"3","prereq":["COMP 353","COMP 354","SOEN 341","SOEN 287"],"department":"SOEN","number":"387","name":"WEB-BASED ENTER. APP DESIGN"},{"Credits":"4","prereq":["SOEN 387"],"department":"SOEN","number":"487","name":"WEB SERVICES & APPLICATIONS"},{"Credits":"3.50","prereq":["AERO 371","ELEC 372","SOEN 385"],"department":"AERO","number":"480","name":"FLIGHT CONTROL SYSTEMS"},{"Credits":"3","prereq":["ENGR 371","COMP 233","AERO 371","SOEN 385"],"department":"AERO","number":"482","name":"AVIONIC NAVIGATION SYSTEMS"},{"Credits":"3","prereq":["COEN 346","COMP 346"],"department":"COEN","number":"320","name":"INTRO TO REAL-TIME SYSTEMS"},{"Credits":"4","prereq":["COMP 352"],"department":"COMP","number":"345","name":"ADVANCED PROGRAM DESIGN, C++"},{"Credits":"4","prereq":["COMP 346"],"department":"SOEN","number":"422","name":"EMBEDDED SYSTEMS/SOFTWARE"},{"Credits":"4","prereq":["COMP 346"],"department":"SOEN","number":"423","name":"DISTRIBUTED SYSTEMS"}]}
+{
+  "Course": [
+    {
+      "Credits": "3.50",
+      "prereq": ["ENGR 213"],
+      "department": "ELEC",
+      "number": "275",
+      "name": "PRINCIPLES OF ELEC. ENGG."
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "ENCS",
+      "number": "282",
+      "name": "TECH. WRITING + COMMUNIC N."
+    },
+    {
+      "Credits": "1.50",
+      "prereq": [],
+      "department": "ENGR",
+      "number": "201",
+      "name": "PROFESS L. PRACTICE+RESPONS."
+    },
+    {
+      "Credits": "1.50",
+      "prereq": [],
+      "department": "ENGR",
+      "number": "202",
+      "name": "SUSTAIN.DEV.+ENVIRO.STEWART."
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "ENGR",
+      "number": "213",
+      "name": "APP.ORDINARY DIFF.EQUATIONS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "ENGR",
+      "number": "233",
+      "name": "APPLIED ADVANCED CALCULUS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "ENGR",
+      "number": "301",
+      "name": "ENGR.MGMT.PRINCIP.+ECONOMICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": ["ENGR 213"],
+      "department": "ENGR",
+      "number": "371",
+      "name": "PROBABILITY+STATISTICS/ENGR."
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "ENCS 282",
+        "ENGR 201"
+      ],
+      "department": "ENGR",
+      "number": "392",
+      "name": "IMPACT/TECHNOLOGY ON SOCIETY"
+    },
+    {
+      "Credits": "4",
+      "prereq": [],
+      "department": "SOEN",
+      "number": "228",
+      "name": "SYSTEM HARDWARE"
+    },
+    {
+      "Credits": "3",
+      "prereq": ["COMP 248"],
+      "department": "SOEN",
+      "number": "287",
+      "name": "WEB PROGRAMMING"
+    },
+    {
+      "Credits": "3",
+      "prereq": ["COMP 346"],
+      "department": "SOEN",
+      "number": "321",
+      "name": "INFORMATION SYSTEMS SECURITY"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "COMP 232",
+        "COMP 249"
+      ],
+      "department": "SOEN",
+      "number": "331",
+      "name": "INTRO TO FML MTHDS FOR SOEN"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "COMP 229",
+        "COMP 352",
+        "ENCS 282"
+      ],
+      "department": "SOEN",
+      "number": "341",
+      "name": "SOFTWARE PROCESS"
+    },
+    {
+      "Credits": "3",
+      "prereq": ["SOEN 341"],
+      "department": "SOEN",
+      "number": "342",
+      "name": "SW REQUIREMENTS + SPECS."
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "SOEN 341",
+        "SOEN 342"
+      ],
+      "department": "SOEN",
+      "number": "343",
+      "name": "S.W. ARCHITECURE & DESIGN I"
+    },
+    {
+      "Credits": "3",
+      "prereq": ["SOEN 343"],
+      "department": "SOEN",
+      "number": "344",
+      "name": "S.W. ARCHITECURE & DESIGN II"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "SOEN 341",
+        "SOEN 343"
+      ],
+      "department": "SOEN",
+      "number": "345",
+      "name": "S.W. TESTING, VERIF & QA"
+    },
+    {
+      "Credits": "3",
+      "prereq": ["SOEN 342"],
+      "department": "SOEN",
+      "number": "357",
+      "name": "USER INTERFACE DESIGN"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "ENCS 282",
+        "SOEN 337"
+      ],
+      "department": "SOEN",
+      "number": "384",
+      "name": "MGMT+QUALITY CTRL./SW DEV."
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "ENGR 213",
+        "ENGR 233"
+      ],
+      "department": "SOEN",
+      "number": "385",
+      "name": "CONTROL SYSTEMS+APPLICATIONS"
+    },
+    {
+      "Credits": "3.50",
+      "prereq": [
+        "SOEN 344",
+        "SOEN 357"
+      ],
+      "department": "SOEN",
+      "number": "390",
+      "name": "SOFTWARE ENGR. TEAM PROJECT"
+    },
+    {
+      "Credits": "4",
+      "prereq": [
+        "SOEN 337",
+        "SOEN 342",
+        "SOEN 343",
+        "SOEN 344",
+        "SOEN 390"
+      ],
+      "department": "SOEN",
+      "number": "490",
+      "name": "CAPSTONE SW ENGR DESIGN PROJ"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "COMP",
+      "number": "232",
+      "name": "MATH. FOR COMPUTER SCIENCE"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "COMP",
+      "number": "248",
+      "name": "OBJ-ORIENTED PROGRAMMING I"
+    },
+    {
+      "Credits": "3",
+      "prereq": ["COMP 248"],
+      "department": "COMP",
+      "number": "249",
+      "name": "OBJ-ORIENTED PROGRAMMING II"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "COMP 232",
+        "COEN 231",
+        "COMP 249",
+        "COEN 244"
+      ],
+      "department": "COMP",
+      "number": "335",
+      "name": "INTRO/THEORETICAL COMP SCI"
+    },
+    {
+      "Credits": "4",
+      "prereq": [
+        "COMP 228",
+        "SOEN 228",
+        "COMP 352"
+      ],
+      "department": "COMP",
+      "number": "346",
+      "name": "OPERATING SYSTEMS"
+    },
+    {
+      "Credits": "3",
+      "prereq": ["COMP 249"],
+      "department": "COMP",
+      "number": "348",
+      "name": "PRIN./PROGRAMMING LANGUAGES"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "COMP 232",
+        "COMP 249"
+      ],
+      "department": "COMP",
+      "number": "352",
+      "name": "DATA STRUCTURES + ALGORITHMS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "ENGR 213",
+        "COMP 248"
+      ],
+      "department": "ENGR",
+      "number": "391",
+      "name": "NUMERICAL METHODS IN ENGR"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "COMP 232",
+        "COMP 249"
+      ],
+      "department": "COMP",
+      "number": "361",
+      "name": "ELEMENTARY NUMERICAL METHODS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "BIOL",
+      "number": "206",
+      "name": "ELEMENTARY GENETICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "BIOL",
+      "number": "226",
+      "name": "BIODIVERSITY AND ECOLOGY"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "BIOL",
+      "number": "261",
+      "name": "MOLECULAR & GENERAL GENETICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "CHEM",
+      "number": "209",
+      "name": "DISCOVERING BIOTECHNOLOGY"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "CHEM",
+      "number": "217",
+      "name": "INTRO ANALYTICAL CHEMISTRY I"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "CHEM",
+      "number": "221",
+      "name": "INTRO - ORGANIC CHEMISTRY I"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "CHEM",
+      "number": "234",
+      "name": "PHYS.CHEM I:THERMODYNAMICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "PHYS",
+      "number": "252",
+      "name": "OPTICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "PHYS",
+      "number": "253",
+      "name": "ELECTRICITY & MAGNETISM I"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "PHYS",
+      "number": "334",
+      "name": "THERMODYNAMICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "PHYS",
+      "number": "354",
+      "name": "ELECTRICITY & MAGNETISM II"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "AHSC",
+      "number": "242",
+      "name": "RECREATION/LEISURE IN CANADA"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "ANTH",
+      "number": "202",
+      "name": "INTRODUCTION TO CULTURE"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "ECON",
+      "number": "201",
+      "name": "INTRODUCTION-MICROECONOMICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "ECON",
+      "number": "203",
+      "name": "INTRODUCTION-MACROECONOMICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "EDUC",
+      "number": "230",
+      "name": "INTRO TO PHILOSOPHY OF EDUC"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "ENCS",
+      "number": "483",
+      "name": "INN.&CRITICL; THKNG SCI&TECH;"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "GEOG",
+      "number": "203",
+      "name": "CANADIAN ENVIRONM TAL ISSUES"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "GEOG",
+      "number": "204",
+      "name": "GLOBAL ENVIRONMENTAL ISSUES"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "GEOG",
+      "number": "210",
+      "name": "GEOGRAPHY OF GLOBAL CHANGE"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "GEOG",
+      "number": "220",
+      "name": "PLACE, SPACE AND IDENTITY"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "INST",
+      "number": "250",
+      "name": "INTROINFOLITERACYSKILLS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "LING",
+      "number": "222",
+      "name": "LANG & MIND: CHOMSKYAN PROG"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "LING",
+      "number": "300",
+      "name": "SOCIOLINGUISTICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "POLI",
+      "number": "202",
+      "name": "INTRO TO POLITICAL SCIENCE"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "RELI",
+      "number": "214",
+      "name": "RELIGIONS OF THE WEST"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "RELI",
+      "number": "215",
+      "name": "RELIGIONS OF ASIA"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "RELI",
+      "number": "310",
+      "name": "SELF/OTHER: IDTY & ETHICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "RELI",
+      "number": "312",
+      "name": "JUSTICE & SOCIAL CONFLICT"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "SCPA",
+      "number": "201",
+      "name": "PUBLIC POLICY &INTEREST;"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "SCPA",
+      "number": "215",
+      "name": "ECON FOR PUB POL&COM; DEV"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "SOCI",
+      "number": "203",
+      "name": "INTRODUCTION TO SOCIETY"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "WSDB",
+      "number": "290",
+      "name": "INTRO TO HIST. PERSP. IN WS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "WSDB",
+      "number": "291",
+      "name": "INTRO CONT.  PERSP.  IN WS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "ARTH",
+      "number": "353",
+      "name": "TECHNOLOGY & CONTEMP. ART"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "CLAS",
+      "number": "266",
+      "name": "INTRO CLASSICAL ARCHAEOLOGY"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "COMS",
+      "number": "360",
+      "name": "MASS COMMUNICATION"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "FLIT",
+      "number": "230",
+      "name": "INTRO CULTURE FRANCOPHONE"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "FMST",
+      "number": "214",
+      "name": "ENGLISH-CANADIAN FILM"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "FMST",
+      "number": "215",
+      "name": "LE CINEMA QUEBECOIS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "HIST",
+      "number": "201",
+      "name": "INTRO:EUROPEAN HIST TO 1789"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "HIST",
+      "number": "202",
+      "name": "INTRO:EUROPEAN 1789-PRESENT"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "HIST",
+      "number": "205",
+      "name": "CANADA: POST-CONFEDERATION"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "HIST",
+      "number": "281",
+      "name": "FILM IN HISTORY"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "HIST",
+      "number": "283",
+      "name": "THE 20TH C: GLOBAL HISTORY"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "PHIL",
+      "number": "201",
+      "name": "PROBLEMS OF PHILOSOPHY"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "PHIL",
+      "number": "210",
+      "name": "CRITICAL THINKING"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "PHIL",
+      "number": "232",
+      "name": "INTRO TO  ETHICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "PHIL",
+      "number": "235",
+      "name": "BIOMEDICAL ETHICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "PHIL",
+      "number": "275",
+      "name": "MODERN TO POSTMODERN"
+    },
+    {
+      "Credits": "3",
+      "prereq": ["PHIL 232"],
+      "department": "PHIL",
+      "number": "330",
+      "name": "CONTEMPORARY ETHICAL THEORY"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "THEO",
+      "number": "202",
+      "name": "INTRO. TO BIBLICAL STUDIES"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "THEO",
+      "number": "204",
+      "name": "INTRO.TO CHRISTIAN ETHICS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [],
+      "department": "THEO",
+      "number": "233",
+      "name": "RELG. PLURALISM/SECULAR CULT"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "345",
+      "name": "ADVANCED PROGRAM DESIGN, C++"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "353",
+      "name": "DATABASES"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "371",
+      "name": "COMPUTER GRAPHICS"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 346"],
+      "department": "COMP",
+      "number": "426",
+      "name": "MULTICORE PROGRAMMING"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 346"],
+      "department": "COMP",
+      "number": "428",
+      "name": "PARALLEL PROGRAMMING"
+    },
+    {
+      "Credits": "4",
+      "prereq": [
+        "COMP 229",
+        "COMP 335",
+        "COMP 352"
+      ],
+      "department": "COMP",
+      "number": "442",
+      "name": "COMPILER DESIGN"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 346"],
+      "department": "COMP",
+      "number": "445",
+      "name": "DATA COMM + COMP NETWORKS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "COMP 335",
+        "COMP 352"
+      ],
+      "department": "COMP",
+      "number": "465",
+      "name": "DESIGN+ANALYSIS/ALGORITHMS"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "472",
+      "name": "ARTIFICIAL INTELLIGENCE"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "473",
+      "name": "PATTERN RECOGNITION"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "474",
+      "name": "INTELLIGENT SYSTEMS"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "478",
+      "name": "IMAGE PROCESSING"
+    },
+    {
+      "Credits": "4",
+      "prereq": [
+        "COMP 233",
+        "ENGR 371"
+      ],
+      "department": "COMP",
+      "number": "479",
+      "name": "INFO. RETRIEVAL & WEB SEARCH"
+    },
+    {
+      "Credits": "1",
+      "prereq": [],
+      "department": "SOEN",
+      "number": "298",
+      "name": "SYSTEM HARDWARE LAB"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 346"],
+      "department": "SOEN",
+      "number": "422",
+      "name": "EMBEDDED SYSTEMS/SOFTWARE"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 346"],
+      "department": "SOEN",
+      "number": "423",
+      "name": "DISTRIBUTED SYSTEMS"
+    },
+    {
+      "Credits": "1",
+      "prereq": ["ENCS 282"],
+      "department": "ENGR",
+      "number": "411",
+      "name": "SPECIAL TECHNICAL REPORT"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "345",
+      "name": "ADVANCED PROGRAM DESIGN, C++"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "371",
+      "name": "COMPUTER GRAPHICS"
+    },
+    {
+      "Credits": "4",
+      "prereq": [],
+      "department": "COMP",
+      "number": "376",
+      "name": "INTRO. TO GAME DEVELOPMENT"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "472",
+      "name": "ARTIFICIAL INTELLIGENCE"
+    },
+    {
+      "Credits": "4",
+      "prereq": [
+        "COMP 376",
+        "COMP 361",
+        "ENGR 391"
+      ],
+      "department": "COMP",
+      "number": "476",
+      "name": "ADVANCED GAME DEVELOPMENT"
+    },
+    {
+      "Credits": "4",
+      "prereq": [
+        "COMP 371",
+        "COMP 361",
+        "ENGR 391"
+      ],
+      "department": "COMP",
+      "number": "477",
+      "name": "ANIMATION FOR COMPUTER GAMES"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "353",
+      "name": "DATABASES"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 346"],
+      "department": "COMP",
+      "number": "445",
+      "name": "DATA COMM + COMP NETWORKS"
+    },
+    {
+      "Credits": "4",
+      "prereq": [
+        "COMP 233",
+        "ENGR 371"
+      ],
+      "department": "COMP",
+      "number": "479",
+      "name": "INFO. RETRIEVAL & WEB SEARCH"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "COMP 353",
+        "COMP 354",
+        "SOEN 341",
+        "SOEN 287"
+      ],
+      "department": "SOEN",
+      "number": "387",
+      "name": "WEB-BASED ENTER. APP DESIGN"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["SOEN 387"],
+      "department": "SOEN",
+      "number": "487",
+      "name": "WEB SERVICES & APPLICATIONS"
+    },
+    {
+      "Credits": "3.50",
+      "prereq": [
+        "AERO 371",
+        "ELEC 372",
+        "SOEN 385"
+      ],
+      "department": "AERO",
+      "number": "480",
+      "name": "FLIGHT CONTROL SYSTEMS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "ENGR 371",
+        "COMP 233",
+        "AERO 371",
+        "SOEN 385"
+      ],
+      "department": "AERO",
+      "number": "482",
+      "name": "AVIONIC NAVIGATION SYSTEMS"
+    },
+    {
+      "Credits": "3",
+      "prereq": [
+        "COEN 346",
+        "COMP 346"
+      ],
+      "department": "COEN",
+      "number": "320",
+      "name": "INTRO TO REAL-TIME SYSTEMS"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 352"],
+      "department": "COMP",
+      "number": "345",
+      "name": "ADVANCED PROGRAM DESIGN, C++"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 346"],
+      "department": "SOEN",
+      "number": "422",
+      "name": "EMBEDDED SYSTEMS/SOFTWARE"
+    },
+    {
+      "Credits": "4",
+      "prereq": ["COMP 346"],
+      "department": "SOEN",
+      "number": "423",
+      "name": "DISTRIBUTED SYSTEMS"
+    }
+  ]
+}

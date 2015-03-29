@@ -3,21 +3,15 @@ from django.db import models
 
 
 class Professor(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
+    isEngineer = models.BooleanField(default=False, primary_key=False)
 
-    website = models.URLField(blank=True)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
+    def __unicode__(self):
+        return self.user.username
 
-    # Override the __unicode__() method to return out something meaningful!
+    class Meta:
+        app_label = 'app'
+        managed= True
 
-    isEngineer = models.BooleanField(default=True, primary_key=False)
-
-
-def __unicode__(self):
-    return self.user.username
-
-
-def __init__(self):
-    self.isEngineer = None
+# End class Professor
 

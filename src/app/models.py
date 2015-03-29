@@ -1,1 +1,1 @@
-import app.subsystem
+from .subsystem import *

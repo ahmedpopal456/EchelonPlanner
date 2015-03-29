@@ -2,10 +2,12 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib.auth.models import User
+from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from .subsystem import *
 
 import logging
@@ -40,21 +42,25 @@ def home(request):
 def register(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
+
     # If it's a HTTP POST, we're interested in processing form data.
-
     if request.method == 'POST':
-        # Attempt to grab information from the raw form information.
-
-        studentuser = Student()
+        # Attempt to grab information from the raw POST information.
+        studentUser = Student()
+        standardUser = User()
         message = []
         isregistered = False
 
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
-        username = request.POST['username']
+        username = request.POST['email']
+        email = request.POST['email']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
-        email = request.POST['email']
+        studentID = request.POST['idnum']
+
+        # Log Everything
+        logger.debug(str(request.POST))
 
         if username == "":
             message.append("Please enter a valid username")
@@ -65,38 +71,55 @@ def register(request):
         if firstname == "" or lastname == "":
             message.append("Please fully fill in your name and last name")
 
-        if email == "":
+        if email == "" or '@' not in str(email):
             message.append("Please fill in the email address block")
 
-        if (password1 == password2) and (message == ""):
-            studentuser.user.set_password(password1)
-            studentuser.user.set_username(username)
-            studentuser.user.set_email(email)
-            studentuser.user.set_firstname(firstname)
-            studentuser.user.set_lastname(lastname)
-            studentuser.user.set_is_active(1)
-            studentuser.user.set_is_staff(0)
-            studentuser.user.set_is_superuser(0)
-            studentuser.user.save()
-            studentuser.save()
-            isregistered = True
+        if studentID is None or len(studentID) > 8 or len(studentID) < 7:
+            message.append("The ID Number provided is invalid")
 
+        if (password1 == password2) and (message == []):
+            # Everything checks out and is all working fine :)
+            # Create the Standard User first and try storing it in the database
+            standardUser.set_password(password1)
+            standardUser.username = username
+            standardUser.email = email
+            standardUser.first_name = firstname
+            standardUser.last_name = lastname
+            standardUser.is_active = True
+            standardUser.is_staff = False
+            standardUser.is_superuser = False
+            try:
+                standardUser.save() # Save the Django user in the Database.
+                # Now let's try putting that Student user in the DB
+                studentUser.user = standardUser
+                # standardUser.save()
+                studentUser.save()
+                isregistered = True
+            except IntegrityError as problem:
+                # Student or auth_user was duplicate
+                isregistered = False
+                logger.warn(str(problem.args))
+                message.append("User already Exists!")
+        # end last If check
+
+        if isregistered:
             return render(request,
                       'app/login.html',
                       {'hasMessage': True, 'message': ['Registration is successful.'], 'registered': isregistered})
-        # Something failed :/
-        else:
-            return render(request,
-                      'app/register.html',
-                      {'hasMessage': True, 'message': message, 'registered': isregistered})
 
-    # end If Request==Post
+        else:  # User was not registered
+            return render_to_response(
+                      'app/register.html',
+                      {'hasMessage': True, 'message': message, 'registered': isregistered},
+                      context_instance=RequestContext(request))
+
+        # end If Request==Post
 
     else:  # Request is not Post, just serve the damn page
         return render(request,
                   'app/register.html')
 
-        # End Register Method
+# End Register Method
 
 
 @login_required
@@ -129,7 +152,7 @@ def loginhandler(request):
             return render(request,
                           'app/login.html',
                           {'hasMessage': True, 'message': 'Login not successful. Check your username and password.'})
-            # End loginhandler()
+# End loginhandler()
 
 
 def logouthandler(request):
@@ -146,7 +169,7 @@ def logouthandler(request):
 def error_404(request):
     return render(
         request,
-        'app/error_404.html'
+        '404.html'
     )
 
 

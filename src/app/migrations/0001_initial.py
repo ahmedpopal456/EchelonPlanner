@@ -112,4 +112,31 @@ class Migration(migrations.Migration):
             name='lab',
             unique_together=set([('section', 'course', 'lecture', 'tutorial')]),
         ),
+        migrations.CreateModel(
+            name='AcademicProgram',
+            fields=[
+                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
+                ('name', models.CharField(max_length=120, default='SOEN')),
+                ('credits', models.FloatField(default=0)),
+            ],
+            options={
+                'managed': True,
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Option',
+            fields=[
+                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
+                ('name', models.CharField(max_length=120, default='Test')),
+                ('option', models.IntegerField(default=1)),
+                ('type', models.IntegerField(default=5)),
+                ('academicprogram', models.ForeignKey(to='app.AcademicProgram')),
+                ('course', models.ForeignKey(to='app.Course')),
+            ],
+            options={
+                'managed': True,
+            },
+            bases=(models.Model,),
+        ),
     ]
