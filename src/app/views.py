@@ -127,6 +127,9 @@ def register(request):
                 standardUser.save() # Save the Django user in the Database.
                 # Now let's try putting that Student user in the DB
                 studentUser.user = standardUser
+                newRecord = StudentRecord()
+                newRecord.save()
+                studentUser.academicRecord = newRecord
                 # standardUser.save()
                 studentUser.save()
                 isregistered = True
@@ -273,8 +276,8 @@ def schedule_make(request):#Needs to be looked at
     return render(
         request,
         'app/schedule_make.html',
-        {'numberOfElectives': numberOfElectives},
-        {'availableElectives' : availableElectives}
+        {'numberOfElectives': numberOfElectives,
+         'availableElectives': availableElectives}
     )
 
 
@@ -286,8 +289,8 @@ def schedule_select(request): #Needs to be looked at
     return render(
         request,
         'app/schedule_select.html',
-        {'partialSelection' : partialSelection},
-        {'maxYear' : 4} #hardcorded max years
+        {'partialSelection': partialSelection,
+         'maxYear': 4} #hardcorded max years
     )
 
 
