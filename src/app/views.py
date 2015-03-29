@@ -231,6 +231,14 @@ def error_404(request):
 
 @login_required
 def change_details(request):
+    if request.method == 'POST':
+        address = request.POST['address']
+        homePhone = request.POST['homePhone']
+        cellPhone = request.POST['cellPhone']
+        request.user.student.address.__setattr__(address)
+        request.user.student.homephone.__setattr__(homePhone)
+        request.user.student.cellphone.__setattr__(cellPhone)
+        request.user.save();
     return render(
         request,
         'app/change_details.html'
@@ -239,6 +247,15 @@ def change_details(request):
 
 @login_required
 def change_email(request):
+    if request.method == 'POST':
+        email1 = request.POST['email1']
+        email2 = request.POST['email2']
+        if email1 == email2:
+            request.user.email.__setattr__(email1)
+            request.user.save();
+        else:
+            message = "Error: Inputs did not match. Please Try Again."
+
     return render(
         request,
         'app/change_email.html'
@@ -246,18 +263,31 @@ def change_email(request):
 
 
 @login_required
-def schedule_make(request):
+def schedule_make(request):#Needs to be looked at
+    numberOfElectives = Option.option + Option.type  # How many electives are needed. Not sure if this is the method that should be used.
+    availableElectives = Option.course #Not sure if this is the method
+    if request.method == 'POST':
+        prelim_choices = request.POST['choice'] # Since there may be more than one span with that name, this results in the needed array, right?
+        schedule_select(prelim_choices) # Need to send prelim_choices to schedule select. This is probably not how it is done.
+
     return render(
         request,
-        'app/schedule_make.html'
+        'app/schedule_make.html',
+        {'numberOfElectives': numberOfElectives},
+        {'availableElectives' : availableElectives}
     )
 
 
 @login_required
-def schedule_select(request):
+def schedule_select(request): #Needs to be looked at
+    partialSelection = set(prelim_choices).union(database.academicprogram.course) #I want it to show the union between the courses in the academic program, but  I want it to exclude any other optional course not present in the prelim_choices. This does not do that.
+    if request.method == 'Post':
+        rawSchedule = request.POST('choice') #Needs to send the selected radio buttons' values to schedule_select_continue
     return render(
         request,
-        'app/schedule_select.html'
+        'app/schedule_select.html',
+        {'partialSelection' : partialSelection},
+        {'maxYear' : 4} #hardcorded max years
     )
 
 
@@ -272,6 +302,32 @@ def schedule_view(request):
         request,
         'app/schedule_view.html',
         {'timeSlots': timeSlots}
+    )
+
+@login_required
+def course_create(request):
+    if request.method == 'POST':
+        name = request.POST('name')
+        number = request.POST('number')
+        department = request.POST('department')
+        type = request.POST('type')
+        credits = request.POST('credits')
+        prerequisites = request.POST('prerequisites')
+        equivalence = request.POST('equivalence')
+        yearSpan = request.POST('yearSpan')
+        newCourse = courses.Course.new()
+        newCourse.course.department = department
+        newCourse.course.type = type
+        newCourse.course.number = number
+        newCourse.course.credits = credits
+        newCourse.course.name = name
+        newCourse.course.prerequisites = prerequisites
+        newCourse.course.equivalence = equivalence
+        newCourse.course.yearSpan = yearSpan
+        database.coursecatalog.addCourse(name, number, department, credits)
+    return render(
+        request,
+        'app/course_create.html',
     )
 
 
@@ -298,6 +354,7 @@ def browse_all_courses(request):
         'app/browse_all_courses.html',
         {'courseList': courseList}  # Send it off to the template for rendering
     )
+
 
 
 ##################################################################################################
