@@ -197,3 +197,47 @@ class CourseCatalog(object):
                 ("Lecture not found: {}{}, {}-{}. Cannot remove from Course").format(department, number, section,
                                                                                      semester))
             return False
+
+    # When given a section returns if this is Tutorial, Lab or Lecture. Functionality is used repeatedly elsewhere.
+    def typeofSection(section):
+
+        typeofsection = str(type(section))
+
+        if "Lecture" in typeofsection:
+            return "Lecture"
+        else:
+            if "Lab" in typeofsection:
+                return "Lab"
+            else:
+                return "Tutorial"
+
+        # When given a section returns if it has tutorials. Functionality is used repeatedly elsewhere.
+    def hasTuorial(section):
+
+        if CourseCatalog.typeofSection(section) == "Lecture":
+            if len(section.tutorial_set.all()) == 0:
+                return False
+            else:
+                return True
+        if CourseCatalog.typeofSection(section) == "Tutorial":
+            return True
+
+        if CourseCatalog.typeofSection(section) == "Lab":
+            if section.tutorial is not None:
+                return True
+            else:
+                return False
+
+       # When given a section returns if it has labs. Functionality is used repeatedly elsewhere.
+    def hasLab(section):
+
+        if CourseCatalog.typeofSection(section) == "Lecture" or CourseCatalog.typeofSection(section) == "Tutorial":
+            if len(section.lab_set.all()) == 0:
+                return False
+            else:
+                return True
+
+        if CourseCatalog.typeofSection(section) == "Lab":
+            return True
+
+
