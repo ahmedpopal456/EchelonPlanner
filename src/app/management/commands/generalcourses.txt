@@ -1,119 +1,103 @@
-Required Courses by all (No options):
-
-ELEC 275 	Principles of Electrical Engineering 	3.50
-ENCS 282 	Technical Writing and Communication 	3.00
-ENGR 201 	Professional Practice and Responsibility 	1.50
-ENGR 202 	Sustainable Development and Environmental Stewardship 	1.50
-ENGR 213 	Applied Ordinary Differential Equations 	3.00
-ENGR 233 	Applied Advanced Calculus 	3.00
-ENGR 301 	Engineering Management Principles and Economics 	3.00
-ENGR 371 	Probability and Statistics in Engineering 	3.00
-ENGR 392 	Impact of Technology on Society 	3.00
-
-SOEN 228 	System Hardware 	4.00
-SOEN 287 	Web Programming 	3.00
-SOEN 321 	Information Systems Security 	3.00
-SOEN 331 	Introduction to Formal Methods for Software Engineering 	3.00
-SOEN 341 	Software Process 	3.00
-SOEN 342 	Software Requirements and Specifications 	3.00
-SOEN 343 	Software Architecture and Design I 	3.00
-SOEN 344 	Software Architecture and Design II 	3.00
-SOEN 345 	Software Testing, Verification and Quality Assurance 	3.00
-SOEN 357 	User Interface Design 	3.00
-SOEN 384 	Management, Measurement and Quality Control 	3.00
-SOEN 385 	Control Systems and Applications 	3.00
-SOEN 390 	Software Engineering Team Design Project 	3.50
-SOEN 490 	Capstone Software Engineering Design Project 	4.00
-
-COMP 232 	Mathematics for Computer Science 	3.00
-COMP 248 	Object-Oriented Programming I 	3.00
-COMP 249 	Object-Oriented Programming II 	3.00
-COMP 335 	Introduction to Theoretical Computer Science 	3.00
-COMP 346 	Operating Systems 	4.00
-COMP 348 	Principles of Programming Languages 	3.00
-COMP 352 	Data Structures and Algorithms 	3.00
-
-
-Pick one (Numerical Methods):
-ENGR 391 	Numerical Methods in Engineering 	3.00 or
-COMP 361 	Elementary Numerical Methods 	3.00
-
-Basic Science, Pick 2 (6 Credits):
-BIOL 206 	Elementary Genetics 	3.00
-BIOL 226 	Biodiversity and Ecology 	3.00
-BIOL 261 	Molecular and General Genetics 	3.00
-CHEM 209 	Discovering Biotechnology 	3.00
-CHEM 217 	Introductory Analytical Chemistry I 	3.00
-CHEM 221 	Introductory Organic Chemistry I 	3.00
-CHEM 234 	Physical Chemistry I: Thermodynamics 	3.00
-PHYS 252 	Optics 	3.00
-PHYS 253 	Electricity and Magnetism I 	3.00
-PHYS 334 	Thermodynamics 	3.00
-PHYS 354 	Electricity and Magnetism II 	3.00
-
-General Education elective 	3.00 Pick (up to 3 credits) from list:
-AHSC 242 � Recreation and Leisure in Canada
-ANTH 202 � Introduction to Culture
-ECON 201 � Introduction to Microeconomics
-ECON 203 � Introduction to Macroeconomics
-EDUC 230 � Introduction to Philosophy of Education
-ENCS 483 � Creativity, Innovation and Critical Thinking in Science and Technology
-GEOG 203 � Canadian Environmental Issues
-GEOG 204 � Global Environmental Issues
-GEOG 210 � Geography of Global Change
-GEOG 220 � The Human Environment: Place, Space, and Identity
-INST 250 � Introduction to Library Research Practices
-LING 222 � Language and Mind: The Chomskyan Program
-LING 300 � Sociolinguistics
-POLI 202 � Introduction to Political Science
-RELI 214 � Religions of the West
-RELI 215 � Religions of Asia
-RELI 310 � Self and Other: Exploring Value Choices in Personal and Interpersonal Relations
-RELI 312 � Justice and Social Conflict in a Globalized World
-SCPA 201 � Introduction to Public Policy and the Public Interest
-SCPA 215 � Economics for Public Policy and Community Development
-SOCI 203 � Introduction to Society
-WSDB 290 � Introduction to Women�s Studies I
-WSDB 291 � Introduction to Women�s Studies II
-ARTH 353 � Technology and Contemorary Art
-CLAS 266 � An Introduction to Classical Archaeology
-COMS 360 � Mass Communication
-FLIT 230 � Introduction � la culture francophone
-FMST 214 � English-Canadian Film
-FMST 215 � Le cin�ma qu�b�cois
-HIST 201 � Introduction to European History to 1789
-HIST 202 � Introduction to European History, from 1789 to the Present
-HIST 205 � History of Canada, Post-Confederation
-HIST 281 � Film in History
-HIST 283 � The 20th Century: A Global History
-PHIL 201 � Problems of Philosophy
-PHIL 210 � Critical Thinking
-PHIL 232 � Introduction to Ethics
-PHIL 235 � Biomedical Ethics
-PHIL 275 � From Modern to Postmodern: Philosophical Thought and Cultural Critique
-PHIL 330 � Contemporary Ethical Theory
-THEO 202 � Introduction to Biblical Studies
-THEO 204 � Introduction to Christian Ethics
-THEO 233 � Religious Pluralism in a Secular Culture
-
-Options:
-
-General: 17 Credits from list:
-
-COMP 345 	Advanced Program Design with C++ 	4.00
-COMP 353 	Databases 	4.00
-COMP 371 	Computer Graphics 	4.00
-COMP 426 	Multicore Programming 	4.00
-COMP 428 	Parallel Programming 	4.00
-COMP 442 	Compiler Design 	4.00
-COMP 445 	Data Communication and Computer Networks 	4.00
-COMP 465 	Design and Analysis of Algorithms 	3.00
-COMP 472 	Artificial Intelligence 	4.00
-COMP 473 	Pattern Recognition 	4.00
-COMP 474 	Intelligent Systems 	4.00
-COMP 478 	Image Processing 	4.00
-COMP 479 	Information Retrieval and Web Search 	4.00
-SOEN 298 	System Hardware Lab 	1.00
-SOEN 422 	Embedded Systems and Software 	4.00
-SOEN 423 	Distributed Systems 	4.00
-ENGR 411 	Special Technical Report 	1.00
+COMP345 	Technical
+COMP353 	Technical
+COMP371 	Technical
+COMP426 	Technical
+COMP428 	Technical
+COMP442 	Technical
+COMP445 	Technical
+COMP465 	Technical
+COMP472 	Technical
+COMP473 	Technical
+COMP474 	Technical
+COMP478 	Technical
+COMP479 	Technical
+SOEN298 	Technical
+SOEN422 	Technical
+SOEN423 	Technical
+ENGR411 	Technical
+ELEC275 	Required
+ENCS282 	Required
+ENGR201 	Required
+ENGR202 	Required
+ENGR213 	Required
+ENGR233 	Required
+ENGR301 	Required
+ENGR371 	Required
+ENGR392 	Required
+SOEN228 	Required
+SOEN287 	Required
+SOEN321 	Required
+SOEN331 	Required
+SOEN341 	Required
+SOEN342 	Required
+SOEN343 	Required
+SOEN344 	Required
+SOEN345 	Required
+SOEN357 	Required
+SOEN384 	Required
+SOEN385 	Required
+SOEN390 	Required
+SOEN490 	Required
+COMP232 	Required
+COMP248 	Required
+COMP249 	Required
+COMP335 	Required
+COMP346 	Required
+COMP348 	Required
+COMP352 	Required
+ENGR391 	Required*
+COMP361 	Required*
+BIOL206 	Science
+BIOL226 	Science
+BIOL261 	Science
+CHEM209 	Science
+CHEM217 	Science
+CHEM221 	Science
+CHEM234 	Science
+PHYS252 	Science
+PHYS253 	Science
+PHYS334 	Science
+PHYS354 	Science
+AHSC242     GeneralEle
+ANTH202     GeneralEle
+ECON201     GeneralEle
+ECON203     GeneralEle
+EDUC230     GeneralEle
+ENCS483     GeneralEle
+GEOG203     GeneralEle
+GEOG204     GeneralEle
+GEOG210     GeneralEle
+GEOG220     GeneralEle
+INST250     GeneralEle
+LING222     GeneralEle
+LING300     GeneralEle
+POLI202     GeneralEle
+RELI214     GeneralEle
+RELI215     GeneralEle
+RELI310     GeneralEle
+RELI312     GeneralEle
+SCPA201     GeneralEle
+SCPA215     GeneralEle
+SOCI203     GeneralEle
+WSDB290     GeneralEle
+WSDB291     GeneralEle
+ARTH353     GeneralEle
+CLAS266     GeneralEle
+COMS360     GeneralEle
+FLIT230     GeneralEle
+FMST214     GeneralEle
+FMST215     GeneralEle
+HIST201     GeneralEle
+HIST202     GeneralEle
+HIST205     GeneralEle
+HIST281     GeneralEle
+HIST283     GeneralEle
+PHIL201     GeneralEle
+PHIL210     GeneralEle
+PHIL232     GeneralEle
+PHIL235     GeneralEle
+PHIL275     GeneralEle
+PHIL330     GeneralEle
+THEO202     GeneralEle
+THEO204     GeneralEle
+THEO233     GeneralEle
