@@ -1,0 +1,7 @@
+Web Services and Applications: Min 15 credits from list. All *, and at least one **. Rest(up to 17) from General
+Type: Technical
+COMP 353	Databases* 	4.00
+COMP 445 	Data Communication and Computer Networks 	4.00
+COMP 479 	Information Retrieval and Web Search** 	4.00
+SOEN 387	Web-Based Enterprise Application Design* 	3.00
+SOEN 487 	Web Services and Applications** 	4.00
