@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'app',
-    'app.subsystem'
+    # 'app.subsystem'
 )
 
 MIDDLEWARE_CLASSES = (
