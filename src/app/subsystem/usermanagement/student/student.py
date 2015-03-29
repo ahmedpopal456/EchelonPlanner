@@ -16,7 +16,12 @@ class Student(models.Model):
     IDNumber = models.IntegerField(null=False, blank=False, default=0, primary_key=False)
 
     def __unicode__(self):
-        return self.user.username
+        specificInfo = {}
+        specificInfo['IDNumber']=str(self.IDNumber)
+        specificInfo['address']=str(self.address)
+        specificInfo['homephone']=str(self.homephone)
+        specificInfo['cellphone']=str(self.cellphone)
+        return specificInfo
 
     class Meta:
         app_label = 'app'
