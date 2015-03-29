@@ -53,24 +53,24 @@
                 {% for course in partialSelection %}
                    <tr>
                     <td>{{ course.deptnum }}</td>
-                    <div class="btn-group" data-toggle="buttons">
+                    <div class="btn-group" data-toggle="buttons" name = "choice">
                         {% for year in maxYear %}
                             {% if course.duringSummer1 %}
                         <td><label class="btn btn-default">
-                            <input type="radio" name={{ course.deptnum }}+"" value="{{ year }}Summer1"></label>
+                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Summer1"></label>
                         </td>
                             {% endif %}
                             {% if course.duringSummer2 %}
                         <td><label class="btn btn-default">
-                            <input type="radio" name={{ course.deptnum }}+"" value="{{ year }}Summer2"></label></td>
+                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Summer2"></label></td>
                             {% endif %}
                             {% if course.duringAutumn %}
                         <td><label class="btn btn-default">
-                            <input type="radio" name={{ course.deptnum }}+"" value="{{ year }}Autumn"></label></td>
+                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Autumn"></label></td>
                             {% endif %}
                             {% if course.duringSummer %}
                         <td><label class="btn btn-default">
-                            <input type="radio" name={{ course.deptnum }}+"" value="{{ year }}Winter">
+                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Winter">
                         </label></td>
                             {% endif %}
                         {% endfor %}

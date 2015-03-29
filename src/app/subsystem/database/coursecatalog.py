@@ -212,7 +212,7 @@ class CourseCatalog(object):
                 return "Tutorial"
 
         # When given a section returns if it has tutorials. Functionality is used repeatedly elsewhere.
-    def hasTuorial(section):
+    def hasTutorial(section):
 
         if CourseCatalog.typeofSection(section) == "Lecture":
             if len(section.tutorial_set.all()) == 0:
