@@ -267,7 +267,7 @@ def change_email(request):
 
 @login_required
 def schedule_make(request):#Needs to be looked at
-    numberOfElectives = [1,2,3,4,5,6,7,8,9,10,11,12]  #Need to create list containing how many choices user gets to make
+    numberOfElectives = [1,2,3,4,5,6,7,8,9]  #Need to create list containing how many choices user gets to make
     availableElectives = ["a","b","c"] #Not sure what method to use to call electives related to the user's academic program
     if request.method == 'POST':
         prelim_choices = request.POST['choice'] # Since there may be more than one span with that name, this results in the needed array, right?
