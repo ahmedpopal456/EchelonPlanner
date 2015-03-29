@@ -15,7 +15,17 @@
 
 {% include "app/navbar.html" %}
 
-{% if alternate %} <!--this is for non-student users not covered in the main user profile page -->
+<!-- notify of some error -->
+
+{% if message %}
+    <div class="text-center">
+        <p><b>{{ message }}</b></p>
+    </div>
+{% endif %}
+
+
+<!--this is for dynamically the main user profile page -->
+{% if alternate %}
     {% include alternate %}
 {% else %}
     {% include "app/user_profile_main.html" %}
