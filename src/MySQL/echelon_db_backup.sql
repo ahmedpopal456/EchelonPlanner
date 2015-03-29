@@ -666,32 +666,6 @@ INSERT INTO `django_content_type` VALUES (1,'log entry','admin','logentry'),(2,'
 UNLOCK TABLES;
 
 --
--- Table structure for table `django_migrations`
---
-
-DROP TABLE IF EXISTS `django_migrations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `django_migrations` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `app` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `applied` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `django_migrations`
---
-
-LOCK TABLES `django_migrations` WRITE;
-/*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2015-03-28 06:53:57'),(2,'auth','0001_initial','2015-03-28 06:54:02'),(3,'admin','0001_initial','2015-03-28 06:54:03'),(4,'app','0001_initial','2015-03-28 06:54:17'),(5,'app','0002_student','2015-03-28 06:54:19'),(6,'app','0003_auto_20150327_2131','2015-03-28 06:54:20'),(7,'app','0004_auto_20150328_0034','2015-03-28 06:54:21'),(8,'app','0005_studentrecord','2015-03-28 06:54:23'),(9,'app','0006_professor_programdirector','2015-03-28 06:54:27'),(10,'sessions','0001_initial','2015-03-28 06:54:29');
-/*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `django_session`
 --
 
