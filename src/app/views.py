@@ -280,7 +280,7 @@ def schedule_make(request):#Needs to be looked at
 
 @login_required
 def schedule_select(request): #Needs to be looked at
-    partialSelection = set(prelim_choices).union(academicprogram.course) #I want it to show the union between the courses in the academic program, but  I want it to exclude any other optional course not present in the prelim_choices. This does not do that.
+    partialSelection = set(prelim_choices).union(database.academicprogram.course) #I want it to show the union between the courses in the academic program, but  I want it to exclude any other optional course not present in the prelim_choices. This does not do that.
     if request.method == 'Post':
         rawSchedule = request.POST('choice') #Needs to send the selected radio buttons' values to schedule_select_continue
     return render(
@@ -302,6 +302,32 @@ def schedule_view(request):
         request,
         'app/schedule_view.html',
         {'timeSlots': timeSlots}
+    )
+
+@login_required
+def course_create(request):
+    if request.method == 'POST':
+        name = request.POST('name')
+        number = request.POST('number')
+        department = request.POST('department')
+        type = request.POST('type')
+        credits = request.POST('credits')
+        prerequisites = request.POST('prerequisites')
+        equivalence = request.POST('equivalence')
+        yearSpan = request.POST('yearSpan')
+        newCourse = courses.Course.new()
+        newCourse.course.department = department
+        newCourse.course.type = type
+        newCourse.course.number = number
+        newCourse.course.credits = credits
+        newCourse.course.name = name
+        newCourse.course.prerequisites = prerequisites
+        newCourse.course.equivalence = equivalence
+        newCourse.course.yearSpan = yearSpan
+        database.coursecatalog.addCourse(name, number, department, credits)
+    return render(
+        request,
+        'app/course_create.html',
     )
 
 
