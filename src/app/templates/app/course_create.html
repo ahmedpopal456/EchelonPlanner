@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Concordia YouSched</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+
+
+</head>
+
+<body>
+<!-- Load  the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+
+<div class="container body-content">
+    <div class="row" >
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8"><h2>Create Course</h2>
+            <form class="form-signin" method="post" action="/courseCreate/">
+            <label for="inputName" class="sr-only">Enter Name</label>
+                    <input id="inputName" class="form-control" placeholder="Enter Name" name="name" type="text">
+            <label for="inputDept" class="sr-only">Enter Department</label>
+                    <input id="inputDept" class="form-control" placeholder="Enter Department" name="department" type="text">
+            <label for="inputNumber" class="sr-only">Enter Number</label>
+                    <input id="inputNumber" class="form-control" placeholder="Enter Number" name="number" type="text">
+            <label for="inputName" class="sr-only">Enter Type</label>
+                    <input id="inputName" class="form-control" placeholder="Enter Name" name="name" type="text">
+            <label for="inputCredits" class="sr-only">Enter Credits</label>
+                    <input id="inputCredits" class="form-control" placeholder="Enter Credits" name="credits" type="text">
+            <label for="inputPrereqs" class="sr-only">Enter Prerequisites</label>
+                    <input id="inputPrereqs" class="form-control" placeholder="Enter Prerequisites" name="prerequisites" type="text">
+            <label for="inputEquivalence" class="sr-only">Enter Equivalence</label>
+                    <input id="inputEquivalence" class="form-control" placeholder="Enter Equivalence" name="equivalence" type="text">
+            <label for="inputSpan" class="sr-only">Enter Year Span</label>
+                    <input id="inputSpan" class="form-control" placeholder="Enter Year Span" name="yearSpan" type="text">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+</div>
+</body>
+</html>
