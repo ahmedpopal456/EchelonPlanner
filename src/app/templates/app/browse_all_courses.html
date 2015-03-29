@@ -19,35 +19,55 @@
     <div class="row" >
         <div class="col-xs-3">
 
-                <h1>Filter Courses</h1>
+            <h1>Filter Courses</h1>
+            <form class="form-signin" method="post" action="/browse_all_courses/">
+                {% csrf_token %}
+                <!-- Common Departments -->
                 <label for="department" class="control-label input-group">Department</label>
                 <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="radio" name="department" value="" checked="">Any
+                    </label>
                     <label class="btn btn-default">
                         <input type="radio" name="department" value="SOEN">SOEN
                     </label>
                     <label class="btn btn-default">
                         <input type="radio" name="department" value="COMP">COMP
                     </label>
-                    <label class="btn btn-default active">
-                        <input type="radio" name="department" value="OTHER" checked="">OTHER
+                    <label class="btn btn-default">
+                        <input type="radio" name="department" value="ENGR">ENGR
                     </label>
                 </div>
-                <label for="credits" class="control-label input-group">Credits</label>
+
+                <!-- Credit Threshold -->
+                <label for="credits" class="control-label input-group">Credits Amount</label>
                 <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default">
-                        <input type="radio" name="credits" value="1">1
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" name="credits" value="2">2
+                    <label class="btn btn-default active">
+                        <input type="radio" name="credits" value="4" checked="">4 ≤
                     </label>
                     <label class="btn btn-default">
                         <input type="radio" name="credits" value="3">3
                     </label>
                     <label class="btn btn-default">
-                        <input type="radio" name="credits" value="4≤">4≤
+                        <input type="radio" name="credits" value="2">2
                     </label>
-
+                    <label class="btn btn-default">
+                        <input type="radio" name="credits" value="1">1
+                    </label>
                 </div>
+                <div class="text-left">
+                    <!-- Custom Search with String -->
+                    <label>Search By Name (Overrides Previous)</label>
+                    <input id="inputString" class="form-control" placeholder="Name and dept. (e.g. SOEN101)" name="custom_string" type="text">
+                </div>
+
+                <div class="text-left">
+                    <p> </p>
+                </div>
+
+                <!-- SUBMIT! -->
+                <button class="btn btn-primary btn-block" type="submit">Find</button>
+            </form>
 
         </div>
         <div class="col-xs-8">

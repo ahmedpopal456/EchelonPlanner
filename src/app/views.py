@@ -273,9 +273,20 @@ def schedule_view(request):
 def browse_all_courses(request):
     courseList = Course.objects.all()  # List of all courses
     if request.method == 'POST':
-        # There should be post parameters with certain parameters to throw at the course catalogue
-        # the return would be, therefore be a subset of the full course set.
-        print()
+        course_credits = request.POST['credits']
+        department = request.POST['department']
+        search_string = request.POST['custom_string']
+
+        if search_string == "":
+            department_list = CourseCatalog.searchCourses(department)
+            credit_list = CourseCatalog.searchCoursesByCredits(0, course_credits)
+            intersection_set = set(department_list).intersection(credit_list)
+            courseList = list(intersection_set)
+
+        else:
+            courseList = CourseCatalog.searchCourses(search_string)
+        print(request.POST)
+        print(courseList)
     return render(
         request,
         'app/browse_all_courses.html',
