@@ -20,8 +20,8 @@
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
             <!-- not sure if form-signin should be class -->
-            <form class="form" method="post" action="/emailChange/">
-
+            <form class="form" method="post" action="/emailChange/" id="giveSpace">
+                {% csrf_token %}
                 <h2 class="form">Email Change</h2>
 
                 <label for="inputNewEmail" class="sr-only">Enter new password</label>
