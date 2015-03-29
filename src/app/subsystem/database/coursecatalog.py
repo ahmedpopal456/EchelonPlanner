@@ -14,6 +14,7 @@ class CourseCatalog(object):
     #
     # Returns List of Courses that contain partialName in either Name or in Deptnum
     # or Department or Number
+    @staticmethod
     def searchCourses(partialName):
         nospacesstring = partialName.replace(" ", "")
         c1 = set(list(Course.objects.filter(name__icontains=partialName)))
@@ -24,6 +25,7 @@ class CourseCatalog(object):
         return list(c1)
 
     # either define a limit or an exact credit value to check. Limits are inclusive.
+    @staticmethod
     def searchCoursesByCredits(lowerCreditLimit, upperCreditLimit=None):
 
         if upperCreditLimit is not None:

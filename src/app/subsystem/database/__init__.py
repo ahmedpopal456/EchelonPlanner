@@ -1,0 +1,1 @@
+from .coursecatalog import CourseCatalog
