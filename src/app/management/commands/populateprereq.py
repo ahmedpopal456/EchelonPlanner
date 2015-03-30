@@ -32,4 +32,5 @@ class Command(BaseCommand):
                     except:
                         logger.warn("Prereq doesn't exist: "+P)
 
-
+        print("Finished populating pre-reqs")
+        data_file.close()

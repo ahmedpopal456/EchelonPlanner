@@ -15,10 +15,10 @@ class Event(models.Model):
     starttime= models.TimeField(null=False, blank=False, primary_key=False, default=datetime.time(0,0,0))
     endtime = models.TimeField(null=False, blank=False,  primary_key=False, default=datetime.time(0,0,0))
 
-    # Location/Place Variables
+    # Location/Place Variables For Frontend, easy access: event.location
     building = models.CharField (max_length=120, default="SGW H", null=True, blank=True)
     room = models.IntegerField(null=False, blank=False, default=0, primary_key=False)
-    location = models.CharField (max_length=120, default="SGW H101") # concat of dept and num
+    location = models.CharField (max_length=120, default="SGW H101") # This is the only field of actual use
 
     # Validity Variables
     semester = models.CharField(max_length=120, )
@@ -28,6 +28,107 @@ class Event(models.Model):
 
     def __str__(self):
         return (self.semester+" "+self.days+" "+str(self.starttime)+"-"+str(self.endtime)+ " "+self.location)
+
+    # List of bool function for front end to check day #
+    def isMonday(self):
+
+        if "M" in self.days:
+            return True
+        else:
+            return False
+
+    def isTuesday(self):
+
+        if "T" in self.days:
+            return True
+        else:
+            return False
+
+    def isWednesday(self):
+
+        if "W" in self.days:
+            return True
+        else:
+            return False
+
+    def isThursday(self):
+
+        if "J" in self.days:
+            return True
+        else:
+            return False
+
+    def isFriday(self):
+
+        if "F" in self.days:
+            return True
+        else:
+            return False
+
+    def isSaturday(self):
+
+        if "S" in self.days:
+            return True
+        else:
+            return False
+
+    def isSunday(self):
+
+        if "D" in self.days:
+            return True
+        else:
+            return False
+
+    #END of day checking functions#
+
+    # Next two functions allow frontend to get the start/end time rounded to the nearest 15minutes
+    def getRoundedStart(self):
+
+        differencefromfifteen = (self.starttime.minute)%15
+        if differencefromfifteen == 0:
+            return self.starttime.strftime("%H:%M")
+        else:
+            timetoadd = datetime.timedelta(minute=(15 - differencefromfifteen))
+            returntime = datetime.datetime.combine(datetime.datetime.today(), self.starttime)+timetoadd
+
+            return returntime.strftime("%H:%M")
+
+    def getRoundedEnd(self):
+
+        differencefromfifteen = self.endtime.minute % 15
+        if differencefromfifteen == 0:
+            return self.endtime.strftime("%H:%M")
+        else:
+            timetoadd = datetime.timedelta(minutes=(15 - differencefromfifteen))
+            returntime = datetime.datetime.combine(datetime.datetime.today(), self.endtime)+timetoadd
+
+            return returntime.strftime("%H:%M")
+
+    #end of rounding functions
+
+    # Allows frontend to get actual start/end to display as a string
+    def getActualStart(self):
+
+        return self.starttime.strftime("%H:%M")
+
+    def getActualEnd(self):
+
+        return self.endtime.strftime("%H:%M")
+
+    # returns duration as an int of number of 15minute blocks.
+    # Rounded. Might need testing with boundary conditions. i.e 00:05 to 00:55 should return 3 blocks (same as 00:15-00:00)
+
+    def getDuration(self):
+
+        endtimeobject = datetime.datetime.combine(datetime.datetime.today(), self.endtime)
+        starttimeobject = datetime.datetime.combine(datetime.datetime.today(), self.starttime)
+        duration = endtimeobject - starttimeobject
+
+        seconds = duration.total_seconds()
+
+        numberofblocks = round(seconds/900, 0)
+
+        return numberofblocks
 
     class Meta:
         app_label = 'app'
