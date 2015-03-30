@@ -20,10 +20,12 @@
 
     //this script allows the dropdown to save the selected option as its label.
     $(function(){
-        var beautiful = $(this).attr(); //this is going to go into eq, I need some way to pass the button number to it.
+
   $(".dropdown-menu li a").click(function(){
-    $(".dropdown .btn:eq(1)").text($(this).text());
-    $(".dropdown .btn:eq(1)").val($(this).text());
+      var xx = $(this).attr("number")-1; //this is going to go into eq, I need some way to pass the button number to it.
+    $(".dropdown .btn:eq("+ xx +" )").text($(this).text());
+    $(".dropdown .btn:eq(" + xx +" )").val($(this).text());
+
   });
 
 });
