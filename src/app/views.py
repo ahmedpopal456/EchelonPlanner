@@ -268,12 +268,13 @@ def change_email(request):
 
 
 @login_required
-def schedule_make(request):#Needs to be looked at
+def schedule_make(request):#Might as well rework this method from scratch, but you can see what the logic was intended to be
     numberOfElectives = [1,2,3,4,5,6,7,8,9]  #Need to create list containing how many choices user gets to make
     availableElectives = ["a","b","c"] #Not sure what method to use to call electives related to the user's academic program
     if request.method == 'POST':
-        prelim_choices = request.POST['choice'] # Since there may be more than one span with that name, this results in the needed array, right?
-        schedule_select(prelim_choices) # Need to send prelim_choices to schedule select. This is probably not how it is done.
+        prelim_choices = []
+        for item in range(1, 12):
+            prelim_choices = prelim_choices.append(request.POST("choice " + item)) #since several items carry that name shouldn't this be a list?
 
     return render(
         request,
