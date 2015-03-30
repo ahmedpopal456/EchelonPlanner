@@ -84,7 +84,7 @@ class CourseCatalog(object):
             e = Event(days=days, starttime=starttime, endtime=endtime, location=location,
                       semester=semester)
             e.save()
-            l = Lecture(section=section, session=semester, isOnline=isOnline, event=e)
+            l = Lecture(section=section, semester=semester, isOnline=isOnline, event=e)
             l.save()
             c.lecture_set.add(l)
             return True
@@ -102,7 +102,7 @@ class CourseCatalog(object):
         primarykey = department + str(number);
         try:
             C = Course.objects.get(pk=primarykey)
-            C.lecture_set.get(session=semester, section=section).delete()
+            C.lecture_set.get(semester=semester, section=section).delete()
             return True
         except Course.DoesNotExist:
             logger.warn("Course not found: " + department + str(number) + ". Cannot remove Lecture from Course")
@@ -116,30 +116,37 @@ class CourseCatalog(object):
 
     def labToCourse(self, section, department, number, starttime, endtime, days, semester, location, lecturesection, tutorialsection = None):
 
-
-        e = Event(days=days, starttime=starttime, endtime=endtime, location=location, semester=semester)
-        lab = Lab(section=section, event=e)
-
-
-        #Below, we try to add a lab to a course if the lab exists, otherwise we throw an exception
-
         try:
-            c = Course.objects.get(pk=(department + str(number)))
+            e = Event(days=days, starttime=starttime, endtime=endtime, location=location, semester=semester)
             e.save()
+            lab = Lab(section=section, event=e)
+
+
+            #Below, we try to add a lab to a course if the lab exists, otherwise we throw an exception
+
+            c = Course.objects.get(pk=(department + str(number)))
             lab.save()
             c.lab_set.add(lab)
+            lecture = c.lecture_set.get(semester=semester, course=c, section=lecturesection)
+            lecture.lab_set.add(lab)
 
         except Course.DoesNotExist:
-            logger.warn("Course not found: " + department + str(number) + ". Cannot remove Lecture from Course")
+            logger.warn("Course not found: " + department + str(number) + ". Cannot add lab to Course")
+            e.delete()
+            lab.delete()
+            return False
+        except Lecture.DoesNotExist:
+            e.delete()
+            lab.delete()
+            logger.warn("Lecture not found: " + department + str(number) + ". Cannot add lab to Course")
             return False
 
-        lecture = c.lecture_set.get(semester=semester, course=c, section=lecturesection)
-        lecture.lab_set.add(lab)
+
 
         #Once the lab has been added to the course, we search for the tutorial linked with the section
         # and add try to add the lab to the tutorial
         if tutorialsection is not None:
-            tutorial = Tutorial.objects.get(section=number, course=c)
+            tutorial = Tutorial.objects.get(section=tutorialsection, course=c)
             tutorial.lab_set.add(lab)
 
     def removeLab(self, section, department, number, semester):
@@ -148,7 +155,7 @@ class CourseCatalog(object):
         primarykey = department + str(number);
         try:
             C = Course.objects.get(pk=primarykey)
-            C.lab_set.get(session=semester, section=section, number=number).delete()
+            C.lab_set.get(semester=semester, section=section, number=number).delete()
             return True
         except Course.DoesNotExist:
             logger.warn("Course not found: " + department + str(number) + ". Cannot remove Lecture from Course")
@@ -165,7 +172,7 @@ class CourseCatalog(object):
             e = Event(days=days, starttime=starttime, endtime=endtime, location=location,
                       semester=semester)
             e.save()
-            tut = Tutorial(section=section, session=semester, event=e)
+            tut = Tutorial(section=section, event=e)
             tut.save()
             c.tutorial_set.add(tut)
             lecture = c.lecture_set.get(semester=semester, section=lecturesection, course=c)
@@ -186,7 +193,7 @@ class CourseCatalog(object):
         primarykey = department + str(number);
         try:
             C = Course.objects.get(pk=primarykey)
-            C.tutorial_set.get(number=number, session=semester, section=section).delete()
+            C.tutorial_set.get(number=number, semester=semester, section=section).delete()
             return True
 
         except Course.DoesNotExist:
