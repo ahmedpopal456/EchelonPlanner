@@ -8,7 +8,7 @@
                     <h1>Account Settings</h1>
 
                     {% if firstname %}
-                        <p>First Name:{{firstname}}</p>
+                        <p>First Name: {{firstname}}</p>
                     {% else %}
                         <p>Who are you?</p>
                     {% endif %}
@@ -20,7 +20,7 @@
                     {% endif %}
 
                     {% if email %}
-                        <p>Email:{{email}}:</p>
+                        <p>Email: {{email}} </p>
                     {% else %}
                         <p>You don't have an email?</p>
                     {% endif %}
@@ -56,7 +56,7 @@
 
                     {% if isDirector %}
                         {% if hasDept %}
-                        <p>Department:{{dept}}:</p>
+                        <p>Department: {{dept}} </p>
                         {% else %}
                         <p>You are not assigned to a department.</p>
                         {% endif %}
