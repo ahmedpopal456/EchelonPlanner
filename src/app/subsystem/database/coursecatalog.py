@@ -114,7 +114,7 @@ class CourseCatalog(object):
             return False
 
 
-    def labToCourse(self, section, department, number, starttime, endtime, days, semester, location):
+    def labToCourse(self, section, department, number, starttime, endtime, days, semester, location, lecturesection, tutorialsection = None):
 
 
         e = Event(days=days, starttime=starttime, endtime=endtime, location=location, semester=semester)
@@ -133,16 +133,14 @@ class CourseCatalog(object):
             logger.warn("Course not found: " + department + str(number) + ". Cannot remove Lecture from Course")
             return False
 
+        lecture = c.lecture_set.get(semester=semester, course=c, section=lecturesection)
+        lecture.lab_set.add(lab)
+
         #Once the lab has been added to the course, we search for the tutorial linked with the section
         # and add try to add the lab to the tutorial
-        try:
-            tutoriallist = set(
-                list(Tutorial.objects.filter(number=number, section=section, semester=semester, department=department)))
-            tutoriallist[0].lab_set.add(lab)
-
-        except Tutorial.DoesNotExist:
-            logger.warn("Tutorial does not exist for this course")
-
+        if tutorialsection is not None:
+            tutorial = Tutorial.objects.get(section=number, course=c)
+            tutorial.lab_set.add(lab)
 
     def removeLab(self, section, department, number, semester):
 
@@ -160,7 +158,7 @@ class CourseCatalog(object):
             return False
 
 
-    def tutorialToCourse(self, section, department, number, semester, starttime, endtime, days, location):
+    def tutorialToCourse(self, section, department, number, semester, starttime, endtime, days, location, lecturesection):
 
         try:
             c = Course.objects.get(pk=(department + str(number)))
@@ -170,6 +168,8 @@ class CourseCatalog(object):
             tut = Tutorial(section=section, session=semester, event=e)
             tut.save()
             c.tutorial_set.add(tut)
+            lecture = c.lecture_set.get(semester=semester, section=lecturesection, course=c)
+            lecture.tutorial_set.add(tut)
             return True
 
         except Course.DoesNotExist:

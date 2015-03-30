@@ -6,13 +6,13 @@ class Lecture(models.Model):
 
     section = models.CharField(max_length=120, default="A", primary_key=False)
     course = models.ForeignKey(Course, primary_key=False, null=True)
-    session = models.CharField(max_length=120, default="Fall", primary_key=False)
+    semester = models.CharField(max_length=120, default="Fall", primary_key=False)
     isOnline = models.BooleanField(default=False, primary_key=False)
     event = models.OneToOneField(Event, null=True)
     prof = models.CharField(max_length=120, default="Prof X", primary_key=False)
 
     def __str__(self):
-        return (self.section+"-"+self.session)
+        return (self.section+"-"+self.semester)
 
     def name(self):
         return "Lecture"
