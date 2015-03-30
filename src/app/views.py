@@ -309,6 +309,16 @@ def schedule_view(request):
     )
 
 @login_required
+def glorious_schedule_assembly(request):
+    max_courses = [1, 2, 3, 4, 5]
+    return render(
+        request,
+        'app/glorious_schedule_assembly.html',
+        {'max_courses':max_courses}
+
+    )
+
+@login_required
 def course_create(request):
     if request.method == 'POST':
         name = request.POST('name')
