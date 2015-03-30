@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Concordia YouSched</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+
+
+</head>
+
+<body>
+<!-- Load  the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+
+<div class="container body-content">
+    <div class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <h2>Pick Your Poison: University Edition</h2>
+            {% for slot in max_courses %}
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle form-control"
+                            data-toggle="dropdown">
+                    <span name="choice {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order %}"
+                          data-bind="label">Select One</span>&nbsp;<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                            {% for course in feasableCourses %}
+                            <li>{{ course.deptcode }} {{ course.name }}
+                                {% for section in course %}
+                                    <li><a href="#">{{ deptnum }}: {{ section }}</a></li>
+                                {% endfor %}
+                            </li>
+                            {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-xs-2"> </div>
+    </div>
+</div>
+</body>
+</html>
