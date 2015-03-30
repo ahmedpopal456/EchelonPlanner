@@ -24,11 +24,12 @@
                 <thead>
                 <tr>
                     <th>Time</th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
+                    <th class="mon">Monday</th>
+                    <th class="tue">Tuesday</th>
+                    <th class="wed">Wednesday</th>
+                    <th class="thu">Thursday</th>
+                    <th class="fri">Friday</th>
+                    <th class="sat">Saturday</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,7 +38,11 @@
                         <td>{{ time }}</td>
                         {% for class in currentSchedule %}
                             {% if class.startTime ==  time%}
-                                <td colspan = {{class.timeSlotLength }}>{{ class.schedInfo }}</td>
+                                <td colspan = {{class.timeSlotLength }} class ="{% cycle "mon" "tue" "wed" "thu" "fri" "sat" as days%}">
+                                {% if days == class.day %}
+                                    {{ class.schedInfo }}
+                                    {% endif %}
+                                </td>
                             {% endif %}
                         {% endfor %}
                     </tr>
