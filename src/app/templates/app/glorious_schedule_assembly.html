@@ -19,18 +19,14 @@
 <script type="text/javascript">
 
     //this script allows the dropdown to save the selected option as its label.
-    $(document.body).on('click', '.remember', function (event) {
+    $(function(){
+        var beautiful = $(this).attr(); //this is going to go into eq, I need some way to pass the button number to it.
+  $(".dropdown-menu li a").click(function(){
+    $(".dropdown .btn:eq(1)").text($(this).text());
+    $(".dropdown .btn:eq(1)").val($(this).text());
+  });
 
-        var $target = $(event.currentTarget);
-
-        $target.closest('.btn')
-                .find('[data-bind="label"]').text($target.text())
-                .end()
-                .children('.dropdown-toggle').dropdown('toggle');
-
-        return false;
-
-    });
+});
     //multi-level dropdown hack because bootstrap hates everyone
     $(function () {
         $(".dropdown-menu > li > a.trigger").on("click", function (e) {
@@ -62,7 +58,7 @@
                 {% for slot in max_courses %}
                     {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order silent %}
                     <div class="dropdown" style="position:relative">
-                        <a href="#" id="top{{ order }}" class="btn btn-primary dropdown-toggle giveSpace"
+                        <a href="#" class="btn btn-primary dropdown-toggle giveSpace"
                            data-toggle="dropdown" data-bind="label">Course {{ order }}
                             <span class="caret"></span>&nbsp;</a>
                         <ul class="dropdown-menu">
@@ -71,7 +67,7 @@
                                     <a class="trigger right-caret">{{ course.deptnum }} : {{ course.name }}</a>
                                     <ul class="dropdown-menu sub-menu">
                                         {% for item in testTestList %}
-                                            <li><a href="#"> {{ item }} </a> </li>
+                                            <li><a href="#" number ="{{ order }}" > {{ course.deptnum }}: {{ item }} </a> </li>
                                         {% endfor %}
                                     </ul>
                                 </li>
@@ -79,6 +75,7 @@
                         </ul>
                     </div>
                 {% endfor %}
+
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
             </form>
         </div>
