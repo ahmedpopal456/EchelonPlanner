@@ -26,7 +26,7 @@
                     {% if hasMessage %}
                         <p>{{ message }}</p>
                     {% endif %}
-                    <form class="form-signin" method="post" action="/loginhandler/">
+                    <form class="form-signin" method="post" action="/login_handler/">
                         {% csrf_token %}
                         <h2 class="form-signin-heading">
                             Please log in or <a href="/register">register here</a>
