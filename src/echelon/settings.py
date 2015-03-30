@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'app',
+    'app.subsystem',
     'sslserver',
 )
 
@@ -70,7 +71,7 @@ WSGI_APPLICATION = 'echelon.wsgi.application'
 
 
 # Default Login URL
-LOGIN_URL='/login/'
+LOGIN_URL='/login_handler/'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
