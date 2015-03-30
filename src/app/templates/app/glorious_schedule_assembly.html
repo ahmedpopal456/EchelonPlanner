@@ -15,33 +15,74 @@
 <!-- Load  the Navbar at the top of the page.-->
 {% include "app/navbar.html" %}
 
+
+<script type="text/javascript">
+
+    //this script allows the dropdown to save the selected option as its label.
+    $(document.body).on('click', '.remember', function (event) {
+
+        var $target = $(event.currentTarget);
+
+        $target.closest('.btn')
+                .find('[data-bind="label"]').text($target.text())
+                .end()
+                .children('.dropdown-toggle').dropdown('toggle');
+
+        return false;
+
+    });
+    //multi-level dropdown hack because bootstrap hates everyone
+    $(function () {
+        $(".dropdown-menu > li > a.trigger").on("click", function (e) {
+            var current = $(this).next();
+            var grandparent = $(this).parent().parent();
+            if ($(this).hasClass('left-caret') || $(this).hasClass('right-caret'))
+                $(this).toggleClass('right-caret left-caret');
+            grandparent.find('.left-caret').not(this).toggleClass('right-caret left-caret');
+            grandparent.find(".sub-menu:visible").not(current).hide();
+            current.toggle();
+            e.stopPropagation();
+        });
+        $(".dropdown-menu > li > a:not(.trigger)").on("click", function () {
+            var root = $(this).closest('.dropdown');
+            root.find('.left-caret').toggleClass('right-caret left-caret');
+            root.find('.sub-menu:visible').hide();
+        });
+    });
+</script>
+
 <!--test 1-->
 <div class="container body-content">
     <div class="row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
             <h2>Pick Your Poison: University Edition</h2>
-            {% for slot in max_courses %}
 
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle form-control"
-                            data-toggle="dropdown">
-                    <span name="choice {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order %}"
-                          data-bind="label">Select One</span>&nbsp;<span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                            {% for course in feasableCourses %}
-                            <li>{{ course.deptcode }} {{ course.name }}
-                                {% for section in course %}
-                                    <li><a href="#">{{ deptnum }}: {{ section }}</a></li>
-                                {% endfor %}
-                            </li>
+            <form class="form-group" method="post" action="/glorious_schedule_assembly/">
+                {% for slot in max_courses %}
+                    {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order silent %}
+                    <div class="dropdown" style="position:relative">
+                        <a href="#" id="top{{ order }}" class="btn btn-primary dropdown-toggle giveSpace"
+                           data-toggle="dropdown" data-bind="label">Course {{ order }}
+                            <span class="caret"></span>&nbsp;</a>
+                        <ul class="dropdown-menu">
+                            {% for course in feasable_courses %}
+                                <li>
+                                    <a class="trigger right-caret">{{ course.deptnum }} : {{ course.name }}</a>
+                                    <ul class="dropdown-menu sub-menu">
+                                        {% for item in testTestList %}
+                                            <li><a href="#"> {{ item }} </a> </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
                             {% endfor %}
-                    </ul>
-                </div>
-            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            </form>
         </div>
-        <div class="col-xs-2"> </div>
+        <div class="col-xs-2"></div>
     </div>
 </div>
 </body>
