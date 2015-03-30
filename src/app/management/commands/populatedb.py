@@ -69,5 +69,7 @@ class Command(BaseCommand):
                         lab.save()
                         if t is not None:
                             t.lab_set.add(lab)
+        print("Finished populating courses")
+        data_file.close()
             #except django.db.DatabaseError:
              #   logger.warn("Course or lecture or lab or tutorial already exists: "+deptnum)

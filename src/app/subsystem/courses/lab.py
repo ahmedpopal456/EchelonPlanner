@@ -16,6 +16,9 @@ class Lab (models.Model):
     def __str__(self):
         return (self.section)
 
+    def name(self):
+        return "Lab"
+
     class Meta:
         unique_together = ('section', 'course', 'lecture', 'tutorial')
         app_label = 'app'

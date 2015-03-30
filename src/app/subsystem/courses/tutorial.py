@@ -12,6 +12,9 @@ class Tutorial(models.Model):
     def __str__(self):
         return (self.section)
 
+    def name(self):
+        return "Tutorial"
+
     class Meta:
         unique_together = ('section', 'course', 'lecture')
         app_label = 'app'

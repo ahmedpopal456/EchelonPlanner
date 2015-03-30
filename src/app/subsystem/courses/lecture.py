@@ -14,6 +14,9 @@ class Lecture(models.Model):
     def __str__(self):
         return (self.section+"-"+self.session)
 
+    def name(self):
+        return "Lecture"
+
     class Meta:
         unique_together = ('section', 'course', 'session')
         app_label = 'app'
