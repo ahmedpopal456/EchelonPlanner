@@ -18,7 +18,7 @@ class Lecture(models.Model):
         return "Lecture"
 
     class Meta:
-        unique_together = ('section', 'course', 'session')
+        unique_together = ('section', 'course', 'semester')
         app_label = 'app'
         managed= True
 
