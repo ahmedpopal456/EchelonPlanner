@@ -52,8 +52,8 @@ def menu(request):
         return register(request)
 
 
-def loginhandler(request):
-    # Handle login at any level and redirect to Menu.html
+def login_handler(request):
+    # Handle login_handler at any level and redirect to Menu.html
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -63,14 +63,16 @@ def loginhandler(request):
         if user:
             # If successful,
             login(request, user)
-            return HttpResponseRedirect('/')  # This eliminates the loginhandler from the path
+            return HttpResponseRedirect('/')  # This eliminates the login_handler from the path
 
         else:
-            # print ("Invalid login details: {0}, {1}".format(username, password))
+            # print ("Invalid login_handler details: {0}, {1}".format(username, password))
             return render(request,
                           'app/login.html',
                           {'hasMessage': True, 'message': 'Login not successful. Check your username and password.'})
-# End loginhandler()
+    else:
+        return home(request)
+# End login_handler()
 
 
 def register(request):
@@ -240,10 +242,10 @@ def change_details(request):
         address = request.POST['address']
         homePhone = request.POST['homePhone']
         cellPhone = request.POST['cellPhone']
-        request.user.student.address.__setattr__(address)
-        request.user.student.homephone.__setattr__(homePhone)
-        request.user.student.cellphone.__setattr__(cellPhone)
-        request.user.save();
+        request.user.student.address = address
+        request.user.student.homephone = homePhone
+        request.user.student.cellphone = cellPhone
+        request.user.save()
     return render(
         request,
         'app/change_details.html'
@@ -252,29 +254,34 @@ def change_details(request):
 
 @login_required
 def change_email(request):
+    message = str()
+    loadPage = 'app/change_email.html'
     if request.method == 'POST':
         email1 = request.POST['email1']
         email2 = request.POST['email2']
         if email1 == email2:
-            request.user.email.__setattr__(email1)
-            request.user.save();
+            request.user.email =email1
+            request.user.save()
+            loadPage = str()
         else:
             message = "Error: Inputs did not match. Please Try Again."
 
     return render(
         request,
-        'app/change_email.html'
+        'app/user_profile.html',
+        {'alternate': loadPage, 'message': message}
     )
 
 
 @login_required
-def schedule_make(request):#Might as well rework this method from scratch, but you can see what the logic was intended to be
-    numberOfElectives = [1,2,3,4,5,6,7,8,9]  #Need to create list containing how many choices user gets to make
-    availableElectives = ["a","b","c"] #Not sure what method to use to call electives related to the user's academic program
+def schedule_make(request):  # Might as well rework this method from scratch, but you can see what the logic was intended to be
+    numberOfElectives = [1,2,3,4,5,6,7,8,9]  # Need to create list containing how many choices user gets to make
+    availableElectives = CourseCatalog.searchCourses("SOEN")  # Not sure what method to use to call electives related to the user's academic program
     if request.method == 'POST':
         prelim_choices = []
+        print(request.POST)
         for item in range(1, 12):
-            prelim_choices = prelim_choices.append(request.POST("choice " + item)) #since several items carry that name shouldn't this be a list?
+            prelim_choices.append(request.POST("choice " + str(item))) #since several items carry that name shouldn't this be a list?
 
     return render(
         request,
@@ -293,7 +300,7 @@ def schedule_select(request): #Needs to be looked at
         request,
         'app/schedule_select.html',
         {'partialSelection': partialSelection,
-         'maxYear': 4} #hardcorded max years
+         'maxYear': 4} # hardcorded max years
     )
 
 
@@ -311,16 +318,26 @@ def schedule_view(request):
     )
 
 @login_required
+def glorious_schedule_assembly(request):
+    max_courses = [1, 2, 3, 4, 5]
+    return render(
+        request,
+        'app/glorious_schedule_assembly.html',
+        {'max_courses':max_courses}
+
+    )
+
+@login_required
 def course_create(request):
     if request.method == 'POST':
-        name = request.POST('name')
-        number = request.POST('number')
-        department = request.POST('department')
-        type = request.POST('type')
-        credits = request.POST('credits')
-        prerequisites = request.POST('prerequisites')
-        equivalence = request.POST('equivalence')
-        yearSpan = request.POST('yearSpan')
+        name = request.POST['name']
+        number = request.POST['number']
+        department = request.POST['department']
+        type = request.POST['type']
+        credits = request.POST['credits']
+        prerequisites = request.POST['prerequisites']
+        equivalence = request.POST['equivalence']
+        yearSpan = request.POST['yearSpan']
         newCourse = courses.Course.new()
         newCourse.course.department = department
         newCourse.course.type = type
@@ -330,7 +347,7 @@ def course_create(request):
         newCourse.course.prerequisites = prerequisites
         newCourse.course.equivalence = equivalence
         newCourse.course.yearSpan = yearSpan
-        database.coursecatalog.addCourse(name, number, department, credits)
+        CourseCatalog.addCourse(name, number, department, credits)
     return render(
         request,
         'app/course_create.html',
