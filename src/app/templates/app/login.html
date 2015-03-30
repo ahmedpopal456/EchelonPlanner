@@ -5,7 +5,7 @@
     <title>Concordia YouSched</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/login.css' %}"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
 
 
@@ -26,7 +26,7 @@
                     {% if hasMessage %}
                         <p>{{ message }}</p>
                     {% endif %}
-                    <form class="form-signin" method="post" action="/loginhandler/">
+                    <form class="form-signin" method="post" action="/login_handler/">
                         {% csrf_token %}
                         <h2 class="form-signin-heading">
                             Please log in or <a href="/register">register here</a>

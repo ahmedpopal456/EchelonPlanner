@@ -12,14 +12,15 @@ class StudentCatalog(object):
         def getStudent(username):
 
             try:
-                user1 = set(list(User.objects.filter(name=username)))
-                studentuser = set(list(Student.objects.filter(user_id=user1.id)))
+                user1 = User.objects.get(username=username)
+                studentuser = Student.objects.get(user_id=user1.id)
 
-                if (user1.len() is not 0) and (studentuser.len() is not 0):
-                    return studentuser[0]
+                if user1 and studentuser:
 
-            except Student.DoesNotExist:
-                logger.warn("Following Student does not exist")
+                    return studentuser
+
+            except Student.DoesNotExist or User.DoesNotExist:
+                logger.warn("Student with this username does not exist")
                 return False
 
 
