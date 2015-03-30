@@ -7194,6 +7194,7 @@ td.visible-print {
 .nav-tabs {
     padding-top:10px; /*Make menu buttons drop down a little*/
     border-bottom: none;
+    min-width:600px;
 }
 
 
@@ -7228,8 +7229,10 @@ body {
     background-color:#BFB19E;
     margin-left:83px;
     border-radius: 0 4px 4px 4px;
-    max-width: 700px;
+    margin-right: 10px;
+    max-width: 570px;
     top: -20px;
+    min-width: 400px;
     margin-bottom:-20px;
 }
 
@@ -7264,3 +7267,11 @@ body {
      text-align: center;
 }
 
+#giveSpace .form-control{
+   margin-top:10px;
+    margin-bottom:10px;
+}
+
+#filler{
+    min-height:20px;
+}

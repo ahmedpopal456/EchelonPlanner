@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'app',
-    # 'app.subsystem'
+    'sslserver',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,9 +56,21 @@ ROOT_URLCONF = 'echelon.urls'
 
 WSGI_APPLICATION = 'echelon.wsgi.application'
 
+# NOTE:
+# To use SSL, uncomment the following lines and run
+#  "manage.py runsslserver"
+#
+# SESSION_COOKIE_SECURE = True
+#
+# CSRF_COOKIE_SECURE = True
+#
+# SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+#
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
 # Default Login URL
 LOGIN_URL='/login/'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
