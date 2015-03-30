@@ -41,25 +41,25 @@ checkArguments()
     fi
 
     ### 2. Install ###
-    if [[ $1 = "install" ]]
+    if [[ $1 == "install" ]]
     then
         #2.1 all
-        if [[ $1 = "all" ]]
+        if [[ $2 == "all" ]]
         then
             echo "Installing all parts of EchelonPlanner"
-            installDependencies
+            installBaseDependencies
             unpackageTar
             configureDependencies
         fi
         #2.2 dependencies
-        if [[ $1 = "dependencies" ]]
+        if [[ $2 == "dependencies" ]]
         then
             echo "Installing Dependencies Only"
-            installDependencies
+            installBaseDependencies
             configureDependencies
         fi
         #2.3 nigthly
-        if [[ $1 = "nightly" ]]
+        if [[ $2 == "nightly" ]]
         then
             echo "VerifyingDependencies"
             #If you're doing a nightly installation, I'll assume you have all the necessary dependencies
@@ -68,7 +68,7 @@ checkArguments()
             doEchelonTests
         fi
         #2.4 echelon
-        if [[ $1 = "echelon" ]]
+        if [[ $2 == "echelon" ]]
         then
             unpackageTar
             configureDependencies
@@ -76,7 +76,7 @@ checkArguments()
     fi
 
     ### 3. Uninstall ###
-    if [[ $1 = "uninstall" ]]
+    if [[ $1 == "uninstall" ]]
     then
         uninstallEchelon
         uninstallAllDependencies
@@ -84,19 +84,19 @@ checkArguments()
     fi
 
     ### 4. Verify ###
-    if [[ $1 = "verify" ]]
+    if [[ $1 == "verify" ]]
     then
         verifyDependencies
     fi
 
     ### 5. test ###
-    if [[ $1 = "test" ]]
+    if [[ $1 == "test" ]]
     then
         doEchelonTests
     fi
 
     # 6. time dilation
-    if [[ $1 = "time-dilation" ]]
+    if [[ $1 == "time-dilation" ]]
     then
         doTimeDilation
     fi
@@ -105,7 +105,7 @@ checkArguments()
 
 }
 
-installDependencies()
+installBaseDependencies()
 { #Do all the "apt-get installs" and "pip install" here
     checkApt = $(which apt-get)
     if [[ -z checkApt ]] # If we don't have apt-get, then exit
@@ -114,16 +114,72 @@ installDependencies()
         echo "Aborting"
         exit
     fi
-    
-    apt-get install --install-suggests python3
-    apt-get install mysql-server mysql-client
-    apt-get install apache
-    echo "INSTALL"
+
+    install_args="install --assume-yes"
+
+    echo "Installing Python3 and PIP"
+    apt-get $install_args python3
+    apt-get $install_args python3-pip
+
+    echo "Installing MySQL Server"
+    apt-get $install_args mysql-server mysql-client
+
+    echo "Installing Apache Web Server"
+    apt-get $install_args apache2
+
+    echo "Installing Python PIP modules"
+    installPythonDependencies
+
+    echo "Dependency installation is complete"
+}
+
+installPythonDependencies()
+{ #Install all PIPS!
+    # According to each system then
+    # for Debian, true_pip="pip-3.2"
+    # for Ubuntu, true_pip="pip3"
+    # for any other generic system, true_pip="python3 -m pip"
+
+#    true_pip="pip-3.2"
+#    echo "Checking installed PIP"
+#    if [[ -z $(which $true_pip) ]]
+#    then
+#        true_pip="pip3"
+#    fi
+#    if [[ -z $(which $true_pip) ]]
+#    then
+#        # If all fails, default
+#        true_pip="python3 -m pip"
+#    fi
+#
+#    CHECK=$($true_pip help | grep cannot)
+#    if [[ ! $CHECK == "" ]]
+#    then
+#        # String was not empty, so there WAS a problem. Advise and ABORT
+#        echo "Could not successfully install PIP for Python 3"
+#        echo "Dependencies NOT met. Aborting"
+#        exit
+#    fi
+    python3 -m pip install virtualenv
+    echo "Creating Virtual Env"
+    mkdir /var/www/echelon
+    python3 -m virtualenv /var/www/echelon/env
+
+
+
+    true_pip="python3 -m pip"
+
+    pip install django
+    pip install --allow-all-external mysql-connector-python
+    pip install django-enumfield
+    pip install mod_wsgi
+    mod_wsgi-express install-module
 }
 
 configureDependencies()
 { #Write our custom config files over the default installs
     echo "Overwriting"
+    # For Apache http://askubuntu.com/questions/569550/assertionerror-using-apache2-and-libapache2-mod-wsgi-py3-on-ubuntu-14-04-python
 }
 
 unpackageTar()
@@ -167,6 +223,7 @@ doTimeDilation()
 }
 start()
 { # Call the application to start. Analogous to main()
+    #TODO: CHECK IF USER IS ROOT!
     checkArguments $1 $2
 }
 
