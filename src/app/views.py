@@ -9,7 +9,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from .subsystem import *
-
 import logging
 
 # For Dev Purposes Only. This logger object can be identified as 'apps.view'
@@ -172,8 +171,11 @@ def user_profile(request):
     all_info['dateJoined'] = mainProfile.date_joined
     all_info['lastLogin'] = mainProfile.last_login
 
+    a = StudentCatalog.getStudent(mainProfile.username)
+
+
     # Check for specific info
-    a = Student.objects.get(user_id=mainProfile.id)
+    #a = Student.objects.get(user_id=mainProfile.id)
     if a:
         specificProfile = a
         specific_info = specificProfile.__unicode__()
