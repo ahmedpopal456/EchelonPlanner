@@ -1,0 +1,232 @@
+sudo cat /etc/apache2/mods-available/wsgi.load 
+sudo mod_wsgi-express 
+sudo mod_wsgi-express install-module
+sudo cat /etc/apache2/mods-available/wsgi_express.load
+sudo cat /etc/apache2/mods-available/wsgi.load 
+sudo cat /etc/apache2/mods-available/wsgi.conf
+sudo cat /etc/apache2/mods-available/wsgi.conf | grep WSGIPythonHome
+sudo mod_wsgi-express install-module
+sudo nano /etc/apache2/mods-available/wsgi.load 
+sudo nano /etc/apache2/mods-available/wsgi.load.old
+sudo nano /etc/apache2/mods-available/wsgi.load 
+sudo nano /etc/apache2/mods-available/wsgi.conf
+sudo a2enmod wsgi
+sudo service apache2 restart
+sudo nano /var/log/apache2/error.log
+exit
+df -h
+ifconfig
+ifup eth1
+sudo ifup eth1
+cd /etc/network/
+ls
+nano interfaces
+sudo nano interfaces
+ls
+ifup eth1
+sudo ifup eth1
+ls
+pushd ~
+ls
+chmod +x full_deployment.sh 
+ls
+nano full_deployment.sh 
+./full_deployment.sh doTimeDilation
+./full_deployment.sh doTimeDilation()
+source /full_deployment.sh doTimeDilation
+source full_deployment.sh doTimeDilation
+. ./full_deployment.sh && doTimeDilation
+nano full_deployment.sh 
+. ./full_deployment.sh && doTimeDilation
+nano full_deployment.sh 
+. ./full_deployment.sh && 
+nano full_deployment.sh 
+. ./full_deployment.sh && doTimeDilation
+nano full_deployment.sh 
+. ./full_deployment.sh && doTimeDilation
+. ./full_deployment.sh && installBaseDependencies 
+sudo . ./full_deployment.sh && installBaseDependencies 
+sudo { source full_deployment.sh && installBaseDependencies }
+sudo time{ source full_deployment.sh && installBaseDependencies }
+sudo installBaseDependencies 
+sudo time { source full_deployment.sh && installBaseDependencies }
+sudo time ( source full_deployment.sh && installBaseDependencies )
+sudo (. ./full_deployment.sh && installBaseDependencies )
+sudo (./full_deployment.sh && installBaseDependencies )
+./full_deployment.sh 
+
+{./full_deployment.sh ; installBaseDependencies }
+sudo {./full_deployment.sh ; installBaseDependencies }
+sudo { source full_deployment.sh ; installBaseDependencies }
+sudo ({ source full_deployment.sh ; installBaseDependencies })
+nano full_deployment.sh 
+sudo source full_deployment.sh 
+sudo ./full_deployment.sh 
+sudo ./full_deployment.sh install all
+ls
+sudo ./full_deployment.sh install all
+ls
+nano full_deployment.sh 
+sudo ./full_deployment.sh install all
+nano full_deployment.sh 
+sudo ./full_deployment.sh install all
+python3 -m pip install django
+sudo python3 -m pip install django
+sudo python3 -m pip install django-enumfield
+sudo python3 -m pip install --allow-all-external mysql-connector-python
+python
+cd /var/www
+ls
+ls html
+sudo apt-get install lynx screen
+lynx localhost
+python3 -m pip install virtualenv
+sudo python3 -m pip 
+sudo python3 -m virtualenv
+sudo apt-get install libapache2-mod-wsgi-py3
+sudo apt-get remove libapache2-mod-wsgi-py3
+sudo apt-get install apache2-dev
+sudo python3 -m pip install mod_wsgi
+sudo mod_wsgi-express install-module
+sudo shutdown -P now
+exit
+ls
+history
+ls
+screen
+ls
+git
+sudo apt-get install git
+git clone https://github.com/foxtrot94/EchelonPlanner.git
+ls
+ls src
+pushd /var/www
+ls
+mkdir echelon
+sudo mkdir echelon
+cd echelon/
+ls
+python3 -m virtualenv
+python3 -m virtualenv env
+sudo python3 -m virtualenv env
+source env/bin/activate
+pip --version
+python --version
+django --version
+pip install django
+sudo pip install django
+python
+deactivate
+sudo source env/bin/activate
+sudo env/bin/activate
+sudo . env/bin/activate
+sudo $PWD/env/bin/activate
+sudo source $PWD/env/bin/activate
+source env/bin/activate
+env/bin/pip install django
+sudo env/bin/pip install django
+sudo env/bin/pip install django-enumfield
+sudo env/bin/pip install --allow-all-external mysql-connector-python
+ls
+deactive
+deactivate
+pushd /etc/apache2
+ls
+cd sites-enabled/
+ls
+sudo nano 000-default.conf 
+history
+sudo source
+which source
+popd
+sudo bash env/bin/activate
+pip
+sudo env/bin/activate
+cat env/bin/activate
+history
+pushd /etc/apache2
+ls
+cd sites-enabled/
+ls
+sudo nano 000-default.conf 
+sudo service apache2 restart
+pushd /var/log
+ls
+cd apache2
+ls
+nano error.log 
+popd
+ls
+sudo cp -v src /var/www/
+sudo cp -rv src /var/www/
+cd /var/www/echelon
+ls
+cd ..
+cd echelon/
+rm -rf env
+sudo rm -rf env
+cd ..
+ls echelon/
+ls src/
+rm -rf echelon
+sudo rm -rf echelon
+ls
+sudo mv src echelon
+ls
+cd echelon
+ls
+nano wsgi.py
+sudo service apache2 restart
+pushd /var/log/apache2/
+ls
+nano error.log 
+ls
+cd ..
+popd
+ls
+cd ..
+ls
+cd ..
+sudo mv echelon src
+ls
+pushd /etc/apache2/sites-enabled/
+ls
+sudo nano 000-default.conf
+sudo service apache2 restart
+popd
+ls
+cd src
+ls
+pushd /etc/apache2/
+ls
+nano apache2.conf 
+sudo nano apache2.conf 
+sudo service apache2 restart
+lsd
+popd
+pushd /var/log/apache2/
+ls
+nano error.log 
+popd
+ls
+nano /etc/apache2/sites-enabled/000-default.conf
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+sudo service apache2 restart
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+sudo service apache2 restart
+nano /var/log/apache2/error.log 
+ls
+cd echelon
+ls
+chmod +x wsgi.py
+sudo chmod +x wsgi.py
+ls
+cd ..
+sudo service apache2 restart
+nano /var/log/apache2/error.log 
+ls
+cd echelon/
+ls
+nano settings.py
+sudo nano settings.py
+sudo service apache2 restart
