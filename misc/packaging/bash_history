@@ -230,3 +230,17 @@ ls
 nano settings.py
 sudo nano settings.py
 sudo service apache2 restart
+cd /var/www/src/
+ls
+cd app
+ls
+cd ../..
+cd ../log
+cd apache2/
+nano error.log 
+cd /var/www/src/echelon/
+ls
+nano settings.py
+sudo nano settings.py
+sudo service apache2 restart
+sudo shutdown -P now
