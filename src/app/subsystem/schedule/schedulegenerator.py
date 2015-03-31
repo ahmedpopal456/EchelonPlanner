@@ -230,6 +230,102 @@ class ScheduleGenerator(object):
         return nolabconf
     # end findUnconflictingSections
 
+        # noinspection PyUnreachableCode
+        """
+            Method that takes a list of courses and a semester, and returns a
+            list of sections that would not conflict, if such a list exists.
+            If no such list of unconflicting courses exists, an empty list
+            will be returned.
+
+            As it is implemented now, the limit on the number of courses is 6.
+        """
+    @staticmethod
+    def findUnconflictingSectionsForOneSemester(coursesList, semester):
+        courses = []
+        i = 0
+        while i < len(coursesList):
+            if coursesList[i].hasLabs():
+                courses.append(coursesList[i].lab_set.all().filter(event__semester=semester))
+                i += 1
+            elif coursesList[i].hasTutorials():
+                courses.append(coursesList[i].tutorial_set.all().filter(event__semester=semester))
+                i += 1
+            else:
+                courses.append(coursesList[i].lecture_set.all().filter(event__semester=semester))
+                i += 1
+
+        courseIterator = 0
+        for section0 in courses[courseIterator]:
+            courseIterator = 1
+            sections1 = ScheduleGenerator.findUnconflictingSections(section0, coursesList[courseIterator].deptnum)
+            # sections0 has the unconflicting sections between the 2 first courses
+            # verify that there is another course to check, else return sections1
+            if len(courses) is 2 and len(sections1) is not 0:
+                sections1 = [sections1[0], section0]
+                return sections1
+            for section1 in sections1:
+                courseIterator = 2
+                sections2_0 = ScheduleGenerator.findUnconflictingSections(section0, coursesList[courseIterator].deptnum)
+                sections2_1 = ScheduleGenerator.findUnconflictingSections(section1, coursesList[courseIterator].deptnum)
+                # sections2 = intersection(sections2_0, sections2_1)
+                sections2 = [val for val in sections2_0 if val in sections2_1]
+                # sections2 = [sections2[0],section1]
+                # sections2 has the unconflicting sections between the 3 first courses
+                # verify that there is another course to check, else return sections2
+                if len(courses) is 3 and len(sections2) is not 0:
+                    sections2 = [sections2[0], section1, section0]
+                    return sections2
+                for section2 in sections2:
+                    courseIterator = 3
+                    sections3_0 = ScheduleGenerator.findUnconflictingSections(section0, coursesList[courseIterator].deptnum)
+                    sections3_1 = ScheduleGenerator.findUnconflictingSections(section1, coursesList[courseIterator].deptnum)
+                    sections3_2 = ScheduleGenerator.findUnconflictingSections(section2, coursesList[courseIterator].deptnum)
+                    # sections3 = intersection(sections3_0, sections3_1, sections3_2)
+                    sections3 = [val for val in sections3_0 if val in sections3_1]
+                    sections3 = [val for val in sections3 if val in sections3_2]
+                    # sections3 has the unconflicting sections between the 4 first courses
+                    # verify that there is another course to check, else return sections3
+                    if len(courses) is 4 and len(sections3) is not 0:
+                        sections3 = [sections3[0], section2, section1, section0]
+                        return sections3
+                    for section3 in sections3:
+                        courseIterator = 4
+                        sections4_0 = ScheduleGenerator.findUnconflictingSections(section0, coursesList[courseIterator].deptnum)
+                        sections4_1 = ScheduleGenerator.findUnconflictingSections(section1, coursesList[courseIterator].deptnum)
+                        sections4_2 = ScheduleGenerator.findUnconflictingSections(section2, coursesList[courseIterator].deptnum)
+                        sections4_3 = ScheduleGenerator.findUnconflictingSections(section3, coursesList[courseIterator].deptnum)
+                        # sections4 = intersection(sections4_0, sections4_1, sections4_2, sections4_3)
+                        sections4 = [val for val in sections4_0 if val in sections4_1]
+                        sections4 = [val for val in sections4 if val in sections4_2]
+                        sections4 = [val for val in sections4 if val in sections4_3]
+                        # sections4 has the unconflicting sections between the 5 first courses
+                        # verify that there is another course to check, else return sections4
+                        if len(courses) is 5 and len(sections4) is not 0:
+                            sections4 = [sections4[0], section3, section2, section1, section0]
+                            return sections4
+                        for section4 in sections4:
+                            courseIterator = 5
+                            sections5_0 = ScheduleGenerator.findUnconflictingSections(section0, coursesList[courseIterator].deptnum)
+                            sections5_1 = ScheduleGenerator.findUnconflictingSections(section1, coursesList[courseIterator].deptnum)
+                            sections5_2 = ScheduleGenerator.findUnconflictingSections(section2, coursesList[courseIterator].deptnum)
+                            sections5_3 = ScheduleGenerator.findUnconflictingSections(section3, coursesList[courseIterator].deptnum)
+                            sections5_4 = ScheduleGenerator.findUnconflictingSections(section4, coursesList[courseIterator].deptnum)
+                            # sections5 = intersection(sections5_0, sections5_1, sections5_2, sections5_3, sections5_4)
+                            sections5 = [val for val in sections5_0 if val in sections5_1]
+                            sections5 = [val for val in sections5 if val in sections5_2]
+                            sections5 = [val for val in sections5 if val in sections5_3]
+                            sections5 = [val for val in sections5 if val in sections5_4]
+                            # sections5 has the unconflicting sections between all 6 courses
+                            # verify that there is another course to check, else return sections5
+                            if len(courses) is 6 and len(sections5) is not 0:
+                                sections5 = [sections5[0], section4, section3, section2, section1, section0]
+                                return sections5
+
+        # if we get here by magic, there are no unconflicting schedules
+        return []
+    # end findUnconflictingSectionsForOneSemester
+
+
     def __init__(self):
         self.studentPreferences = None
 
