@@ -57,6 +57,7 @@
             <h2>Pick Your Poison: University Edition</h2>
 
             <form class="form-group" method="post" action="/glorious_schedule_assembly/">
+                {% csrf_token %}
                 {% for slot in max_courses %}
                     {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order silent %}
                     <div class="dropdown" style="position:relative">
