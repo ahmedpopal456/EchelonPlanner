@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.base import RedirectView
 from django.contrib import admin
 
 # This file tells Django to map the URL strings to a particular method to call.
@@ -27,4 +28,5 @@ urlpatterns = patterns('',
     url(r'^course_create/', 'app.views.course_create'),
     url(r'^glorious_schedule_assembly/', 'app.views.glorious_schedule_assembly'),
     url(r'^concordia_resources/', 'app.views.concordia_resources'),
+    url(r'^favicon.ico$', RedirectView.as_view(url='/static/favicon.ico'))
 )
