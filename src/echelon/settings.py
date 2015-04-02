@@ -65,13 +65,12 @@ WSGI_APPLICATION = 'echelon.wsgi.application'
 #
 # CSRF_COOKIE_SECURE = True
 #
-# SESSION_EXPIRE_AT_BROWSER_CLOSE=True
-#
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Default Login URL
 LOGIN_URL='/login_handler/'
+# SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
