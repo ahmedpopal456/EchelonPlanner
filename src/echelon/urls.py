@@ -26,4 +26,5 @@ urlpatterns = patterns('',
     url(r'^browse_all_courses/', 'app.views.browse_all_courses'),
     url(r'^course_create/', 'app.views.course_create'),
     url(r'^glorious_schedule_assembly/', 'app.views.glorious_schedule_assembly'),
+    url(r'^concordia_resources/', 'app.views.concordia_resources'),
 )

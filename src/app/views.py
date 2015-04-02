@@ -227,6 +227,13 @@ def logouthandler(request):
 
 ##################################################################################################
 # Methods yet to be correctly implemented
+@login_required
+def concordia_resources(request):
+    return render(
+        request,
+        'app/concordia_resources.html'
+    )
+
 
 @login_required
 def error_404(request):
