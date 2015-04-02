@@ -13,9 +13,10 @@
 </head>
 
 <body>
+-->
 
 <!-- no nav bar for these "change x screens" as this seems to be the standard in most sites -->
--->
+
 <div class="container body-content">
     <div class="row" >
         <div class="col-xs-2"></div>
@@ -25,11 +26,15 @@
                 {% csrf_token %}
                 <h2 class="form">Password Change</h2>
 
+                <label for="inputNewPassword" class="sr-only">Enter current Password</label>
+                <input id="inputNewPassword" class="form-control" placeholder="Enter your Current Password" name="oldPass" type="password">
+
+
                 <label for="inputNewPassword" class="sr-only">Enter new password</label>
-                <input id="inputNewPassword" class="form-control" placeholder="Enter Password" name="password1" type="password">
+                <input id="inputNewPassword" class="form-control" placeholder="Enter New Password" name="password1" type="password">
 
                 <label for="verifyNewPassword" class="sr-only">Verify new password</label>
-                <input id="verifyNewPassword" class="form-control" placeholder="Verify Password" name="password2" type="password">
+                <input id="verifyNewPassword" class="form-control" placeholder="Verify New Password" name="password2" type="password">
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Change password</button>
             </form>
