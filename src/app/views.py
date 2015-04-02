@@ -8,6 +8,7 @@ from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.contrib.auth import hashers
 from .subsystem import *
 import logging
 
@@ -200,14 +201,20 @@ def change_pass(request):
     message = str()
 
     if request.method=='POST':
+        # Take the input Password
         password1 = request.POST['password1']
-        if password1==request.POST['password2']:
-            request.user.set_password(password1)
-            request.user.save()
-            message = "Password Successfully Updated"
-            loadPage = str() # Automatically redirects to main profile page
-        else:
-            message = "Error: Inputs did not match. Please Try Again."
+        # 1. Check their old passwords
+        if hashers.check_password(request.POST['oldPass'], request.user.password):
+            # 2. Check if user submitted the same password
+            if password1==request.POST['password2']:
+                request.user.set_password(password1)
+                request.user.save()
+                message = "Password Successfully Updated"
+                loadPage = str() # Automatically redirects to main profile page
+            else: # Submitted Passwords were incorrect
+                message = "Error: Inputs did not match. Please Try Again."
+        else: # User was not authenticated succesfully
+            message = "Error: Your old password was wrong. We cannot update your password"
     # end if request is POST
 
     return render(
@@ -332,7 +339,7 @@ def glorious_schedule_assembly(request):
         prelim_choices = []
         print(request.POST)
         for item in range(1, 12):
-            prelim_choices.append(request.POST("choice " + str(item)))
+            prelim_choices.append(request.POST["choice" + str(item)])
     testTestList=["a","b","c"]
     return render(
         request,
