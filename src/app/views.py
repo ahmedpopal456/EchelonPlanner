@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import hashers
+from django.contrib.sessions.backends.base import SessionBase
 from .subsystem import *
 import logging
 
@@ -56,6 +57,7 @@ def menu(request):
 def login_handler(request):
     # Handle login_handler at any level and redirect to Menu.html
     if request.method == 'POST':
+        print(str(request.POST))
         username = request.POST['username']
         password = request.POST['password']
 
@@ -64,6 +66,8 @@ def login_handler(request):
         if user:
             # If successful,
             login(request, user)
+            if "remember-me" not in request.POST:
+                request.session.set_expiry(0) # Basically, close after the browser closes.
             return HttpResponseRedirect('/')  # This eliminates the login_handler from the path
 
         else:
