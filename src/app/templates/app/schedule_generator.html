@@ -29,18 +29,19 @@
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").removeClass("disabled");
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").attr('course', yy);
 
-            $("#lectDiv" + $(this).attr("number") + " .one").each(function (i) {
-                $(this).attr('lect',yy.lecture_set.all()[i]);
-                $(this).text(yy.lecture_set.all()[i]); //need to add lect. section instead of just name
-                $(this).val(yy.lecture_set.all()[i]); //need to add lect. section instead of just name
-
+            //if I get this loop down I have all loops done
+            $("one").each(function (index, value) {
+                $(this).attr('lect', "" + yy.lecture_set.all()[index].section);
+                $(this).attr('lectIndex', index);
+                $(this).text("" + yy.lecture_set.all()[index].section); //need to add lect. section instead of just name
+                $(this).val("" + yy.lecture_set.all()[index].section); //need to add lect. section instead of just name
             });
 
-            //if(yy.hasTutorials())
+            //if(yy.hasTutorials()) //this gets moved to .one click function
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").removeClass("disabled");
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
 
-            //if(yy.hasLabs())
+            //if(yy.hasLabs()) //this gets moved to .one click function and to .two click function accordingly
             $("#labDiv" + $(this).attr("number")).find("#labDiv" + $(this).attr("number") + "Text").removeClass("disabled");
             $("#labDiv" + $(this).attr("number")).find("#labDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
         });
@@ -50,8 +51,17 @@
     $(function () {
         $(".one").click(function () {
             var xx = $(this).attr("number") - 1;
+            var yy = $(this).attr('course');
+            var zz = $(this).attr('lectIndex');
+
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").text($(this).text());
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").val($(this).text());
+            //if(yy.lecture_set.all().[zz].hasTutorials() ) { //was playing with this last time
+            $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").removeClass("disabled");
+            $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
+            //add for-each loop here
+            //}
+
         });
     });
 
@@ -87,7 +97,8 @@
                         <div id="classDiv{{ order }}" class="dropdown" style="position:relative">
 
                             <a id="classDiv{{ order }}Text" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                               data-toggle="dropdown" data-bind="label" name="cour{{ order }}" value="">Course {{ order }}
+                               data-toggle="dropdown" data-bind="label" name="cour{{ order }}"
+                               value="">Course {{ order }}
                                 <span class="caret"></span>&nbsp;</a>
                             <ul class="dropdown-menu">
                                 {% for course in feasable_courses %}
