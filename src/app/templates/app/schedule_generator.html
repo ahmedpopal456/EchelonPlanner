@@ -21,42 +21,52 @@
     $(function () {
         $(".zero").click(function () {
             var xx = $(this).attr("number") - 1; //this is going to go into eq, I need some way to pass the button number to it.
-            $("#classDiv"+$(this).attr("number")).find("#classDiv"+$(this).attr("number")+"Text").text($(this).text());
-            $("#classDiv"+$(this).attr("number")).find("#classDiv"+$(this).attr("number")+"Text").val($(this).text());
-            //if($(this).attr("course").hasLect())
-            $("#lectDiv"+$(this).attr("number")).find("#lectDiv"+$(this).attr("number")+"Text").removeClass("disabled");
-            //if($(this).attr("course").hasTut())
-            $("#tutDiv"+$(this).attr("number")).find("#tutDiv"+$(this).attr("number")+"Text").removeClass("disabled");
-            //if($(this).attr("course").hasLab())
-            $("#labDiv"+$(this).attr("number")).find("#labDiv"+$(this).attr("number")+"Text").removeClass("disabled");
+            var yy = $(this).attr("course")
+            $("#classDiv" + $(this).attr("number")).find("#classDiv" + $(this).attr("number") + "Text").text($(this).text());
+            $("#classDiv" + $(this).attr("number")).find("#classDiv" + $(this).attr("number") + "Text").val($(this).text());
+
+            //if(yy.hasLect())
+            $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").removeClass("disabled");
+            $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").attr('course', yy);
+            $("#lectDiv" + $(this).attr("number") + " .one").each(function (index) {
+                $(this).text(yy); //need to add lect. section instead of just name
+                $(this).val(yy); //need to add lect. section instead of just name
+            });
+
+            //if(yy.hasTuts())
+            $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").removeClass("disabled");
+            $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
+
+            //if(yy.hasLabs())
+            $("#labDiv" + $(this).attr("number")).find("#labDiv" + $(this).attr("number") + "Text").removeClass("disabled");
+            $("#labDiv" + $(this).attr("number")).find("#labDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
         });
     });
 
 
-     $(function () {
+    $(function () {
         $(".one").click(function () {
             var xx = $(this).attr("number") - 1; //this is going to go into eq, I need some way to pass the button number to it.
-            $("#lectDiv"+$(this).attr("number")).find("#lectDiv"+$(this).attr("number")+"Text").text($(this).text());
-            $("#lectDiv"+$(this).attr("number")).find("#lectDiv"+$(this).attr("number")+"Text").val($(this).text());
+            $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").text($(this).text());
+            $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").val($(this).text());
         });
     });
 
     $(function () {
         $(".two").click(function () {
             var xx = $(this).attr("number") - 1; //this is going to go into eq, I need some way to pass the button number to it.
-            $("#tutDiv"+$(this).attr("number")).find("#tutDiv"+$(this).attr("number")+"Text").text($(this).text());
-            $("#tutDiv"+$(this).attr("number")).find("#tutDiv"+$(this).attr("number")+"Text").val($(this).text());
+            $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").text($(this).text());
+            $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").val($(this).text());
         });
     });
 
-     $(function () {
+    $(function () {
         $(".three").click(function () {
             var xx = $(this).attr("number") - 1; //this is going to go into eq, I need some way to pass the button number to it.
-            $("#labDiv"+$(this).attr("number")).find("#labDiv"+$(this).attr("number")+"Text").text($(this).text());
-            $("#labDiv"+$(this).attr("number")).find("#labDiv"+$(this).attr("number")+"Text").val($(this).text());
+            $("#labDiv" + $(this).attr("number")).find("#labDiv" + $(this).attr("number") + "Text").text($(this).text());
+            $("#labDiv" + $(this).attr("number")).find("#labDiv" + $(this).attr("number") + "Text").val($(this).text());
         });
     });
-
 
 
 </script>
@@ -66,70 +76,71 @@
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
 
-            <form class="form-group" method="post" action="/glorious_schedule_assembly/">
+            <form class="form-group" method="post" action="/schedule_generator/">
                 {% csrf_token %}
                 {% for slot in max_courses %}
                     {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order silent %}
                     <div class="row{{ order }} giveSpace1">
-                    <div id="classDiv{{ order }}" class="dropdown" style="position:relative">
+                        <div id="classDiv{{ order }}" class="dropdown" style="position:relative">
 
-                        <a id="classDiv{{ order }}Text" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                           data-toggle="dropdown" data-bind="label" course="">Course {{ order }}
-                            <span class="caret"></span>&nbsp;</a>
-                        <ul class="dropdown-menu">
-                            {% for course in feasable_courses %}
-                                <li>
-                                    <a class="zero" href="#" number="{{ order }}" course = {{ course }}>{{ course.deptnum }} : {{ course.name }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
+                            <a id="classDiv{{ order }}Text" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                               data-toggle="dropdown" data-bind="label" name="cour{{ order }}">Course {{ order }}
+                                <span class="caret"></span>&nbsp;</a>
+                            <ul class="dropdown-menu">
+                                {% for course in feasable_courses %}
+                                    <li>
+                                        <a class="zero" href="#" number="{{ order }}"
+                                           course= {{ course }}>{{ course.deptnum }} : {{ course.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
 
-                    </div>
+                        </div>
 
-                    <div id="lectDiv{{ order }}" class="dropdown" style="position:relative">
+                        <div id="lectDiv{{ order }}" class="dropdown" style="position:relative">
 
-                    <a id="lectDiv{{ order }}Text" href="#" class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
-                           data-toggle="dropdown" data-bind="label" course="">Lecture {{ order }}
-                            <span class="caret"></span>&nbsp;</a>
-                        <ul class="dropdown-menu">
-                            {% for course in feasable_courses %}
-                                <li>
-                                    <a class="one" href="#" number="{{ order }}" course="{{ course }}">{{ course.deptnum }}
-                                        : {{ course.name }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                            <a id="lectDiv{{ order }}Text" href="#"
+                               class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
+                               data-toggle="dropdown" data-bind="label" name="lect{{ order }}">Lecture {{ order }}
+                                <span class="caret"></span>&nbsp;</a>
+                            <ul class="dropdown-menu">
+                                {% for course in feasable_courses %}
+                                    <li>
+                                        <a class="one" href="#" number="{{ order }}">A</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
 
-                    <div id="tutDiv{{ order }}" class="dropdown" style="position:relative">
+                        <div id="tutDiv{{ order }}" class="dropdown" style="position:relative">
 
-                    <a id="tutDiv{{ order }}Text" href="#" class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
-                           data-toggle="dropdown" data-bind="label" course="">Tutorial {{ order }}
-                            <span class="caret"></span>&nbsp;</a>
-                        <ul class="dropdown-menu">
-                            {% for course in feasable_courses %}
-                                <li>
-                                    <a class="two" href="#" number="{{ order }}" course="{{ course }}">{{ course.deptnum }}
-                                        : {{ course.name }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                            <a id="tutDiv{{ order }}Text" href="#"
+                               class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
+                               data-toggle="dropdown" data-bind="label" name="tut{{ order }}">Tutorial {{ order }}
+                                <span class="caret"></span>&nbsp;</a>
+                            <ul class="dropdown-menu">
+                                {% for course in feasable_courses %}
+                                    <li>
+                                        <a class="two" href="#" number="{{ order }}">B</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
 
-                    <div id="labDiv{{ order }}" class="dropdown" style="position:relative">
+                        <div id="labDiv{{ order }}" class="dropdown" style="position:relative">
 
-                    <a id="labDiv{{ order }}Text" href="#" class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
-                           data-toggle="dropdown" data-bind="label" course="">Lab {{ order }}
-                            <span class="caret"></span>&nbsp;</a>
-                        <ul class="dropdown-menu">
-                            {% for course in feasable_courses %}
-                                <li>
-                                    <a class="three" href="#" number="{{ order }}" course="{{ course }}">{{ course.deptnum }}
-                                        : {{ course.name }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                            <a id="labDiv{{ order }}Text" href="#"
+                               class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
+                               data-toggle="dropdown" data-bind="label" name="lab{{ order }}">Lab {{ order }}
+                                <span class="caret"></span>&nbsp;</a>
+                            <ul class="dropdown-menu">
+                                {% for course in feasable_courses %}
+                                    <li>
+                                        <a class="three" href="#" number="{{ order }}">C</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
 
                     </div>
                 {% endfor %}
