@@ -1,6 +1,6 @@
 from django.db import models
 from .. import *
-from ..database.coursecatalog import CourseCatalog
+#from ..database.coursecatalog import CourseCatalog
 
 class Schedule(models.Model):
     # Stuff stored by the Schedule

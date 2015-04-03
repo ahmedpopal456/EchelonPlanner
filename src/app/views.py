@@ -8,9 +8,9 @@ from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from app.subsystem.database.studentcatalog import StudentCatalog
+from django.contrib.auth import hashers
+from django.contrib.sessions.backends.base import SessionBase
 from .subsystem import *
-
 import logging
 
 # For Dev Purposes Only. This logger object can be identified as 'apps.view'
@@ -54,9 +54,10 @@ def menu(request):
         return register(request)
 
 
-def loginhandler(request):
-    # Handle login at any level and redirect to Menu.html
+def login_handler(request):
+    # Handle login_handler at any level and redirect to Menu.html
     if request.method == 'POST':
+        print(str(request.POST))
         username = request.POST['username']
         password = request.POST['password']
 
@@ -65,14 +66,18 @@ def loginhandler(request):
         if user:
             # If successful,
             login(request, user)
-            return HttpResponseRedirect('/')  # This eliminates the loginhandler from the path
+            if "remember-me" not in request.POST:
+                request.session.set_expiry(0) # Basically, close after the browser closes.
+            return HttpResponseRedirect('/')  # This eliminates the login_handler from the path
 
         else:
-            # print ("Invalid login details: {0}, {1}".format(username, password))
+            # print ("Invalid login_handler details: {0}, {1}".format(username, password))
             return render(request,
                           'app/login.html',
                           {'hasMessage': True, 'message': 'Login not successful. Check your username and password.'})
-# End loginhandler()
+    else:
+        return home(request)
+# End login_handler()
 
 
 def register(request):
@@ -128,6 +133,9 @@ def register(request):
                 standardUser.save() # Save the Django user in the Database.
                 # Now let's try putting that Student user in the DB
                 studentUser.user = standardUser
+                newRecord = StudentRecord()
+                newRecord.save()
+                studentUser.academicRecord = newRecord
                 # standardUser.save()
                 studentUser.save()
                 isregistered = True
@@ -171,11 +179,14 @@ def user_profile(request):
     all_info['lastLogin'] = mainProfile.last_login
 
     a = StudentCatalog.getStudent(mainProfile.username)
+
+
     # Check for specific info
-    # a = Student.objects.get(user_id=mainProfile.id)
+    #a = Student.objects.get(user_id=mainProfile.id)
     if a:
         specificProfile = a
         specific_info = specificProfile.__unicode__()
+        specific_info['professor']=False
 
     all_info.update(specific_info)
 
@@ -194,14 +205,20 @@ def change_pass(request):
     message = str()
 
     if request.method=='POST':
+        # Take the input Password
         password1 = request.POST['password1']
-        if password1==request.POST['password2']:
-            request.user.set_password(password1)
-            request.user.save()
-            message = "Password Successfully Updated"
-            loadPage = str() # Automatically redirects to main profile page
-        else:
-            message = "Error: Inputs did not match. Please Try Again."
+        # 1. Check their old passwords
+        if hashers.check_password(request.POST['oldPass'], request.user.password):
+            # 2. Check if user submitted the same password
+            if password1==request.POST['password2']:
+                request.user.set_password(password1)
+                request.user.save()
+                message = "Password Successfully Updated"
+                loadPage = str() # Automatically redirects to main profile page
+            else: # Submitted Passwords were incorrect
+                message = "Error: Inputs did not match. Please Try Again."
+        else: # User was not authenticated succesfully
+            message = "Error: Your old password was wrong. We cannot update your password"
     # end if request is POST
 
     return render(
@@ -221,6 +238,13 @@ def logouthandler(request):
 
 ##################################################################################################
 # Methods yet to be correctly implemented
+@login_required
+def concordia_resources(request):
+    return render(
+        request,
+        'app/concordia_resources.html'
+    )
+
 
 @login_required
 def error_404(request):
@@ -236,10 +260,10 @@ def change_details(request):
         address = request.POST['address']
         homePhone = request.POST['homePhone']
         cellPhone = request.POST['cellPhone']
-        request.user.student.address.__setattr__(address)
-        request.user.student.homephone.__setattr__(homePhone)
-        request.user.student.cellphone.__setattr__(cellPhone)
-        request.user.save();
+        request.user.student.address = address
+        request.user.student.homephone = homePhone
+        request.user.student.cellphone = cellPhone
+        request.user.save()
     return render(
         request,
         'app/change_details.html'
@@ -248,34 +272,40 @@ def change_details(request):
 
 @login_required
 def change_email(request):
+    message = str()
+    loadPage = 'app/change_email.html'
     if request.method == 'POST':
         email1 = request.POST['email1']
         email2 = request.POST['email2']
         if email1 == email2:
-            request.user.email.__setattr__(email1)
-            request.user.save();
+            request.user.email =email1
+            request.user.save()
+            loadPage = str()
         else:
             message = "Error: Inputs did not match. Please Try Again."
 
     return render(
         request,
-        'app/change_email.html'
+        'app/user_profile.html',
+        {'alternate': loadPage, 'message': message}
     )
 
 
 @login_required
-def schedule_make(request):#Needs to be looked at
-    numberOfElectives = Option.option + Option.type  # How many electives are needed. Not sure if this is the method that should be used.
-    availableElectives = Option.course #Not sure if this is the method
+def schedule_make(request):  # Might as well rework this method from scratch, but you can see what the logic was intended to be
+    numberOfElectives = [1,2,3,4,5,6,7,8,9]  # Need to create list containing how many choices user gets to make
+    availableElectives = CourseCatalog.searchCourses("SOEN")  # Not sure what method to use to call electives related to the user's academic program
     if request.method == 'POST':
-        prelim_choices = request.POST['choice'] # Since there may be more than one span with that name, this results in the needed array, right?
-        schedule_select(prelim_choices) # Need to send prelim_choices to schedule select. This is probably not how it is done.
+        prelim_choices = []
+        print(request.POST)
+        for item in range(1, 12):
+            prelim_choices.append(request.POST("choice " + str(item)))
 
     return render(
         request,
         'app/schedule_make.html',
-        {'numberOfElectives': numberOfElectives},
-        {'availableElectives' : availableElectives}
+        {'numberOfElectives': numberOfElectives,
+         'availableElectives': availableElectives}
     )
 
 
@@ -287,8 +317,8 @@ def schedule_select(request): #Needs to be looked at
     return render(
         request,
         'app/schedule_select.html',
-        {'partialSelection' : partialSelection},
-        {'maxYear' : 4} #hardcorded max years
+        {'partialSelection': partialSelection,
+         'maxYear': 4} # hardcorded max years
     )
 
 
@@ -297,7 +327,7 @@ def schedule_view(request):
     # Hardcoded Timeslot Values (No reason to generate them anew each time)
     # These were generated by the following Bash command
     # for i in {7..20}:{00..59..15}; do completeList=$completeList","`echo \"$i\"`; done
-    timeSlots=["7:00","7:15","7:30","7:45","8:00","8:15","8:30","8:45","9:00","9:15","9:30","9:45","10:00","10:15","10:30","10:45","11:00","11:15","11:30","11:45","12:00","12:15","12:30","12:45","13:00","13:15","13:30","13:45","14:00","14:15","14:30","14:45","15:00","15:15","15:30","15:45","16:00","16:15","16:30","16:45","17:00","17:15","17:30","17:45","18:00","18:15","18:30","18:45","19:00","19:15","19:30","19:45","20:00","20:15","20:30","20:45"]
+    timeSlots=["8:45","9:00","9:15","9:30","9:45","10:00","10:15","10:30","10:45","11:00","11:15","11:30","11:45","12:00","12:15","12:30","12:45","13:00","13:15","13:30","13:45","14:00","14:15","14:30","14:45","15:00","15:15","15:30","15:45","16:00","16:15","16:30","16:45","17:00","17:15","17:30","17:45","18:00","18:15","18:30","18:45","19:00","19:15","19:30","19:45","20:00","20:15","20:30","20:45","21:00","21:15","21:30","21:45","22:00","22:15","22:30","22:45","23:00"]
 
     return render(
         request,
@@ -306,16 +336,50 @@ def schedule_view(request):
     )
 
 @login_required
+def schedule_generator(request):
+    max_courses = [1, 2, 3, 4, 5]
+    feasable_courses = CourseCatalog.searchCourses("SOEN")
+    testTestList=["a","b","c"]
+    return render(
+        request,
+        'app/schedule_generator.html',
+        {'max_courses': max_courses,
+         'feasable_courses': feasable_courses,
+         'testTestList':testTestList
+        }
+    )
+
+@login_required
+def glorious_schedule_assembly(request):
+    max_courses = [1, 2, 3, 4, 5]
+    feasable_courses = CourseCatalog.searchCourses("SOEN")  # Not sure what method to use to call electives related to the user's academic program
+    if request.method == 'POST':
+        prelim_choices = []
+        print(request.POST)
+        for item in range(1, 12):
+            prelim_choices.append(request.POST["choice" + str(item)])
+    testTestList=["a","b","c"]
+    return render(
+        request,
+        'app/glorious_schedule_assembly.html',
+        {'max_courses': max_courses,
+         'feasable_courses': feasable_courses,
+        'testTestList':testTestList}
+
+
+    )
+
+@login_required
 def course_create(request):
     if request.method == 'POST':
-        name = request.POST('name')
-        number = request.POST('number')
-        department = request.POST('department')
-        type = request.POST('type')
-        credits = request.POST('credits')
-        prerequisites = request.POST('prerequisites')
-        equivalence = request.POST('equivalence')
-        yearSpan = request.POST('yearSpan')
+        name = request.POST['name']
+        number = request.POST['number']
+        department = request.POST['department']
+        type = request.POST['type']
+        credits = request.POST['credits']
+        prerequisites = request.POST['prerequisites']
+        equivalence = request.POST['equivalence']
+        yearSpan = request.POST['yearSpan']
         newCourse = courses.Course.new()
         newCourse.course.department = department
         newCourse.course.type = type
@@ -325,7 +389,7 @@ def course_create(request):
         newCourse.course.prerequisites = prerequisites
         newCourse.course.equivalence = equivalence
         newCourse.course.yearSpan = yearSpan
-        database.coursecatalog.addCourse(name, number, department, credits)
+        CourseCatalog.addCourse(name, number, department, credits)
     return render(
         request,
         'app/course_create.html',

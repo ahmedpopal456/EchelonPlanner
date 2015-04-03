@@ -3,6 +3,8 @@ from ..courses.lecture import Lecture
 from ..courses.tutorial import Tutorial
 from ..courses.lab import Lab
 from ..event.event import Event
+from ..usermanagement.student.student import Student
+from ..usermanagement.student.student import StudentRecord
 from itertools import chain
 import logging
 import django.db
@@ -221,7 +223,7 @@ class CourseCatalog(object):
                 return "Lab"
             else:
                 return "Tutorial"
-
+    @staticmethod
     # When given a section returns if it has tutorials. Functionality is used repeatedly elsewhere.
     def hasTutorial(section):
 
@@ -239,6 +241,7 @@ class CourseCatalog(object):
             else:
                 return False
 
+    @staticmethod
     # When given a section returns if it has labs. Functionality is used repeatedly elsewhere.
     def hasLab(section):
 
@@ -250,5 +253,45 @@ class CourseCatalog(object):
 
         if CourseCatalog.typeofSection(section) == "Lab":
             return True
+
+    @staticmethod
+    def coursesWithMetPrereqs(student, semester, year):
+
+        metprereq = []
+        courselist = Course.objects.all() # start with a list of all courses
+        courseswithnoprereq = Course.objects.all().filter(prerequisities__isnull=True)
+        #list of prereq and courses, individually packaged
+        prereqdict = Course.objects.values("deptnum","prerequisites").exclude(prerequisites__isnull=True)
+
+        coursesTaken = list(student.academicRecord.coursesTaken.objects.all()) # start creating list of all taken courses
+
+        for schedules in student.academicRecord.mainSchedule.objects.all():
+            if semester == "Summer": # Only take into account courses being taken in summer of same year
+                if schedules.year <= year and schedules.semester == "Summer":
+                    for lecture in schedules.lecturelist.objects.all():
+                        coursesTaken.append(lecture.course)
+            elif semester == "Fall": # Only take into account courses being taken in summer amd Fall of same year
+                if schedules.year <= year and (schedules.semester == "Summer" or schedules.semester == "Fall"):
+                    for lecture in schedules.lecturelist.objects.all():
+                        coursesTaken.append(lecture.course)
+            elif semester == "Winter": # take into account everthing in same year
+                if schedules.year <= year:
+                    for lecture in schedules.lecturelist.objects.all():
+                        coursesTaken.append(lecture.course)
+
+        # full list of courses taken that can be used as prerequisites
+
+        for course in coursesTaken:
+            for prereq in prereqdict:
+                if course.deptnum == prereq["prerequisites"]:
+                    metprereq.append(prereq)
+
+        unmetprereq = [prereq for prereq in prereqdict if prereq not in metprereq]
+
+        for prereq in unmetprereq:
+            courselist = courselist.exclude(pk=prereq["deptnum"])
+
+        return courselist
+
 
 
