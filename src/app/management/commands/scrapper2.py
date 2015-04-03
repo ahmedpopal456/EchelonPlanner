@@ -3,6 +3,9 @@ import os
 # from app.subsystem.courses import Course
 from app.subsystem.courses.academicprogram import AcademicProgram
 from app.subsystem.courses.course import Course
+from app.subsystem.courses.option import Option
+from app.subsystem.courses.option import OptionChoices
+from app.subsystem.courses.option import TypeChoices
 # from app.subsystem.courses import AcademicProgram
 from django.core.management.base import BaseCommand, CommandError
 
@@ -18,6 +21,7 @@ class Command(BaseCommand):
         webcourselist = open(os.getcwd()+"\\app\\management\\commands\\webcourses.txt", "r").readlines()
         generalcourseslist = open(os.getcwd()+"\\app\\management\\commands\\generalcourses.txt", "r").readlines()
         P = AcademicProgram(name="SOEN", credits=120)
+        P.save()
 
         for lines in gameslist:
             dptnum = re.search('[A-Z]{4}\d{3}', lines)
@@ -36,33 +40,39 @@ class Command(BaseCommand):
 
             if not RequiredType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, RequiredType, P.name, "1st option")
-                #O = Option(course=C, academicprogram=P, option=1, type=6, atleast_one=False)
+                # print(C.deptnum, RequiredType, P.name, "1st option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GAMES, type=TypeChoices.REQUIRED, atleast_one=False)
+                O.save()
 
             elif not RequiredStarType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, RequiredStarType, P.name, "1st option")
-                #O = Option(course=C, academicprogram=P, option=1, type=6, atleast_one=True)
+                # print(C.deptnum, RequiredStarType, P.name, "1st option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GAMES, type=TypeChoices.REQUIRED, atleast_one=True)
+                O.save()
 
             elif not GeneralEleType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, GeneralEleType, P.name, "1st option")
-                #O = Option(course=C, academicprogram=P, option=1, type=5, atleast_one=False)
+                # print(C.deptnum, GeneralEleType, P.name, "1st option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GAMES, type=TypeChoices.GENERAL_ELECTIVES, atleast_one=False)
+                O.save()
 
             elif not ScienceType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, ScienceType, P.name, "1st option")
-                #O = Option(course=C, academicprogram=P, option=1, type=7, atleast_one=False)
+                # print(C.deptnum, ScienceType, P.name, "1st option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GAMES, type=TypeChoices.SCIENCE, atleast_one=False)
+                O.save()
 
             elif not TechnicalType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, TechnicalType, P.name, "1st option")
-                #O = Option(course=C, academicprogram=P, option=1, type=8, atleast_one=False)
+                # print(C.deptnum, TechnicalType, P.name, "1st option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GAMES, type=TypeChoices.TECHNICAL, atleast_one=False)
+                O.save()
 
             elif not TechnicalStarType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, TechnicalStarType, P.name, "1st option")
-                #O = Option(course=C, academicprogram=P, option=1, type=8, atleast_one=True)
+                # print(C.deptnum, TechnicalStarType, P.name, "1st option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GAMES, type=TypeChoices.TECHNICAL, atleast_one=True)
+                O.save()
 
 
         for lines in avionicslist:
@@ -82,33 +92,39 @@ class Command(BaseCommand):
 
             if not RequiredType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, RequiredType, P.name, "3rd option")
-                #O = Option(course=C, academicprogram=P, option=3, type=6, atleast_one=False)
+                # print(C.deptnum, RequiredType, P.name, "3rd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.AVIONICS, type=TypeChoices.REQUIRED, atleast_one=False)
+                O.save()
 
             elif not RequiredStarType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, RequiredStarType, P.name, "3rd option")
-                #O = Option(course=C, academicprogram=P, option=3, type=6, atleast_one=True)
+                # print(C.deptnum, RequiredStarType, P.name, "3rd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.AVIONICS, type=TypeChoices.REQUIRED, atleast_one=True)
+                O.save()
 
             elif not GeneralEleType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, GeneralEleType, P.name, "3rd option")
-                #O = Option(course=C, academicprogram=P, option=3, type=5, atleast_one=False)
+                # print(C.deptnum, GeneralEleType, P.name, "3rd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.AVIONICS, type=TypeChoices.GENERAL_ELECTIVES, atleast_one=False)
+                O.save()
 
             elif not ScienceType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, ScienceType, P.name, "3rd option")
-                #O = Option(course=C, academicprogram=P, option=3, type=7, atleast_one=False)
+                # print(C.deptnum, ScienceType, P.name, "3rd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.AVIONICS, type=TypeChoices.SCIENCE, atleast_one=False)
+                O.save()
 
             elif not TechnicalType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, TechnicalType, P.name, "3rd option")
-                #O = Option(course=C, academicprogram=P, option=3, type=8, atleast_one=False)
+                # print(C.deptnum, TechnicalType, P.name, "3rd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.AVIONICS, type=TypeChoices.TECHNICAL, atleast_one=False)
+                O.save()
 
             elif not TechnicalStarType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, TechnicalStarType, P.name, "3rd option")
-                #O = Option(course=C, academicprogram=P, option=3, type=8, atleast_one=True)
+                # print(C.deptnum, TechnicalStarType, P.name, "3rd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.AVIONICS, type=TypeChoices.TECHNICAL, atleast_one=True)
+                O.save()
 
 
         for lines in webcourselist:
@@ -128,33 +144,39 @@ class Command(BaseCommand):
 
             if not RequiredType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, RequiredType, P.name, "2nd option")
-                #O = Option(course=C, academicprogram=P, option=2, type=6, atleast_one=False)
+                # print(C.deptnum, RequiredType, P.name, "2nd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.WEB, type=TypeChoices.REQUIRED, atleast_one=False)
+                O.save()
 
             elif not RequiredStarType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, RequiredStarType, P.name, "2nd option")
-                #O = Option(course=C, academicprogram=P, option=2, type=6, atleast_one=True)
+                # print(C.deptnum, RequiredStarType, P.name, "2nd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.WEB, type=TypeChoices.REQUIRED, atleast_one=True)
+                O.save()
 
             elif not GeneralEleType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, GeneralEleType, P.name, "2nd option")
-                #O = Option(course=C, academicprogram=P, option=2, type=5, atleast_one=False)
+                # print(C.deptnum, GeneralEleType, P.name, "2nd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.WEB, type=TypeChoices.GENERAL_ELECTIVES, atleast_one=False)
+                O.save()
 
             elif not ScienceType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, ScienceType, P.name, "2nd option")
-                #O = Option(course=C, academicprogram=P, option=2, type=7, atleast_one=False)
+                # print(C.deptnum, ScienceType, P.name, "2nd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.WEB, type=TypeChoices.SCIENCE, atleast_one=False)
+                O.save()
 
             elif not TechnicalType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, TechnicalType, P.name, "2nd option")
-                #O = Option(course=C, academicprogram=P, option=2, type=8, atleast_one=False)
+                # print(C.deptnum, TechnicalType, P.name, "2nd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.WEB, type=TypeChoices.TECHNICAL, atleast_one=False)
+                O.save()
 
             elif not TechnicalStarType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, TechnicalStarType, P.name, "2nd option")
-                #O = Option(course=C, academicprogram=P, option=2, type=8, atleast_one=True)
+                # print(C.deptnum, TechnicalStarType, P.name, "2nd option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.WEB, type=TypeChoices.TECHNICAL, atleast_one=True)
+                O.save()
 
 
         for lines in generalcourseslist:
@@ -174,31 +196,36 @@ class Command(BaseCommand):
 
             if not RequiredType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, RequiredType, P.name, "4th option")
-                #O = Option(course=C, academicprogram=P, option=4, type=6, atleast_one=False)
+                # print(C.deptnum, RequiredType, P.name, "4th option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GENERAL, type=TypeChoices.REQUIRED, atleast_one=False)
+                O.save()
 
             elif not RequiredStarType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, RequiredStarType, P.name, "4th option")
-                #O = Option(course=C, academicprogram=P, option=4, type=6, atleast_one=True)
+                # print(C.deptnum, RequiredStarType, P.name, "4th option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GENERAL, type=TypeChoices.REQUIRED, atleast_one=True)
+                O.save()
 
             elif not GeneralEleType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, GeneralEleType, P.name, "4th option")
-                #O = Option(course=C, academicprogram=P, option=4, type=5, atleast_one=False)
+                # print(C.deptnum, GeneralEleType, P.name, "4th option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GENERAL, type=TypeChoices.GENERAL_ELECTIVES, atleast_one=False)
+                O.save()
 
             elif not ScienceType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, ScienceType, P.name, "4th option")
-                #O = Option(course=C, academicprogram=P, option=4, type=7, atleast_one=False)
+                # print(C.deptnum, ScienceType, P.name, "4th option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GENERAL, type=TypeChoices.SCIENCE, atleast_one=False)
+                O.save()
 
             elif not TechnicalType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, TechnicalType, P.name, "4th option")
-                #O = Option(course=C, academicprogram=P, option=4, type=8, atleast_one=False)
+                # print(C.deptnum, TechnicalType, P.name, "4th option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GENERAL, type=TypeChoices.TECHNICAL, atleast_one=False)
+                O.save()
 
             elif not TechnicalStarType is None:
                 C = Course.objects.get(pk=dptnum)
-                print(C.deptnum, TechnicalStarType, P.name, "4th option")
-                #O = Option(course=C, academicprogram=P, option=4, type=8, atleast_one=True)
-
+                # print(C.deptnum, TechnicalStarType, P.name, "4th option")
+                O = Option(course=C, academicprogram=P, option=OptionChoices.GENERAL, type=TypeChoices.TECHNICAL, atleast_one=True)
+                O.save()
