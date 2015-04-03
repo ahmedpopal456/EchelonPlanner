@@ -28,5 +28,6 @@ urlpatterns = patterns('',
     url(r'^course_create/', 'app.views.course_create'),
     url(r'^glorious_schedule_assembly/', 'app.views.glorious_schedule_assembly'),
     url(r'^concordia_resources/', 'app.views.concordia_resources'),
+    url(r'^schedule_generator/', 'app.views.schedule_generator'),
     url(r'^favicon.ico$', RedirectView.as_view(url='/static/favicon.ico'))
 )

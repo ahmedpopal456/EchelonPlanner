@@ -336,6 +336,20 @@ def schedule_view(request):
     )
 
 @login_required
+def schedule_generator(request):
+    max_courses = [1, 2, 3, 4, 5]
+    feasable_courses = CourseCatalog.searchCourses("SOEN")
+    testTestList=["a","b","c"]
+    return render(
+        request,
+        'app/schedule_generator.html',
+        {'max_courses': max_courses,
+         'feasable_courses': feasable_courses,
+         'testTestList':testTestList
+        }
+    )
+
+@login_required
 def glorious_schedule_assembly(request):
     max_courses = [1, 2, 3, 4, 5]
     feasable_courses = CourseCatalog.searchCourses("SOEN")  # Not sure what method to use to call electives related to the user's academic program
