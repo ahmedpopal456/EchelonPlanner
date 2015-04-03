@@ -340,12 +340,14 @@ def schedule_generator(request):
     max_courses = [1, 2, 3, 4, 5]
     feasable_courses = CourseCatalog.searchCourses("SOEN")
     testTestList=["a","b","c"]
+    semesterCycle=["Summer 1","Summer 2", "Autumn", "Winter"]
     return render(
         request,
         'app/schedule_generator.html',
         {'max_courses': max_courses,
          'feasable_courses': feasable_courses,
-         'testTestList':testTestList
+         'testTestList':testTestList,
+         'semesterCycle':semesterCycle
         }
     )
 
@@ -365,8 +367,6 @@ def glorious_schedule_assembly(request):
         {'max_courses': max_courses,
          'feasable_courses': feasable_courses,
         'testTestList':testTestList}
-
-
     )
 
 @login_required
