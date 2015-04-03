@@ -7182,69 +7182,34 @@ td.visible-print {
 
 
 /* beginning of my edits */
-
-/*
-.navbar .nav li a {
-@elementHeight : 20 px;
-    padding: 10px;
-    line-height: 20px;
+.navbar{
+    padding-left:30px;
+    padding-right:30px;
+    padding-top:10px;
+    padding-bottom:10px;
 }
-*/
-
-.nav-tabs {
-    padding-top:10px; /*Make menu buttons drop down a little*/
-    border-bottom: none;
-    min-width:600px;
+.nav-pills{
+    margin-top:12px;
 }
 
-
-.nav-tabs > li > a {
-    background-color: #BA9363;
-    margin-right: 2px;
-    line-height: 1.428571429;
-    border: none;
-    border-radius: 4px 4px 0 0;
-}
-
-
-.nav-tabs > li > a:hover {
-    border: none;
-}
-
-.nav-tabs > li.active > a,
-.nav-tabs > li.active > a:hover,
-.nav-tabs > li.active > a:focus {
-    color: #633532;
+.nav-pills .dropdown-menu{
     background-color: #BFB19E;
-    border: none;
-    cursor: default;
+}
+
+.nav-pills .dropdown-menu li a{
+    background-color: #BFB19E;
+}
+
+.nav-pills .dropdown-menu li a:hover{
+    background-color: #633532;
+}
+
+.nav-pills li a{
+    background-color:#B88A57
 }
 
 body {
     padding-top: 100px;
-}
-
-.tab-content{
-    position:relative; /*this allows moving it up by hand*/
-    background-color:#BFB19E;
-    margin-left:83px;
-    border-radius: 0 4px 4px 4px;
-    margin-right: 10px;
-    max-width: 570px;
-    top: -20px;
-    min-width: 400px;
-    margin-bottom:-20px;
-}
-
-.tab-content li{
-    padding-top:5px;
-    padding-left: 20px;
-    min-height:30px;
-}
-
-
-.container-fluid{
-    max-height:64px;
 }
 
 
@@ -7344,4 +7309,8 @@ body {
 #giveSpace .form-control{
    margin-top:10px;
     margin-bottom:10px;
+}
+
+button .navbar-toggle{
+    background-color: black;
 }

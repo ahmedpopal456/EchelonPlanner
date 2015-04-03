@@ -1,76 +1,57 @@
 {% load staticfiles %}
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                data-target="#maintabs">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <div class="col-xs-3">
-            <a href="/">
-                <img class="bg-primary"
-                     src="{% static 'app/images/rsz_concordia_coa.png' %}"
-                     id=CoA
-                     alt="Magister Dixit"> <!-- Brand -->
-            </a>
-        </div>
-    </div>
 
-    <div class="tabbable" id="maintabs">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#sectionA" title="Manage your schedule and registration">
-                Schedule Management</a></li>
-            <li><a data-toggle="tab" href="#sectionB" title="View your student record and online profile">
-                My Profile</a></li>
-            <li><a data-toggle="tab" href="#sectionC" title="Helpful links to other sites"> <!-- bullshit -->
-                Tools</a></li>
-            <li><a href="/work_in_progress/" title="Site help section">Help</a></li>
-            <li><a href="/logout" title="Last Section">Logout</a></li>
-        </ul>
-    </div>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 
-    <!-- Inner Tab contents -->
-    <div class="tab-content">
-        <!-- Schedule Tab -->
-        <div id="sectionA" class="tab-pane fade in active">
-            <ul class="list-inline">
-                <li class="active"><a href="/schedule_make">Generate</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/schedule_view">View</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/work_in_progress">Manage preferences</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/browse_all_courses">Browse all courses</a></li>
+    <a class="brand pull-left" href="/"><img src="{% static 'app/images/rsz_concordia_coa.png' %}"></a>
+
+    <button class="navbar-toggle pull-right" data-target=".nav-collapse" data-toggle="collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+
+  <div class="navbar-inner">
+    <div class="container">
+      <div class="nav-collapse">
+        <ul class="nav nav-pills">
+
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle" title="Manage your schedule and registration">Schedule Management <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class=><a href="/schedule_make">Generate</a></li>
+                        <li class=""><a href="/schedule_view">View</a></li>
+                        <li class=""><a href="/work_in_progress">Manage preferences</a></li>
+                        <li class=""><a href="/browse_all_courses">Browse all courses</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle" title="View your student record and online profile">Profile <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li ><a href="/user_profile">Inspect</a></li>
+                        <li class=""><a href="/change_details">Modify Details</a></li>
+                        <li class=""><a href="/change_email">Change Email</a></li>
+                        <li class=""><a href="/change_pass">Change Password</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle" title="Helpful links to other sites">Tools <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="active"><a href="/concordia_resources">Concordia Resources</a></li>
+                        <li class=""><a href="/work_in_progress">[external links]</a></li>
+                        <li class=""><a href="/work_in_progress">[]</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="/work_in_progress/" title="Site help section">Help</a></li>
+
+                <li><a href="/logout" title="Last Section">Logout</a></li>
+
             </ul>
-        </div>
-
-        <!-- Profile Tab -->
-        <div id="sectionB" class="tab-pane fade">
-            <ul class="list-inline">
-                <li class="active"><a href="/user_profile">Inspect</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/change_details">Modify Details</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/change_email">Change Email</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/change_pass">Change Password</a></li>
-            </ul>
-        </div>
-
-        <!-- Tools and external sites Tab -->
-        <div id="sectionC" class="tab-pane fade">
-            <ul class="list-inline">
-                <li class="active"><a href="/concordia_resources">Concordia Resources</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/work_in_progress">[external links]</a></li>
-                <li class="active">|</li>
-                <li class=""><a href="/work_in_progress">[]</a></li>
-            </ul>
-        </div>
-    </div>
-
-</nav>
+      </div><!-- /.nav-collapse -->
+    </div><!-- /.container -->
+  </div><!-- /.navbar-inner -->
+</div><!-- /.navbar -->
