@@ -16,6 +16,18 @@ class Course(models.Model):
     def __str__(self):
         return self.deptnum
 
+    def hasTutorials(self):
+        if len(self.tutorial_set.all()) == 0:
+            return False
+        else:
+            return True
+
+    def hasLabs(self):
+        if len(self.lab_set.all()) == 0:
+            return False
+        else:
+            return True
+
     def addStudent(IDNumber):
         pass
 
