@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Echelon Planner</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+
+</head>
+
+<body>
+<!-- Load  the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+
+<script type="text/javascript">
+
+    //this script allows the dropdown to save the selected option as its label and make a new button.
+    $(function () {
+        $(".zero").click(function () {
+            var xx = $(this).attr("number") - 1; //this is going to go into eq, I need some way to pass the button number to it.
+            $("#classDiv"+$(this).attr("number")).find("#classDiv"+$(this).attr("number")+"Text").text($(this).text());
+            $("#classDiv"+$(this).attr("number")).find("#classDiv"+$(this).attr("number")+"Text").val($(this).text());
+        });
+    });
+
+     $(function () {
+        $(".one").click(function () {
+            var xx = $(this).attr("number") - 1; //this is going to go into eq, I need some way to pass the button number to it.
+            $("#lectDiv"+$(this).attr("number")).find("#lectDiv"+$(this).attr("number")+"Text").text($(this).text());
+            $("#lectDiv"+$(this).attr("number")).find("#lectDiv"+$(this).attr("number")+"Text").val($(this).text());
+        });
+    });
+
+</script>
+
+<div class="container body-content">
+    <div class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+
+            <form class="form-group" method="post" action="/glorious_schedule_assembly/">
+                {% csrf_token %}
+                {% for slot in max_courses %}
+                    {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order silent %}
+                    <div class="row{{ order }} giveSpace1">
+                    <div id="classDiv{{ order }}" class="dropdown" style="position:relative">
+
+                        <a id="classDiv{{ order }}Text" href="#" class="fauxbtn btn btn-primary dropdown-toggle giveSpace"
+                           data-toggle="dropdown" data-bind="label" course="">Course {{ order }}
+                            <span class="caret"></span>&nbsp;</a>
+                        <ul class="dropdown-menu">
+                            {% for course in feasable_courses %}
+                                <li>
+                                    <a class="zero" href="#" number="{{ order }}" course = {{ course }}>{{ course.deptnum }} : {{ course.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+
+                    <div id="lectDiv{{ order }}" class="dropdown" style="position:relative">
+
+                    <a id="lectDiv{{ order }}Text" giveMe="please" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                           data-toggle="dropdown" data-bind="label" course="">Lecture {{ order }}
+                            <span class="caret"></span>&nbsp;</a>
+                        <ul class="dropdown-menu">
+                            {% for course in feasable_courses %}
+                                <li>
+                                    <a class="one" href="#" number="{{ order }}" course="{{ course }}">{{ course.deptnum }}
+                                        : {{ course.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    </div>
+                {% endfor %}
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+</div>
+</body>
+</html>
