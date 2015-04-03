@@ -20,20 +20,23 @@
     //this script allows the dropdown to save the selected option as its label and make a new button.
     $(function () {
         $(".zero").click(function () {
-            var xx = $(this).attr("number") - 1; //this is going to go into eq, I need some way to pass the button number to it.
+            var xx = $(this).attr("number") - 1;
             var yy = $(this).attr("course")
             $("#classDiv" + $(this).attr("number")).find("#classDiv" + $(this).attr("number") + "Text").text($(this).text());
             $("#classDiv" + $(this).attr("number")).find("#classDiv" + $(this).attr("number") + "Text").val($(this).text());
 
-            //if(yy.hasLect())
+
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").removeClass("disabled");
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").attr('course', yy);
-            $("#lectDiv" + $(this).attr("number") + " .one").each(function (index) {
-                $(this).text(yy); //need to add lect. section instead of just name
-                $(this).val(yy); //need to add lect. section instead of just name
+
+            $("#lectDiv" + $(this).attr("number") + " .one").each(function (i) {
+                $(this).attr('lect',yy.lecture_set.all()[i]);
+                $(this).text(yy.lecture_set.all()[i]); //need to add lect. section instead of just name
+                $(this).val(yy.lecture_set.all()[i]); //need to add lect. section instead of just name
+
             });
 
-            //if(yy.hasTuts())
+            //if(yy.hasTutorials())
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").removeClass("disabled");
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
 
@@ -46,7 +49,7 @@
 
     $(function () {
         $(".one").click(function () {
-            var xx = $(this).attr("number") - 1; //this is going to go into eq, I need some way to pass the button number to it.
+            var xx = $(this).attr("number") - 1;
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").text($(this).text());
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").val($(this).text());
         });
@@ -54,7 +57,7 @@
 
     $(function () {
         $(".two").click(function () {
-            var xx = $(this).attr("number") - 1; //this is going to go into eq, I need some way to pass the button number to it.
+            var xx = $(this).attr("number") - 1;
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").text($(this).text());
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").val($(this).text());
         });
@@ -62,7 +65,7 @@
 
     $(function () {
         $(".three").click(function () {
-            var xx = $(this).attr("number") - 1; //this is going to go into eq, I need some way to pass the button number to it.
+            var xx = $(this).attr("number") - 1;
             $("#labDiv" + $(this).attr("number")).find("#labDiv" + $(this).attr("number") + "Text").text($(this).text());
             $("#labDiv" + $(this).attr("number")).find("#labDiv" + $(this).attr("number") + "Text").val($(this).text());
         });
