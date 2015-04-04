@@ -1,3 +1,4 @@
+import json
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
@@ -258,6 +259,9 @@ def error_404(request):
 
 @login_required
 def change_details(request):
+    loadPage = 'app/change_pass.html'
+    message = str()
+
     if request.method == 'POST':
         address = request.POST['address']
         homePhone = request.POST['homePhone']
@@ -268,8 +272,10 @@ def change_details(request):
         request.user.save()
     return render(
         request,
-        'app/change_details.html'
+        'app/user_profile.html',
+        {'alternate': loadPage, 'message': message}
     )
+# end change_details
 
 
 @login_required
@@ -436,6 +442,53 @@ def browse_all_courses(request):
         {'courseList': courseList}  # Send it off to the template for rendering
     )
 
+##################################################################################################
+# Serialization methods for classes
+"""
+This method sends back the serialized Course Model for parsing on the frontend
+"""
+@login_required()
+def serializeCourse(request):
+    if request.method == "POST":
+        specificCourse = CourseCatalog.searchCoursesThroughPartialName(request.POST['course'])
+        # specificCourse = specificCourse
+        data = serializers.serialize("json", specificCourse)
+        return HttpResponse(data)
+    else:
+        # We should make a public API with this stuff....
+        # For now, I guess we'll redirect.
+        return HttpResponseRedirect('/')
+    pass
+
+"""
+This method sends back a dictionary with ALL serialized subcourse objects (Lecture/Lab/Tutorials) of a given Course
+"""
+#@login_required()
+def serializeSubCourseItems(request):
+    if request.method == "POST":
+        # 1. Get the Course
+        specificCourse = CourseCatalog.searchCoursesThroughPartialName(request.POST['course'])
+        specificCourse = specificCourse[0]
+        # 2. Get its subcourse items
+        courses_lectures = serializers.serialize("json", specificCourse.allLectures())
+        courses_tutorials =serializers.serialize("json", specificCourse.allTutorials())
+        courses_labs = serializers.serialize("json", specificCourse.allLabs())
+
+        # 3. Build a Dictionary and send it off!
+        full_course_data = {}
+        full_course_data = { 'deptnum': specificCourse.deptnum }
+        full_course_data["lectures"] = courses_lectures
+        full_course_data["tutorials"] = courses_tutorials
+        full_course_data["labs"] = courses_labs
+        data = json.dumps(full_course_data)
+
+        print(full_course_data)
+        return HttpResponse(data)
+    else:
+        # We should make a public API with this stuff....
+        # For now, I guess we'll redirect.
+        return HttpResponseRedirect('/')
+    pass
 
 
 ##################################################################################################
@@ -446,15 +499,11 @@ def work_in_progress(request):
     html = "<html><body>The website template you requested is currently being worked on</body></html>"
     return HttpResponse(html)
 
-@csrf_exempt
 def nullhandler(request):
     # This method does nothing other than print out the stuff it is receiving
+
     if request.method == "POST":
-        specificCourse = CourseCatalog.searchCoursesThroughPartialName(request.POST['course'])
-        print(type(specificCourse))
-        data = serializers.serialize("json", specificCourse)
-        html = data
-        print(data)
+        return serializeSubCourseItems(request)
     else:
         html = "<html><body>Transaction Logged</body></html>"
 

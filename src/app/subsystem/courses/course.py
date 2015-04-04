@@ -16,17 +16,32 @@ class Course(models.Model):
     def __str__(self):
         return self.deptnum
 
+    def allLectures(self):
+        return list(self.lecture_set.all())
+
     def hasTutorials(self):
         if len(self.tutorial_set.all()) == 0:
             return False
         else:
             return True
 
+    def allTutorials(self):
+        if len(self.tutorial_set.all()) == 0:
+            return []
+        else:
+            return list(self.tutorial_set.all())
+
     def hasLabs(self):
         if len(self.lab_set.all()) == 0:
             return False
         else:
             return True
+
+    def allLabs(self):
+        if len(self.lab_set.all()) == 0:
+            return []
+        else:
+            return list(self.lab_set.all())
 
     def addStudent(IDNumber):
         pass
