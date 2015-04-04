@@ -294,7 +294,7 @@ def change_email(request):
 @login_required
 def schedule_make(request):  # Might as well rework this method from scratch, but you can see what the logic was intended to be
     numberOfElectives = [1,2,3,4,5,6,7,8,9]  # Need to create list containing how many choices user gets to make
-    availableElectives = CourseCatalog.searchCourses("SOEN")  # Not sure what method to use to call electives related to the user's academic program
+    availableElectives = CourseCatalog.searchCoursesThroughPartialName("SOEN")  # Not sure what method to use to call electives related to the user's academic program
     if request.method == 'POST':
         prelim_choices = []
         print(request.POST)
