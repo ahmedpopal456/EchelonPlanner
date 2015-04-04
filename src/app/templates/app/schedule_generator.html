@@ -112,16 +112,7 @@
                         var leText = newObj[xx-1].fields['section'];
                         $("#lectDrop"+xx).append("<li><a"+inside+">"+leText+"</a></li>");
                     }
-/*
-                    //this loads the little dropdowns need to modify to iterate through all lectures
-                    $(".one").each(function () {
-                        $(this).attr('lect', newObj[0].fields['section']);
-                        $(this).attr('course', newObj[0].fields['course']);
-                        $(this).attr('pk', newObj[0].pk);
-                        $(this).text(newObj[0].pk); //need to add lect. section instead of just name
-                        $(this).val(newObj[0].pk); //need to add lect. section instead of just name
-                    });
-*/
+
                 },
                 failure: function (data) {
                     alert('Got an error');
@@ -266,13 +257,7 @@
                                    data-toggle="dropdown" data-bind="label" name="lect{{ order }}">Lecture {{ order }}
                                     <span class="caret"></span>&nbsp;</a>
                                 <ul id="lectDrop{{ order }}" class="dropdown-menu">
-                                <!--
-                                    {% for course in feasable_courses %}
-                                        <li>
-                                            <a class="one" href="#" number="{{ order }}">A</a>
-                                        </li>
-                                    {% endfor %}
-                                -->
+                                <!--got rid of ugly loop. Now managed by AJAX.-->
                                 </ul>
                             </div>
 
