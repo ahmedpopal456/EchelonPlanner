@@ -9,35 +9,35 @@ import django.db
 class TestSchedule(TestCase):
     def setUp(self):
         self.myCourseCatalog = coursecatalog
-        self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
-        self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
-        self.myCourseCatalog.labToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TA")
-        self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
-        self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
-        self.myCourseCatalog.labToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
-        self.myCourseCatalog.labToCourse("VN", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
-        self.myCourseCatalog.tutorialToCourse("VJ", "SOEN", 341, "Fall", "10:15:00", "11:30:00", "--W----", "SGW H-401", "V")
-        self.myCourseCatalog.labToCourse("VO", "SOEN", 341, "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "V", "VJ")
-        self.myCourseCatalog.labToCourse("VP", "SOEN", 341, "8:45:00", "10:00:00", "---R---", "Fall", "SGW H-821", "V", "VJ")
-        self.myCourseCatalog.addLectureToCourse("T", "SOEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "T")
-        self.myCourseCatalog.labToCourse("TM", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "T", "TI")
-        self.myCourseCatalog.labToCourse("TN", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "T", "TI")
-        self.myCourseCatalog.tutorialToCourse("TJ", "SOEN", 341, "Fall", "10:15:00", "11:30:00", "--W----", "SGW H-401", "T")
-        self.myCourseCatalog.labToCourse("TO", "SOEN", 341, "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TJ")
-        self.myCourseCatalog.labToCourse("TP", "SOEN", 341, "8:45:00", "10:00:00", "---R---", "Fall", "SGW H-821", "T", "TJ")
+        self.myCourseCatalog.addCourse("Test 1", 428, "COEN", 3.5)
+        self.myCourseCatalog.addLectureToCourse("T", "COEN", 428, "11:45:00", "13:00:00", "--W-F--", "Fall", "SGW H-401", False)
+        self.myCourseCatalog.addTutorialToCourse("TA", "COEN", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
+        self.myCourseCatalog.addLabToCourse("TM", "COEN", 428,  "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TA")
+        self.myCourseCatalog.addCourse("Test 2", 341, "COEN", 3)
+        self.myCourseCatalog.addLectureToCourse("V", "COEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
+        self.myCourseCatalog.addTutorialToCourse("VI", "COEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
+        self.myCourseCatalog.addLabToCourse("VM", "COEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
+        self.myCourseCatalog.addLabToCourse("VN", "COEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
+        self.myCourseCatalog.addTutorialToCourse("VJ", "COEN", 341, "Fall", "10:15:00", "11:30:00", "--W----", "SGW H-401", "V")
+        self.myCourseCatalog.addLabToCourse("VO", "COEN", 341, "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "V", "VJ")
+        self.myCourseCatalog.addLabToCourse("VP", "COEN", 341, "8:45:00", "10:00:00", "---R---", "Fall", "SGW H-821", "V", "VJ")
+        self.myCourseCatalog.addLectureToCourse("T", "COEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
+        self.myCourseCatalog.addTutorialToCourse("TI", "COEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "T")
+        self.myCourseCatalog.addLabToCourse("TM", "COEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "T", "TI")
+        self.myCourseCatalog.addLabToCourse("TN", "COEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "T", "TI")
+        self.myCourseCatalog.addTutorialToCourse("TJ", "COEN", 341, "Fall", "10:15:00", "11:30:00", "--W----", "SGW H-401", "T")
+        self.myCourseCatalog.addLabToCourse("TO", "COEN", 341, "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TJ")
+        self.myCourseCatalog.addLabToCourse("TP", "COEN", 341, "8:45:00", "10:00:00", "---R---", "Fall", "SGW H-821", "T", "TJ")
 
     def tearDown(self):
-        self.myCourseCatalog.removeCourse("COMP", 428)
-        self.myCourseCatalog.removeCourse("SOEN", 341)
+        self.myCourseCatalog.removeCourseWithSections("COEN", 428)
+        self.myCourseCatalog.removeCourseWithSections("COEN", 341)
 
     def test_addCourse_removeItem_lecture(self):
         """
             Tests that a lecture is added to schedule and then removed
         """
-        myLecture = self.myCourseCatalog.searchCourses("COMP428")[0].lecture_set.all()[0]
+        myLecture = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].lecture_set.all()[0]
         mySchedule = Schedule()
         mySchedule.add_course(myLecture)
         coursesInMySchedule = mySchedule.view_schedule()
@@ -51,8 +51,8 @@ class TestSchedule(TestCase):
             Tests that a tutorial and its lecture are added to schedule
             and then removed
         """
-        myLecture = self.myCourseCatalog.searchCourses("COMP428")[0].lecture_set.all()[0]
-        myTutorial = self.myCourseCatalog.searchCourses("COMP428")[0].tutorial_set.all()[0]
+        myLecture = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].lecture_set.all()[0]
+        myTutorial = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].tutorial_set.all()[0]
         mySchedule = Schedule()
         mySchedule.add_course(myTutorial)
         coursesInMySchedule = mySchedule.view_schedule()
@@ -67,9 +67,9 @@ class TestSchedule(TestCase):
             Tests that a lab and its accompanying tutorial and
             lecture are added to schedule and then removed
         """
-        myLecture = self.myCourseCatalog.searchCourses("COMP428")[0].lecture_set.all()[0]
-        myTutorial = self.myCourseCatalog.searchCourses("COMP428")[0].tutorial_set.all()[0]
-        myLab = self.myCourseCatalog.searchCourses("COMP428")[0].lab_set.all()[0]
+        myLecture = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].lecture_set.all()[0]
+        myTutorial = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].tutorial_set.all()[0]
+        myLab = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].lab_set.all()[0]
         mySchedule = Schedule()
         mySchedule.add_course(myLab)
         coursesInMySchedule = mySchedule.view_schedule()

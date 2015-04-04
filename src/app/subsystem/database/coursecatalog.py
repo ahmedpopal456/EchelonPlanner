@@ -69,7 +69,7 @@ class CourseCatalog(object):
             return False
 
     @staticmethod
-    def addCourse(name, department, number, credits=None):
+    def addCourse(name, number, department, credits=None):
 
         if len(Course.objects.filter(pk=department + str(number))) is not 0:
             logger.warn("Course already exists: " + department + str(number) + ". Cannot add")
