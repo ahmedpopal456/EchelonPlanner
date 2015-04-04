@@ -153,7 +153,8 @@
                     {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order silent %}
                     <div class="bigdiv giveSpace1">
                         <div id="classDiv{{ order }}" class="dropdown" style="position:relative">
-
+                            <!-- Javascript will replace this and send it as POST-->
+                            <input id="classDiv{{ order }}Text" type="hidden" name="option" value=""/>
                             <a id="classDiv{{ order }}Text" href="#" class="btn btn-primary dropdown-toggle giveSpace"
                                data-toggle="dropdown" data-bind="label" name="cour{{ order }}"
                                value="">Course {{ order }}
