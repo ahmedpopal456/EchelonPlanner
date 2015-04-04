@@ -470,6 +470,7 @@ def serializeSubCourseItems(request):
         specificCourse = CourseCatalog.searchCoursesThroughPartialName(request.POST['course'])
         specificCourse = specificCourse[0]
         # 2. Get its subcourse items
+        # NOTE: small hack here, we ask Django to neatly serialize the models before
         courses_lectures = serializers.serialize("json", specificCourse.allLectures())
         courses_tutorials =serializers.serialize("json", specificCourse.allTutorials())
         courses_labs = serializers.serialize("json", specificCourse.allLabs())
@@ -480,6 +481,7 @@ def serializeSubCourseItems(request):
         full_course_data["lectures"] = courses_lectures
         full_course_data["tutorials"] = courses_tutorials
         full_course_data["labs"] = courses_labs
+        # NOTE: we serialize everything again to complete the response package.
         data = json.dumps(full_course_data)
 
         print(full_course_data)
