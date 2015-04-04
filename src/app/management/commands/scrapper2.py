@@ -1,6 +1,7 @@
 import re
 import os
 # from app.subsystem.courses import Course
+
 from app.subsystem.courses.academicprogram import AcademicProgram
 from app.subsystem.courses.course import Course
 from app.subsystem.courses.option import Option
