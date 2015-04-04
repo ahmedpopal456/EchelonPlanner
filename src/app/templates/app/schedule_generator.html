@@ -6,7 +6,7 @@
     {% load staticfiles %}
     {% load cycle from future %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static 'app/scripts/jquery.min.js' %}"></script>
     <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
 
 </head>
@@ -45,13 +45,13 @@
             var yy = $(this).attr("course")
             $("#classDiv" + $(this).attr("number")).find("#classDiv" + $(this).attr("number") + "Text").text($(this).text());
             $("#classDiv" + $(this).attr("number")).find("#classDiv" + $(this).attr("number") + "Text").val($(this).text());
-
+            $("#classInput" + $(this).attr("number")).val($(this).attr("deptnum"));
 
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").removeClass("disabled");
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").attr('course', yy);
 
             //if I get this loop down I have all loops done
-            $("one").each(function (index, value) {
+            $("one").each(function (index) {
                 $(this).attr('lect', "" + yy.lecture_set.all()[index].section);
                 $(this).attr('lectIndex', index);
                 $(this).text("" + yy.lecture_set.all()[index].section); //need to add lect. section instead of just name
@@ -77,6 +77,7 @@
 
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").text($(this).text());
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").val($(this).text());
+            //console.log("howdy partner: ");
             //if(yy.lecture_set.all().[zz].hasTutorials() ) { //was playing with this last time
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").removeClass("disabled");
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
@@ -154,7 +155,7 @@
                     <div class="bigdiv giveSpace1">
                         <div id="classDiv{{ order }}" class="dropdown" style="position:relative">
                             <!-- Javascript will replace this and send it as POST-->
-                            <input id="classDiv{{ order }}Text" type="hidden" name="option" value=""/>
+                            <input id="classInput{{ order }}" type="hidden" name="option" value=""/>
                             <a id="classDiv{{ order }}Text" href="#" class="btn btn-primary dropdown-toggle giveSpace"
                                data-toggle="dropdown" data-bind="label" name="cour{{ order }}"
                                value="">Course {{ order }}
@@ -163,7 +164,7 @@
                                 {% for course in feasable_courses %}
                                     <li>
                                         <a class="zero" href="#" number="{{ order }}"
-                                           course= {{ course }}>{{ course.deptnum }} : {{ course.name }}</a>
+                                           course= "{{ course }}" deptnum="{{ course.deptnum }}">{{ course.deptnum }} : {{ course.name }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>
