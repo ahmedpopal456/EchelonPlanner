@@ -17,7 +17,7 @@ class CourseCatalog(object):
     # Returns List of Courses that contain partialName in either Name or in Deptnum
     # or Department or Number
     @staticmethod
-    def searchCourses(partialName):
+    def searchCoursesThroughPartialName(partialName):
         nospacesstring = partialName.replace(" ", "")
         c1 = set(list(Course.objects.filter(name__icontains=partialName)))
         c1.update(list(Course.objects.filter(department__icontains=partialName)))
@@ -44,18 +44,20 @@ class CourseCatalog(object):
     # 3 number course number i.e 341
     #outputs true if removed, false if not
     @staticmethod
-    def removeCourse(department, number):
+    def removeCourseWithSections(department, number):
 
         primarykey = department + str(number)
         try:
+
             Course.objects.get(pk=primarykey).delete()
             return True
+
         except Course.DoesNotExist:
             logger.warn("Course not found: " + department + str(number) + ". Cannot remove Course")
             return False
 
     @staticmethod
-    def modifyCredits(department, number, credits):
+    def modifyCreditsForCourse(department, number, credits):
 
         try:
             C = Course.objects.get(pk=department + str(number))
@@ -67,14 +69,14 @@ class CourseCatalog(object):
             return False
 
     @staticmethod
-    def addCourse(name, number, department, credits=None):
+    def addCourse(name, department, number, credits=None):
 
         if len(Course.objects.filter(pk=department + str(number))) is not 0:
             logger.warn("Course already exists: " + department + str(number) + ". Cannot add")
             return False  # Course already exisits
 
         else:
-            c = Course(name=name, number=number, department=department, deptnum=department + str(number))
+            c = Course(name=name, department=department, number=number, deptnum=department + str(number))
             if credits is not None:
                 c.credits = credits
 
@@ -106,7 +108,7 @@ class CourseCatalog(object):
             return False
 
     @staticmethod
-    def removeLecture( section, department, number, semester):  #removes any labs/tut under
+    def removeLectureFromCourse(section, department, number, semester):  #removes any labs/tut under
 
         primarykey = department + str(number);
         try:
@@ -123,7 +125,7 @@ class CourseCatalog(object):
             return False
 
     @staticmethod
-    def labToCourse(section, department, number, starttime, endtime, days, semester, location, lecturesection, tutorialsection = None):
+    def addLabToCourse(section, department, number, starttime, endtime, days, semester, location, lecturesection, tutorialsection = None):
 
         try:
             e = Event(days=days, starttime=starttime, endtime=endtime, location=location, semester=semester)
@@ -159,7 +161,7 @@ class CourseCatalog(object):
             tutorial.lab_set.add(lab)
 
     @staticmethod
-    def removeLab(section, department, number, semester):
+    def removeLabFromCourse(section, department, number, semester):
 
         #Try to get the course with the primary key, if it is available, delete the lab that is inside of it
         primarykey = department + str(number)
@@ -175,7 +177,7 @@ class CourseCatalog(object):
             return False
 
     @staticmethod
-    def tutorialToCourse(section, department, number, semester, starttime, endtime, days, location, lecturesection):
+    def addTutorialToCourse(section, department, number, semester, starttime, endtime, days, location, lecturesection):
 
         try:
             c = Course.objects.get(pk=(department + str(number)))
@@ -201,7 +203,7 @@ class CourseCatalog(object):
             return False
 
     @staticmethod
-    def removeTutorial(section, department, number, semester):
+    def removeTutorialFromCourse(section, department, number, semester):
 
         primarykey = department + str(number);
         try:
@@ -223,7 +225,7 @@ class CourseCatalog(object):
 
     # When given a section returns if this is Tutorial, Lab or Lecture. Functionality is used repeatedly elsewhere.
     @staticmethod
-    def typeofSection(section):
+    def typeOfSection(section):
 
         typeofsection = str(type(section))
 
@@ -239,15 +241,15 @@ class CourseCatalog(object):
     # When given a section returns if it has tutorials. Functionality is used repeatedly elsewhere.
     def hasTutorial(section):
 
-        if CourseCatalog.typeofSection(section) == "Lecture":
+        if CourseCatalog.typeOfSection(section) == "Lecture":
             if len(section.tutorial_set.all()) == 0:
                 return False
             else:
                 return True
-        if CourseCatalog.typeofSection(section) == "Tutorial":
+        if CourseCatalog.typeOfSection(section) == "Tutorial":
             return True
 
-        if CourseCatalog.typeofSection(section) == "Lab":
+        if CourseCatalog.typeOfSection(section) == "Lab":
             if section.tutorial is not None:
                 return True
             else:
@@ -257,13 +259,13 @@ class CourseCatalog(object):
     # When given a section returns if it has labs. Functionality is used repeatedly elsewhere.
     def hasLab(section):
 
-        if CourseCatalog.typeofSection(section) == "Lecture" or CourseCatalog.typeofSection(section) == "Tutorial":
+        if CourseCatalog.typeOfSection(section) == "Lecture" or CourseCatalog.typeOfSection(section) == "Tutorial":
             if len(section.lab_set.all()) == 0:
                 return False
             else:
                 return True
 
-        if CourseCatalog.typeofSection(section) == "Lab":
+        if CourseCatalog.typeOfSection(section) == "Lab":
             return True
 
     @staticmethod

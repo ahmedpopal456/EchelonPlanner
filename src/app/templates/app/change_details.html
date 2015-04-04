@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,14 +14,16 @@
 
 <body>
 
-<!-- no nav bar for these "change x screens" as this seems to be the standard in most sites -->
+<!-- Load  the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
 
 <div class="container body-content">
     <div class="row" >
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
             <!-- not sure if form-signin should be class -->
-            <form class="form" method="post" action="/detailsChange/" id="giveSpace">
+            <form class="form" method="post" action="/change_details/" id="giveSpace">
                     {% csrf_token %}
 
                     <h2 class="form">User Details</h2>
