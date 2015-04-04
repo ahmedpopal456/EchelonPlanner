@@ -18,9 +18,9 @@
 
 <script type="text/javascript">
 
-
     $(function () {
         $(".testbutton").click(function () {
+
             //AJAX START
 
             $.ajax({
@@ -34,8 +34,8 @@
                 success: function (data) {
 
                     var newObj = jQuery.parseJSON(data.valueOf());
-                    $('#Testerstest').html(newObj[0].pk+": Hey "+newObj[0].fields.name);
-                    //alert(newObj[0].pk)
+                    $('#Testerstest').html(newObj[0].pk + ": Hey " + newObj[0].fields['course']);
+                    console.log(newObj[0].fields + " " + newObj.length)
                 },
                 failure: function (data) {
                     alert('Got an error');
@@ -63,7 +63,6 @@
     });
     $(function () {
         $(".vortex1").click(function () {
-
             $("#semesterDiv").find("#semester").text($(this).text());
             $("#semesterDiv").find("#semester").attr("name", $(this).text());
             $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") + " (" + $("#semester").attr("name") + "):");
@@ -74,33 +73,76 @@
 
     $(function () {
         $(".zero").click(function () {
-            var xx = $(this).attr("number") - 1;
-            var yy = $(this).attr("course")
-            $("#classDiv" + $(this).attr("number")).find("#classDiv" + $(this).attr("number") + "Text").text($(this).text());
-            $("#classDiv" + $(this).attr("number")).find("#classDiv" + $(this).attr("number") + "Text").val($(this).text());
-            $("#classInput" + $(this).attr("number")).val($(this).attr("deptnum"));
+            var xx = $(this).attr("number");
+            var yy = $(this).attr("course");
+            var zz;
+            //AJAX START
 
-            $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").removeClass("disabled");
-            $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").attr('course', yy);
+            $.ajax({
+                type: 'post',
+                url: "/nullhandler/",
+                dataType: 'html',
+                data: {
+                    'course': $(this).attr('deptnum'),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    var newObj = jQuery.parseJSON(data.valueOf());
+                    zz = newObj[xx-1].pk;
+                    $("#lectDiv" + xx + "Text").attr("pk", ""+zz);
 
-            //if I get this loop down I have all loops done
-            $("one").each(function (index) {
-                $(this).attr('lect', "" + yy.lecture_set.all()[index].section);
-                $(this).attr('lectIndex', index);
-                $(this).text("" + yy.lecture_set.all()[index].section); //need to add lect. section instead of just name
-                $(this).val("" + yy.lecture_set.all()[index].section); //need to add lect. section instead of just name
+                    for(var i = 0; i<1 ; i++){
+                        $('#Testerstest').html("WHAT, YEAH");
+                        /*
+                        var a = document.createElement('a');
+                        $("#foo").append("<div>hello world</div>")
+                        console.log(a.type());
+                        a.addClass('one');
+                        a.attr('href',"#");
+                        a.attr('number',xx);
+                        a.attr('lect', newObj[xx-1].fields['section']);
+                        a.attr('course', newObj[xx-1].fields['course']);
+                        a.attr('pk', newObj[xx-1].pk);
+                        a.text(newObj[xx-1].pk); //need to add lect. section instead of just name
+                        a.val(newObj[xx-1].pk); //need to add lect. section instead of just name
+                        var li = document.createElement('li').appendChild(a);
+                        console.log(newObj[xx-1].pk);
+                        */
+                        var inside = " href='#' number='"+xx+"'"+"lect='"+newObj[xx-1].fields['section']+"'"+"course='"+newObj[xx-1].fields['course']+"'"+"pk='"+newObj[xx-1].pk+"'"+"value='"+newObj[xx-1].pk+"'";
+                        var leText = newObj[xx-1].fields['section'];
+                        $("#lectDrop"+xx).append("<li><a"+inside+">"+leText+"</a></li>");
+                    }
+/*
+                    //this loads the little dropdowns need to modify to iterate through all lectures
+                    $(".one").each(function () {
+                        $(this).attr('lect', newObj[0].fields['section']);
+                        $(this).attr('course', newObj[0].fields['course']);
+                        $(this).attr('pk', newObj[0].pk);
+                        $(this).text(newObj[0].pk); //need to add lect. section instead of just name
+                        $(this).val(newObj[0].pk); //need to add lect. section instead of just name
+                    });
+*/
+                },
+                failure: function (data) {
+                    alert('Got an error');
+                }
+
             });
 
-            //if(yy.hasTutorials()) //this gets moved to .one click function
-            $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").removeClass("disabled");
-            $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
+            //AJAX END
+
+            $("#classDiv" + xx).find("#classDiv" + xx + "Text").text($(this).text());
+            $("#classDiv" + xx).find("#classDiv" + xx + "Text").val($(this).text());
+            $("#classInput" + xx).val($(this).attr("deptnum"));
+
+            $("#lectDiv" + xx).find("#lectDiv" + xx + "Text").removeClass("disabled");
+            $("#lectDiv" + xx).find("#lectDiv" + xx + "Text").attr('course', yy);
 
             //if(yy.hasLabs()) //this gets moved to .one click function and to .two click function accordingly
-            $("#labDiv" + $(this).attr("number")).find("#labDiv" + $(this).attr("number") + "Text").removeClass("disabled");
-            $("#labDiv" + $(this).attr("number")).find("#labDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
+            $("#labDiv" + xx).find("#labDiv" + xx + "Text").removeClass("disabled");
+            $("#labDiv" + xx).find("#labDiv" + xx + "Text").attr('course', yy);
         });
     });
-
 
     $(function () {
         $(".one").click(function () {
@@ -110,7 +152,15 @@
 
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").text($(this).text());
             $("#lectDiv" + $(this).attr("number")).find("#lectDiv" + $(this).attr("number") + "Text").val($(this).text());
-            //console.log("howdy partner: ");
+
+
+             //this loads the little dropdowns need to modify to iterate through all lectures
+            $(".two").each(function () {
+                $(this).attr('lect', newObj[0].pk);
+                $(this).text(newObj[0].pk); //need to add lect. section instead of just name
+                $(this).val(newObj[0].pk); //need to add lect. section instead of just name
+            });
+
             //if(yy.lecture_set.all().[zz].hasTutorials() ) { //was playing with this last time
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").removeClass("disabled");
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
@@ -215,12 +265,14 @@
                                    class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
                                    data-toggle="dropdown" data-bind="label" name="lect{{ order }}">Lecture {{ order }}
                                     <span class="caret"></span>&nbsp;</a>
-                                <ul class="dropdown-menu">
+                                <ul id="lectDrop{{ order }}" class="dropdown-menu">
+                                <!--
                                     {% for course in feasable_courses %}
                                         <li>
                                             <a class="one" href="#" number="{{ order }}">A</a>
                                         </li>
                                     {% endfor %}
+                                -->
                                 </ul>
                             </div>
 

@@ -452,7 +452,7 @@ def nullhandler(request):
     if request.method == "POST":
         specificCourse = CourseCatalog.searchCoursesThroughPartialName(request.POST['course'])
         print(type(specificCourse))
-        data = serializers.serialize("json", specificCourse)
+        data = serializers.serialize("json", specificCourse[0].lecture_set.all())
         html = data
         print(data)
     else:
