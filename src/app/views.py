@@ -1,3 +1,5 @@
+from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
@@ -444,12 +446,20 @@ def work_in_progress(request):
     html = "<html><body>The website template you requested is currently being worked on</body></html>"
     return HttpResponse(html)
 
-
+@csrf_exempt
 def nullhandler(request):
     # This method does nothing other than print out the stuff it is receiving
-    html = "<html><body>Transaction Logged</body></html>"
-    for some in Course.objects.all():
-        print(str(some.deptnum) + ":" + str(some.name))
-    logger.debug(str(request.POST))
+    if request.method == "POST":
+        specificCourse = CourseCatalog.searchCoursesThroughPartialName(request.POST['course'])
+        print(type(specificCourse))
+        data = serializers.serialize("json", specificCourse)
+        html = data
+        print(data)
+    else:
+        html = "<html><body>Transaction Logged</body></html>"
+
+    # for some in Course.objects.all():
+    #     print(str(some.deptnum) + ":" + str(some.name))
+    print(str(request.POST))
     return HttpResponse(html)
 

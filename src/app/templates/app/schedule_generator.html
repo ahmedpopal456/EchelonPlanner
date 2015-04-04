@@ -18,22 +18,55 @@
 
 <script type="text/javascript">
 
+
+    $(function () {
+        $(".testbutton").click(function () {
+            //AJAX START
+
+            $.ajax({
+                type: 'post',
+                url: "/nullhandler/",
+                dataType: 'html',
+                data: {
+                    'course': 'SOEN228',
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+
+                    var newObj = jQuery.parseJSON(data.valueOf());
+                    $('#Testerstest').html(newObj[0].pk+": Hey "+newObj[0].fields.name);
+                    //alert(newObj[0].pk)
+                },
+                failure: function (data) {
+                    alert('Got an error');
+                }
+
+            });
+            return false;
+
+
+            //AJAX END
+        });
+
+    });
+
+
     //this script allows the dropdown to save the selected option as its label and make a new button.
 
     $(function () {
         $(".vortex0").click(function () {
             $("#yearDiv").find("#year").text($(this).text());
-            $("#yearDiv").find("#year").attr("name",$(this).text());
+            $("#yearDiv").find("#year").attr("name", $(this).text());
             $("#semesterDiv").removeClass("hidden");
             $("#surprise").addClass("hidden");
         });
     });
-       $(function () {
+    $(function () {
         $(".vortex1").click(function () {
 
             $("#semesterDiv").find("#semester").text($(this).text());
-            $("#semesterDiv").find("#semester").attr("name",$(this).text());
-            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") +" ("+$("#semester").attr("name")+"):");
+            $("#semesterDiv").find("#semester").attr("name", $(this).text());
+            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") + " (" + $("#semester").attr("name") + "):");
             $("#surprise").removeClass("hidden");
         });
     });
@@ -110,118 +143,123 @@
     <div class="row">
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
+            <button class="testbutton">YEEEEE</button>
+            <h1 id="Testerstest"></h1>
 
-<div class="blank">
-<h2>Select Semester</h2>
-    <div class="btn-group blank" data-toggle="buttons">
-       <div id="yearDiv" class="dropdown blank" style="position:relative">
+            <div class="blank">
+                <h2>Select Semester</h2>
 
-                            <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                               data-toggle="dropdown" data-bind="label" name="selectYear"
-                               value="">Select Year
-                                <span class="caret"></span>&nbsp;</a>
-                            <ul class="dropdown-menu">
-                                {% for year in max_years %}
-                                    <li>
-                                        <a class="vortex0" href="#" name="{{ semester }}">{{ year }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-       </div>
+                <div class="btn-group blank" data-toggle="buttons">
+                    <div id="yearDiv" class="dropdown blank" style="position:relative">
 
-        <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">
-                             <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                               data-toggle="dropdown" data-bind="label" name="selectSemester"
-                               value="">Select Semester
-                                <span class="caret"></span>&nbsp;</a>
-                            <ul class="dropdown-menu">
-                                {% for semester in semesterCycle %}
-                                    <li>
-                                        <a class="vortex1" href="#" name="{{ semester }}">{{ semester }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-        </div>
-    </div>
-</div>
-
-<div id="surprise" class="hidden">
-            <form class="form-group" method="post" action="/schedule_generator/">
-                {% csrf_token %}
-
-                <h2 id="changeForever">Select Courses for Semester X:</h2>
-                {% for slot in max_courses %}
-                    {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order silent %}
-                    <div class="bigdiv giveSpace1">
-                        <div id="classDiv{{ order }}" class="dropdown" style="position:relative">
-                            <!-- Javascript will replace this and send it as POST-->
-                            <input id="classInput{{ order }}" type="hidden" name="option" value=""/>
-                            <a id="classDiv{{ order }}Text" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                               data-toggle="dropdown" data-bind="label" name="cour{{ order }}"
-                               value="">Course {{ order }}
-                                <span class="caret"></span>&nbsp;</a>
-                            <ul class="dropdown-menu">
-                                {% for course in feasable_courses %}
-                                    <li>
-                                        <a class="zero" href="#" number="{{ order }}"
-                                           course= "{{ course }}" deptnum="{{ course.deptnum }}">{{ course.deptnum }} : {{ course.name }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-
-                        </div>
-
-                        <div id="lectDiv{{ order }}" class="dropdown" style="position:relative">
-
-                            <a id="lectDiv{{ order }}Text" href="#"
-                               class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
-                               data-toggle="dropdown" data-bind="label" name="lect{{ order }}">Lecture {{ order }}
-                                <span class="caret"></span>&nbsp;</a>
-                            <ul class="dropdown-menu">
-                                {% for course in feasable_courses %}
-                                    <li>
-                                        <a class="one" href="#" number="{{ order }}">A</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-
-                        <div id="tutDiv{{ order }}" class="dropdown" style="position:relative">
-
-                            <a id="tutDiv{{ order }}Text" href="#"
-                               class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
-                               data-toggle="dropdown" data-bind="label" name="tut{{ order }}">Tutorial {{ order }}
-                                <span class="caret"></span>&nbsp;</a>
-                            <ul class="dropdown-menu">
-                                {% for course in feasable_courses %}
-                                    <li>
-                                        <a class="two" href="#" number="{{ order }}">B</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-
-                        <div id="labDiv{{ order }}" class="dropdown" style="position:relative">
-
-                            <a id="labDiv{{ order }}Text" href="#"
-                               class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
-                               data-toggle="dropdown" data-bind="label" name="lab{{ order }}">Lab {{ order }}
-                                <span class="caret"></span>&nbsp;</a>
-                            <ul class="dropdown-menu">
-                                {% for course in feasable_courses %}
-                                    <li>
-                                        <a class="three" href="#" number="{{ order }}">C</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
+                        <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                           data-toggle="dropdown" data-bind="label" name="selectYear"
+                           value="">Select Year
+                            <span class="caret"></span>&nbsp;</a>
+                        <ul class="dropdown-menu">
+                            {% for year in max_years %}
+                                <li>
+                                    <a class="vortex0" href="#" name="{{ semester }}">{{ year }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     </div>
-                <div class="blank">&nbsp;</div>
-                {% endfor %}
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-            </form>
-</div>
+                    <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">
+                        <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                           data-toggle="dropdown" data-bind="label" name="selectSemester"
+                           value="">Select Semester
+                            <span class="caret"></span>&nbsp;</a>
+                        <ul class="dropdown-menu">
+                            {% for semester in semesterCycle %}
+                                <li>
+                                    <a class="vortex1" href="#" name="{{ semester }}">{{ semester }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="surprise" class="hidden">
+                <form class="form-group" method="post" action="/schedule_generator/">
+                    {% csrf_token %}
+
+                    <h2 id="changeForever">Select Courses for Semester X:</h2>
+                    {% for slot in max_courses %}
+                        {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order silent %}
+                        <div class="bigdiv giveSpace1">
+                            <div id="classDiv{{ order }}" class="dropdown" style="position:relative">
+                                <!-- Javascript will replace this and send it as POST-->
+                                <input id="classInput{{ order }}" type="hidden" name="option" value=""/>
+                                <a id="classDiv{{ order }}Text" href="#"
+                                   class="btn btn-primary dropdown-toggle giveSpace"
+                                   data-toggle="dropdown" data-bind="label" name="cour{{ order }}"
+                                   value="">Course {{ order }}
+                                    <span class="caret"></span>&nbsp;</a>
+                                <ul class="dropdown-menu">
+                                    {% for course in feasable_courses %}
+                                        <li>
+                                            <a class="zero" href="#" number="{{ order }}"
+                                               course="{{ course }}" deptnum="{{ course.deptnum }}">{{ course.deptnum }}
+                                                : {{ course.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+
+                            </div>
+
+                            <div id="lectDiv{{ order }}" class="dropdown" style="position:relative">
+
+                                <a id="lectDiv{{ order }}Text" href="#"
+                                   class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
+                                   data-toggle="dropdown" data-bind="label" name="lect{{ order }}">Lecture {{ order }}
+                                    <span class="caret"></span>&nbsp;</a>
+                                <ul class="dropdown-menu">
+                                    {% for course in feasable_courses %}
+                                        <li>
+                                            <a class="one" href="#" number="{{ order }}">A</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <div id="tutDiv{{ order }}" class="dropdown" style="position:relative">
+
+                                <a id="tutDiv{{ order }}Text" href="#"
+                                   class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
+                                   data-toggle="dropdown" data-bind="label" name="tut{{ order }}">Tutorial {{ order }}
+                                    <span class="caret"></span>&nbsp;</a>
+                                <ul class="dropdown-menu">
+                                    {% for course in feasable_courses %}
+                                        <li>
+                                            <a class="two" href="#" number="{{ order }}">B</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <div id="labDiv{{ order }}" class="dropdown" style="position:relative">
+
+                                <a id="labDiv{{ order }}Text" href="#"
+                                   class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
+                                   data-toggle="dropdown" data-bind="label" name="lab{{ order }}">Lab {{ order }}
+                                    <span class="caret"></span>&nbsp;</a>
+                                <ul class="dropdown-menu">
+                                    {% for course in feasable_courses %}
+                                        <li>
+                                            <a class="three" href="#" number="{{ order }}">C</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="blank">&nbsp;</div>
+                    {% endfor %}
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                </form>
+            </div>
         </div>
         <div class="col-xs-1"></div>
     </div>
