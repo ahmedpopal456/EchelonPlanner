@@ -5894,6 +5894,7 @@ body.modal-open,
 }
 
 .modal {
+
     display: none;
     overflow: auto;
     overflow-y: scroll;
