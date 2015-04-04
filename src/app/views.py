@@ -346,6 +346,9 @@ def schedule_generator(request):
     max_courses = [1, 2, 3, 4, 5]
     feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")
     testTestList=["a","b","c"]
+    if request.method == "POST":
+        print(str(request.POST))
+
     semesterCycle=["Summer 1","Summer 2", "Autumn", "Winter"]
     return render(
         request,

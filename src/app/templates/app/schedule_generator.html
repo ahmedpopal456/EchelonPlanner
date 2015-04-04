@@ -122,15 +122,16 @@
                     <div class="bigdiv giveSpace1">
                         <div id="classDiv{{ order }}" class="dropdown" style="position:relative">
 
-                            <a id="classDiv{{ order }}Text" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                            <input id="classDiv{{ order }}Text" type="hidden" name="option" value=""/><a id="classDiv{{ order }}Text" href="#" class="btn btn-primary dropdown-toggle giveSpace"
                                data-toggle="dropdown" data-bind="label" name="cour{{ order }}"
                                value="">Course {{ order }}
+
                                 <span class="caret"></span>&nbsp;</a>
                             <ul class="dropdown-menu">
                                 {% for course in feasable_courses %}
                                     <li>
                                         <a class="zero" href="#" number="{{ order }}"
-                                           course= {{ course }}>{{ course.deptnum }} : {{ course.name }}</a>
+                                           course= {{ course }}> {{ course.deptnum }} : {{ course.name }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>
