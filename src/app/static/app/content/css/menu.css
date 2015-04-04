@@ -7377,6 +7377,7 @@ body {
 }
 
 .giveSpace1{
+    margin-top:30px;
     margin-bottom:30px;
 }
 
@@ -7387,4 +7388,12 @@ body {
 
 button .navbar-toggle{
     background-color: black;
+}
+.blank{
+    display:inline;
+    min-width:30px;
+}
+.bigdiv{
+    display:inline-block;
+    min-width:340px;
 }
