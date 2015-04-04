@@ -307,10 +307,14 @@ html {
 }
 
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Prototype", Prototype, Prototype, sans-serif;
     font-size: 14px;
     line-height: 1.428571429;
-    color: #141011;
+    /*color: #141011;*/
+    color: #ffffff;
+    background-image: url("../../images/Nebula3.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-color: #925140;
 }
 
@@ -322,14 +326,12 @@ textarea {
     font-size: inherit;
     line-height: inherit;
 }
-
 button,
 input,
 select[multiple],
 textarea {
     background-image: none;
 }
-
 a {
     color: #633532;
     text-decoration: none;
@@ -373,18 +375,15 @@ img {
     max-width: 100%;
     height: auto;
 }
-
 .img-circle {
     border-radius: 50%;
 }
-
 hr {
     margin-top: 20px;
     margin-bottom: 20px;
     border: 0;
     border-top: 1px solid #bfb19e;
 }
-
 .sr-only {
     position: absolute;
     width: 1px;
@@ -395,7 +394,6 @@ hr {
     clip: rect(0 0 0 0);
     border: 0;
 }
-
 p {
     margin: 0 0 10px;
 }
@@ -469,7 +467,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Prototype", Prototype, Prototype, sans-serif;
     font-weight: 500;
     line-height: 1.1;
 }
@@ -1656,6 +1654,7 @@ th {
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
     background-color: #f5f5f5;
+    color: #000000;
 }
 
 table col[class*="col-"] {
@@ -2195,7 +2194,7 @@ textarea.input-lg {
     cursor: pointer;
     border: 1px solid transparent;
     border-radius: 4px;
-    white-space: nowrap;
+    white-space: normal;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -2277,10 +2276,10 @@ fieldset[disabled] .btn-default.active {
 
 .btn-primary {
     color: #ffffff;
-    background-color: #633532;
-    border-color: #522c29;
+   /* background-color: #633532;*/
+    background-color: #333333 ;
+    border-color: #606060;
 }
-
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
@@ -2579,11 +2578,14 @@ input[type="button"].btn-block {
     -webkit-transition: height 0.35s ease;
     transition: height 0.35s ease;
 }
-
+@font-face{
+    font-family:'Prototype';
+    src :url('../../fonts/Prototype.ttf');
+}
 @font-face {
     font-family: 'Glyphicons Halflings';
-    src: url('../fonts/glyphicons-halflings-regular.eot');
-    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+    src: url('../../fonts/glyphicons-halflings-regular.eot');
+    src: url('../../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
 }
 
 .glyphicon {
@@ -4271,7 +4273,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
     /* 2 */
 
 }
-
 .navbar:after {
     clear: both;
 }
@@ -4760,8 +4761,9 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-    background-color: #633532;
-    border-color: #412321;
+    /*background-color: #633532;
+    border-color: #412321;*/
+    background-color: rgba(0,0,0,0.9);
 }
 
 .navbar-inverse .navbar-brand {
@@ -7201,7 +7203,7 @@ td.visible-print {
     }
 
     .nav-tabs-justified li a {
-        background-color: #B88A57
+        /*background-color: #B88A57*/
     }
 
     .nav-tabs-justified {
@@ -7211,7 +7213,6 @@ td.visible-print {
        .nav-tabs-justified > li {
     float:left;
 }
-
     .nav-tabs-justified > li > a {
     position: relative;
     display: unset;
@@ -7233,18 +7234,22 @@ td.visible-print {
 
     .nav-tabs-justified .dropdown-menu {
         background-color: #BFB19E;
+        opacity: 1.0;
     }
 
     .nav-tabs-justified .dropdown-menu li a {
         background-color: #BFB19E;
+        opacity: 1.0;
     }
 
     .nav-tabs-justified .dropdown-menu li a:hover {
         background-color: #633532;
+        opacity: 1.0;
     }
 
     .nav-tabs-justified li a {
-        background-color: #B88A57
+        background-color: #B88A57;
+        opacity: 1.0;
     }
 
 }
