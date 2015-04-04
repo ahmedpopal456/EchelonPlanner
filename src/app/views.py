@@ -344,7 +344,11 @@ def schedule_view(request):
 @login_required
 def schedule_generator(request):
     max_courses = [1, 2, 3, 4, 5]
+    max_years = [1, 2, 3, 4, 5]
     feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")
+    for allCourses in feasable_courses:
+        pass # build some diction
+
     testTestList=["a","b","c"]
     if request.method == "POST":
         print(str(request.POST))
@@ -354,6 +358,7 @@ def schedule_generator(request):
         request,
         'app/schedule_generator.html',
         {'max_courses': max_courses,
+         'max_years': max_years,
          'feasable_courses': feasable_courses,
          'testTestList':testTestList,
          'semesterCycle':semesterCycle
