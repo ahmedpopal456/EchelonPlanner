@@ -21,8 +21,8 @@ class TypeChoices(enum.Enum):
 class Option(models.Model):
 
     # name = models.CharField(max_length=120, null=False, blank=False, default="Test", primary_key=False)
-    #credits = models.IntegerField(null=False, blank=False, default=0, primary_key=False)   (implementation for this not needed in this anymore)
-    option = enum.EnumField(OptionChoices, default=OptionChoices.NOOPTION)
+    # credits = models.IntegerField(null=False, blank=False, default=0, primary_key=False)   (implementation for this not needed in this anymore)
+    option = enum.EnumField(OptionChoices, default=OptionChoices.GENERAL)
     type = enum.EnumField(TypeChoices, default=TypeChoices.GENERAL_ELECTIVES)
     course = models.ForeignKey(Course)
     academicprogram = models.ForeignKey(AcademicProgram)
