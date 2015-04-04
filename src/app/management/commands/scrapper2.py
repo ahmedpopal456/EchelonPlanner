@@ -1,11 +1,12 @@
 import re
 import os
 # from app.subsystem.courses import Course
-from app.subsystem.courses.academicprogram import AcademicProgram
-from app.subsystem.courses.course import Course
-from app.subsystem.courses.option import Option
-from app.subsystem.courses.option import OptionChoices
-from app.subsystem.courses.option import TypeChoices
+
+from ...subsystem.courses.academicprogram import AcademicProgram
+from ...subsystem.courses.course import Course
+from ...subsystem.courses.option import Option
+from ...subsystem.courses.option import OptionChoices
+from ...subsystem.courses.option import TypeChoices
 # from app.subsystem.courses import AcademicProgram
 from django.core.management.base import BaseCommand, CommandError
 
