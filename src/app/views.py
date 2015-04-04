@@ -408,7 +408,7 @@ def sched_gen_1(request):
 @login_required
 def glorious_schedule_assembly(request):
     max_courses = [1, 2, 3, 4, 5]
-    feasable_courses = CourseCatalog.searchCourses("SOEN")  # Not sure what method to use to call electives related to the user's academic program
+    feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")  # Not sure what method to use to call electives related to the user's academic program
     if request.method == 'POST':
         prelim_choices = []
         print(request.POST)
@@ -459,13 +459,13 @@ def browse_all_courses(request):
         search_string = request.POST['custom_string']
 
         if search_string == "":
-            department_list = CourseCatalog.searchCourses(department)
+            department_list = CourseCatalog.searchCoursesThroughPartialName(department)
             credit_list = CourseCatalog.searchCoursesByCredits(0, course_credits)
             intersection_set = set(department_list).intersection(credit_list)
             courseList = list(intersection_set)
 
         else:
-            courseList = CourseCatalog.searchCourses(search_string)
+            courseList = CourseCatalog.searchCoursesThroughPartialName(search_string)
         print(request.POST)
         print(courseList)
     return render(

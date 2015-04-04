@@ -15,8 +15,8 @@ class TestSchedule(TestCase):
             Deletes the created courses from the database so that they can be
             recreated for other tests
         """
-        self.myCourseCatalog.removeCourse("COMP", 428)
-        self.myCourseCatalog.removeCourse("SOEN", 341)
+        self.myCourseCatalog.removeCourseWithSections("COMP", 428)
+        self.myCourseCatalog.removeCourseWithSections("SOEN", 341)
 
     def test_doDaysConflict_noConflict(self):
         """
@@ -60,7 +60,7 @@ class TestSchedule(TestCase):
         # Create a second course with a tutorial from 1:15pm to 2:30pm
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "8:45:00", "10:00:00", "M-W----", "Fall", "SGW H-945", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "13:15:00", "14:30:00", "--W-F--", "SGW H-401", "V")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "13:15:00", "14:30:00", "--W-F--", "SGW H-401", "V")
         c2 = course.objects.get(pk="SOEN341")
         sections_2 = c2.tutorial_set.all()
         section2 = sections_2[0]
@@ -85,7 +85,7 @@ class TestSchedule(TestCase):
         # Create a second course with a tutorial from 11:45am to 1:00pm
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "8:45:00", "10:00:00", "M-W----", "Fall", "SGW H-945", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:45:00", "13:00:00", "--W-F--", "SGW H-401", "V")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "11:45:00", "13:00:00", "--W-F--", "SGW H-401", "V")
         c2 = course.objects.get(pk="SOEN341")
         sections_2 = c2.tutorial_set.all()
         section2 = sections_2[0]
@@ -110,7 +110,7 @@ class TestSchedule(TestCase):
         # Create a second course with a tutorial from 12:45pm to 2:00pm
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "8:45:00", "10:00:00", "M-W----", "Fall", "SGW H-945", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "12:45:00", "14:00:00", "--W-F--", "SGW H-401", "V")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "12:45:00", "14:00:00", "--W-F--", "SGW H-401", "V")
         c2 = course.objects.get(pk="SOEN341")
         sections_2 = c2.tutorial_set.all()
         section2 = sections_2[0]
@@ -180,7 +180,7 @@ class TestSchedule(TestCase):
         # Create a course with a lecture and a tutorial
         self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
+        self.myCourseCatalog.addTutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
         c1 = course.objects.get(pk="COMP428")
         sections_1 = c1.tutorial_set.all()
         section1 = sections_1[0]
@@ -188,7 +188,7 @@ class TestSchedule(TestCase):
         # Create a second course with a lecture and a tutorial, neither of which conflict with course 1
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:45:00", "13:00:00", "---R---", "SGW H-401", "V")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "11:45:00", "13:00:00", "---R---", "SGW H-401", "V")
         c2 = course.objects.get(pk="SOEN341")
         sections_2 = c2.tutorial_set.all()
         section2 = sections_2[0]
@@ -209,7 +209,7 @@ class TestSchedule(TestCase):
         # Create a course with a lecture and a tutorial
         self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
+        self.myCourseCatalog.addTutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
         c1 = course.objects.get(pk="COMP428")
         sections_1 = c1.tutorial_set.all()
         section1 = sections_1[0]
@@ -217,7 +217,7 @@ class TestSchedule(TestCase):
         # Create a second course with a lecture that conflicts with the previous course, and a tutorial
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "1:45:00", "14:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:45:00", "13:00:00", "--W----", "SGW H-401", "V")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "11:45:00", "13:00:00", "--W----", "SGW H-401", "V")
 
         unconflictingSections = schedGen.findUnconflictingSections(section1, "SOEN341")
 
@@ -234,7 +234,7 @@ class TestSchedule(TestCase):
         # Create a course with a lecture and a tutorial
         self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
+        self.myCourseCatalog.addTutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
         c1 = course.objects.get(pk="COMP428")
         sections_1 = c1.tutorial_set.all()
         section1 = sections_1[0]
@@ -242,7 +242,7 @@ class TestSchedule(TestCase):
         # Create a second course with a lecture and a tutorial that conflicts with the tutorial of course 1
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "15:45:00", "18:00:00", "M------", "SGW H-401", "V")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "15:45:00", "18:00:00", "M------", "SGW H-401", "V")
 
         unconflictingSections = schedGen.findUnconflictingSections(section1, "SOEN341")
 
@@ -259,7 +259,7 @@ class TestSchedule(TestCase):
         # Create a course with a lecture and a tutorial
         self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
+        self.myCourseCatalog.addTutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
         c1 = course.objects.get(pk="COMP428")
         sections_1 = c1.tutorial_set.all()
         section1 = sections_1[0]
@@ -267,7 +267,7 @@ class TestSchedule(TestCase):
         # Create a second course with a lecture and a tutorial that conflicts with the lecture of course 1
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "--W----", "SGW H-401", "V")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "--W----", "SGW H-401", "V")
 
         unconflictingSections = schedGen.findUnconflictingSections(section1, "SOEN341")
 
@@ -285,7 +285,7 @@ class TestSchedule(TestCase):
         # Create a course with a lecture and a tutorial
         self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
+        self.myCourseCatalog.addTutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
         c1 = course.objects.get(pk="COMP428")
         sections_1 = c1.tutorial_set.all()
         section1 = sections_1[0]
@@ -293,9 +293,9 @@ class TestSchedule(TestCase):
         # Create a second course with a lecture and 3 tutorials, 1 tutorial that conflicts with the lecture of course 1
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
-        self.myCourseCatalog.tutorialToCourse("VJ", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "--W----", "SGW H-401", "V")
-        self.myCourseCatalog.tutorialToCourse("VK", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "---R---", "SGW H-401", "V")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
+        self.myCourseCatalog.addTutorialToCourse("VJ", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "--W----", "SGW H-401", "V")
+        self.myCourseCatalog.addTutorialToCourse("VK", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "---R---", "SGW H-401", "V")
         c2 = course.objects.get(pk="SOEN341")
         sections_2 = c2.tutorial_set.all()
         unconflictingSection1 = sections_2.filter(event__tutorial__section = "VI")
@@ -321,8 +321,8 @@ class TestSchedule(TestCase):
         # Create a course with a lecture and a tutorial
         self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
-        self.myCourseCatalog.labToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TA")
+        self.myCourseCatalog.addTutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
+        self.myCourseCatalog.addLabToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TA")
         c1 = course.objects.get(pk="COMP428")
         sections_1 = c1.lab_set.all()
         section1 = sections_1[0]
@@ -330,12 +330,12 @@ class TestSchedule(TestCase):
         # Create a second course with a lecture and 2 tutorials with 2 labs each, 1 of which conflicts with course 1
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
-        self.myCourseCatalog.labToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
-        self.myCourseCatalog.labToCourse("VN", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
-        self.myCourseCatalog.tutorialToCourse("VJ", "SOEN", 341, "Fall", "10:15:00", "11:30:00", "--W----", "SGW H-401", "V")
-        self.myCourseCatalog.labToCourse("VO", "SOEN", 341, "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "V", "VJ")
-        self.myCourseCatalog.labToCourse("VP", "SOEN", 341, "8:45:00", "10:00:00", "---R---", "Fall", "SGW H-821", "V", "VJ")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
+        self.myCourseCatalog.addLabToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
+        self.myCourseCatalog.addLabToCourse("VN", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
+        self.myCourseCatalog.addTutorialToCourse("VJ", "SOEN", 341, "Fall", "10:15:00", "11:30:00", "--W----", "SGW H-401", "V")
+        self.myCourseCatalog.addLabToCourse("VO", "SOEN", 341, "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "V", "VJ")
+        self.myCourseCatalog.addLabToCourse("VP", "SOEN", 341, "8:45:00", "10:00:00", "---R---", "Fall", "SGW H-821", "V", "VJ")
         c2 = course.objects.get(pk="SOEN341")
         sections_2 = c2.lab_set.all()
         unconflictingSection1 = sections_2.filter(event__lab__section = "VM")
@@ -362,8 +362,8 @@ class TestSchedule(TestCase):
         # Create a course with a lecture and a tutorial
         self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
-        self.myCourseCatalog.labToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TA")
+        self.myCourseCatalog.addTutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
+        self.myCourseCatalog.addLabToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TA")
         c1 = course.objects.get(pk="COMP428")
         sections_1 = c1.lab_set.all()
         section1 = sections_1[0]
@@ -371,19 +371,19 @@ class TestSchedule(TestCase):
         # Create a second course with 2 lectures each with 2 tutorials with 2 labs each that conflict with course 1
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
-        self.myCourseCatalog.labToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
-        self.myCourseCatalog.labToCourse("VN", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
-        self.myCourseCatalog.tutorialToCourse("VJ", "SOEN", 341, "Fall", "10:15:00", "11:30:00", "--W----", "SGW H-401", "V")
-        self.myCourseCatalog.labToCourse("VO", "SOEN", 341, "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "V", "VJ")
-        self.myCourseCatalog.labToCourse("VP", "SOEN", 341, "8:45:00", "10:00:00", "---R---", "Fall", "SGW H-821", "V", "VJ")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
+        self.myCourseCatalog.addLabToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
+        self.myCourseCatalog.addLabToCourse("VN", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "V", "VI")
+        self.myCourseCatalog.addTutorialToCourse("VJ", "SOEN", 341, "Fall", "10:15:00", "11:30:00", "--W----", "SGW H-401", "V")
+        self.myCourseCatalog.addLabToCourse("VO", "SOEN", 341, "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "V", "VJ")
+        self.myCourseCatalog.addLabToCourse("VP", "SOEN", 341, "8:45:00", "10:00:00", "---R---", "Fall", "SGW H-821", "V", "VJ")
         self.myCourseCatalog.addLectureToCourse("T", "SOEN", 341, "13:45:00", "15:00:00", "--W-F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "T")
-        self.myCourseCatalog.labToCourse("TM", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "T", "TI")
-        self.myCourseCatalog.labToCourse("TN", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "T", "TI")
-        self.myCourseCatalog.tutorialToCourse("TJ", "SOEN", 341, "Fall", "10:15:00", "11:30:00", "--W----", "SGW H-401", "T")
-        self.myCourseCatalog.labToCourse("TO", "SOEN", 341, "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TJ")
-        self.myCourseCatalog.labToCourse("TP", "SOEN", 341, "8:45:00", "10:00:00", "---R---", "Fall", "SGW H-821", "T", "TJ")
+        self.myCourseCatalog.addTutorialToCourse("TI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "T")
+        self.myCourseCatalog.addLabToCourse("TM", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "T", "TI")
+        self.myCourseCatalog.addLabToCourse("TN", "SOEN", 341, "17:45:00", "19:00:00", "---R---", "Fall", "SGW H-821", "T", "TI")
+        self.myCourseCatalog.addTutorialToCourse("TJ", "SOEN", 341, "Fall", "10:15:00", "11:30:00", "--W----", "SGW H-401", "T")
+        self.myCourseCatalog.addLabToCourse("TO", "SOEN", 341, "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TJ")
+        self.myCourseCatalog.addLabToCourse("TP", "SOEN", 341, "8:45:00", "10:00:00", "---R---", "Fall", "SGW H-821", "T", "TJ")
         c2 = course.objects.get(pk="SOEN341")
         sections_2 = c2.lab_set.all()
         unconflictingSection1 = sections_2.filter(event__lab__section = "VM")
@@ -416,38 +416,38 @@ class TestSchedule(TestCase):
         # Create some courses with a lecture and a tutorial and a lab with no conflicts
         self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "M------", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
-        self.myCourseCatalog.labToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TA")
+        self.myCourseCatalog.addTutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
+        self.myCourseCatalog.addLabToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TA")
         c1 = course.objects.get(pk="COMP428")
 
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "13:45:00", "15:00:00", "-T-----", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
-        self.myCourseCatalog.labToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "-T-----", "Fall", "SGW H-821", "V", "VI")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
+        self.myCourseCatalog.addLabToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "-T-----", "Fall", "SGW H-821", "V", "VI")
         c2 = course.objects.get(pk="SOEN341")
 
         self.myCourseCatalog.addCourse("Test 3", 426, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("Y", "COMP", 426, "11:45:00", "13:00:00", "--W----", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("YA", "COMP", 426, "Fall", "17:45:00", "19:00:00", "--W----", "SGW H-454", "Y")
-        self.myCourseCatalog.labToCourse("YM", "COMP", 426,  "8:45:00", "10:00:00", "--W----", "Fall", "SGW H-821", "Y", "YA")
+        self.myCourseCatalog.addTutorialToCourse("YA", "COMP", 426, "Fall", "17:45:00", "19:00:00", "--W----", "SGW H-454", "Y")
+        self.myCourseCatalog.addLabToCourse("YM", "COMP", 426,  "8:45:00", "10:00:00", "--W----", "Fall", "SGW H-821", "Y", "YA")
         c3 = course.objects.get(pk="COMP426")
 
         self.myCourseCatalog.addCourse("Test 4", 425, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("G", "COMP", 425, "11:45:00", "13:00:00", "---J---", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("GA", "COMP", 425, "Fall", "17:45:00", "19:00:00", "---J---", "SGW H-454", "G")
-        self.myCourseCatalog.labToCourse("GM", "COMP", 425,  "8:45:00", "10:00:00", "---J---", "Fall", "SGW H-821", "G", "GA")
+        self.myCourseCatalog.addTutorialToCourse("GA", "COMP", 425, "Fall", "17:45:00", "19:00:00", "---J---", "SGW H-454", "G")
+        self.myCourseCatalog.addLabToCourse("GM", "COMP", 425,  "8:45:00", "10:00:00", "---J---", "Fall", "SGW H-821", "G", "GA")
         c4 = course.objects.get(pk="COMP425")
 
         self.myCourseCatalog.addCourse("Test 5", 425, "SOEN", 3.5)
         self.myCourseCatalog.addLectureToCourse("D", "SOEN", 425, "11:45:00", "13:00:00", "----F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("DA", "SOEN", 425, "Fall", "17:45:00", "19:00:00", "----F--", "SGW H-454", "D")
-        self.myCourseCatalog.labToCourse("DM", "SOEN", 425,  "8:45:00", "10:00:00", "----F--", "Fall", "SGW H-821", "D", "DA")
+        self.myCourseCatalog.addTutorialToCourse("DA", "SOEN", 425, "Fall", "17:45:00", "19:00:00", "----F--", "SGW H-454", "D")
+        self.myCourseCatalog.addLabToCourse("DM", "SOEN", 425,  "8:45:00", "10:00:00", "----F--", "Fall", "SGW H-821", "D", "DA")
         c5 = course.objects.get(pk="SOEN425")
 
         self.myCourseCatalog.addCourse("Test 6", 401, "SOEN", 3.5)
         self.myCourseCatalog.addLectureToCourse("W", "SOEN", 401, "11:45:00", "13:00:00", "-----S-", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("WA", "SOEN", 401, "Fall", "17:45:00", "19:00:00", "-----S-", "SGW H-454", "W")
-        self.myCourseCatalog.labToCourse("WM", "SOEN", 401,  "8:45:00", "10:00:00", "-----S-", "Fall", "SGW H-821", "W", "WA")
+        self.myCourseCatalog.addTutorialToCourse("WA", "SOEN", 401, "Fall", "17:45:00", "19:00:00", "-----S-", "SGW H-454", "W")
+        self.myCourseCatalog.addLabToCourse("WM", "SOEN", 401,  "8:45:00", "10:00:00", "-----S-", "Fall", "SGW H-821", "W", "WA")
         c6 = course.objects.get(pk="SOEN401")
 
         courses = [c1, c2, c3, c4, c5, c6]
@@ -455,12 +455,12 @@ class TestSchedule(TestCase):
         unconflictingSections = schedGen.findUnconflictingSectionsForOneSemester(courses, "Fall")
 
         TestCase.assertEqual(self, len(unconflictingSections), 6, "One or more unconflicting sections were not returned")
-        self.myCourseCatalog.removeCourse("COMP", 428)
-        self.myCourseCatalog.removeCourse("COMP", 426)
-        self.myCourseCatalog.removeCourse("COMP", 425)
-        self.myCourseCatalog.removeCourse("SOEN", 341)
-        self.myCourseCatalog.removeCourse("SOEN", 425)
-        self.myCourseCatalog.removeCourse("SOEN", 401)
+        self.myCourseCatalog.removeCourseWithSections("COMP", 428)
+        self.myCourseCatalog.removeCourseWithSections("COMP", 426)
+        self.myCourseCatalog.removeCourseWithSections("COMP", 425)
+        self.myCourseCatalog.removeCourseWithSections("SOEN", 341)
+        self.myCourseCatalog.removeCourseWithSections("SOEN", 425)
+        self.myCourseCatalog.removeCourseWithSections("SOEN", 401)
 
     def test_findUnconflictingSectionsInOneSemester_noScheduleExistsBecauseOfSemester(self):
         """
@@ -472,38 +472,38 @@ class TestSchedule(TestCase):
         # Create some courses with a lecture and a tutorial and a lab with no conflicts
         self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "M------", "Winter", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Winter", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
-        self.myCourseCatalog.labToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Winter", "SGW H-821", "T", "TA")
+        self.myCourseCatalog.addTutorialToCourse("TA", "COMP", 428, "Winter", "17:45:00", "19:00:00", "M------", "SGW H-454", "T")
+        self.myCourseCatalog.addLabToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Winter", "SGW H-821", "T", "TA")
         c1 = course.objects.get(pk="COMP428")
 
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "13:45:00", "15:00:00", "-T-----", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
-        self.myCourseCatalog.labToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "-T-----", "Fall", "SGW H-821", "V", "VI")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
+        self.myCourseCatalog.addLabToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "-T-----", "Fall", "SGW H-821", "V", "VI")
         c2 = course.objects.get(pk="SOEN341")
 
         self.myCourseCatalog.addCourse("Test 3", 426, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("Y", "COMP", 426, "11:45:00", "13:00:00", "--W----", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("YA", "COMP", 426, "Fall", "17:45:00", "19:00:00", "--W----", "SGW H-454", "Y")
-        self.myCourseCatalog.labToCourse("YM", "COMP", 426,  "8:45:00", "10:00:00", "--W----", "Fall", "SGW H-821", "Y", "YA")
+        self.myCourseCatalog.addTutorialToCourse("YA", "COMP", 426, "Fall", "17:45:00", "19:00:00", "--W----", "SGW H-454", "Y")
+        self.myCourseCatalog.addLabToCourse("YM", "COMP", 426,  "8:45:00", "10:00:00", "--W----", "Fall", "SGW H-821", "Y", "YA")
         c3 = course.objects.get(pk="COMP426")
 
         self.myCourseCatalog.addCourse("Test 4", 425, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("G", "COMP", 425, "11:45:00", "13:00:00", "---J---", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("GA", "COMP", 425, "Fall", "17:45:00", "19:00:00", "---J---", "SGW H-454", "G")
-        self.myCourseCatalog.labToCourse("GM", "COMP", 425,  "8:45:00", "10:00:00", "---J---", "Fall", "SGW H-821", "G", "GA")
+        self.myCourseCatalog.addTutorialToCourse("GA", "COMP", 425, "Fall", "17:45:00", "19:00:00", "---J---", "SGW H-454", "G")
+        self.myCourseCatalog.addLabToCourse("GM", "COMP", 425,  "8:45:00", "10:00:00", "---J---", "Fall", "SGW H-821", "G", "GA")
         c4 = course.objects.get(pk="COMP425")
 
         self.myCourseCatalog.addCourse("Test 5", 425, "SOEN", 3.5)
         self.myCourseCatalog.addLectureToCourse("D", "SOEN", 425, "11:45:00", "13:00:00", "----F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("DA", "SOEN", 425, "Fall", "17:45:00", "19:00:00", "----F--", "SGW H-454", "D")
-        self.myCourseCatalog.labToCourse("DM", "SOEN", 425,  "8:45:00", "10:00:00", "----F--", "Fall", "SGW H-821", "D", "DA")
+        self.myCourseCatalog.addTutorialToCourse("DA", "SOEN", 425, "Fall", "17:45:00", "19:00:00", "----F--", "SGW H-454", "D")
+        self.myCourseCatalog.addLabToCourse("DM", "SOEN", 425,  "8:45:00", "10:00:00", "----F--", "Fall", "SGW H-821", "D", "DA")
         c5 = course.objects.get(pk="SOEN425")
 
         self.myCourseCatalog.addCourse("Test 6", 401, "SOEN", 3.5)
         self.myCourseCatalog.addLectureToCourse("W", "SOEN", 401, "11:45:00", "13:00:00", "-----S-", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("WA", "SOEN", 401, "Fall", "17:45:00", "19:00:00", "-----S-", "SGW H-454", "W")
-        self.myCourseCatalog.labToCourse("WM", "SOEN", 401,  "8:45:00", "10:00:00", "-----S-", "Fall", "SGW H-821", "W", "WA")
+        self.myCourseCatalog.addTutorialToCourse("WA", "SOEN", 401, "Fall", "17:45:00", "19:00:00", "-----S-", "SGW H-454", "W")
+        self.myCourseCatalog.addLabToCourse("WM", "SOEN", 401,  "8:45:00", "10:00:00", "-----S-", "Fall", "SGW H-821", "W", "WA")
         c6 = course.objects.get(pk="SOEN401")
 
         courses = [c1, c2, c3, c4, c5, c6]
@@ -512,12 +512,12 @@ class TestSchedule(TestCase):
 
         TestCase.assertEqual(self, len(unconflictingSections), 0, "One or more conflicting sections were returned")
 
-        self.myCourseCatalog.removeCourse("COMP", 428)
-        self.myCourseCatalog.removeCourse("COMP", 426)
-        self.myCourseCatalog.removeCourse("COMP", 425)
-        self.myCourseCatalog.removeCourse("SOEN", 341)
-        self.myCourseCatalog.removeCourse("SOEN", 425)
-        self.myCourseCatalog.removeCourse("SOEN", 401)
+        self.myCourseCatalog.removeCourseWithSections("COMP", 428)
+        self.myCourseCatalog.removeCourseWithSections("COMP", 426)
+        self.myCourseCatalog.removeCourseWithSections("COMP", 425)
+        self.myCourseCatalog.removeCourseWithSections("SOEN", 341)
+        self.myCourseCatalog.removeCourseWithSections("SOEN", 425)
+        self.myCourseCatalog.removeCourseWithSections("SOEN", 401)
 
     def test_findUnconflictingSectionsInOneSemester_noScheduleExistsBecauseOfConflict(self):
         """
@@ -528,38 +528,38 @@ class TestSchedule(TestCase):
         # Create some courses with a lecture and a tutorial and a lab with a conflict
         self.myCourseCatalog.addCourse("Test 1", 428, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("T", "COMP", 428, "11:45:00", "13:00:00", "M------", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "MT-----", "SGW H-454", "T")
-        self.myCourseCatalog.labToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TA")
+        self.myCourseCatalog.addTutorialToCourse("TA", "COMP", 428, "Fall", "17:45:00", "19:00:00", "MT-----", "SGW H-454", "T")
+        self.myCourseCatalog.addLabToCourse("TM", "COMP", 428,  "8:45:00", "10:00:00", "M------", "Fall", "SGW H-821", "T", "TA")
         c1 = course.objects.get(pk="COMP428")
 
         self.myCourseCatalog.addCourse("Test 2", 341, "SOEN", 3)
         self.myCourseCatalog.addLectureToCourse("V", "SOEN", 341, "13:45:00", "15:00:00", "-T-----", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
-        self.myCourseCatalog.labToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "-T-----", "Fall", "SGW H-821", "V", "VI")
+        self.myCourseCatalog.addTutorialToCourse("VI", "SOEN", 341, "Fall", "11:00:00", "12:15:00", "-T-----", "SGW H-401", "V")
+        self.myCourseCatalog.addLabToCourse("VM", "SOEN", 341, "17:45:00", "19:00:00", "-T-----", "Fall", "SGW H-821", "V", "VI")
         c2 = course.objects.get(pk="SOEN341")
 
         self.myCourseCatalog.addCourse("Test 3", 426, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("Y", "COMP", 426, "11:45:00", "13:00:00", "--W----", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("YA", "COMP", 426, "Fall", "17:45:00", "19:00:00", "--W----", "SGW H-454", "Y")
-        self.myCourseCatalog.labToCourse("YM", "COMP", 426,  "8:45:00", "10:00:00", "--W----", "Fall", "SGW H-821", "Y", "YA")
+        self.myCourseCatalog.addTutorialToCourse("YA", "COMP", 426, "Fall", "17:45:00", "19:00:00", "--W----", "SGW H-454", "Y")
+        self.myCourseCatalog.addLabToCourse("YM", "COMP", 426,  "8:45:00", "10:00:00", "--W----", "Fall", "SGW H-821", "Y", "YA")
         c3 = course.objects.get(pk="COMP426")
 
         self.myCourseCatalog.addCourse("Test 4", 425, "COMP", 3.5)
         self.myCourseCatalog.addLectureToCourse("G", "COMP", 425, "11:45:00", "13:00:00", "---J---", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("GA", "COMP", 425, "Fall", "17:45:00", "19:00:00", "---J---", "SGW H-454", "G")
-        self.myCourseCatalog.labToCourse("GM", "COMP", 425,  "8:45:00", "10:00:00", "---J---", "Fall", "SGW H-821", "G", "GA")
+        self.myCourseCatalog.addTutorialToCourse("GA", "COMP", 425, "Fall", "17:45:00", "19:00:00", "---J---", "SGW H-454", "G")
+        self.myCourseCatalog.addLabToCourse("GM", "COMP", 425,  "8:45:00", "10:00:00", "---J---", "Fall", "SGW H-821", "G", "GA")
         c4 = course.objects.get(pk="COMP425")
 
         self.myCourseCatalog.addCourse("Test 5", 425, "SOEN", 3.5)
         self.myCourseCatalog.addLectureToCourse("D", "SOEN", 425, "11:45:00", "13:00:00", "----F--", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("DA", "SOEN", 425, "Fall", "17:45:00", "19:00:00", "----F--", "SGW H-454", "D")
-        self.myCourseCatalog.labToCourse("DM", "SOEN", 425,  "8:45:00", "10:00:00", "----F--", "Fall", "SGW H-821", "D", "DA")
+        self.myCourseCatalog.addTutorialToCourse("DA", "SOEN", 425, "Fall", "17:45:00", "19:00:00", "----F--", "SGW H-454", "D")
+        self.myCourseCatalog.addLabToCourse("DM", "SOEN", 425,  "8:45:00", "10:00:00", "----F--", "Fall", "SGW H-821", "D", "DA")
         c5 = course.objects.get(pk="SOEN425")
 
         self.myCourseCatalog.addCourse("Test 6", 401, "SOEN", 3.5)
         self.myCourseCatalog.addLectureToCourse("W", "SOEN", 401, "11:45:00", "13:00:00", "-----S-", "Fall", "SGW H-401", False)
-        self.myCourseCatalog.tutorialToCourse("WA", "SOEN", 401, "Fall", "17:45:00", "19:00:00", "-----S-", "SGW H-454", "W")
-        self.myCourseCatalog.labToCourse("WM", "SOEN", 401,  "8:45:00", "10:00:00", "-----S-", "Fall", "SGW H-821", "W", "WA")
+        self.myCourseCatalog.addTutorialToCourse("WA", "SOEN", 401, "Fall", "17:45:00", "19:00:00", "-----S-", "SGW H-454", "W")
+        self.myCourseCatalog.addLabToCourse("WM", "SOEN", 401,  "8:45:00", "10:00:00", "-----S-", "Fall", "SGW H-821", "W", "WA")
         c6 = course.objects.get(pk="SOEN401")
 
         courses = [c1, c2, c3, c4, c5, c6]
@@ -568,12 +568,12 @@ class TestSchedule(TestCase):
 
         TestCase.assertEqual(self, len(unconflictingSections), 0, "One or more conflicting sections were returned")
 
-        self.myCourseCatalog.removeCourse("COMP", 428)
-        self.myCourseCatalog.removeCourse("COMP", 426)
-        self.myCourseCatalog.removeCourse("COMP", 425)
-        self.myCourseCatalog.removeCourse("SOEN", 341)
-        self.myCourseCatalog.removeCourse("SOEN", 425)
-        self.myCourseCatalog.removeCourse("SOEN", 401)
+        self.myCourseCatalog.removeCourseWithSections("COMP", 428)
+        self.myCourseCatalog.removeCourseWithSections("COMP", 426)
+        self.myCourseCatalog.removeCourseWithSections("COMP", 425)
+        self.myCourseCatalog.removeCourseWithSections("SOEN", 341)
+        self.myCourseCatalog.removeCourseWithSections("SOEN", 425)
+        self.myCourseCatalog.removeCourseWithSections("SOEN", 401)
 
 # TODO: Continue making tests when functions become available:
 #     def test_saveSchedule(self):
