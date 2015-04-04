@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Echelon Planner</title>
     {% load staticfiles %}
+    {% load cycle from future %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
@@ -18,6 +19,26 @@
 <script type="text/javascript">
 
     //this script allows the dropdown to save the selected option as its label and make a new button.
+
+    $(function () {
+        $(".vortex0").click(function () {
+            $("#yearDiv").find("#year").text($(this).text());
+            $("#yearDiv").find("#year").attr("name",$(this).text());
+            $("#semesterDiv").removeClass("hidden");
+            $("#surprise").addClass("hidden");
+        });
+    });
+       $(function () {
+        $(".vortex1").click(function () {
+
+            $("#semesterDiv").find("#semester").text($(this).text());
+            $("#semesterDiv").find("#semester").attr("name",$(this).text());
+            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") +" ("+$("#semester").attr("name")+"):");
+            $("#surprise").removeClass("hidden");
+        });
+    });
+
+
     $(function () {
         $(".zero").click(function () {
             var xx = $(this).attr("number") - 1;
@@ -81,15 +102,6 @@
         });
     });
 
-     $(function () {
-        $(".the_changers").change(function () {
-            var $year = $(this).attr("year");
-            var $sem = $(this).attr("semester");
-            $("#surprise").removeClass("hidden");
-            $("#changeForever").text("Select Courses for Year " + $year+" ("+$sem+"):");
-        });
-    });
-
 
 </script>
 
@@ -98,41 +110,59 @@
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
 
-
+<div class="blank">
 <h2>Select Semester</h2>
-    <div class="btn-group" data-toggle="buttons">
-        {% for year in max_courses %}
-            <h3>Year {{ year }}:</h3>
-            {% for semester in semesterCycle %}
-            <label class="btn btn-primary giveSpace">
-                <input class = "the_changers" type="radio" year="{{ year }}" semester="{{ semester }}" value ={{ year }}{{ semester }}> {{ semester }}
-            </label>
-            {% endfor %}
-        {% endfor %}
+    <div class="btn-group blank" data-toggle="buttons">
+       <div id="yearDiv" class="dropdown blank" style="position:relative">
 
+                            <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                               data-toggle="dropdown" data-bind="label" name="selectYear"
+                               value="">Select Year
+                                <span class="caret"></span>&nbsp;</a>
+                            <ul class="dropdown-menu">
+                                {% for year in max_years %}
+                                    <li>
+                                        <a class="vortex0" href="#" name="{{ semester }}">{{ year }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+       </div>
+
+        <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">
+                             <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                               data-toggle="dropdown" data-bind="label" name="selectSemester"
+                               value="">Select Semester
+                                <span class="caret"></span>&nbsp;</a>
+                            <ul class="dropdown-menu">
+                                {% for semester in semesterCycle %}
+                                    <li>
+                                        <a class="vortex1" href="#" name="{{ semester }}">{{ semester }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+        </div>
     </div>
-
+</div>
 
 <div id="surprise" class="hidden">
             <form class="form-group" method="post" action="/schedule_generator/">
                 {% csrf_token %}
+
                 <h2 id="changeForever">Select Courses for Semester X:</h2>
                 {% for slot in max_courses %}
                     {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order silent %}
                     <div class="bigdiv giveSpace1">
                         <div id="classDiv{{ order }}" class="dropdown" style="position:relative">
-                            <!-- Javascript will replace this and send it as POST -->
-                            <input id="classDiv{{ order }}Text" type="hidden" name="option" value=""/>
+
                             <a id="classDiv{{ order }}Text" href="#" class="btn btn-primary dropdown-toggle giveSpace"
                                data-toggle="dropdown" data-bind="label" name="cour{{ order }}"
                                value="">Course {{ order }}
-
                                 <span class="caret"></span>&nbsp;</a>
                             <ul class="dropdown-menu">
                                 {% for course in feasable_courses %}
                                     <li>
                                         <a class="zero" href="#" number="{{ order }}"
-                                           course= {{ course }}> {{ course.deptnum }} : {{ course.name }}</a>
+                                           course= {{ course }}>{{ course.deptnum }} : {{ course.name }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>

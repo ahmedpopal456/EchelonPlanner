@@ -16,33 +16,65 @@
 {% include "app/navbar.html" %}
 {% csrf_token %}
 <script>
-   $(function () {
-        $(".the_changers").change(function () {
-            var $year = $(this).attr("year");
-            var $sem = $(this).attr("semester");
-            $("#surprise").removeClass("hidden");
-            $("#changeForever").text("Your Schedule for Year " + $year+" ("+$sem+"):");
+
+    $(function () {
+        $(".vortex0").click(function () {
+            $("#yearDiv").find("#year").text($(this).text());
+            $("#yearDiv").find("#year").attr("name",$(this).text());
+            $("#semesterDiv").removeClass("hidden");
+            $("#surprise").addClass("hidden");
         });
     });
+       $(function () {
+        $(".vortex1").click(function () {
+
+            $("#semesterDiv").find("#semester").text($(this).text());
+            $("#semesterDiv").find("#semester").attr("name",$(this).text());
+            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") +" ("+$("#semester").attr("name")+"):");
+            $("#surprise").removeClass("hidden");
+        });
+    });
+
 </script>
 <div class="container body-content">
     <div class="row" >
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
 
-<h2>Select Semester</h2>
-    <div class="btn-group" data-toggle="buttons">
-        {% for year in max_courses %}
-            <h3>Year {{ year }}:</h3>
-            {% for semester in semesterCycle %}
-            <label class="btn btn-primary giveSpace">
-                <input class = "the_changers" type="radio" year="{{ year }}" semester="{{ semester }}" value ={{ year }}{{ semester }}> {{ semester }}
-            </label>
-            {% endfor %}
-        {% endfor %}
+<div class="blank">
+<h2>Select Year / Semester</h2>
+    <div class="btn-group blank" data-toggle="buttons">
+       <div id="yearDiv" class="dropdown blank" style="position:relative">
 
+                            <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                               data-toggle="dropdown" data-bind="label" name="selectYear"
+                               value="">Select Year
+                                <span class="caret"></span>&nbsp;</a>
+                            <ul class="dropdown-menu">
+                                {% for year in max_years %}
+                                    <li>
+                                        <a class="vortex0" href="#" name="{{ semester }}">{{ year }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+       </div>
+
+        <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">
+                             <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                               data-toggle="dropdown" data-bind="label" name="selectSemester"
+                               value="">Select Semester
+                                <span class="caret"></span>&nbsp;</a>
+                            <ul class="dropdown-menu">
+                                {% for semester in semesterCycle %}
+                                    <li>
+                                        <a class="vortex1" href="#" name="{{ semester }}">{{ semester }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+        </div>
     </div>
-
+</div>
+<div id="surprise">
             <h2 id="changeForever">Current Semester Schedule</h2>
             <table class="table table-hover">
                 <thead>
@@ -73,6 +105,7 @@
                 {% endfor %}
                 </tbody>
             </table>
+        </div>
         </div>
         <div class="col-xs-1"></div>
     </div>
