@@ -3,6 +3,9 @@ from django.db import models
 from app.subsystem.courses.course import Course
 from app.subsystem.courses.academicprogram import AcademicProgram
 from app.subsystem.schedule import Schedule
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 #######################################################################################################################
@@ -36,6 +39,16 @@ class StudentRecord(models.Model):
 
     def listProgramCourses(self):
         pass
+
+    def addTakenCourse(self, coursestring):  # takes deptnum as primary key to add
+
+        try:
+            course = Course.objects.get(pk=coursestring)
+            self.coursesTaken.add(course)
+            return True
+        except Course.DoesNotExist:
+            logger.warn("Course does not exist: "+coursestring)
+            return False
 
     class Meta:
         app_label = 'app'
