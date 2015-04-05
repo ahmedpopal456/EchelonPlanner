@@ -351,6 +351,7 @@ def schedule_view(request):
 
 @login_required
 def schedule_generator(request):
+    # Loads Schedule Generator Page when we need to loop through semesters in a year and through all 4 years
     max_courses = [1, 2, 3, 4, 5]
     max_years = [1, 2, 3, 4, 5]
     feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")
@@ -375,30 +376,35 @@ def schedule_generator(request):
 
 @login_required
 def sched_gen_1(request):
+    # Phase 1: Ask for Semester.
     if request.method == "POST":
-        print(request.POST)
+        #If POST, then
+        max_courses = [1, 2, 3, 4, 5]
+        # request.POST['semester'] # will return given semester!
+        # TODO: CHECK FEASIBLE COURSES AGAINST SEMESTER SUPPLIED
+        feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN") # INJECT "coursesWithMetPrereqs"
 
-    max_courses = [1, 2, 3, 4, 5]
-    max_years = [1, 2, 3, 4, 5]
-    feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")
-    for allCourses in feasable_courses:
-        pass # build some diction
-
-    testTestList=["a","b","c"]
-
+        testTestList=["a","b","c"] # REMOVE
+        print(request.POST) # DEBUGGING
+        return render(
+            request,
+            'app/schedule_generator.html',
+            {'max_courses': max_courses,
+             'feasable_courses': feasable_courses,
+             'testTestList':testTestList,
+            }
+        )
+    # end if request is POST
     semesterCycle=["Summer 1","Summer 2", "Autumn", "Winter"]
+    max_years = [1, 2, 3, 4, 5]
     return render(
         request,
         'app/sched_gen_1.html',
-        {'max_courses': max_courses,
-         'max_years': max_years,
-         'feasable_courses': feasable_courses,
-         'testTestList':testTestList,
-         'semesterCycle':semesterCycle
-        }
+        {'max_years': max_years,
+         'semesterCycle':semesterCycle}
     )
 
-
+#TODO: CLEANUP
 @login_required
 def glorious_schedule_assembly(request):
     max_courses = [1, 2, 3, 4, 5]
@@ -491,6 +497,7 @@ This method sends back a dictionary with ALL serialized subcourse objects (Lectu
 """
 @login_required()
 def serializeSubCourseItems(request):
+    # TODO: CHECK AGAINST A 'semester' PARAMATER SUPPLIED IN COURSE.
     if request.method == "POST":
         # 1. Get the Course
         specificCourse = CourseCatalog.searchCoursesThroughPartialName(request.POST['course'])
