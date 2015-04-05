@@ -86,13 +86,14 @@
                     $("#lectDiv" + xx + "Text").html("Lecture 1 <span class='caret'></span>&nbsp;");
                     $("#lectDiv" + xx + "Text").val("");
                     for (var i = 0; i < lectureList.length; i++) {
-                        var $inside = "id='lectNo"+ i +"' number2='" + i + "'" + " href='#' class='one' number='" + xx + "'" + "lect='" + lectureList[i].fields['section'] + "'" + "course='" + lectureList[i].fields['course'] + "'" + "pk='" + lectureList[i].pk + "'" + "value='" + lectureList[i].pk + "'";
-                        var $leText = lectureList[i].fields['section'];
-                        $("#lectDrop" + xx).append("<li><a " + $inside + ">" + $leText + "</a></li>").bind("click", function () {
-                            console.log("IN");
-                            $('#Testerstest').html("FILL THIS");
-                            $("#lectDiv" + xx + "Text").text("THIS");
-                            $("#lectDiv" + xx + "Text").val("THIS");
+                        var $inside = "id='lectNo"+ i +"' number2='" + lectureList[i].fields['section'] + "'" + " href='#' class='one' number='" + xx + "'" + "lect='" + lectureList[i].fields['section'] + "'" + "course='" + lectureList[i].fields['course'] + "'" + "pk='" + lectureList[i].pk + "'" + "value='" + lectureList[i].pk + "'";
+                        var $leText = lectureList[i].fields['section']+" ";
+                        $("#lectDrop" + xx).append("<li><a " + $inside + ">" + $leText + "</a></li>").bind("click", function (event) {
+                            //i never changes it's always the highest value, need to send a variable here...
+                            console.log("IN: "+i+" | "+ $(this).text());
+                            $('#Testerstest').html($("#lectDrop"+xx).children("a").text());
+                            $("#lectDiv" + xx + "Text").text($(this).text());
+                            $("#lectDiv" + xx + "Text").val($(this).text());
                             /*
                             //this loads the little dropdowns need to modify to iterate through all lectures
                             $(".two").each(function () {
