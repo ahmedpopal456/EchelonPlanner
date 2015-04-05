@@ -35,7 +35,7 @@ class Course(models.Model):
         elif semester is None:
             return list(self.tutorial_set.all())
         else:
-            return list(self.tutorial_set.all().filter(semester=semester))
+            return list(self.tutorial_set.all().filter(event__semester=semester))
 
     def hasLabs(self):
         if len(self.lab_set.all()) == 0:
@@ -49,7 +49,7 @@ class Course(models.Model):
         elif semester is None:
             return list(self.lab_set.all())
         else:
-            return list(self.lab_set.all().filter(semester=semester))
+            return list(self.lab_set.all().filter(event__semester=semester))
 
     def addStudent(IDNumber):
         pass
