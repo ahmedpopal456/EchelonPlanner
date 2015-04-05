@@ -463,7 +463,7 @@ def serializeCourse(request):
 """
 This method sends back a dictionary with ALL serialized subcourse objects (Lecture/Lab/Tutorials) of a given Course
 """
-#@login_required()
+@login_required()
 def serializeSubCourseItems(request):
     if request.method == "POST":
         # 1. Get the Course

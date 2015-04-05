@@ -32,10 +32,15 @@
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function (data) {
-
+                    console.log(data);
+                    //NEW FORMAT
+                    //1. Unpack the JSON dictionary (gives back deptnum, lectures, tutorials, labs)
                     var newObj = jQuery.parseJSON(data.valueOf());
-                    $('#Testerstest').html(newObj[0].pk + ": Hey " + newObj[0].fields['course']);
-                    console.log(newObj[0].fields + " " + newObj.length)
+                    //2. Unpack the SECOND JSON from hell (gives back the array of Django Models)
+                    var newNewObj = jQuery.parseJSON(newObj['lectures']);
+                    console.log(newNewObj[1].fields['prof']);
+                    $('#Testerstest').html(newObj['deptnum'] + ": Hey ");
+                    //console.log(newObj.length+ " " +newNewObj.type + " ")
                 },
                 failure: function (data) {
                     alert('Got an error');
