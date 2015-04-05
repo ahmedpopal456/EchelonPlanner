@@ -307,11 +307,16 @@ html {
 }
 
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Prototype", Prototype, Prototype, sans-serif;
     font-size: 14px;
     line-height: 1.428571429;
-    color: #141011;
-    background-color: #925140;
+    color: #ffffff;
+    background-image: url("../../images/Nebula3.jpg");
+    background-color: #000000;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 input,
@@ -331,13 +336,13 @@ textarea {
 }
 
 a {
-    color: #633532;
+    color: #444444;
     text-decoration: none;
 }
 
 a:hover,
 a:focus {
-    color: #301a18;
+    color: #263958;;
     text-decoration: underline;
 }
 
@@ -470,7 +475,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Prototype", Prototype, Prototype, sans-serif;
     font-weight: 500;
     line-height: 1.1;
 }
@@ -2580,7 +2585,10 @@ input[type="button"].btn-block {
     -webkit-transition: height 0.35s ease;
     transition: height 0.35s ease;
 }
-
+@font-face{
+    font-family:'Prototype';
+    src :url('../../fonts/Prototype.ttf');
+}
 @font-face {
     font-family: 'Glyphicons Halflings';
     src: url('../fonts/glyphicons-halflings-regular.eot');
@@ -7195,11 +7203,11 @@ h1 {
     text-align: center;
     padding: 0px 0px 10px;
     margin: 0px;
-    font-family: "century gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Prototype", Prototype, Prototype, sans-serif;
 }
 
 h2{ /*just fixed font height */
-    font-family: "century gothic","Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Prototype", Prototype, Prototype, sans-serif;
     font-size: 24px;
 }
 
@@ -7211,14 +7219,14 @@ h2{ /*just fixed font height */
 }
 
 .form-signin{
-    background-color: #B88A57;
+    background-color: rgba(0,0,0,0.5);
     border-radius: 4px 4px 4px 4px;
     padding-top:1px;
     padding-bottom: 20px;
     padding-left:20px;
     padding-right:20px;
     border: thin solid #191016;
-    font-family: "century gothic","Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Prototype", Prototype, Prototype, sans-serif;
 }
 
 .btn-block:hover {
@@ -7228,7 +7236,7 @@ h2{ /*just fixed font height */
 .btn-block {
     padding: 5px 10px;
     display: inline;
-    background: url("../images/button.png") repeat-x scroll center bottom #71191A;
+    background: url("../images/button.png") repeat-x scroll center bottom #333333;
     border: thin solid #191016;
     color: #E3E3EA;
     cursor: pointer;
