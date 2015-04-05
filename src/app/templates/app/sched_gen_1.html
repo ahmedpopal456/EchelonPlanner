@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Echelon Planner</title>
+    {% load staticfiles %}
+    {% load cycle from future %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="{% static 'app/scripts/jquery.min.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+
+</head>
+
+<body>
+<!-- Load  the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+
+<script type="text/javascript">
+
+    //this script allows the dropdown to save the selected option as its label and make a new button.
+
+    $(function () {
+        $(".vortex0").click(function () {
+            $("#yearDiv").find("#year").text($(this).text());
+            $("#yearDiv").find("#yearOut").val($(this).text());
+            $("#yearDiv").find("#year").attr("name", $(this).text());
+            $("#semesterDiv").removeClass("hidden");
+        });
+    });
+
+    $(function () {
+        $(".vortex1").click(function () {
+            $("#semesterDiv").find("#semester").text($(this).text());
+            $("#semesterDiv").find("#semester").attr("name", $(this).text());
+            $("#semesterDiv").find("#semesterOut").val($(this).text());
+            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") + " (" + $("#semester").attr("name") + "):");
+        });
+    });
+
+</script>
+
+<div class="container body-content">
+    <div class="row">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-10">
+
+            <h1 id="Testerstest"></h1>
+
+            <div class="blank">
+                <form class="form-group" method="post" action="/sched_gen_1/">
+                    {% csrf_token %}
+                    <h2>Select Semester</h2>
+
+                    <div class="btn-group blank" data-toggle="buttons">
+                        <div id="yearDiv" class="dropdown blank" style="position:relative">
+                            <input type="hidden" id="yearOut" name="year" value="">
+                            <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                               data-toggle="dropdown" data-bind="label" name="selectYear"
+                               value="">Select Year
+                                <span class="caret"></span>&nbsp;</a>
+                            <ul class="dropdown-menu">
+                                {% for year in max_years %}
+                                    <li>
+                                        <a class="vortex0" href="#" name="{{ semester }}">{{ year }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">
+                            <input type="hidden" id="semesterOut" name="semester" value="">
+                            <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                               data-toggle="dropdown" data-bind="label" name="selectSemester"
+                               value="">Select Semester
+                                <span class="caret"></span>&nbsp;</a>
+                            <ul class="dropdown-menu">
+                                {% for semester in semesterCycle %}
+                                    <li>
+                                        <a class="vortex1" href="#" name="{{ semester }}">{{ semester }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                <div> <input type="submit" class="btn btn-lg"></div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

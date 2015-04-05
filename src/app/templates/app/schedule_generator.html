@@ -32,13 +32,12 @@
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function (data) {
-                    console.log(data);
+
                     //NEW FORMAT
                     //1. Unpack the JSON dictionary (gives back deptnum, lectures, tutorials, labs)
                     var newObj = jQuery.parseJSON(data.valueOf());
                     //2. Unpack the SECOND JSON from hell (gives back the array of Django Models)
                     var newNewObj = jQuery.parseJSON(newObj['lectures']);
-                    console.log(newNewObj[1].fields['prof']);
                     $('#Testerstest').html(newObj['deptnum'] + ": Hey ");
                     //console.log(newObj.length+ " " +newNewObj.type + " ")
                 },
@@ -71,6 +70,37 @@
             $("#semesterDiv").find("#semester").text($(this).text());
             $("#semesterDiv").find("#semester").attr("name", $(this).text());
             $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") + " (" + $("#semester").attr("name") + "):");
+
+            //AJAX START
+
+            $.ajax({
+                type: 'post',
+                url: "/nullhandler/",
+                dataType: 'html',
+                data: {
+                    'semester': $(this).text(),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+
+                    //NEW FORMAT
+                    //1. Unpack the JSON dictionary (gives back deptnum, lectures, tutorials, labs)
+                    var newObj = jQuery.parseJSON(data.valueOf());
+                    //2. Unpack the SECOND JSON from hell (gives back the array of Django Models)
+                    var newNewObj = jQuery.parseJSON(newObj['lectures']);
+                    $('#Testerstest').html(newObj['deptnum'] + ": Hey ");
+                    //console.log(newObj.length+ " " +newNewObj.type + " ")
+                },
+                failure: function (data) {
+                    alert('Got an error');
+                }
+
+            });
+
+
+
+            //AJAX END
+
             $("#surprise").removeClass("hidden");
         });
     });
@@ -93,31 +123,20 @@
                 },
                 success: function (data) {
                     var newObj = jQuery.parseJSON(data.valueOf());
-                    zz = newObj[xx-1].pk;
-                    $("#lectDiv" + xx + "Text").attr("pk", ""+zz);
 
-                    for(var i = 0; i<1 ; i++){
-                        $('#Testerstest').html("WHAT, YEAH");
-                        /*
-                        var a = document.createElement('a');
-                        $("#foo").append("<div>hello world</div>")
-                        console.log(a.type());
-                        a.addClass('one');
-                        a.attr('href',"#");
-                        a.attr('number',xx);
-                        a.attr('lect', newObj[xx-1].fields['section']);
-                        a.attr('course', newObj[xx-1].fields['course']);
-                        a.attr('pk', newObj[xx-1].pk);
-                        a.text(newObj[xx-1].pk); //need to add lect. section instead of just name
-                        a.val(newObj[xx-1].pk); //need to add lect. section instead of just name
-                        var li = document.createElement('li').appendChild(a);
-                        console.log(newObj[xx-1].pk);
-                        */
-                        var inside = " href='#' number='"+xx+"'"+"lect='"+newObj[xx-1].fields['section']+"'"+"course='"+newObj[xx-1].fields['course']+"'"+"pk='"+newObj[xx-1].pk+"'"+"value='"+newObj[xx-1].pk+"'";
-                        var leText = newObj[xx-1].fields['section'];
+                    $("#lectDiv" + xx + "Text").attr("pk", ""+zz);
+                    //1. Unpack the JSON dictionary (gives back deptnum, lectures, tutorials, labs)
+                    var courseData = jQuery.parseJSON(data.valueOf());
+                    //2. Unpack the SECOND JSON from hell (gives back the array of Django Models)
+                    var lectureList = jQuery.parseJSON(courseData['lectures']);
+                    var tutList = jQuery.parseJSON(courseData['tutorials']);
+                    var labList = jQuery.parseJSON(courseData['labs']);
+                    $("#lectDrop"+xx).html("");
+                    for(var i = 0; i< lectureList.length ; i++){
+                        var inside = " href='#' class='one' number='"+xx+"'"+"lect='"+lectureList[i].fields['section']+"'"+"course='"+lectureList[i].fields['course']+"'"+"pk='"+lectureList[i].pk+"'"+"value='"+lectureList[i].pk+"'"+"action='dropDownOne()'";
+                        var leText = lectureList[i].fields['section'];
                         $("#lectDrop"+xx).append("<li><a"+inside+">"+leText+"</a></li>");
                     }
-
                 },
                 failure: function (data) {
                     alert('Got an error');
@@ -141,7 +160,8 @@
     });
 
     $(function () {
-        $(".one").click(function () {
+            $(this).click(function () {
+            $('#Testerstest').html("YOYOYOYOYO");
             var xx = $(this).attr("number") - 1;
             var yy = $(this).attr('course');
             var zz = $(this).attr('lectIndex');
@@ -156,14 +176,15 @@
                 $(this).text(newObj[0].pk); //need to add lect. section instead of just name
                 $(this).val(newObj[0].pk); //need to add lect. section instead of just name
             });
-
+            console.log(newNewObj[3].fields['prof']);
             //if(yy.lecture_set.all().[zz].hasTutorials() ) { //was playing with this last time
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").removeClass("disabled");
             $("#tutDiv" + $(this).attr("number")).find("#tutDiv" + $(this).attr("number") + "Text").attr('course', $(this).attr("course"));
             //add for-each loop here
             //}
+            });
 
-        });
+
     });
 
     $(function () {

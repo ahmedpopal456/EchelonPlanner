@@ -374,6 +374,32 @@ def schedule_generator(request):
     )
 
 @login_required
+def sched_gen_1(request):
+    if request.method == "POST":
+        print(request.POST)
+
+    max_courses = [1, 2, 3, 4, 5]
+    max_years = [1, 2, 3, 4, 5]
+    feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")
+    for allCourses in feasable_courses:
+        pass # build some diction
+
+    testTestList=["a","b","c"]
+
+    semesterCycle=["Summer 1","Summer 2", "Autumn", "Winter"]
+    return render(
+        request,
+        'app/sched_gen_1.html',
+        {'max_courses': max_courses,
+         'max_years': max_years,
+         'feasable_courses': feasable_courses,
+         'testTestList':testTestList,
+         'semesterCycle':semesterCycle
+        }
+    )
+
+
+@login_required
 def glorious_schedule_assembly(request):
     max_courses = [1, 2, 3, 4, 5]
     feasable_courses = CourseCatalog.searchCourses("SOEN")  # Not sure what method to use to call electives related to the user's academic program
