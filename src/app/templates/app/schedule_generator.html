@@ -58,55 +58,6 @@
     //this script allows the dropdown to save the selected option as its label and make a new button.
 
     $(function () {
-        $(".vortex0").click(function () {
-            $("#yearDiv").find("#year").text($(this).text());
-            $("#yearDiv").find("#year").attr("name", $(this).text());
-            $("#semesterDiv").removeClass("hidden");
-            $("#surprise").addClass("hidden");
-        });
-    });
-    $(function () {
-        $(".vortex1").click(function () {
-            $("#semesterDiv").find("#semester").text($(this).text());
-            $("#semesterDiv").find("#semester").attr("name", $(this).text());
-            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") + " (" + $("#semester").attr("name") + "):");
-
-            //AJAX START
-
-            $.ajax({
-                type: 'post',
-                url: "/nullhandler/",
-                dataType: 'html',
-                data: {
-                    'semester': $(this).text(),
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function (data) {
-
-                    //NEW FORMAT
-                    //1. Unpack the JSON dictionary (gives back deptnum, lectures, tutorials, labs)
-                    var newObj = jQuery.parseJSON(data.valueOf());
-                    //2. Unpack the SECOND JSON from hell (gives back the array of Django Models)
-                    var newNewObj = jQuery.parseJSON(newObj['lectures']);
-                    $('#Testerstest').html(newObj['deptnum'] + ": Hey ");
-                    //console.log(newObj.length+ " " +newNewObj.type + " ")
-                },
-                failure: function (data) {
-                    alert('Got an error');
-                }
-
-            });
-
-
-
-            //AJAX END
-
-            $("#surprise").removeClass("hidden");
-        });
-    });
-
-
-    $(function () {
         $(".zero").click(function () {
             var xx = $(this).attr("number");
             var yy = $(this).attr("course");
@@ -213,42 +164,6 @@
             <button class="testbutton">YEEEEE</button>
             <h1 id="Testerstest"></h1>
 
-            <div class="blank">
-                <h2>Select Semester</h2>
-
-                <div class="btn-group blank" data-toggle="buttons">
-                    <div id="yearDiv" class="dropdown blank" style="position:relative">
-
-                        <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                           data-toggle="dropdown" data-bind="label" name="selectYear"
-                           value="">Select Year
-                            <span class="caret"></span>&nbsp;</a>
-                        <ul class="dropdown-menu">
-                            {% for year in max_years %}
-                                <li>
-                                    <a class="vortex0" href="#" name="{{ semester }}">{{ year }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-                    <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">
-                        <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                           data-toggle="dropdown" data-bind="label" name="selectSemester"
-                           value="">Select Semester
-                            <span class="caret"></span>&nbsp;</a>
-                        <ul class="dropdown-menu">
-                            {% for semester in semesterCycle %}
-                                <li>
-                                    <a class="vortex1" href="#" name="{{ semester }}">{{ semester }}</a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div id="surprise" class="hidden">
                 <form class="form-group" method="post" action="/schedule_generator/">
                     {% csrf_token %}
 
@@ -322,7 +237,7 @@
 
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
                 </form>
-            </div>
+
         </div>
         <div class="col-xs-1"></div>
     </div>
