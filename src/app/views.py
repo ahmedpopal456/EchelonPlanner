@@ -362,7 +362,7 @@ def schedule_generator(request):
     if request.method == "POST":
         print(str(request.POST))
 
-    semesterCycle=["Summer 1","Summer 2", "Autumn", "Winter"]
+    semesterCycle=["Summer1","Summer2", "Fall", "Winter"]
     return render(
         request,
         'app/schedule_generator.html',
@@ -382,7 +382,13 @@ def sched_gen_1(request):
         max_courses = [1, 2, 3, 4, 5]
         # request.POST['semester'] # will return given semester!
         # TODO: CHECK FEASIBLE COURSES AGAINST SEMESTER SUPPLIED
-        feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN") # INJECT "coursesWithMetPrereqs"
+
+        currentSemester = request.POST['semester']
+        student = request.user.student  # Should be the primary key of student in database
+        currentYear = request.POST['year']
+        feasable_courses = CourseCatalog.coursesWithMetPrereqs(student, currentSemester, currentYear)  # INJECT "coursesWithMetPrereqs"
+
+        # Supply curren
 
         testTestList=["a","b","c"] # REMOVE
         print(request.POST) # DEBUGGING
@@ -391,17 +397,18 @@ def sched_gen_1(request):
             'app/schedule_generator.html',
             {'max_courses': max_courses,
              'feasable_courses': feasable_courses,
-             'testTestList':testTestList,
-            }
+             'testTestList': testTestList,
+             'currentYear': currentYear,
+             'currentSemester': currentSemester}
         )
     # end if request is POST
-    semesterCycle=["Summer 1","Summer 2", "Autumn", "Winter"]
+    semesterCycle=["Summer1","Summer2", "Fall", "Winter"]
     max_years = [1, 2, 3, 4, 5]
     return render(
         request,
         'app/sched_gen_1.html',
         {'max_years': max_years,
-         'semesterCycle':semesterCycle}
+         'semesterCycle': semesterCycle}
     )
 
 #TODO: CLEANUP
