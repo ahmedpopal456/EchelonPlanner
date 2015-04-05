@@ -466,7 +466,7 @@ def browse_all_courses(request):
         search_string = request.POST['custom_string']
 
         if search_string == "":
-            department_list = CourseCatalog.searchCoursesThroughPartialName(department)
+            department_list = list(Course.objects.filter(department=department))
             credit_list = CourseCatalog.searchCoursesByCredits(0, course_credits)
             intersection_set = set(department_list).intersection(credit_list)
             courseList = list(intersection_set)
@@ -512,7 +512,7 @@ def serializeSubCourseItems(request):
         # 2. Get its subcourse items
         # NOTE: small hack here, we ask Django to neatly serialize the models before
         courses_lectures = serializers.serialize("json", specificCourse.allLectures())
-        courses_tutorials =serializers.serialize("json", specificCourse.allTutorials())
+        courses_tutorials = serializers.serialize("json", specificCourse.allTutorials())
         courses_labs = serializers.serialize("json", specificCourse.allLabs())
 
         # 3. Build a Dictionary and send it off!
