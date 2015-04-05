@@ -234,6 +234,7 @@ def change_pass(request):
 
 def logouthandler(request):
     logout(request)
+    return HttpResponseRedirect('/', {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
     return render(request,
                   'app/login.html',
                   {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
@@ -259,21 +260,32 @@ def error_404(request):
 
 @login_required
 def change_details(request):
-    loadPage = 'app/change_pass.html'
+    loadPage = 'app/change_details.html'
     message = str()
 
+    oldCellPhone = request.user.student.cellphone
+    oldHomePhone = request.user.student.homephone
+    oldAddress = request.user.student.address
+
+
     if request.method == 'POST':
+        print(request.POST)
         address = request.POST['address']
         homePhone = request.POST['homePhone']
         cellPhone = request.POST['cellPhone']
+        # TODO: check if Empty and avoid updating field
         request.user.student.address = address
         request.user.student.homephone = homePhone
         request.user.student.cellphone = cellPhone
-        request.user.save()
+        request.user.student.save()
+        loadPage = str()
     return render(
         request,
         'app/user_profile.html',
-        {'alternate': loadPage, 'message': message}
+        {'alternate': loadPage, 'message': message,
+        'homePhone': oldHomePhone,
+        'cellPhone': oldCellPhone,
+        'address': oldAddress}
     )
 # end change_details
 

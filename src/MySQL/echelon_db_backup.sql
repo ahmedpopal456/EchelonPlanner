@@ -29,7 +29,7 @@ CREATE TABLE `app_academicprogram` (
   `name` varchar(120) NOT NULL,
   `credits` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `app_academicprogram` (
 
 LOCK TABLES `app_academicprogram` WRITE;
 /*!40000 ALTER TABLE `app_academicprogram` DISABLE KEYS */;
+INSERT INTO `app_academicprogram` VALUES (5,'SOEN',120);
 /*!40000 ALTER TABLE `app_academicprogram` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -222,7 +223,7 @@ CREATE TABLE `app_option` (
   KEY `app_option_ea134da7` (`course_id`),
   CONSTRAINT `app_academicprogram_id_e5240792e7c39c9_fk_app_academicprogram_id` FOREIGN KEY (`academicprogram_id`) REFERENCES `app_academicprogram` (`id`),
   CONSTRAINT `app_option_course_id_d6436598d0d3885_fk_app_course_deptnum` FOREIGN KEY (`course_id`) REFERENCES `app_course` (`deptnum`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,6 +232,7 @@ CREATE TABLE `app_option` (
 
 LOCK TABLES `app_option` WRITE;
 /*!40000 ALTER TABLE `app_option` DISABLE KEYS */;
+INSERT INTO `app_option` VALUES (1,'Games',1,8,5,'COMP345',0),(2,'Games',1,6,5,'COMP371',0),(3,'Games',1,6,5,'COMP376',0),(4,'Games',1,8,5,'COMP472',0),(5,'Games',1,8,5,'COMP476',1),(6,'Games',1,8,5,'COMP477',1),(7,'Games',1,6,5,'ELEC275',0),(8,'Games',1,6,5,'ENCS282',0),(9,'Games',1,6,5,'ENGR201',0),(10,'Games',1,6,5,'ENGR202',0),(11,'Games',1,6,5,'ENGR213',0),(12,'Games',1,6,5,'ENGR233',0),(13,'Games',1,6,5,'ENGR301',0),(14,'Games',1,6,5,'ENGR371',0),(15,'Games',1,6,5,'ENGR392',0),(16,'Games',1,6,5,'SOEN228',0),(17,'Games',1,6,5,'SOEN287',0),(18,'Games',1,6,5,'SOEN321',0),(19,'Games',1,6,5,'SOEN331',0),(20,'Games',1,6,5,'SOEN341',0),(21,'Games',1,6,5,'SOEN342',0),(22,'Games',1,6,5,'SOEN343',0),(23,'Games',1,6,5,'SOEN344',0),(24,'Games',1,6,5,'SOEN345',0),(25,'Games',1,6,5,'SOEN357',0),(26,'Games',1,6,5,'SOEN384',0),(27,'Games',1,6,5,'SOEN385',0),(28,'Games',1,6,5,'SOEN390',0),(29,'Games',1,6,5,'SOEN490',0),(30,'Games',1,6,5,'COMP232',0),(31,'Games',1,6,5,'COMP248',0),(32,'Games',1,6,5,'COMP249',0),(33,'Games',1,6,5,'COMP335',0),(34,'Games',1,6,5,'COMP346',0),(35,'Games',1,6,5,'COMP348',0),(36,'Games',1,6,5,'COMP352',0),(37,'Games',1,6,5,'ENGR391',1),(38,'Games',1,6,5,'COMP361',1),(39,'Games',1,7,5,'BIOL206',0),(40,'Games',1,7,5,'BIOL226',0),(41,'Games',1,7,5,'BIOL261',0),(42,'Games',1,7,5,'CHEM209',0),(43,'Games',1,7,5,'CHEM217',0),(44,'Games',1,7,5,'CHEM221',0),(45,'Games',1,7,5,'CHEM234',0),(46,'Games',1,7,5,'PHYS252',0),(47,'Games',1,7,5,'PHYS253',0),(48,'Games',1,7,5,'PHYS334',0),(49,'Games',1,7,5,'PHYS354',0),(50,'Games',1,5,5,'AHSC242',0),(51,'Games',1,5,5,'ANTH202',0),(52,'Games',1,5,5,'ECON201',0),(53,'Games',1,5,5,'ECON203',0),(54,'Games',1,5,5,'EDUC230',0),(55,'Games',1,5,5,'ENCS483',0),(56,'Games',1,5,5,'GEOG203',0),(57,'Games',1,5,5,'GEOG204',0),(58,'Games',1,5,5,'GEOG210',0),(59,'Games',1,5,5,'GEOG220',0),(60,'Games',1,5,5,'INST250',0),(61,'Games',1,5,5,'LING222',0),(62,'Games',1,5,5,'LING300',0),(63,'Games',1,5,5,'POLI202',0),(64,'Games',1,5,5,'RELI214',0),(65,'Games',1,5,5,'RELI215',0),(66,'Games',1,5,5,'RELI310',0),(67,'Games',1,5,5,'RELI312',0),(68,'Games',1,5,5,'SCPA201',0),(69,'Games',1,5,5,'SCPA215',0),(70,'Games',1,5,5,'SOCI203',0),(71,'Games',1,5,5,'WSDB290',0),(72,'Games',1,5,5,'WSDB291',0),(73,'Games',1,5,5,'ARTH353',0),(74,'Games',1,5,5,'CLAS266',0),(75,'Games',1,5,5,'COMS360',0),(76,'Games',1,5,5,'FLIT230',0),(77,'Games',1,5,5,'FMST214',0),(78,'Games',1,5,5,'FMST215',0),(79,'Games',1,5,5,'HIST201',0),(80,'Games',1,5,5,'HIST202',0),(81,'Games',1,5,5,'HIST205',0),(82,'Games',1,5,5,'HIST281',0),(83,'Games',1,5,5,'HIST283',0),(84,'Games',1,5,5,'PHIL201',0),(85,'Games',1,5,5,'PHIL210',0),(86,'Games',1,5,5,'PHIL232',0),(87,'Games',1,5,5,'PHIL235',0),(88,'Games',1,5,5,'PHIL275',0),(89,'Games',1,5,5,'PHIL330',0),(90,'Games',1,5,5,'THEO202',0),(91,'Games',1,5,5,'THEO204',0),(92,'Games',1,5,5,'THEO233',0),(93,'Avionics',3,8,5,'AERO480',1),(94,'Avionics',3,8,5,'AERO482',1),(95,'Avionics',3,8,5,'COEN320',0),(96,'Avionics',3,8,5,'COMP345',0),(97,'Avionics',3,6,5,'SOEN422',0),(98,'Avionics',3,6,5,'SOEN423',0),(99,'Avionics',3,6,5,'ELEC275',0),(100,'Avionics',3,6,5,'ENCS282',0),(101,'Avionics',3,6,5,'ENGR201',0),(102,'Avionics',3,6,5,'ENGR202',0),(103,'Avionics',3,6,5,'ENGR213',0),(104,'Avionics',3,6,5,'ENGR233',0),(105,'Avionics',3,6,5,'ENGR301',0),(106,'Avionics',3,6,5,'ENGR371',0),(107,'Avionics',3,6,5,'ENGR392',0),(108,'Avionics',3,6,5,'SOEN228',0),(109,'Avionics',3,6,5,'SOEN287',0),(110,'Avionics',3,6,5,'SOEN321',0),(111,'Avionics',3,6,5,'SOEN331',0),(112,'Avionics',3,6,5,'SOEN341',0),(113,'Avionics',3,6,5,'SOEN342',0),(114,'Avionics',3,6,5,'SOEN343',0),(115,'Avionics',3,6,5,'SOEN344',0),(116,'Avionics',3,6,5,'SOEN345',0),(117,'Avionics',3,6,5,'SOEN357',0),(118,'Avionics',3,6,5,'SOEN384',0),(119,'Avionics',3,6,5,'SOEN385',0),(120,'Avionics',3,6,5,'SOEN390',0),(121,'Avionics',3,6,5,'SOEN490',0),(122,'Avionics',3,6,5,'COMP232',0),(123,'Avionics',3,6,5,'COMP248',0),(124,'Avionics',3,6,5,'COMP249',0),(125,'Avionics',3,6,5,'COMP335',0),(126,'Avionics',3,6,5,'COMP346',0),(127,'Avionics',3,6,5,'COMP348',0),(128,'Avionics',3,6,5,'COMP352',0),(129,'Avionics',3,6,5,'ENGR391',1),(130,'Avionics',3,6,5,'COMP361',1),(131,'Avionics',3,7,5,'BIOL206',0),(132,'Avionics',3,7,5,'BIOL226',0),(133,'Avionics',3,7,5,'BIOL261',0),(134,'Avionics',3,7,5,'CHEM209',0),(135,'Avionics',3,7,5,'CHEM217',0),(136,'Avionics',3,7,5,'CHEM221',0),(137,'Avionics',3,7,5,'CHEM234',0),(138,'Avionics',3,7,5,'PHYS252',0),(139,'Avionics',3,7,5,'PHYS253',0),(140,'Avionics',3,7,5,'PHYS334',0),(141,'Avionics',3,7,5,'PHYS354',0),(142,'Avionics',3,5,5,'AHSC242',0),(143,'Avionics',3,5,5,'ANTH202',0),(144,'Avionics',3,5,5,'ECON201',0),(145,'Avionics',3,5,5,'ECON203',0),(146,'Avionics',3,5,5,'EDUC230',0),(147,'Avionics',3,5,5,'ENCS483',0),(148,'Avionics',3,5,5,'GEOG203',0),(149,'Avionics',3,5,5,'GEOG204',0),(150,'Avionics',3,5,5,'GEOG210',0),(151,'Avionics',3,5,5,'GEOG220',0),(152,'Avionics',3,5,5,'INST250',0),(153,'Avionics',3,5,5,'LING222',0),(154,'Avionics',3,5,5,'LING300',0),(155,'Avionics',3,5,5,'POLI202',0),(156,'Avionics',3,5,5,'RELI214',0),(157,'Avionics',3,5,5,'RELI215',0),(158,'Avionics',3,5,5,'RELI310',0),(159,'Avionics',3,5,5,'RELI312',0),(160,'Avionics',3,5,5,'SCPA201',0),(161,'Avionics',3,5,5,'SCPA215',0),(162,'Avionics',3,5,5,'SOCI203',0),(163,'Avionics',3,5,5,'WSDB290',0),(164,'Avionics',3,5,5,'WSDB291',0),(165,'Avionics',3,5,5,'ARTH353',0),(166,'Avionics',3,5,5,'CLAS266',0),(167,'Avionics',3,5,5,'COMS360',0),(168,'Avionics',3,5,5,'FLIT230',0),(169,'Avionics',3,5,5,'FMST214',0),(170,'Avionics',3,5,5,'FMST215',0),(171,'Avionics',3,5,5,'HIST201',0),(172,'Avionics',3,5,5,'HIST202',0),(173,'Avionics',3,5,5,'HIST205',0),(174,'Avionics',3,5,5,'HIST281',0),(175,'Avionics',3,5,5,'HIST283',0),(176,'Avionics',3,5,5,'PHIL201',0),(177,'Avionics',3,5,5,'PHIL210',0),(178,'Avionics',3,5,5,'PHIL232',0),(179,'Avionics',3,5,5,'PHIL235',0),(180,'Avionics',3,5,5,'PHIL275',0),(181,'Avionics',3,5,5,'PHIL330',0),(182,'Avionics',3,5,5,'THEO202',0),(183,'Avionics',3,5,5,'THEO204',0),(184,'Avionics',3,5,5,'THEO233',0),(185,'Webs',2,6,5,'COMP353',0),(186,'Webs',2,8,5,'COMP445',0),(187,'Webs',2,8,5,'COMP479',1),(188,'Webs',2,6,5,'SOEN387',0),(189,'Webs',2,8,5,'SOEN487',1),(190,'Webs',2,6,5,'ELEC275',0),(191,'Webs',2,6,5,'ENCS282',0),(192,'Webs',2,6,5,'ENGR201',0),(193,'Webs',2,6,5,'ENGR202',0),(194,'Webs',2,6,5,'ENGR213',0),(195,'Webs',2,6,5,'ENGR233',0),(196,'Webs',2,6,5,'ENGR301',0),(197,'Webs',2,6,5,'ENGR371',0),(198,'Webs',2,6,5,'ENGR392',0),(199,'Webs',2,6,5,'SOEN228',0),(200,'Webs',2,6,5,'SOEN287',0),(201,'Webs',2,6,5,'SOEN321',0),(202,'Webs',2,6,5,'SOEN331',0),(203,'Webs',2,6,5,'SOEN341',0),(204,'Webs',2,6,5,'SOEN342',0),(205,'Webs',2,6,5,'SOEN343',0),(206,'Webs',2,6,5,'SOEN344',0),(207,'Webs',2,6,5,'SOEN345',0),(208,'Webs',2,6,5,'SOEN357',0),(209,'Webs',2,6,5,'SOEN384',0),(210,'Webs',2,6,5,'SOEN385',0),(211,'Webs',2,6,5,'SOEN390',0),(212,'Webs',2,6,5,'SOEN490',0),(213,'Webs',2,6,5,'COMP232',0),(214,'Webs',2,6,5,'COMP248',0),(215,'Webs',2,6,5,'COMP249',0),(216,'Webs',2,6,5,'COMP335',0),(217,'Webs',2,6,5,'COMP346',0),(218,'Webs',2,6,5,'COMP348',0),(219,'Webs',2,6,5,'COMP352',0),(220,'Webs',2,6,5,'ENGR391',1),(221,'Webs',2,6,5,'COMP361',1),(222,'Webs',2,7,5,'BIOL206',0),(223,'Webs',2,7,5,'BIOL226',0),(224,'Webs',2,7,5,'BIOL261',0),(225,'Webs',2,7,5,'CHEM209',0),(226,'Webs',2,7,5,'CHEM217',0),(227,'Webs',2,7,5,'CHEM221',0),(228,'Webs',2,7,5,'CHEM234',0),(229,'Webs',2,7,5,'PHYS252',0),(230,'Webs',2,7,5,'PHYS253',0),(231,'Webs',2,7,5,'PHYS334',0),(232,'Webs',2,7,5,'PHYS354',0),(233,'Webs',2,5,5,'AHSC242',0),(234,'Webs',2,5,5,'ANTH202',0),(235,'Webs',2,5,5,'ECON201',0),(236,'Webs',2,5,5,'ECON203',0),(237,'Webs',2,5,5,'EDUC230',0),(238,'Webs',2,5,5,'ENCS483',0),(239,'Webs',2,5,5,'GEOG203',0),(240,'Webs',2,5,5,'GEOG204',0),(241,'Webs',2,5,5,'GEOG210',0),(242,'Webs',2,5,5,'GEOG220',0),(243,'Webs',2,5,5,'INST250',0),(244,'Webs',2,5,5,'LING222',0),(245,'Webs',2,5,5,'LING300',0),(246,'Webs',2,5,5,'POLI202',0),(247,'Webs',2,5,5,'RELI214',0),(248,'Webs',2,5,5,'RELI215',0),(249,'Webs',2,5,5,'RELI310',0),(250,'Webs',2,5,5,'RELI312',0),(251,'Webs',2,5,5,'SCPA201',0),(252,'Webs',2,5,5,'SCPA215',0),(253,'Webs',2,5,5,'SOCI203',0),(254,'Webs',2,5,5,'WSDB290',0),(255,'Webs',2,5,5,'WSDB291',0),(256,'Webs',2,5,5,'ARTH353',0),(257,'Webs',2,5,5,'CLAS266',0),(258,'Webs',2,5,5,'COMS360',0),(259,'Webs',2,5,5,'FLIT230',0),(260,'Webs',2,5,5,'FMST214',0),(261,'Webs',2,5,5,'FMST215',0),(262,'Webs',2,5,5,'HIST201',0),(263,'Webs',2,5,5,'HIST202',0),(264,'Webs',2,5,5,'HIST205',0),(265,'Webs',2,5,5,'HIST281',0),(266,'Webs',2,5,5,'HIST283',0),(267,'Webs',2,5,5,'PHIL201',0),(268,'Webs',2,5,5,'PHIL210',0),(269,'Webs',2,5,5,'PHIL232',0),(270,'Webs',2,5,5,'PHIL235',0),(271,'Webs',2,5,5,'PHIL275',0),(272,'Webs',2,5,5,'PHIL330',0),(273,'Webs',2,5,5,'THEO202',0),(274,'Webs',2,5,5,'THEO204',0),(275,'Webs',2,5,5,'THEO233',0),(276,'General',4,8,5,'COMP345',0),(277,'General',4,8,5,'COMP353',0),(278,'General',4,8,5,'COMP371',0),(279,'General',4,8,5,'COMP426',0),(280,'General',4,8,5,'COMP428',0),(281,'General',4,8,5,'COMP442',0),(282,'General',4,8,5,'COMP445',0),(283,'General',4,8,5,'COMP465',0),(284,'General',4,8,5,'COMP472',0),(285,'General',4,8,5,'COMP473',0),(286,'General',4,8,5,'COMP474',0),(287,'General',4,8,5,'COMP478',0),(288,'General',4,8,5,'COMP479',0),(289,'General',4,8,5,'SOEN298',0),(290,'General',4,8,5,'SOEN422',0),(291,'General',4,8,5,'SOEN423',0),(292,'General',4,8,5,'ENGR411',0),(293,'General',4,6,5,'ELEC275',0),(294,'General',4,6,5,'ENCS282',0),(295,'General',4,6,5,'ENGR201',0),(296,'General',4,6,5,'ENGR202',0),(297,'General',4,6,5,'ENGR213',0),(298,'General',4,6,5,'ENGR233',0),(299,'General',4,6,5,'ENGR301',0),(300,'General',4,6,5,'ENGR371',0),(301,'General',4,6,5,'ENGR392',0),(302,'General',4,6,5,'SOEN228',0),(303,'General',4,6,5,'SOEN287',0),(304,'General',4,6,5,'SOEN321',0),(305,'General',4,6,5,'SOEN331',0),(306,'General',4,6,5,'SOEN341',0),(307,'General',4,6,5,'SOEN342',0),(308,'General',4,6,5,'SOEN343',0),(309,'General',4,6,5,'SOEN344',0),(310,'General',4,6,5,'SOEN345',0),(311,'General',4,6,5,'SOEN357',0),(312,'General',4,6,5,'SOEN384',0),(313,'General',4,6,5,'SOEN385',0),(314,'General',4,6,5,'SOEN390',0),(315,'General',4,6,5,'SOEN490',0),(316,'General',4,6,5,'COMP232',0),(317,'General',4,6,5,'COMP248',0),(318,'General',4,6,5,'COMP249',0),(319,'General',4,6,5,'COMP335',0),(320,'General',4,6,5,'COMP346',0),(321,'General',4,6,5,'COMP348',0),(322,'General',4,6,5,'COMP352',0),(323,'General',4,6,5,'ENGR391',1),(324,'General',4,6,5,'COMP361',1),(325,'General',4,7,5,'BIOL206',0),(326,'General',4,7,5,'BIOL226',0),(327,'General',4,7,5,'BIOL261',0),(328,'General',4,7,5,'CHEM209',0),(329,'General',4,7,5,'CHEM217',0),(330,'General',4,7,5,'CHEM221',0),(331,'General',4,7,5,'CHEM234',0),(332,'General',4,7,5,'PHYS252',0),(333,'General',4,7,5,'PHYS253',0),(334,'General',4,7,5,'PHYS334',0),(335,'General',4,7,5,'PHYS354',0),(336,'General',4,5,5,'AHSC242',0),(337,'General',4,5,5,'ANTH202',0),(338,'General',4,5,5,'ECON201',0),(339,'General',4,5,5,'ECON203',0),(340,'General',4,5,5,'EDUC230',0),(341,'General',4,5,5,'ENCS483',0),(342,'General',4,5,5,'GEOG203',0),(343,'General',4,5,5,'GEOG204',0),(344,'General',4,5,5,'GEOG210',0),(345,'General',4,5,5,'GEOG220',0),(346,'General',4,5,5,'INST250',0),(347,'General',4,5,5,'LING222',0),(348,'General',4,5,5,'LING300',0),(349,'General',4,5,5,'POLI202',0),(350,'General',4,5,5,'RELI214',0),(351,'General',4,5,5,'RELI215',0),(352,'General',4,5,5,'RELI310',0),(353,'General',4,5,5,'RELI312',0),(354,'General',4,5,5,'SCPA201',0),(355,'General',4,5,5,'SCPA215',0),(356,'General',4,5,5,'SOCI203',0),(357,'General',4,5,5,'WSDB290',0),(358,'General',4,5,5,'WSDB291',0),(359,'General',4,5,5,'ARTH353',0),(360,'General',4,5,5,'CLAS266',0),(361,'General',4,5,5,'COMS360',0),(362,'General',4,5,5,'FLIT230',0),(363,'General',4,5,5,'FMST214',0),(364,'General',4,5,5,'FMST215',0),(365,'General',4,5,5,'HIST201',0),(366,'General',4,5,5,'HIST202',0),(367,'General',4,5,5,'HIST205',0),(368,'General',4,5,5,'HIST281',0),(369,'General',4,5,5,'HIST283',0),(370,'General',4,5,5,'PHIL201',0),(371,'General',4,5,5,'PHIL210',0),(372,'General',4,5,5,'PHIL232',0),(373,'General',4,5,5,'PHIL235',0),(374,'General',4,5,5,'PHIL275',0),(375,'General',4,5,5,'PHIL330',0),(376,'General',4,5,5,'THEO202',0),(377,'General',4,5,5,'THEO204',0),(378,'General',4,5,5,'THEO233',0);
 /*!40000 ALTER TABLE `app_option` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,7 +300,7 @@ CREATE TABLE `app_schedule` (
   `semester` varchar(120) NOT NULL,
   `year` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -307,7 +309,7 @@ CREATE TABLE `app_schedule` (
 
 LOCK TABLES `app_schedule` WRITE;
 /*!40000 ALTER TABLE `app_schedule` DISABLE KEYS */;
-INSERT INTO `app_schedule` VALUES (1,'Fall',1);
+INSERT INTO `app_schedule` VALUES (1,'Fall',1),(2,'Fall',1),(3,'Fall',1);
 /*!40000 ALTER TABLE `app_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -328,7 +330,7 @@ CREATE TABLE `app_schedule_labList` (
   KEY `app_schedule_labList_9db8e5d7` (`lab_id`),
   CONSTRAINT `app_schedule_labList_lab_id_9a6b8931583ebdd_fk_app_lab_id` FOREIGN KEY (`lab_id`) REFERENCES `app_lab` (`id`),
   CONSTRAINT `app_schedule_lab_schedule_id_6a8c7b8c34d774e6_fk_app_schedule_id` FOREIGN KEY (`schedule_id`) REFERENCES `app_schedule` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -337,6 +339,7 @@ CREATE TABLE `app_schedule_labList` (
 
 LOCK TABLES `app_schedule_labList` WRITE;
 /*!40000 ALTER TABLE `app_schedule_labList` DISABLE KEYS */;
+INSERT INTO `app_schedule_labList` VALUES (1,2,153),(2,3,158);
 /*!40000 ALTER TABLE `app_schedule_labList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,7 +360,7 @@ CREATE TABLE `app_schedule_lectureList` (
   KEY `app_schedule_lectureList_72a11f01` (`lecture_id`),
   CONSTRAINT `app_schedule_lectu_lecture_id_4f39cca2085f433e_fk_app_lecture_id` FOREIGN KEY (`lecture_id`) REFERENCES `app_lecture` (`id`),
   CONSTRAINT `app_schedule_lec_schedule_id_1ceec5e8aa8a51a2_fk_app_schedule_id` FOREIGN KEY (`schedule_id`) REFERENCES `app_schedule` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,6 +369,7 @@ CREATE TABLE `app_schedule_lectureList` (
 
 LOCK TABLES `app_schedule_lectureList` WRITE;
 /*!40000 ALTER TABLE `app_schedule_lectureList` DISABLE KEYS */;
+INSERT INTO `app_schedule_lectureList` VALUES (4,2,302),(8,2,313),(7,2,323),(5,2,388),(6,2,394),(9,3,303),(13,3,315),(12,3,330),(10,3,392),(11,3,398);
 /*!40000 ALTER TABLE `app_schedule_lectureList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,7 +390,7 @@ CREATE TABLE `app_schedule_tutorialList` (
   KEY `app_schedule_tutorialList_b6fbbedb` (`tutorial_id`),
   CONSTRAINT `app_schedule_tut_tutorial_id_25c0ed7d1eac6f9c_fk_app_tutorial_id` FOREIGN KEY (`tutorial_id`) REFERENCES `app_tutorial` (`id`),
   CONSTRAINT `app_schedule_tut_schedule_id_5b0724bb3476f8fe_fk_app_schedule_id` FOREIGN KEY (`schedule_id`) REFERENCES `app_schedule` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -395,6 +399,7 @@ CREATE TABLE `app_schedule_tutorialList` (
 
 LOCK TABLES `app_schedule_tutorialList` WRITE;
 /*!40000 ALTER TABLE `app_schedule_tutorialList` DISABLE KEYS */;
+INSERT INTO `app_schedule_tutorialList` VALUES (4,2,394),(8,2,432),(7,2,450),(5,2,599),(6,2,613),(9,3,396),(13,3,440),(12,3,464),(10,3,606),(11,3,623);
 /*!40000 ALTER TABLE `app_schedule_tutorialList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -407,8 +412,8 @@ DROP TABLE IF EXISTS `app_student`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `app_student` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `homephone` int(11) NOT NULL,
-  `cellphone` int(11) NOT NULL,
+  `homephone` varchar(15),
+  `cellphone` varchar(15),
   `address` varchar(120) NOT NULL,
   `IDNumber` int(11) NOT NULL,
   `academicRecord_id` int(11) DEFAULT NULL,
@@ -418,7 +423,7 @@ CREATE TABLE `app_student` (
   UNIQUE KEY `academicRecord_id` (`academicRecord_id`),
   CONSTRAINT `app_student_user_id_448dcbd68c3e33d5_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
   CONSTRAINT `app_s_academicRecord_id_3d71955252fdb3b0_fk_app_studentrecord_id` FOREIGN KEY (`academicRecord_id`) REFERENCES `app_studentrecord` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -427,7 +432,7 @@ CREATE TABLE `app_student` (
 
 LOCK TABLES `app_student` WRITE;
 /*!40000 ALTER TABLE `app_student` DISABLE KEYS */;
-INSERT INTO `app_student` VALUES (1,0,0,'',0,1,3),(2,0,0,'',0,2,4);
+INSERT INTO `app_student` VALUES (1,'0','0','',0,1,3),(2,'','','',0,2,4),(3,'0','0','',0,3,5),(4,'0','0','',0,4,6);
 /*!40000 ALTER TABLE `app_student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -451,7 +456,7 @@ CREATE TABLE `app_studentrecord` (
   KEY `app_studentrecord_d09c72f3` (`mainSchedule_id`),
   CONSTRAINT `app_studentr_mainSchedule_id_7fa2e91e7106c2e2_fk_app_schedule_id` FOREIGN KEY (`mainSchedule_id`) REFERENCES `app_schedule` (`id`),
   CONSTRAINT `ap_academicProgram_id_5e0e9298e3bf5e21_fk_app_academicprogram_id` FOREIGN KEY (`academicProgram_id`) REFERENCES `app_academicprogram` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -460,7 +465,7 @@ CREATE TABLE `app_studentrecord` (
 
 LOCK TABLES `app_studentrecord` WRITE;
 /*!40000 ALTER TABLE `app_studentrecord` DISABLE KEYS */;
-INSERT INTO `app_studentrecord` VALUES (1,4,'Good',0,120,NULL,NULL),(2,4,'Good',0,120,NULL,NULL);
+INSERT INTO `app_studentrecord` VALUES (1,4,'Good',0,120,NULL,NULL),(2,4,'Good',0,120,NULL,NULL),(3,4,'Good',0,120,NULL,NULL),(4,4,'Good',0,120,NULL,NULL);
 /*!40000 ALTER TABLE `app_studentrecord` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -481,7 +486,7 @@ CREATE TABLE `app_studentrecord_coursesTaken` (
   KEY `app_studentrecord_coursesTaken_ea134da7` (`course_id`),
   CONSTRAINT `app_studentreco_course_id_2fcb022bb92ee3fb_fk_app_course_deptnum` FOREIGN KEY (`course_id`) REFERENCES `app_course` (`deptnum`),
   CONSTRAINT `app_stu_studentrecord_id_b295aacd52f3b9e_fk_app_studentrecord_id` FOREIGN KEY (`studentrecord_id`) REFERENCES `app_studentrecord` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -490,6 +495,7 @@ CREATE TABLE `app_studentrecord_coursesTaken` (
 
 LOCK TABLES `app_studentrecord_coursesTaken` WRITE;
 /*!40000 ALTER TABLE `app_studentrecord_coursesTaken` DISABLE KEYS */;
+INSERT INTO `app_studentrecord_coursesTaken` VALUES (1,3,'ENGR213');
 /*!40000 ALTER TABLE `app_studentrecord_coursesTaken` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -688,7 +694,7 @@ CREATE TABLE `auth_user` (
   `date_joined` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -697,7 +703,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$15000$2DuwY0vhxS9o$n6ndOoDVI6dPOHIowVzWXQsTsiFU1TUE90QUu2/JaFc=','2015-03-30 00:43:50',1,'foxtrot','','','sniperjefz@hotmail.com',1,1,'2015-03-30 00:43:50'),(2,'pbkdf2_sha256$15000$NQfdYLnp4hHC$47+joJQJdU6+10r1JqRM0NnHI7RsIxuQ9GgbmgP/uKM=','2015-04-03 02:22:08',1,'root','','','coen@coen.com',1,1,'2015-03-30 00:44:05'),(3,'pbkdf2_sha256$15000$hQ7tRn5blnrs$YP2VlxRc5kfqgVMvTZcM0OjZwFePI+vpS03BN2dROLY=','2015-04-03 01:41:51',0,'testy@coen.com','John','Doe','testy@coen.com',0,1,'2015-04-03 01:41:39'),(4,'pbkdf2_sha256$15000$TWZHvf9MALqI$yE/ZmNMvU/Yms8RKvLg3KOdEod3PB+zf/1j7c7Yl9IY=','2015-04-03 01:46:32',0,'therealdeal@spam.com','Bug','Buster','therealdeal@spam.com',0,1,'2015-04-03 01:46:32');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$15000$2DuwY0vhxS9o$n6ndOoDVI6dPOHIowVzWXQsTsiFU1TUE90QUu2/JaFc=','2015-04-04 17:37:01',1,'foxtrot','','','sniperjefz@hotmail.com',1,1,'2015-03-30 00:43:50'),(2,'pbkdf2_sha256$15000$OBWzwVOx1Hbk$W31zRfCWSEx8UImOiypAfrkhj/4hwv+gLftonzqA6K0=','2015-04-05 20:01:59',1,'root','','','me@hotmail.com',1,1,'2015-03-30 00:44:05'),(3,'pbkdf2_sha256$15000$hQ7tRn5blnrs$YP2VlxRc5kfqgVMvTZcM0OjZwFePI+vpS03BN2dROLY=','2015-04-03 01:41:51',0,'testy@coen.com','John','Doe','testy@coen.com',0,1,'2015-04-03 01:41:39'),(4,'pbkdf2_sha256$15000$diXKxWajaatY$2ywO4YsuT8K5zTZnGvr2DcbwI1FfXEQKo3HgzHTZyBk=','2015-04-05 19:26:24',0,'therealdeal@spam.com','Bug','Buster','therealdeal@spam.com',0,1,'2015-04-03 01:46:32'),(5,'pbkdf2_sha256$15000$kOZwCl77ez0r$UqgcWVpMyNZ06zPsJ7/Qx0QT/SvJEBawMdRh4FgKp9w=','2015-04-05 03:27:40',0,'thinesh@test.com','Test','Student','thinesh@test.com',0,1,'2015-04-05 03:04:17'),(6,'pbkdf2_sha256$15000$33iZZ01O9zfD$IiKbNCgr8DbCfayBz6IgLnSGaRZX9wUUuvsY7suN5vk=','2015-04-05 16:37:12',0,'arsalanali18@gmail.com','arsalan','ali','arsalanali18@gmail.com',0,1,'2015-04-05 16:24:14');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -780,7 +786,7 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_e8701ad4` (`user_id`),
   CONSTRAINT `django_admin_log_user_id_19d4a8d95af315cd_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
   CONSTRAINT `djang_content_type_id_1b2cbe83b79b00ac_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -789,6 +795,7 @@ CREATE TABLE `django_admin_log` (
 
 LOCK TABLES `django_admin_log` WRITE;
 /*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+INSERT INTO `django_admin_log` VALUES (1,'2015-04-04 17:37:23','2','root',2,'Changed password.',4,1),(2,'2015-04-05 19:23:09','4','therealdeal@spam.com',2,'Changed password.',4,2);
 /*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -832,7 +839,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -841,7 +848,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2015-03-30 00:40:53'),(2,'auth','0001_initial','2015-03-30 00:40:58'),(3,'admin','0001_initial','2015-03-30 00:40:59'),(4,'app','0001_initial','2015-03-30 00:41:35'),(5,'sessions','0001_initial','2015-03-30 00:41:42'),(6,'app','0002_auto_20150329_2348','2015-03-30 03:49:07'),(7,'app','0003_auto_20150330_1617','2015-04-03 01:22:36'),(8,'app','0004_auto_20150402_2023','2015-04-03 01:22:36'),(9,'app','0005_auto_20150402_2131','2015-04-03 01:31:57');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2015-03-30 00:40:53'),(2,'auth','0001_initial','2015-03-30 00:40:58'),(3,'admin','0001_initial','2015-03-30 00:40:59'),(4,'app','0001_initial','2015-03-30 00:41:35'),(5,'sessions','0001_initial','2015-03-30 00:41:42'),(6,'app','0002_auto_20150329_2348','2015-03-30 03:49:07'),(7,'app','0003_auto_20150330_1617','2015-04-03 01:22:36'),(8,'app','0004_auto_20150402_2023','2015-04-03 01:22:36'),(9,'app','0005_auto_20150402_2131','2015-04-03 01:31:57'),(10,'app','0006_auto_20150405_1536','2015-04-05 19:37:08');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -867,7 +874,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('62u2kyytkr2y70upqzps8xk4f4cbcg4p','YjkzNDFjNDRlNWU2NTg4M2I2YjI1NjRhZjQ1ZjU0YzRhOWM1MzE4YTp7Il9hdXRoX3VzZXJfaWQiOjIsIl9hdXRoX3VzZXJfaGFzaCI6ImQ2ZGY5MDQwMGZjMjY0MzBiNWExZDlkM2YwMjAxNjU2ZTBmNjEyZTkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCJ9','2015-04-13 03:16:56'),('999rdl93jv84fkzxibgn7h47jvwm75b5','YTU4MGE5ODg5NzU0OGIyZjYxZGY3MGJhOTIxMWNlNTlkNGQzYjhhZTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ2ZGY5MDQwMGZjMjY0MzBiNWExZDlkM2YwMjAxNjU2ZTBmNjEyZTkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjJ9','2015-04-13 01:43:52'),('e1jbqdrhp1ylh0i14bqnul0hodxpignd','YWNlYjZhZjA0ZTYyZWJkMDBjNzM3MDRmMTEyYzAwY2Q2Y2Y2YzVhODp7Il9hdXRoX3VzZXJfaWQiOjIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX3Nlc3Npb25fZXhwaXJ5IjowLCJfYXV0aF91c2VyX2hhc2giOiJkNmRmOTA0MDBmYzI2NDMwYjVhMWQ5ZDNmMDIwMTY1NmUwZjYxMmU5In0=','2015-04-17 02:22:09'),('hsnm8x7he5ye70em7gju1i1pe7416uee','NDA4ZGZhMTQ3MjY3ZjRhOTIwNzA1MmQ1OTA3MmY5NTVlMjkyZTRhNDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZDZkZjkwNDAwZmMyNjQzMGI1YTFkOWQzZjAyMDE2NTZlMGY2MTJlOSIsIl9hdXRoX3VzZXJfaWQiOjJ9','2015-04-13 18:44:07'),('m0v22wbm61n41holcs55t6lxe2qpo0yh','NTFlNWZhZTE2NDg2MWU4N2EyZTNhNTBjNzgyYmI1OGQyYTVkZTM0Mzp7Il9hdXRoX3VzZXJfaWQiOjIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZDZkZjkwNDAwZmMyNjQzMGI1YTFkOWQzZjAyMDE2NTZlMGY2MTJlOSJ9','2015-04-13 03:20:56'),('oivtjppe7aruac47inyr0k9r7k1ybedw','YThmMjhhYzM5OTQ5MWY2ZjM4OWUwM2EwYWU4OTgwNTA1ODQ0NjJlNDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MiwiX2F1dGhfdXNlcl9oYXNoIjoiZDZkZjkwNDAwZmMyNjQzMGI1YTFkOWQzZjAyMDE2NTZlMGY2MTJlOSJ9','2015-04-13 19:19:15'),('whbu1uvmeraq1jmd8pdnb35q4z5jlgzr','NWY5YjgzZjBkYjYxNDExMTlmZjc4OWExMDY0ZWQ1NTZiZjU2YTgwYzp7Il9hdXRoX3VzZXJfaWQiOjIsIl9zZXNzaW9uX2V4cGlyeSI6MCwiX2F1dGhfdXNlcl9oYXNoIjoiZDZkZjkwNDAwZmMyNjQzMGI1YTFkOWQzZjAyMDE2NTZlMGY2MTJlOSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2015-04-17 01:22:06');
+INSERT INTO `django_session` VALUES ('1ddzscr0a04b5qrfv016x49nlorf9rio','ZTU0ZDUzNjVhYjQ3ZjY1Mjg0ODlmY2I2ZmI5OWRjNTRkZWRhZDM0ZTp7Il9hdXRoX3VzZXJfaWQiOjIsIl9hdXRoX3VzZXJfaGFzaCI6ImQ2ZGY5MDQwMGZjMjY0MzBiNWExZDlkM2YwMjAxNjU2ZTBmNjEyZTkiLCJfc2Vzc2lvbl9leHBpcnkiOjAsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2015-04-18 03:16:31'),('229fv0cc7a7pxogytl4gptdpvlsuk0yh','ZjBkZGUzMTdjNmRjNzU3ZGU5ZTkyZWJlNGFkZmIyMGVkZGM5ODk1ZDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX3Nlc3Npb25fZXhwaXJ5IjowLCJfYXV0aF91c2VyX2hhc2giOiJkNmRmOTA0MDBmYzI2NDMwYjVhMWQ5ZDNmMDIwMTY1NmUwZjYxMmU5IiwiX2F1dGhfdXNlcl9pZCI6Mn0=','2015-04-17 03:48:11'),('2uweedegna5sf6vsl9dlkiirsroabkon','M2RiOWJjZDRkMGYyODRjYTYzNTdmOWIxYmUxMDU1YmE0MzMwOWQyYjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MiwiX2F1dGhfdXNlcl9oYXNoIjoiMWZlMDZiZmRlMDlmZmJhMzIzN2I5NWM5YWE3ZjYyNTc3NDQ4ZDVjYiIsIl9zZXNzaW9uX2V4cGlyeSI6MH0=','2015-04-18 17:42:17'),('3dnsc6s9qpszyjxh7noevj2msvweztxu','ZTU0ZDUzNjVhYjQ3ZjY1Mjg0ODlmY2I2ZmI5OWRjNTRkZWRhZDM0ZTp7Il9hdXRoX3VzZXJfaWQiOjIsIl9hdXRoX3VzZXJfaGFzaCI6ImQ2ZGY5MDQwMGZjMjY0MzBiNWExZDlkM2YwMjAxNjU2ZTBmNjEyZTkiLCJfc2Vzc2lvbl9leHBpcnkiOjAsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2015-04-18 01:47:39'),('3irms8jf4lqawg77nbkk6czm5v558gk7','OTE2ODFkMzUyYmE0M2Q0ZjY2Yzc5YzBhMmZmZWZlNDAzZmZiOTBmMjp7Il9hdXRoX3VzZXJfaGFzaCI6ImI2ZDA1ODc4ZTMxZGU1NjBhZGY2OWJlYmExZjE1OThiOTY1MmZmN2YiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9zZXNzaW9uX2V4cGlyeSI6MCwiX2F1dGhfdXNlcl9pZCI6NX0=','2015-04-19 03:27:41'),('4z4jt0wfzk2dyfo5j6blk5mws33f5i0w','M2I4NzkyYjY5MzlmOWJjY2E1N2NmMjhkMmE5YWZlYjNkNDVhYzM2YTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ2ZGY5MDQwMGZjMjY0MzBiNWExZDlkM2YwMjAxNjU2ZTBmNjEyZTkiLCJfc2Vzc2lvbl9leHBpcnkiOjAsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=','2015-04-18 03:41:32'),('62u2kyytkr2y70upqzps8xk4f4cbcg4p','YjkzNDFjNDRlNWU2NTg4M2I2YjI1NjRhZjQ1ZjU0YzRhOWM1MzE4YTp7Il9hdXRoX3VzZXJfaWQiOjIsIl9hdXRoX3VzZXJfaGFzaCI6ImQ2ZGY5MDQwMGZjMjY0MzBiNWExZDlkM2YwMjAxNjU2ZTBmNjEyZTkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCJ9','2015-04-13 03:16:56'),('6s5tohekag26hzstmgysfpwvnxvfl3w1','NTA5MGIwYTMwMjQxYWIwNWJjMDI4NDhjMmZiY2IwNTM2OTAyNDFhZjp7Il9hdXRoX3VzZXJfaWQiOjIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX3Nlc3Npb25fZXhwaXJ5IjowLCJfYXV0aF91c2VyX2hhc2giOiIxZmUwNmJmZGUwOWZmYmEzMjM3Yjk1YzlhYTdmNjI1Nzc0NDhkNWNiIn0=','2015-04-18 17:46:27'),('6s8oj5ufcw3jk2faypni04vfc4pih75f','YWMyODBhYjg2MWI3ZGYzYmQ5ZGE2M2RjYjc1YmE2MTYzZjYyMzA3OTp7Il9hdXRoX3VzZXJfaWQiOjYsIl9hdXRoX3VzZXJfaGFzaCI6IjI0ZGJkODUzYmU4MDA4MTc0NWY5ZGM1MGEyNmU3YzUyNzYxZGU4YjkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9zZXNzaW9uX2V4cGlyeSI6MH0=','2015-04-19 16:37:12'),('7doeh02kg2n59w8669klwi69fftz3hvm','Nzk0NmJjYjFjMzc1NzUxNGNjZWFhMzA0N2Y5NTJmZDFhYTkxMDJlNzp7Il9zZXNzaW9uX2V4cGlyeSI6MCwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2lkIjoyLCJfYXV0aF91c2VyX2hhc2giOiJkNmRmOTA0MDBmYzI2NDMwYjVhMWQ5ZDNmMDIwMTY1NmUwZjYxMmU5In0=','2015-04-17 17:00:26'),('7ek5pjhg45y6xpfety4dycjdfextd2tn','MmYxZGQ2NDJjOGNjN2Y2ZTBjYjQ5OGE2NThmY2M5YTExZDU4Zjg4NDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiMWZlMDZiZmRlMDlmZmJhMzIzN2I5NWM5YWE3ZjYyNTc3NDQ4ZDVjYiIsIl9hdXRoX3VzZXJfaWQiOjIsIl9zZXNzaW9uX2V4cGlyeSI6MH0=','2015-04-19 19:13:52'),('7k2r47x6xxleuf867iq5wbaivsl4ghax','MDI2NjJhMWZkYzFjNDk5ZDkzZWQxMzQ2ZGY0ZTE2ZDY2MDliZDJhMjp7fQ==','2015-04-18 18:44:39'),('999rdl93jv84fkzxibgn7h47jvwm75b5','YTU4MGE5ODg5NzU0OGIyZjYxZGY3MGJhOTIxMWNlNTlkNGQzYjhhZTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ2ZGY5MDQwMGZjMjY0MzBiNWExZDlkM2YwMjAxNjU2ZTBmNjEyZTkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjJ9','2015-04-13 01:43:52'),('9d6slxrz4v99cs3g5vt5pg8i3b4cpll5','MDI2NjJhMWZkYzFjNDk5ZDkzZWQxMzQ2ZGY0ZTE2ZDY2MDliZDJhMjp7fQ==','2015-04-18 20:32:12'),('anuyp7e8u6xfkbuquvbpfnkd4gipd7lb','OGI4NzY5NGNjZjkwZjU5MDRmM2VhZjc3MWVkN2MxM2VlZGVkODJmOTp7Il9zZXNzaW9uX2V4cGlyeSI6MCwiX2F1dGhfdXNlcl9pZCI6MiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNmRmOTA0MDBmYzI2NDMwYjVhMWQ5ZDNmMDIwMTY1NmUwZjYxMmU5In0=','2015-04-17 18:57:17'),('aqknukub0cvleuuhzyx02hixjd0vp7by','MDI2NjJhMWZkYzFjNDk5ZDkzZWQxMzQ2ZGY0ZTE2ZDY2MDliZDJhMjp7fQ==','2015-04-18 17:34:45'),('ccq7ckf5cqbi32no60k0isjeillgrws2','MDI2NjJhMWZkYzFjNDk5ZDkzZWQxMzQ2ZGY0ZTE2ZDY2MDliZDJhMjp7fQ==','2015-04-18 17:22:06'),('e1jbqdrhp1ylh0i14bqnul0hodxpignd','YWNlYjZhZjA0ZTYyZWJkMDBjNzM3MDRmMTEyYzAwY2Q2Y2Y2YzVhODp7Il9hdXRoX3VzZXJfaWQiOjIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX3Nlc3Npb25fZXhwaXJ5IjowLCJfYXV0aF91c2VyX2hhc2giOiJkNmRmOTA0MDBmYzI2NDMwYjVhMWQ5ZDNmMDIwMTY1NmUwZjYxMmU5In0=','2015-04-17 02:22:09'),('fjqph4rcbomrdzyo4r69nor08s3o5wz3','MjA4MjMwNDgyMjc2MTM2ZjM0OWE3NDhjNmNjYjdiZTQ5MWIwMTdjZDp7Il9hdXRoX3VzZXJfaGFzaCI6IjFmZTA2YmZkZTA5ZmZiYTMyMzdiOTVjOWFhN2Y2MjU3NzQ0OGQ1Y2IiLCJfc2Vzc2lvbl9leHBpcnkiOjAsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=','2015-04-19 20:01:59'),('gtaf6an5146qm91xv4f8f25c86kg4sv5','MjJkOGYyNWE5OWE3YjlhYTA2NjFkMWMwZTAwZGE2N2YyNDcwZGQyMzp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MiwiX3Nlc3Npb25fZXhwaXJ5IjowLCJfYXV0aF91c2VyX2hhc2giOiIxZmUwNmJmZGUwOWZmYmEzMjM3Yjk1YzlhYTdmNjI1Nzc0NDhkNWNiIn0=','2015-04-19 01:20:33'),('hsnm8x7he5ye70em7gju1i1pe7416uee','NDA4ZGZhMTQ3MjY3ZjRhOTIwNzA1MmQ1OTA3MmY5NTVlMjkyZTRhNDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZDZkZjkwNDAwZmMyNjQzMGI1YTFkOWQzZjAyMDE2NTZlMGY2MTJlOSIsIl9hdXRoX3VzZXJfaWQiOjJ9','2015-04-13 18:44:07'),('hvmf3a1ee5n2bxgqpwqr1c9wr5dlc4pc','ZDJkOGRjYzcxMDU5NDQzN2IzNjI2MjJkN2NiNTRmNjA3OGIxYjk5ZDp7Il9zZXNzaW9uX2V4cGlyeSI6MCwiX2F1dGhfdXNlcl9pZCI6MiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIxZmUwNmJmZGUwOWZmYmEzMjM3Yjk1YzlhYTdmNjI1Nzc0NDhkNWNiIn0=','2015-04-19 01:00:57'),('ki8usc180sl8xjfakv3d964ynwe361wj','OGEwY2EwMjhjZmQ5YzA3NDVmZGY1OTY4YzQ3NDJkMzBiYjg3MDUxYTp7Il9zZXNzaW9uX2V4cGlyeSI6MCwiX2F1dGhfdXNlcl9pZCI6MiwiX2F1dGhfdXNlcl9oYXNoIjoiMWZlMDZiZmRlMDlmZmJhMzIzN2I5NWM5YWE3ZjYyNTc3NDQ4ZDVjYiIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2015-04-18 18:02:20'),('koo0xggh7n0o9ykw1vl3j1wrxbubzsig','MDI2NjJhMWZkYzFjNDk5ZDkzZWQxMzQ2ZGY0ZTE2ZDY2MDliZDJhMjp7fQ==','2015-04-17 17:13:07'),('lxb1pmhssxwo0bw39esv42svk5uioawo','ZDUxN2EzYWVjZmM2NjVlNDgzYmI2MTQzMTczNjU2ODkwMWU2ODZmMDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX3Nlc3Npb25fZXhwaXJ5IjowLCJfYXV0aF91c2VyX2lkIjoyLCJfYXV0aF91c2VyX2hhc2giOiIxZmUwNmJmZGUwOWZmYmEzMjM3Yjk1YzlhYTdmNjI1Nzc0NDhkNWNiIn0=','2015-04-18 20:33:50'),('m0v22wbm61n41holcs55t6lxe2qpo0yh','NTFlNWZhZTE2NDg2MWU4N2EyZTNhNTBjNzgyYmI1OGQyYTVkZTM0Mzp7Il9hdXRoX3VzZXJfaWQiOjIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZDZkZjkwNDAwZmMyNjQzMGI1YTFkOWQzZjAyMDE2NTZlMGY2MTJlOSJ9','2015-04-13 03:20:56'),('m4km6c9brxjyjelvhdyv3sth4oe6h11d','YjYyZmU1ZjQ4ZjBlYTQ2ZWI3ZjJjNWNmYWVhMjQ2ZjAyYzMxOTlhYzp7Il9zZXNzaW9uX2V4cGlyeSI6MCwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2lkIjoyLCJfYXV0aF91c2VyX2hhc2giOiIxZmUwNmJmZGUwOWZmYmEzMjM3Yjk1YzlhYTdmNjI1Nzc0NDhkNWNiIn0=','2015-04-18 19:07:52'),('mh59owwp5t8cww5xlrtg8q89u2zbajs4','MjUxZmQ0MTQ1Yzk3ZjZiODk2MjcxOWQwY2M1MGMxZjQ0OTUwNzFjOTp7Il9hdXRoX3VzZXJfaWQiOjIsIl9zZXNzaW9uX2V4cGlyeSI6MCwiX2F1dGhfdXNlcl9oYXNoIjoiMWZlMDZiZmRlMDlmZmJhMzIzN2I5NWM5YWE3ZjYyNTc3NDQ4ZDVjYiIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2015-04-18 17:38:31'),('oivtjppe7aruac47inyr0k9r7k1ybedw','YThmMjhhYzM5OTQ5MWY2ZjM4OWUwM2EwYWU4OTgwNTA1ODQ0NjJlNDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MiwiX2F1dGhfdXNlcl9oYXNoIjoiZDZkZjkwNDAwZmMyNjQzMGI1YTFkOWQzZjAyMDE2NTZlMGY2MTJlOSJ9','2015-04-13 19:19:15'),('pnfxax0qlhm77ojawxpxn4u0v5mfqidt','M2RiOWJjZDRkMGYyODRjYTYzNTdmOWIxYmUxMDU1YmE0MzMwOWQyYjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MiwiX2F1dGhfdXNlcl9oYXNoIjoiMWZlMDZiZmRlMDlmZmJhMzIzN2I5NWM5YWE3ZjYyNTc3NDQ4ZDVjYiIsIl9zZXNzaW9uX2V4cGlyeSI6MH0=','2015-04-18 18:41:29'),('td66p1kh3tttva491lauvcq0asi4jf66','MDI2NjJhMWZkYzFjNDk5ZDkzZWQxMzQ2ZGY0ZTE2ZDY2MDliZDJhMjp7fQ==','2015-04-19 05:18:44'),('uznwowffoo938wt95udkesrs23hlishp','Y2JkYTgzNDhlYWU4ZGExZWQxMTRjMDNhZWVmZmNlNDg4N2MwYjM0Yjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX3Nlc3Npb25fZXhwaXJ5IjowLCJfYXV0aF91c2VyX2lkIjo0LCJfYXV0aF91c2VyX2hhc2giOiIwOGQyNjQyNmI0YWUxMGU0MzBkMDU5MzliNTFlZGYyOWY1MmVhYjYyIn0=','2015-04-19 19:26:24'),('v5qhsm5jwvvfg35xmdel4vfetcrccxun','MDI2NjJhMWZkYzFjNDk5ZDkzZWQxMzQ2ZGY0ZTE2ZDY2MDliZDJhMjp7fQ==','2015-04-18 21:00:30'),('v7wbkdjzcnhmazuzp9aux4s3jzt9ky1i','M2I4NzkyYjY5MzlmOWJjY2E1N2NmMjhkMmE5YWZlYjNkNDVhYzM2YTp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ2ZGY5MDQwMGZjMjY0MzBiNWExZDlkM2YwMjAxNjU2ZTBmNjEyZTkiLCJfc2Vzc2lvbl9leHBpcnkiOjAsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=','2015-04-17 22:33:04'),('vyi9jzad94wjtq8u1ppya1x4wjn75cia','M2RiOWJjZDRkMGYyODRjYTYzNTdmOWIxYmUxMDU1YmE0MzMwOWQyYjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MiwiX2F1dGhfdXNlcl9oYXNoIjoiMWZlMDZiZmRlMDlmZmJhMzIzN2I5NWM5YWE3ZjYyNTc3NDQ4ZDVjYiIsIl9zZXNzaW9uX2V4cGlyeSI6MH0=','2015-04-18 18:15:09'),('yc48i7m3l3s9vo8nhceek9qwd7thzy4b','NDQ3MDdkMTFlOWRhYzUxYjg5YzQ3Mzg0OGI5NDQzOWZlZWEzNTBiYTp7Il9hdXRoX3VzZXJfaGFzaCI6IjFmZTA2YmZkZTA5ZmZiYTMyMzdiOTVjOWFhN2Y2MjU3NzQ0OGQ1Y2IiLCJfYXV0aF91c2VyX2lkIjoyLCJfc2Vzc2lvbl9leHBpcnkiOjAsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2015-04-18 19:30:14'),('yxoiavqhh1a111du0jgxtgyrxya6nnoo','M2RiOWJjZDRkMGYyODRjYTYzNTdmOWIxYmUxMDU1YmE0MzMwOWQyYjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MiwiX2F1dGhfdXNlcl9oYXNoIjoiMWZlMDZiZmRlMDlmZmJhMzIzN2I5NWM5YWE3ZjYyNTc3NDQ4ZDVjYiIsIl9zZXNzaW9uX2V4cGlyeSI6MH0=','2015-04-18 18:08:55'),('z3le3yzv76rn03glb4q2lqwaxnibbjpw','ZTU0ZDUzNjVhYjQ3ZjY1Mjg0ODlmY2I2ZmI5OWRjNTRkZWRhZDM0ZTp7Il9hdXRoX3VzZXJfaWQiOjIsIl9hdXRoX3VzZXJfaGFzaCI6ImQ2ZGY5MDQwMGZjMjY0MzBiNWExZDlkM2YwMjAxNjU2ZTBmNjEyZTkiLCJfc2Vzc2lvbl9leHBpcnkiOjAsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2015-04-18 17:22:14'),('zq9tftiyf858gtl2ycxsj3z9y6hnytuc','ODgxY2YxYTI2YzRlZWRiOGM1NWI5MWY0MWVlMjZhMTViYjllYWQyZDp7Il9hdXRoX3VzZXJfaGFzaCI6ImQ2ZGY5MDQwMGZjMjY0MzBiNWExZDlkM2YwMjAxNjU2ZTBmNjEyZTkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjIsIl9zZXNzaW9uX2V4cGlyeSI6MH0=','2015-04-17 04:21:15');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -880,4 +887,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-02 23:14:39
+-- Dump completed on 2015-04-05 16:23:12

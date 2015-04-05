@@ -17,7 +17,9 @@
 
 
 <script type="text/javascript">
+    //TODO: COMMENT YOUR CODE - This will help you get a clearer image of what you're doing in it.
 
+    // Test jQuery function for AJAX handling
     $(function () {
         $(".testbutton").click(function () {
 
@@ -54,16 +56,16 @@
 
     });
 
-
     //this script allows the dropdown to save the selected option as its label and make a new button.
 
     $(function () {
         $(".zero").click(function () {
+            //Careful with your variable names.
             var xx = $(this).attr("number");
             var yy = $(this).attr("course");
             var zz;
-            //AJAX START
 
+            //AJAX START
             $.ajax({
                 type: 'post',
                 url: "/nullhandler/",
@@ -85,6 +87,7 @@
                     $("#lectDrop" + xx).html("");
                     $("#lectDiv" + xx + "Text").html("Lecture 1 <span class='caret'></span>&nbsp;");
                     $("#lectDiv" + xx + "Text").val("");
+
                     for (var i = 0; i < lectureList.length; i++) {
                         var $inside = "id='lectNo"+ i +"' number2='" + lectureList[i].fields['section'] + "'" + " href='#' class='one' number='" + xx + "'" + "lect='" + lectureList[i].fields['section'] + "'" + "course='" + lectureList[i].fields['course'] + "'" + "pk='" + lectureList[i].pk + "'" + "value='" + lectureList[i].pk + "'";
                         var $leText = lectureList[i].fields['section']+" ";
