@@ -16,8 +16,12 @@ class Course(models.Model):
     def __str__(self):
         return self.deptnum
 
-    def allLectures(self):
-        return list(self.lecture_set.all())
+    def allLectures(self, semester=None):
+
+        if semester == None:
+            return list(self.lecture_set.all())
+        else:
+            return list(self.lecture_set.all().filter(semester=semester))
 
     def hasTutorials(self):
         if len(self.tutorial_set.all()) == 0:
@@ -25,11 +29,13 @@ class Course(models.Model):
         else:
             return True
 
-    def allTutorials(self):
+    def allTutorials(self, semester=None):
         if len(self.tutorial_set.all()) == 0:
             return []
-        else:
+        elif semester is None:
             return list(self.tutorial_set.all())
+        else:
+            return list(self.tutorial_set.all().filter(semester=semester))
 
     def hasLabs(self):
         if len(self.lab_set.all()) == 0:
@@ -37,11 +43,13 @@ class Course(models.Model):
         else:
             return True
 
-    def allLabs(self):
+    def allLabs(self, semester=None):
         if len(self.lab_set.all()) == 0:
             return []
-        else:
+        elif semester is None:
             return list(self.lab_set.all())
+        else:
+            return list(self.lab_set.all().filter(semester=semester))
 
     def addStudent(IDNumber):
         pass

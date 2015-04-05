@@ -270,28 +270,33 @@ class CourseCatalog(object):
 
     @staticmethod
     def coursesWithMetPrereqs(student, semester, year):
+        # TODO: Have a extra parameters that come from the generation page, indicating classes they are taking. via POST?
 
         metprereq = []
-        courselist = Course.objects.all() # start with a list of all courses
-        courseswithnoprereq = Course.objects.all().filter(prerequisities__isnull=True)
+        courselist = Course.objects.all().filter(lecture__semester=semester) # start with a list of all courses offered in that semester
+        courseswithnoprereq = Course.objects.all().filter(prerequisites__isnull=True)
         #list of prereq and courses, individually packaged
         prereqdict = Course.objects.values("deptnum","prerequisites").exclude(prerequisites__isnull=True)
 
-        coursesTaken = list(student.academicRecord.coursesTaken.objects.all()) # start creating list of all taken courses
-
-        for schedules in student.academicRecord.mainSchedule.objects.all():
-            if semester == "Summer": # Only take into account courses being taken in summer of same year
-                if schedules.year <= year and schedules.semester == "Summer":
-                    for lecture in schedules.lecturelist.objects.all():
-                        coursesTaken.append(lecture.course)
-            elif semester == "Fall": # Only take into account courses being taken in summer amd Fall of same year
-                if schedules.year <= year and (schedules.semester == "Summer" or schedules.semester == "Fall"):
-                    for lecture in schedules.lecturelist.objects.all():
-                        coursesTaken.append(lecture.course)
-            elif semester == "Winter": # take into account everthing in same year
-                if schedules.year <= year:
-                    for lecture in schedules.lecturelist.objects.all():
-                        coursesTaken.append(lecture.course)
+        coursesTaken = student.academicRecord.coursesTaken.all()  # start creating list of all taken courses
+        if student.academicRecord.mainSchedule is not None:
+            for schedules in student.academicRecord.mainSchedule.objects.all():
+                if semester == "Summer1": # Only take into account courses being taken in summer of same year
+                    if schedules.year <= year and schedules.semester == "Summer1":
+                        for lecture in schedules.lecturelist.objects.all():
+                            coursesTaken.append(lecture.course)
+                elif semester == "Summer2": # Only take into account courses being taken in summer of same year
+                    if schedules.year <= year and schedules.semester == "Summer2":
+                        for lecture in schedules.lecturelist.objects.all():
+                            coursesTaken.append(lecture.course)
+                elif semester == "Fall": # Only take into account courses being taken in summer amd Fall of same year
+                    if schedules.year <= year and (schedules.semester == "Summer" or schedules.semester == "Fall"):
+                        for lecture in schedules.lecturelist.objects.all():
+                            coursesTaken.append(lecture.course)
+                elif semester == "Winter": # take into account everthing in same year
+                    if schedules.year <= year:
+                        for lecture in schedules.lecturelist.objects.all():
+                            coursesTaken.append(lecture.course)
 
         # full list of courses taken that can be used as prerequisites
 
@@ -305,7 +310,7 @@ class CourseCatalog(object):
         for prereq in unmetprereq:
             courselist = courselist.exclude(pk=prereq["deptnum"])
 
-        return courselist
+        return list(set(list(courselist)))  # remove duplicates
 
 
 
