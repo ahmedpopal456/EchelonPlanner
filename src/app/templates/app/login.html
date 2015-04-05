@@ -17,34 +17,34 @@
     <div class="row">
         <div class="col-xs-3"></div>
         <div class="col-xs-6"><img class="bg-primary"
-                                   src="{% static 'app/images/concordia_coa.png' %}"
+                                   src="{% static 'app/images/Echelon_logo2.png' %}"
                                    id=CoA
                                    alt="Magister Dixit">
 
-            <div class="container" id="loginblock">
+                <form class="form-signin" method="post" action="/login_handler/">
                     <h1>Login</h1>
                     {% if hasMessage %}
                         <p>{{ message }}</p>
                     {% endif %}
-                    <form class="form-signin" method="post" action="/login_handler/">
-                        {% csrf_token %}
-                        <h2 class="form-signin-heading">
-                            Please log in or <a href="/register">register here</a>
-                        </h2>
-                        <label for="inputUser" class="sr-only">Enter Registered Email</label>
-                        <input id="inputUser" class="form-control" placeholder="Enter Registered Email" name="username"
-                               type="text">
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <input id="inputPassword" class="form-control" placeholder="Password" name="password"
-                               type="password">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="remember-me" value="True"> Remember me
-                            </label>
-                        </div>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                    </form>
-            </div>
+
+                    {% csrf_token %}
+                    <h2 class="form-signin-heading">
+                        Please log in or <a href="/register">register here</a>
+                    </h2>
+                    <label for="inputUser" class="sr-only">Enter Registered Email</label>
+                    <input id="inputUser" class="form-control" placeholder="Enter Registered Email" name="username"
+                           type="text">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input id="inputPassword" class="form-control" placeholder="Password" name="password"
+                           type="password">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="remember-me" value="True"> Remember me
+                        </label>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </form>
+
 
         </div>
         <div class="col-xs-3"></div>
