@@ -15,12 +15,7 @@
 	#       "dependencies": Doesn't install EchelonPlanner, but merely it's dependencies
 	#       "nightly": Retrieve a latest image from the git repo and use that
 	#       "echelon": Doesn't worry about dependencies, just unpackages the application and configures it
-	#   "uninstall"
-	#       "": Removes the app only
-	#       "with-dependencies": Removes the app and all dependecies
-	#   "verify": checks that everything is where it's supposed to be and has been correctly written
 	#   "test": runs Django tests in the application. Useful for verifying features that were expected are working
-	#   "time-dilation": t h i n g s  w i l l  g o  v e  r  y  s  l    o    w   l   y.
 
 	#############################################################################################################
 	# Global Variables Section. Handle With Care
@@ -224,37 +219,12 @@
 
 	}
 
-	uninstallEchelon()
-	{ # Remove all possible traces of the echelon app
-		echo "Uninstalling"
-
-	}
-
-	uninstallAllDependencies()
-	{ # Remove EVERYTHING
-		echo "WAT!"
-
-	}
-
-	verifyDependencies()
-	{ # See that all needed packages exist
-		# Basically, we'll do diffs and see if the variable is empty or not.
-		echo "checking"
-	}
-
 	doEchelonTests()
 	{ # Make the program run the tests
 		# FYI: the way to run unit tests is to go to EchelonPlanner/src/ and do "python manage.py test"
 		echo "Running tests on echelon. These will fail if the app was not installed correctly or was changed in the process"
 		python3 /var/www/src/manage.py test
 	}
-
-	doTimeDilation()
-	{ #pull a fubar on the internal clock
-		echo "Slowing down time"
-
-	}
-	
 	
 	start()
 	{ # Call the application to start. Analogous to main()
