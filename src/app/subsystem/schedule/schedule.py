@@ -25,16 +25,16 @@ class Schedule(models.Model):
     def add_course(self, subcourse_item):
 
         # if Lecture, must mean there isn't any lab or tutorial associated with it
-        if CourseCatalog.typeofSection(subcourse_item) == "Lecture":
+        if subcourse_item.name() == "Lecture":
             self.lectureList.add(subcourse_item)
 
         # if Tutorial, must add tutorial and its Lecture
-        if CourseCatalog.typeofSection(subcourse_item) == "Tutorial":
+        if subcourse_item.name() == "Tutorial":
             self.tutorialList.add(subcourse_item)
             self.lectureList.add(subcourse_item.lecture)
 
         # if Lab, must add Lecture. Then must check if there are tutorials to add as well.
-        if CourseCatalog.typeofSection(subcourse_item) == "Lab":
+        if subcourse_item.name() == "Lab":
             self.lectureList.add(subcourse_item.lecture)
             self.labList.add(subcourse_item)
 
@@ -46,16 +46,16 @@ class Schedule(models.Model):
     def remove_item(self, subcourse_item):
 
         # if Lecture, must mean there isn't any lab or tutorial associated with it
-        if CourseCatalog.typeofSection(subcourse_item) == "Lecture":
+        if subcourse_item.name() == "Lecture":
             self.lectureList.remove(subcourse_item)
 
         # if Tutorial, must add tutorial and its Lecture
-        if CourseCatalog.typeofSection(subcourse_item) == "Tutorial":
+        if subcourse_item.name() == "Tutorial":
             self.tutorialList.remove(subcourse_item)
             self.lectureList.remove(subcourse_item.lecture)
 
         # if Lab, must add Lecture. Then must check if there are tutorials to add as well.
-        if CourseCatalog.typeofSection(subcourse_item) == "Lab":
+        if subcourse_item.name() == "Lab":
             self.lectureList.remove(subcourse_item.lecture)
             self.labList.remove(subcourse_item)
 
@@ -65,6 +65,6 @@ class Schedule(models.Model):
 
     class Meta:
         app_label = 'app'
-        managed= True
+        managed = True
 
 # End class Schedule
