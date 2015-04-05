@@ -10,8 +10,8 @@ class Student(models.Model):
     academicRecord = models.OneToOneField(StudentRecord, null=True)
 
     # Additional Stuff, mostly fluff
-    homephone = models.IntegerField(null=False, blank=False, default=0, primary_key=False)
-    cellphone = models.IntegerField(null=False, blank=False, default=0, primary_key=False)
+    homephone = models.CharField(max_length=15, null=False, blank=False, default="+1-XXX-XXX-XXXX", primary_key=False)
+    cellphone = models.CharField(max_length=15, null=False, blank=False, default="XXX-XXX-XXXX", primary_key=False)
     address = models.CharField(max_length=120, null=False, blank=False, default="", primary_key=False)
     IDNumber = models.IntegerField(null=False, blank=False, default=0, primary_key=False)
 
