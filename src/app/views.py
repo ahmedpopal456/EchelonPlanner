@@ -564,16 +564,6 @@ def browse_specific_course(request, deptnum=""):
                              "location": lect.event.location,
                              "tutorial": tutorials})
 
-            lectures.append({
-                             "semster": lect.semester,
-                              "section": lect.section,
-                              "days": lect.event.days,
-                              "starttime": lect.event.getActualStart(),
-                              "endtime": lect.event.getActualEnd(),
-                              "prof": lect.prof,
-                              "location": lect.event.location,
-                              "tutorial": tutorials})
-
 
         course_info = {"department": specificcourse.department,
                        "number": specificcourse.number,
