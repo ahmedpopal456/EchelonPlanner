@@ -139,6 +139,12 @@ def register(request):
                 newRecord = StudentRecord()
                 newRecord.save()
                 studentUser.academicRecord = newRecord
+                # We need to create and save a main schedule as well to the student
+                mainSchedule = Schedule()
+                mainSchedule.save()
+                studentUser.academicRecord.mainSchedule = mainSchedule
+                # Student ID must also be saved
+                studentUser.IDNumber = studentID
                 # standardUser.save()
                 studentUser.save()
                 isregistered = True
