@@ -63,9 +63,28 @@
             //Careful with your variable names.
             var xx = $(this).attr("number");
             var yy = $(this).attr("course");
-            var zz;
+            var hasTut = false;
+            var hasLect = false;
+
+            $("#classDiv" + xx).find("#classDiv" + xx + "Text").text($(this).text());
+            $("#classDiv" + xx).find("#classDiv" + xx + "Text").val($(this).text());
+            $("#classInput" + xx).val($(this).attr("deptnum"));
+            $("#lectInput" + xx).val("");
+            $("#tutInput" + xx).val("");
+            $("#labInput" + xx).val("");
+
+            $("#tutDiv" + xx).find("#tutDiv" + xx + "Text").attr('course', yy);
+            $("#tutDivDrop" + xx).html("");
+            $("#tutDiv" + xx + "Text").html("Tutorial "+xx+" <span class='caret'></span>&nbsp;");
+            $("#tutDiv" + xx + "Text").val("");
+
+            $("#labDiv" + xx).find("#labDiv" + xx + "Text").attr('course', yy);
+            $("#labDivDrop" + xx).html("");
+            $("#labDiv" + xx + "Text").html("Lab "+xx+" <span class='caret'></span>&nbsp;");
+            $("#labDiv" + xx + "Text").val("");
 
             //AJAX START
+
             $.ajax({
                 type: 'post',
                 url: "/nullhandler/",
@@ -77,43 +96,125 @@
                 success: function (data) {
                     var newObj = jQuery.parseJSON(data.valueOf());
 
-                    $("#lectDiv" + xx + "Text").attr("pk", "" + zz);
+                    //$("#lectDiv" + xx + "Text").attr("pk", zz);
                     //1. Unpack the JSON dictionary (gives back deptnum, lectures, tutorials, labs)
                     var courseData = jQuery.parseJSON(data.valueOf());
                     //2. Unpack the SECOND JSON from hell (gives back the array of Django Models)
                     var lectureList = jQuery.parseJSON(courseData['lectures']);
                     var tutList = jQuery.parseJSON(courseData['tutorials']);
                     var labList = jQuery.parseJSON(courseData['labs']);
+
                     $("#lectDrop" + xx).html("");
-                    $("#lectDiv" + xx + "Text").html("Lecture 1 <span class='caret'></span>&nbsp;");
+                    $("#lectDiv" + xx + "Text").html("Lecture "+xx+" <span class='caret'></span>&nbsp;");
                     $("#lectDiv" + xx + "Text").val("");
 
-                    for (var i = 0; i < lectureList.length; i++) {
-                        var $inside = "id='lectNo"+ i +"' number2='" + lectureList[i].fields['section'] + "'" + " href='#' class='one' number='" + xx + "'" + "lect='" + lectureList[i].fields['section'] + "'" + "course='" + lectureList[i].fields['course'] + "'" + "pk='" + lectureList[i].pk + "'" + "value='" + lectureList[i].pk + "'";
-                        var $leText = lectureList[i].fields['section']+" ";
-                        $("#lectDrop" + xx).append("<li><a " + $inside + ">" + $leText + "</a></li>").bind("click", function (event) {
-                            //i never changes it's always the highest value, need to send a variable here...
-                            console.log("IN: "+i+" | "+ $(this).text());
-                            $('#Testerstest').html($("#lectDrop"+xx).children("a").text());
+
+                    //populating lectures (handles .one links)
+                    for (var lectNo = 0; lectNo < lectureList.length; lectNo++) {
+                        var $leText = lectureList[lectNo].fields['section']+" ";
+                        var newListItem = $("<li>");
+                        var newListLink = $("<a>").attr('id', 'lectNo'+lectNo);
+                        newListLink.attr('href','#');
+                        newListLink.addClass('one');
+                        newListLink.attr('number', xx);
+                        newListLink.attr('lect',lectureList[lectNo].fields['section']);
+                        newListLink.attr('course',lectureList[lectNo].fields['course']);
+                        newListLink.attr('pk',lectureList[lectNo].pk);
+                        newListLink.attr('value',lectureList[lectNo].pk);
+                        newListLink.text($leText);
+                        newListLink.bind("click", function () {
+                            //this changes the text and value of the lecture dropdown after a click
                             $("#lectDiv" + xx + "Text").text($(this).text());
                             $("#lectDiv" + xx + "Text").val($(this).text());
-                            /*
-                            //this loads the little dropdowns need to modify to iterate through all lectures
-                            $(".two").each(function () {
-                                $(this).attr('lect', $leText);
-                                $(this).attr('lect', $leText);
-                                $(this).text($leText); //need to add lect. section instead of just name
-                                $(this).val($leText); //need to add lect. section instead of just name
-                            });
-                            console.log(newNewObj[3].fields['prof']);
-                            //if(yy.lecture_set.all().[zz].hasTutorials() ) { //was playing with this last time
+                            $("#lectInput" + xx).val($(this).text());
+                            //end of that
+
+                            //checking for tutorials and doing what needs to be done to the tut lists accordingly
+                            if(tutList.length != 0 ) {
                             $("#tutDiv" + xx).find("#tutDiv" + xx + "Text").removeClass("disabled");
                             $("#tutDiv" + xx).find("#tutDiv" + xx + "Text").attr('course', yy);
-                            //add for-each loop here
-                            //}
-                            */
+                            $("#tutDivDrop" + xx).html("");
+                            $("#tutDiv" + xx + "Text").html("Tutorial "+xx+" <span class='caret'></span>&nbsp;");
+                            $("#tutDiv" + xx + "Text").val("");
+                                for(var tutNo = 0; tutNo<tutList.length; tutNo++ ){
+                                    var $tuText = tutList[tutNo].fields['section']+" ";
+                                    var newListItem = $("<li>");
+                                    var newListLink = $("<a>").attr('id', 'lectNo'+tutNo);
+                                    newListLink.attr('href','#');
+                                    newListLink.addClass('two');
+                                    newListLink.attr('number', xx);
+                                    newListLink.attr('tut',tutList[tutNo].fields['section']);
+                                    newListLink.attr('course',tutList[tutNo].fields['course']);
+                                    newListLink.attr('pk',tutList[tutNo].pk);
+                                    newListLink.attr('value',tutList[tutNo].pk);
+                                    newListLink.text($tuText);
+                                    newListLink.bind("click", function () {
+                                        //this changes the text and value of the tut dropdown after a click
+                                        $("#tutDiv" + xx + "Text").text($(this).text());
+                                        $("#tutDiv" + xx + "Text").val($(this).text());
+                                        $("#tutInput" + xx).val($this.attr('tut'));
+                                        //end of that
+                                    });
+                                    newListItem.append(newListLink);
+                                    $("#tutDrop" + xx).append(newListItem);
+                                }
+                                //tutorial list populated
+                            }
+                            else{
+                            $("#tutDiv" + xx).find("#tutDiv" + xx + "Text").addClass("disabled");
+                            $("#tutDiv" + xx).find("#tutDiv" + xx + "Text").attr('course', yy);
+                            $("#tutDivDrop" + xx).html("");
+                            $("#tutDiv" + xx + "Text").html("Tutorial "+xx+" <span class='caret'></span>&nbsp;");
+                            $("#tutDiv" + xx + "Text").val("");
+                            }
+                            //end of tutorial handling
+
+
+                            //checking for labs and doing what needs to be done to the lab lists accordingly
+                            if(labList.length != 0 ) {
+                            $("#labDiv" + xx).find("#labDiv" + xx + "Text").removeClass("disabled");
+                            $("#labDiv" + xx).find("#labDiv" + xx + "Text").attr('course', yy);
+                            $("#labDivDrop" + xx).html("");
+                            $("#labDiv" + xx + "Text").html("Lab "+xx+" <span class='caret'></span>&nbsp;");
+                            $("#labDiv" + xx + "Text").val("");
+                                for(var labNo = 0; labNo<labList.length; labNo++ ){
+                                    var $labText = labList[labNo].fields['section']+" ";
+                                    var newListItem = $("<li>");
+                                    var newListLink = $("<a>").attr('id', 'lectNo'+labNo);
+                                    newListLink.attr('href','#');
+                                    newListLink.addClass('three');
+                                    newListLink.attr('number', xx);
+                                    newListLink.attr('lab',labList[labNo].fields['section']);
+                                    newListLink.attr('course',tutList[labNo].fields['course']);
+                                    newListLink.attr('pk',labList[labNo].pk);
+                                    newListLink.attr('value',tutList[labNo].pk);
+                                    newListLink.text($labText);
+                                    newListLink.bind("click", function () {
+                                        //this changes the text and value of the lab dropdown after a click
+                                        $("#labDiv" + xx + "Text").text($(this).text());
+                                        $("#labDiv" + xx + "Text").val($(this).text());
+                                        $("#labInput" + xx).val($(this).attr('lab'));
+                                        //end of that
+                                    });
+                                    newListItem.append(newListLink);
+                                    $("#labDrop" + xx).append(newListItem);
+                                }
+                                //lab list populated
+                            }
+                            else{
+                            $("#labDiv" + xx).find("#labDiv" + xx + "Text").addClass("disabled");
+                            $("#labDiv" + xx).find("#labDiv" + xx + "Text").attr('course', yy);
+                            $("#labDivDrop" + xx).html("");
+                            $("#labDiv" + xx + "Text").html("Lab "+xx+" <span class='caret'></span>&nbsp;");
+                            $("#labDiv" + xx + "Text").val("");
+                            }
+                            //end of lab handling
+
                         });
+                        newListItem.append(newListLink);
+                        $("#lectDrop" + xx).append(newListItem);
                     }
+                    //lecture list populated
                 },
                 failure: function (data) {
                     alert('Got an error');
@@ -123,19 +224,16 @@
 
             //AJAX END
 
-            $("#classDiv" + xx).find("#classDiv" + xx + "Text").text($(this).text());
-            $("#classDiv" + xx).find("#classDiv" + xx + "Text").val($(this).text());
-            $("#classInput" + xx).val($(this).attr("deptnum"));
-
             $("#lectDiv" + xx).find("#lectDiv" + xx + "Text").removeClass("disabled");
             $("#lectDiv" + xx).find("#lectDiv" + xx + "Text").attr('course', yy);
 
-            //if(yy.hasLabs()) //this gets moved to .one click function and to .two click function accordingly
             $("#labDiv" + xx).find("#labDiv" + xx + "Text").removeClass("disabled");
             $("#labDiv" + xx).find("#labDiv" + xx + "Text").attr('course', yy);
+
         });
     });
 
+/*  //This is what .one needs to do, but since this doesn't attach to newly created elements, I resorted to spaghetti.
     $(function () {
         $(".one").click(function () {
             console.log("IN");
@@ -164,7 +262,7 @@
 
 
     });
-
+*/
     $(function () {
         $(".two").click(function () {
             var xx = $(this).attr("number") - 1;
@@ -194,7 +292,7 @@
             <form class="form-group" method="post" action="/schedule_generator/">
                 {% csrf_token %}
 
-                <h2 id="changeForever">Select Courses for Year {{ currentYear }} Semester {{ currentSemester }}:</h2>
+                <h2 id="changeForever">Select Courses for Year {{ currentYear }} Semester ({{ currentSemester }}):</h2>
                 {% for slot in max_courses %}
                     {% cycle "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" as order silent %}
                     <div class="bigdiv giveSpace1">
@@ -219,43 +317,38 @@
                         </div>
 
                         <div id="lectDiv{{ order }}" class="dropdown" style="position:relative">
-
+                            <!-- Javascript will replace this and send it as POST-->
+                            <input id="lectInput{{ order }}" type="hidden" name="option" value=""/>
                             <a id="lectDiv{{ order }}Text" href="#"
                                class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
                                data-toggle="dropdown" data-bind="label" name="lect{{ order }}">Lecture {{ order }}
                                 <span class="caret"></span>&nbsp;</a>
                             <ul id="lectDrop{{ order }}" class="dropdown-menu">
-                                <!--got rid of ugly loop. Now managed by AJAX.-->
+                                <!--got rid of ugly (beautiful) loop. Now managed by AJAX (spaghetti).-->
                             </ul>
                         </div>
 
                         <div id="tutDiv{{ order }}" class="dropdown" style="position:relative">
-
+                            <!-- Javascript will replace this and send it as POST-->
+                            <input id="tutInput{{ order }}" type="hidden" name="option" value=""/>
                             <a id="tutDiv{{ order }}Text" href="#"
                                class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
                                data-toggle="dropdown" data-bind="label" name="tut{{ order }}">Tutorial {{ order }}
                                 <span class="caret"></span>&nbsp;</a>
-                            <ul class="dropdown-menu">
-                                {% for course in feasable_courses %}
-                                    <li>
-                                        <a class="two" href="#" number="{{ order }}">B</a>
-                                    </li>
-                                {% endfor %}
+                            <ul id="tutDrop{{ order }}" class="dropdown-menu">
+                                <!--got rid of ugly (beautiful) loop. Now managed by AJAX (spaghetti).-->
                             </ul>
                         </div>
 
                         <div id="labDiv{{ order }}" class="dropdown" style="position:relative">
-
+                            <!-- Javascript will replace this and send it as POST-->
+                            <input id="labInput{{ order }}" type="hidden" name="option" value=""/>
                             <a id="labDiv{{ order }}Text" href="#"
                                class="fauxbtn btn btn-primary dropdown-toggle giveSpace disabled"
                                data-toggle="dropdown" data-bind="label" name="lab{{ order }}">Lab {{ order }}
                                 <span class="caret"></span>&nbsp;</a>
                             <ul class="dropdown-menu">
-                                {% for course in feasable_courses %}
-                                    <li>
-                                        <a class="three" href="#" number="{{ order }}">C</a>
-                                    </li>
-                                {% endfor %}
+                                <!--got rid of ugly (beautiful) loop. Now managed by AJAX (spaghetti).-->
                             </ul>
                         </div>
                     </div>
