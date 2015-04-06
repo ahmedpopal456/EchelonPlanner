@@ -24,7 +24,7 @@ class CourseCatalog(object):
         c1.update(list(Course.objects.filter(number__icontains=partialName)))
         c1.update(list(Course.objects.filter(deptnum__icontains=nospacesstring)))
 
-        return list(c1)
+        return sorted(list(c1), key=lambda x: x.deptnum, reverse=False)
 
     # either define a limit or an exact credit value to check. Limits are inclusive.
     @staticmethod
@@ -310,7 +310,7 @@ class CourseCatalog(object):
         for prereq in unmetprereq:
             courselist = courselist.exclude(pk=prereq["deptnum"])
 
-        return list(set(list(courselist)))  # remove duplicates
+        return sorted(list(set(list(courselist))), key=lambda x: x.deptnum, reverse=False)  # remove duplicates and sort
 
 
 
