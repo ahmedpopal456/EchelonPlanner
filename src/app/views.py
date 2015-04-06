@@ -548,7 +548,8 @@ def browse_specific_course(request, deptnum=""):
                                  "endtime": lab.event.getActualEnd(),
                                  "location": lab.event.location})
 
-                tutorials.append({"lab": labs})
+                tutorials.append({"section": None,
+                                  "lab": labs})
 
 
             lectures.append({
@@ -570,6 +571,14 @@ def browse_specific_course(request, deptnum=""):
                        "Lecture": lectures}
 
         print(course_info)
+        # testing purpose/example of use
+        # for lect in course_info["Lecture"]:
+        #     print(lect["section"])
+        #     for tut in lect["tutorial"]:
+        #         if tut["section"] is not None:
+        #             print(tut["section"])
+        #         for lab in tut["lab"]:
+        #             print(lab["section"])
 
         return render(
             request,
