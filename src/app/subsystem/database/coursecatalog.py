@@ -3,6 +3,7 @@ from ..courses.lecture import Lecture
 from ..courses.tutorial import Tutorial
 from ..courses.lab import Lab
 from ..event.event import Event
+import json
 from ..usermanagement.student.student import Student
 from ..usermanagement.student.student import StudentRecord
 from itertools import chain
@@ -311,6 +312,76 @@ class CourseCatalog(object):
             courselist = courselist.exclude(pk=prereq["deptnum"])
 
         return sorted(list(set(list(courselist))), key=lambda x: x.deptnum, reverse=False)  # remove duplicates and sort
+
+    @staticmethod
+    def seralizeCourseForSemester(specificcourse, semester=None):
+
+        prereqs = []
+        for i in specificcourse.prerequisites.all():
+            prereqs.append(i.deptnum)
+
+        allLectures = specificcourse.lecture_set.all()
+
+        if semester is not None:
+            allLectures = allLectures.filter(semester=semester)
+
+        lectures = []
+        # build a dictionary with all info related to the course
+        for lect in allLectures:
+            tutorials = []
+            allTutorials = lect.tutorial_set.all()
+
+            for tut in allTutorials:
+                allLabs = tut.lab_set.all()
+                labs = []
+
+                for lab in allLabs:
+                    labs.append({"section": lab.section,
+                                 "days": lab.event.days,
+                                 "starttime": lab.event.getActualStart(),
+                                 "endtime": lab.event.getActualEnd(),
+                                 "location": lab.event.location})
+
+                tutorials.append({"section": tut.section,
+                                  "days": tut.event.days,
+                                  "starttime": tut.event.getActualStart(),
+                                  "endtime": tut.event.getActualEnd(),
+                                  "location": tut.event.location,
+                                  "lab": labs})
+
+            if len(allTutorials) == 0 and len(lect.lab_set.all()) != 0:
+                allLabs = lect.lab_set.all()
+                labs = []
+
+                for lab in allLabs:
+                    labs.append({"section": lab.section,
+                                 "days": lab.event.days,
+                                 "starttime": lab.event.getActualStart(),
+                                 "endtime": lab.event.getActualEnd(),
+                                 "location": lab.event.location})
+
+                tutorials.append({"section": None,
+                                  "lab": labs})
+
+            lectures.append({"semester": lect.semester,
+                             "section": lect.section,
+                             "days": lect.event.days,
+                             "starttime": lect.event.getActualStart(),
+                             "endtime": lect.event.getActualEnd(),
+                             "prof": lect.prof,
+                             "location": lect.event.location,
+                             "tutorial": tutorials})
+
+
+        course_info = {"department": specificcourse.department,
+                       "number": specificcourse.number,
+                       "name": specificcourse.name,
+                       "credits": specificcourse.credits,
+                       "prereq": prereqs,
+                       "lectures": lectures}
+        serialized = json.dumps(course_info)
+
+        return course_info  # or does it return serialized ?
 
 
 
