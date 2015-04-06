@@ -393,28 +393,39 @@ def schedule_generator(request):
 
 @login_required
 def sched_gen_1(request):
-    # Phase 1: Ask for Semester.
-    if request.method == "POST":
+
+    if request.method == "POST": # get the response back
         #If POST, then
         max_courses = [1, 2, 3, 4, 5]
         # request.POST['semester'] # will return given semester!
         # TODO: CHECK FEASIBLE COURSES AGAINST SEMESTER SUPPLIED
-
         currentSemester = request.POST['semester']
         currentYear = request.POST['year']
         student = StudentCatalog.getStudent(request.user.username)
+
         if student:
             student = request.user.student  # Should be the primary key of student in database
-
             feasable_courses = CourseCatalog.coursesWithMetPrereqs(student, currentSemester, currentYear)  # INJECT "coursesWithMetPrereqs"
-
             # Supply curren
 
-
         else:
-            feasable_courses=[]
+            feasable_courses= CourseCatalog.searchCoursesThroughPartialName("SOEN")
+
         testTestList=["a","b","c"] # REMOVE
         print(request.POST) # DEBUGGING
+
+        # Check if automatic
+        if request.POST['gen-type'] == "Automatic":
+            return render(
+                request,
+                'app/schedule_generator_auto.html',
+                {'max_courses': max_courses,
+                 'feasable_courses': feasable_courses,
+                 'testTestList': testTestList,
+                 'currentYear': currentYear,
+                 'currentSemester': currentSemester}
+            )
+
         return render(
             request,
             'app/schedule_generator.html',
@@ -425,14 +436,18 @@ def sched_gen_1(request):
              'currentSemester': currentSemester}
         )
     # end if request is POST
+
+    # Phase 1: Ask for Semester.
     semesterCycle=["Summer1","Summer2", "Fall", "Winter"]
     max_years = [1, 2, 3, 4, 5]
+
     return render(
         request,
         'app/sched_gen_1.html',
         {'max_years': max_years,
          'semesterCycle': semesterCycle}
     )
+#end sched_gen_1
 
 #TODO: CLEANUP
 @login_required
