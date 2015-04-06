@@ -18,7 +18,7 @@ class Course(models.Model):
 
     def allLectures(self, semester=None):
 
-        if semester == None:
+        if semester is None:
             return list(self.lecture_set.all())
         else:
             return list(self.lecture_set.all().filter(semester=semester))

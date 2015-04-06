@@ -1,5 +1,6 @@
 from django.db import models
 from .. import *
+from .schedulegenerator import ScheduleGenerator
 #from ..database.coursecatalog import CourseCatalog
 
 class Schedule(models.Model):
@@ -24,14 +25,29 @@ class Schedule(models.Model):
     # Adds a Lecture/Tutorial/Lab to the schedule. Must do Type Inference to store correctly
     def add_course(self, subcourse_item):
 
+        # Need to make sure that item does not already exist in schedule
+        for item in self.lectureList.all():
+            if subcourse_item.course == item.course:
+                return False
+
+        # Need to make sure it won't conflict with anything already in schedule
+        if ScheduleGenerator.conflictswithlist(subcourse_item, self.labList.all()):
+            return False
+        if ScheduleGenerator.conflictswithlist(subcourse_item, self.tutorialList.all()):
+            return False
+        if ScheduleGenerator.conflictswithlist(subcourse_item, self.lectureList.all()):
+            return False
+
         # if Lecture, must mean there isn't any lab or tutorial associated with it
         if subcourse_item.name() == "Lecture":
             self.lectureList.add(subcourse_item)
+            return True
 
         # if Tutorial, must add tutorial and its Lecture
         if subcourse_item.name() == "Tutorial":
             self.tutorialList.add(subcourse_item)
             self.lectureList.add(subcourse_item.lecture)
+            return True
 
         # if Lab, must add Lecture. Then must check if there are tutorials to add as well.
         if subcourse_item.name() == "Lab":
@@ -40,7 +56,7 @@ class Schedule(models.Model):
 
             if subcourse_item.tutorial is not None:
                 self.tutorialList.add(subcourse_item.tutorial)
-
+            return True
 
     # Removes an Item from the schedule, must provide lowest possible section Lecture > Tutorial > Lab
     def remove_item(self, subcourse_item):
