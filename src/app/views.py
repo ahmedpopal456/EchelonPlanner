@@ -665,8 +665,10 @@ def serializeCourseCompletely(request):
 
 
 def work_in_progress(request):
-    html = "<html><body>The website template you requested is currently being worked on</body></html>"
-    return HttpResponse(html)
+  return render(
+        request,
+        'app/work_in_progress.html'
+    )
 
 @csrf_exempt
 def nullhandler(request):
