@@ -246,8 +246,6 @@ def logouthandler(request):
                   {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
 
 
-##################################################################################################
-# Methods yet to be correctly implemented
 @login_required
 def concordia_resources(request):
     return render(
@@ -478,6 +476,7 @@ def course_create(request):
 @login_required
 def browse_all_courses(request):
     courseList = Course.objects.all()  # List of all courses
+
     if request.method == 'POST':
         course_credits = request.POST['credits']
         department = request.POST['department']
@@ -493,19 +492,34 @@ def browse_all_courses(request):
             courseList = CourseCatalog.searchCoursesThroughPartialName(search_string)
         print(request.POST)
         print(courseList)
+
     return render(
         request,
         'app/browse_all_courses.html',
         {'courseList': courseList}  # Send it off to the template for rendering
     )
+# end browse_all_courses
 
+def browse_specific_course(request,deptnum=""):
+    if deptnum == "":
+        return browse_all_courses(request)
 
+    else:
+        course_info ={}
+        # build a dictionary with all info related to the course
+        return render(
+            request,
+            'app/browse_specific_course.html',
+            course_info
+        )
+# end browse_specific_course
+
+@login_required()
 def course_dispatcher(request,deptnum=""):
     if not deptnum == "":
         print(deptnum)
     if request.method == "POST":
         print(request.POST)
-
     else:
         return browse_all_courses(request)
 # end course_dispatcher
