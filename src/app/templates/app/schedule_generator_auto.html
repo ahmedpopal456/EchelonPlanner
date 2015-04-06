@@ -52,7 +52,7 @@
 
 
 
-    <form class="form-group" method="post" action="/schedule_generator/">
+    <form class="form-group" method="post" action="/nullhandler/">
     {% csrf_token %}
         <!-- Picker Row-->
         <div class="row">
@@ -63,8 +63,8 @@
                 {% for slot in max_courses %}
                 <div class="col-xs-2"> {# We expect there to be 5 classes at max. #}
                         <h2>Course {{ forloop.counter }}</h2>
-                        <select class="form-control inline-group">
-                            <option selected>COURSE</option>
+                        <select class="form-control inline-group" name="course">
+                            <option selected disabled>COURSE</option>
                             {% for course in feasable_courses %}
                             <option value="{{ course.deptnum }}">{{  course.deptnum }}:{{ course.name }}</option>
                             {% endfor %}

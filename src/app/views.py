@@ -629,12 +629,11 @@ def nullhandler(request):
     # This method does nothing other than print out the stuff it is receiving
     print(request.build_absolute_uri())
     if request.method == "POST":
-        return serializeSubCourseItems(request)
-    else:
-        html = "<html><body>Transaction Logged</body></html>"
+        print(str(request.POST))
+
+    html = "<html><body>Transaction Logged</body></html>"
 
     # for some in Course.objects.all():
     #     print(str(some.deptnum) + ":" + str(some.name))
-    print(str(request.POST))
     return HttpResponse(html)
 
