@@ -14,3 +14,176 @@
 <body>
 <!-- Load the Navbar at the top of the page.-->
 {% include "app/navbar.html" %}
+
+<div class="container body-content">
+    <div class="row" >
+        <div class="col-xs-3">
+                        <h1>Filter Courses</h1>
+            <form class="form-signin" method="post" action="/browse_all_courses/">
+                {% csrf_token %}
+                <!-- Common Departments -->
+                <label for="department" class="control-label input-group">Department</label>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="radio" name="department" value="" checked="">Any
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="department" value="SOEN">SOEN
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="department" value="COMP">COMP
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="department" value="ENGR">ENGR
+                    </label>
+                </div>
+
+                <!-- Credit Threshold -->
+                <label for="credits" class="control-label input-group">Credits Amount</label>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="radio" name="credits" value="4" checked="">4 ≤
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="credits" value="3">3
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="credits" value="2">2
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" name="credits" value="1">1
+                    </label>
+                </div>
+                <div class="text-left">
+                    <!-- Custom Search with String -->
+                    <label>Search By Name (Overrides Previous)</label>
+                    <input id="inputString" class="form-control" placeholder="Name and dept. (e.g. SOEN101)" name="custom_string" type="text">
+                </div>
+
+                <div class="text-left">
+                    <p> </p>
+                </div>
+
+                <!-- SUBMIT! -->
+                <button class="btn btn-primary btn-block" type="submit">Find</button>
+            </form>
+
+            <!-- Also, display current schedule -->
+            {% if schedule %}
+                <h1>Current Semester Schedule</h1>
+                {% for sections in schedule %}
+                    <p>{{ sections }}</p>
+                {% endfor %}
+            {% endif %}
+            <!--end schedule -->
+        </div>
+
+        <div class="col-xs-8">
+            {# If we have the Course Info to Bake here#}
+            {% if department %}
+                <h1> Course: {{ department }} {{ number }}</h1>
+                <h2> "{{ name }}" - ({{ credits }} CR)</h2>
+                <div></div>
+                {# Show Prereqs #}
+                <h3>Prerequisites:</h3>
+                <p> {% for items in prereq %}
+                        {{ items }}
+                    {% endfor %}
+                </p>
+                {# Show the Actual Lecture #}
+                <h3>Lectures</h3>
+                {% for sections in lectures %}
+                    <h4>{{ sections.semester }} /{{ sections.section }}</h4>
+                    <ul class="list-inline">
+                        <li>Time: {{ sections.days }} {{ sections.starttime }} - {{ sections.endtime }}</li>
+                        <li>Location: {{ sections.location }}</li>
+                        <li>Professor: {{ sections.prof }}</li>
+                    </ul>
+                    {# TODO: Have a nice button here to select a particular lecture #}
+
+                    {% if sections.tutorial or sections.labs %}
+                    <!-- TODO: Indent the contents of this table-->
+                    <div class="">
+                        <h4>Available Sections</h4>
+                        <!-- Table that displays all Sections with respective Tutorials and Labs -->
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Tutorial</th>
+                                <th></th>
+                                <th>stuff</th>
+                                <th>More Stuff</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for tutorials in sections.tutorial %}
+                                <tr>
+                                    <td rowspan="{{ tutorials.lab|length|add:"+1" }}"> Tutorial {{ tutorials.section }}</td>
+
+                                    {% if tutorials.lab|length > 0 %}
+                                    <td rowspan="1"> Lab Sections ({{ tutorials.lab|length }})</td>
+                                        {% else %}
+                                    <td rowspan="1"> No Labs</td>
+                                    {% endif %}
+
+                                    {% if tutorials.days == "-------" %}
+                                    <td>Online Tutorial</td>
+                                        {% else %}
+                                    <td>{{ tutorials.days }}</td>
+                                    {% endif %}
+
+                                    <td>{{ tutorials.location }}</td>
+
+                                </tr>
+                                {% for labs in tutorials.lab %}
+                                <tr>
+                                    <td> Lab {{ labs.section }}</td>
+                                    <td>{{ labs.days }}</td>
+                                    <td>{{ labs.location }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+{# START UNUSED, HACK FREE CODE #}
+{#                    <ul class="list-inline">#}
+{#                    {% for tutorials in sections.tutorial %}#}
+{#                        <li class="list-inline">#}
+{#                            <p>{{ tutorials.section }}</p>#}
+{#                            <p>{{ tutorials.days }}</p>#}
+{#                            <p>{{ tutorials.location }}</p>#}
+{#                            <p>{{ tutorials.labs }}</p>#}
+{#                        </li>#}
+{#                        <ul class="list-group">#}
+{#                        {% for labs in tutorials.lab %}#}
+{#                            <li class="list-inline">#}
+{#                                <p>{{ labs.section }}</p>#}
+{#                                <p>{{ labs.days }}</p>#}
+{#                                <p>{{ labs.location }}</p>#}
+{#                            </li>#}
+{#                        {% endfor %}#}
+{#                        </ul>#}
+{#                    {% endfor %}#}
+{#                    </ul>#}
+{# END UNUSED CODE #}
+                    <br>
+                {% endfor %} {# for loop on lectures #}
+            {% endif %} {# if condition to check stuff #}
+
+        <ul class="list-inline">
+            <li>SSOME</li>
+            <li>SOME MORE</li>
+            <li> SOME MORE EXAMPLES</li>
+        </ul>
+        </div>
+
+        <div class="col-xs-1">
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

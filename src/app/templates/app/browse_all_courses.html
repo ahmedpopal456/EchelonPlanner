@@ -20,10 +20,7 @@
 
     //Currently, this function knows which table row was selected and can read its ID
     $('body').on('click','tr', function() {
-            //Now, instead of alerting, we want to trigger a POST request.
-            window.location.href = '/course/'+this.id+'/'
-            //alert('clicked '+this);
-            console.log(this+" "+this.id);
+            window.location.href = '/browse_specific_course/'+this.id+'/'
         });
 
 </script>
@@ -31,7 +28,6 @@
 <div class="container body-content">
     <div class="row" >
         <div class="col-xs-3">
-
             <h1>Filter Courses</h1>
             <form class="form-signin" method="post" action="/browse_all_courses/">
                 {% csrf_token %}
@@ -82,12 +78,14 @@
                 <button class="btn btn-primary btn-block" type="submit">Find</button>
             </form>
 
+            <!-- Also, display current schedule -->
             {% if schedule %}
                 <h1>Current Semester Schedule</h1>
                 {% for sections in schedule %}
                     <p>{{ sections }}</p>
                 {% endfor %}
             {% endif %}
+            <!--end schedule -->
         </div>
         <div class="col-xs-8">
             <table class="table table-hover">
