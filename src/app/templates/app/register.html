@@ -18,11 +18,11 @@
         <div class="col-xs-3"></div>
         <div class="col-xs-6">
             <img class="bg-primary"
-               src="{% static 'app/images/concordia_coa.png' %}"
+               src="{% static 'app/images/logo.png' %}"
                id=CoA
                alt="Magister Dixit">
-
-            <div class="container" id="loginblock"><h1>Registration</h1>
+            <form class="form-signin" method="post" action="/register/">
+                <h1>Registration</h1>
                 {% if hasMessage %}
                     {% if not registered %}
                         {% for lines in message %}
@@ -30,36 +30,35 @@
                         {% endfor %}
                     {% endif %}
                 {% endif %}
-                <form class="form-signin" method="post" action="/register/">
-                    {% csrf_token %}
-                    <h2 class="form-signin-heading">Login Details</h2>
+                {% csrf_token %}
+                <h2 class="form-signin-heading">Login Details</h2>
 
-                    <label for="inputEmail" class="sr-only">Enter Email</label>
-                    <input id="inputEmail" class="form-control" placeholder="Enter Email" name="email" type="email">
+                <label for="inputEmail" class="sr-only">Enter Email</label>
+                <input id="inputEmail" class="form-control" placeholder="Enter Email" name="email" type="email">
 
-                    <label for="inputPassword" class="sr-only">Enter Password</label>
-                    <input id="inputPassword" class="form-control" placeholder="Enter Password" name="password1" type="password">
+                <label for="inputPassword" class="sr-only">Enter Password</label>
+                <input id="inputPassword" class="form-control" placeholder="Enter Password" name="password1" type="password">
 
-                    <label for="verifyPassword" class="sr-only">Verify Password</label>
-                    <input id="verifyPassword" class="form-control" placeholder="Verify Password" name="password2" type="password">
+                <label for="verifyPassword" class="sr-only">Verify Password</label>
+                <input id="verifyPassword" class="form-control" placeholder="Verify Password" name="password2" type="password">
 
 
-                    <h2 class="form-signin-heading">User Data</h2>
+                <h2 class="form-signin-heading">User Data</h2>
 
-                    <label for="inputFName" class="sr-only">Enter First Name</label>
-                    <input id="inputFName" class="form-control" placeholder="Enter First Name" autofocus="" name="firstname" type="text">
+                <label for="inputFName" class="sr-only">Enter First Name</label>
+                <input id="inputFName" class="form-control" placeholder="Enter First Name" autofocus="" name="firstname" type="text">
 
-                    <label for="inputLName" class="sr-only">Enter Last Name</label>
-                    <input id="inputLName" class="form-control" placeholder="Enter Last Name" name="lastname" type="text">
+                <label for="inputLName" class="sr-only">Enter Last Name</label>
+                <input id="inputLName" class="form-control" placeholder="Enter Last Name" name="lastname" type="text">
 
-                    <!-- ID is Optional for now -->
+                <!-- ID is Optional for now -->
 
-                    <label for="idNum" class="sr-only">Enter Email</label>
-                    <input id="idNum" class="form-control" placeholder="Enter your Student ID" name="idnum" type="text">
+                <label for="idNum" class="sr-only">Enter Email</label>
+                <input id="idNum" class="form-control" placeholder="Enter your Student ID" name="idnum" type="text">
 
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-                </form>
-            </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            </form>
+
 
         </div>
         <div class="col-xs-3"></div>
