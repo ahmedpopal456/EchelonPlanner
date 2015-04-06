@@ -34,7 +34,20 @@
             $("#semesterDiv").find("#semester").text($(this).text());
             $("#semesterDiv").find("#semester").attr("name", $(this).text());
             $("#semesterDiv").find("#semesterOut").val($(this).text());
-            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") + " (" + $("#semester").attr("name") + "):");
+            $("#select_gen_type").removeClass("hidden");
+        });
+    });
+
+    $(function () {
+        $(".select_gen_type").click(function () {
+            $("#gen_submit").find("#semester").text($(this).text());
+        });
+    });
+
+    $(function () {
+        $("#auto_gen").hover(function () {
+            $("#hover_over_help").find("#auto_gen").show();
+
         });
     });
 
@@ -43,16 +56,18 @@
 <div class="container body-content">
     <div class="row">
         <div class="col-xs-1"></div>
-        <div class="col-xs-10">
+        <div class="col-xs-6">
 
-            <h1 id="Testerstest"></h1>
+            <div>
+                <h1>Generate New Schedule</h1>
+            </div>
 
             <div class="blank">
                 <form class="form-group" method="post" action="/sched_gen_1/">
                     {% csrf_token %}
-                    <h2>Select Semester</h2>
+                    <h2>Select Schedule Period: </h2>
 
-                    <div class="btn-group blank" data-toggle="buttons">
+                    <div class="btn-group blank list-inline" data-toggle="buttons">
                         <div id="yearDiv" class="dropdown blank" style="position:relative">
                             <input type="hidden" id="yearOut" name="year" value="">
                             <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"
@@ -68,7 +83,7 @@
                             </ul>
                         </div>
 
-                        <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">
+                        <div id="semesterDiv" class="dropdown hidden blank list-inline" style="position:relative">
                             <input type="hidden" id="semesterOut" name="semester" value="">
                             <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"
                                data-toggle="dropdown" data-bind="label" name="selectSemester"
@@ -81,14 +96,41 @@
                                     </li>
                                 {% endfor %}
                             </ul>
+
+                        </div>
+
+
+                        <div id="select_gen_type" class="hidden list-inline">
+                            <h2>Schedule Generation Type</h2>
+                            <button class="btn btn-lg btn-primary" type="submit" id="auto_gen">Automatic</button>
+                            <button class="btn btn-lg btn-primary" type="submit" id="man_gen">Manual</button>
+                        </div>
+
+                        <div id="gen_submit" class="hidden">
+
                         </div>
                     </div>
-                <div>
-                    <input type="submit" class="btn btn-lg">
-                </div>
+
 
                 </form>
             </div>
+        </div>
+        <div class="col-xs-5">
+            <h1>General Information</h1>
+            <h3>Let's make a new schedule</h3>
+            <p>Here you will start selecting your schedule. Follow these steps to create your schedule</p>
+            <p>1. Select the year you are scheduling for. This year is your yat concordia. For example, if you are scheduling for your first year, select 1.</p>
+            <p>2. Select the semester you are scheduling for.</p>
+            <p>3. Select the type of generation you are scheduling for, either automatic or manual.</p>
+            <p>4. Hit submit.</p>
+            <div id="hover_over_help">
+                <!-- TODO: Make hover over links to display help! -->
+                <h4>For sequence information use the following link:</h4>
+                <a class="btn btn-lg btn-primary btn-block" href='http://www.concordia.ca/encs/students/sas/undergrad-program-info/course-sequences/software.html'
+                target = '_blank'>SOEN Course Sequences</a>
+                <p id="auto_gen">For further aid, visit our resources page.</p>
+            </div>
+
         </div>
     </div>
 </div>
