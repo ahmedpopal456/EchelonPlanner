@@ -20,9 +20,9 @@ class StudentCatalog(object):
                     return studentuser
 
             except User.DoesNotExist:
-                logger.warn("User does not exist")
+                logger.warn("User does not exist: "+username)
             except Student.DoesNotExist:
-                logger.warn("Following Student wit the appropriate username does not exist")
+                logger.warn("Following Student with the username "+username+" does not exist")
                 return False
 
 

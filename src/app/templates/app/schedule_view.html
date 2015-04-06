@@ -34,6 +34,22 @@
             $("#surprise").removeClass("hidden");
         });
     });
+    {# Code to dynamically populate table #}
+{#    $(document).ready( function(){#}
+{#        var table = document.getElementById("schedule_table");#}
+{#        var rows = $('#schedule_table > tbody > tr');#}
+{#        console.log(rows);#}
+{#        rowLength = rows.length;#}
+{#        $('#schedule_table > tbody > tr').eq(0).append('<td rowspan="25"></td>');#}
+{#        $('#schedule_table > tbody > tr').eq(0).append('<td rowspan="34"></td>');#}
+{#        $('#schedule_table > tbody > tr').eq(2).append('<td>SomeClass</td>');#}
+{#        $('#schedule_table > tbody > tr').append('<td>SomeOtherClass</td>');#}
+{#        $('#schedule_table > tbody > tr').append('<td>D</td>');#}
+{#        for ( var i =0; i<rowLength; i++) {#}
+{#            console.log(rows[i]);#}
+{#        }#}
+{#        console.log(table);#}
+{#    });#}
 
 </script>
 <div class="container body-content">
@@ -76,7 +92,7 @@
 </div>
 <div id="surprise" class="hidden">
             <h2 id="changeForever">Current Semester Schedule</h2>
-            <table class="table table-hover">
+            <table class="table table-hover" id="schedule_table">
                 <thead>
                 <tr>
                     <th>Time</th>
@@ -91,10 +107,16 @@
                 <tbody>
                 {% for time in timeSlots %}
                     <tr>
-                        <td>{{ time }}</td>
+                        <td id="time">{{ time }}</td>
+{#                    {% if forloop.first %}#}
+{#                        <td rowspan="{{ timeSlots|length }}" class="tue">Empty Classes</td>#}
+{#                    {% endif %}#}
+{#                        <td rowspan="{{ timeSlots|length }}"></td>#}
+{#                        <td rowspan="2">Example</td>#}
+
                         {% for class in currentSchedule %}
                             {% if class.startTime ==  time%}
-                                <td colspan = {{class.timeSlotLength }} class ="{% cycle "mon" "tue" "wed" "thu" "fri" "sat" as days%}">
+                                <td colspan = {{class.timeSlotLength }} class="{% cycle "mon" "tue" "wed" "thu" "fri" "sat" as days%}">
                                 {% if days == class.day %}
                                     {{ class.schedInfo }}
                                     {% endif %}
