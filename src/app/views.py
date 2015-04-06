@@ -2,7 +2,7 @@ import json
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
@@ -510,6 +510,10 @@ def browse_specific_course(request, deptnum=""):
 
     else:
         specificcourse = CourseCatalog.searchCoursesThroughPartialName(deptnum)
+        # If the list comes up empty, do a hard redirect!
+        if len(specificcourse) == 0:
+            return browse_all_courses(request)
+
         specificcourse = specificcourse[0]
 
         prereqs = []
@@ -571,8 +575,8 @@ def browse_specific_course(request, deptnum=""):
                        "credits": specificcourse.credits,
                        "prereq": prereqs,
                        "lectures": lectures}
-
-        print(course_info)
+        serialized = json.dumps(course_info)
+        print(serialized)
         # testing purpose/example of use
         # for lect in course_info["Lecture"]:
         #     print(lect["section"])
@@ -592,11 +596,14 @@ def browse_specific_course(request, deptnum=""):
 @login_required()
 def course_dispatcher(request,deptnum=""):
     if not deptnum == "":
-        print(deptnum)
+        specificCourse = CourseCatalog.searchCoursesThroughPartialName(deptnum)
+        # specificCourse = specificCourse
+        data = serializers.serialize("json", specificCourse)
+        return HttpResponse(data)
     if request.method == "POST":
         print(request.POST)
-    else:
-        return browse_all_courses(request)
+    # else:
+    return HttpResponseNotFound()
 # end course_dispatcher
 
 ##################################################################################################
@@ -604,7 +611,6 @@ def course_dispatcher(request,deptnum=""):
 """
 This method sends back the serialized Course Model for parsing on the frontend
 """
-@login_required()
 def serializeCourse(request):
     if request.method == "POST":
         specificCourse = CourseCatalog.searchCoursesThroughPartialName(request.POST['course'])
@@ -620,7 +626,6 @@ def serializeCourse(request):
 """
 This method sends back a dictionary with ALL serialized subcourse objects (Lecture/Lab/Tutorials) of a given Course
 """
-@login_required()
 def serializeSubCourseItems(request):
     # TODO: CHECK AGAINST A 'semester' PARAMATER SUPPLIED IN COURSE.
     if request.method == "POST":
@@ -649,6 +654,10 @@ def serializeSubCourseItems(request):
         # For now, I guess we'll redirect.
         return HttpResponseRedirect('/')
     pass
+
+def serializeCourseCompletely(request):
+    pass
+
 
 
 ##################################################################################################
