@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Echelon Planner</title>
+    {% load staticfiles %}
+    {% load cycle from future %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="{% static 'app/scripts/jquery.min.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+
+</head>
+
+<body>
+<!-- Load  the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+
+<script type="text/javascript">
+    //TODO: Make loading page with this!
+    //Function to submit our courses
+    function do_heavy_lifting(argument) {
+
+        //First collect all courses
+
+        $.ajax({
+            type: 'POST',
+            data: { argument: argument }, // if necesarry
+            url: '/heavy_lifting_django_view_url/',
+            beforeSend: function() {
+                $('#loading').show();
+            },
+            success: function(data) {
+                //
+            },
+            cache: false
+        });
+    }
+</script>
+
+<div class="container body-content">
+
+    <!--Title Row -->
+    <div class="row">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-11">
+            <h1>Automatic Schedule Generation</h1>
+            <h2 id="changeForever">Courses for Year {{ currentYear }} - {{ currentSemester }} Semester:</h2>
+        </div>
+        <div class="col-xs-1"></div>
+    </div>
+
+
+
+    <form class="form-group" method="post" action="/schedule_generator/">
+    {% csrf_token %}
+        <!-- Picker Row-->
+        <div class="row">
+                <div class="col-xs-1">
+
+                </div>
+
+                {% for slot in max_courses %}
+                <div class="col-xs-2"> {# We expect there to be 5 classes at max. #}
+                        <h2>Course {{ forloop.counter }}</h2>
+                        <select class="form-control inline-group">
+                            <option selected>COURSE</option>
+                            {% for course in feasable_courses %}
+                            <option value="{{ course.deptnum }}">{{  course.deptnum }}:{{ course.name }}</option>
+                            {% endfor %}
+                        </select>
+
+                </div>
+                {% endfor %}
+
+        </div>
+        <br>
+        <!-- Submit! -->
+        <div class="col-xs-12 text-center">
+            <button class="btn btn-lg btn-primary" type="submit">Submit and Load Schedule</button>
+        </div>
+
+    </form>
+
+
+
+</div>
+
+</body>
+</html>
