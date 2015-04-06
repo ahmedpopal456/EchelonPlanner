@@ -39,8 +39,14 @@
     });
 
     $(function () {
-        $(".select_gen_type").click(function () {
-            $("#gen_submit").find("#semester").text($(this).text());
+        $("#select_gen_type").click(function () {
+            $("#final_step").removeClass("hidden");
+        });
+    });
+
+    $(function () {
+        $("#select_gen_type button").click(function () {
+            $("#gen-type").val($(this).text());
         });
     });
 
@@ -50,6 +56,7 @@
 
         });
     });
+
 
 </script>
 
@@ -99,16 +106,17 @@
 
                         </div>
 
-
-                        <div id="select_gen_type" class="hidden list-inline">
+                        <div id="select_gen_type" class="hidden list-inline toggle-buttons" data-toggle="buttons-radio">
                             <h2>Schedule Generation Type</h2>
-                            <button class="btn btn-lg btn-primary" type="submit" id="auto_gen">Automatic</button>
-                            <button class="btn btn-lg btn-primary" type="submit" id="man_gen">Manual</button>
+                            <button class="btn btn-lg btn-primary" type="button" id="selected_gen_type">Automatic</button>
+                            <button class="btn btn-lg btn-primary" type="button" id="selected_gen_type">Manual</button>
                         </div>
+                        <input type="hidden" id="gen-type" name="gen-type"/>
+                    </div>
 
-                        <div id="gen_submit" class="hidden">
-
-                        </div>
+                    <div class="hidden" id="final_step">
+                        <h1>Ready?</h1>
+                        <button class="btn btn-lg btn-primary" type="submit"> Begin</button>
                     </div>
 
 
