@@ -124,6 +124,7 @@
                         newListLink.text($leText);
                         newListLink.bind("click", function () {
                             //this changes the text and value of the lecture dropdown after a click
+                            console.log("lect");
                             $("#lectDiv" + xx + "Text").text($(this).text());
                             $("#lectDiv" + xx + "Text").val($(this).text());
                             $("#lectInput" + xx).val($(this).text());
@@ -149,10 +150,11 @@
                                     newListLink.attr('value',tutList[tutNo].pk);
                                     newListLink.text($tuText);
                                     newListLink.bind("click", function () {
+                                        console.log("tut");
                                         //this changes the text and value of the tut dropdown after a click
-                                        $("#tutDiv" + xx + "Text").text($(this).text());
-                                        $("#tutDiv" + xx + "Text").val($(this).text());
-                                        $("#tutInput" + xx).val($this.attr('tut'));
+                                        $("#tutDiv" + xx + "Text").text($tuText);
+                                        $("#tutDiv" + xx + "Text").val($tuText);
+                                        $("#tutInput" + xx).val($tuText);
                                         //end of that
                                     });
                                     newListItem.append(newListLink);
@@ -185,15 +187,16 @@
                                     newListLink.addClass('three');
                                     newListLink.attr('number', xx);
                                     newListLink.attr('lab',labList[labNo].fields['section']);
-                                    newListLink.attr('course',tutList[labNo].fields['course']);
+                                    newListLink.attr('course',labList[labNo].fields['course']);
                                     newListLink.attr('pk',labList[labNo].pk);
-                                    newListLink.attr('value',tutList[labNo].pk);
+                                    newListLink.attr('value',labList[labNo].pk);
                                     newListLink.text($labText);
                                     newListLink.bind("click", function () {
+                                        console.log("lab");
                                         //this changes the text and value of the lab dropdown after a click
-                                        $("#labDiv" + xx + "Text").text($(this).text());
-                                        $("#labDiv" + xx + "Text").val($(this).text());
-                                        $("#labInput" + xx).val($(this).attr('lab'));
+                                        $("#labDiv" + xx + "Text").text($labText);
+                                        $("#labDiv" + xx + "Text").val($labText);
+                                        $("#labInput" + xx).val($labText);
                                         //end of that
                                     });
                                     newListItem.append(newListLink);
@@ -226,6 +229,9 @@
 
             $("#lectDiv" + xx).find("#lectDiv" + xx + "Text").removeClass("disabled");
             $("#lectDiv" + xx).find("#lectDiv" + xx + "Text").attr('course', yy);
+
+            $("#tutDiv" + xx).find("#labDiv" + xx + "Text").removeClass("disabled");
+            $("#tutDiv" + xx).find("#labDiv" + xx + "Text").attr('course', yy);
 
             $("#labDiv" + xx).find("#labDiv" + xx + "Text").removeClass("disabled");
             $("#labDiv" + xx).find("#labDiv" + xx + "Text").attr('course', yy);
