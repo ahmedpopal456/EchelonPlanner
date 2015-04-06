@@ -36,6 +36,7 @@ urlpatterns = patterns('',
 
     # Course URLs
     url(r'^browse_all_courses/', 'app.views.browse_all_courses'),
+    url(r'^browse_specific_course/(?P<deptnum>[A-z]{4}[0-9]{3})', 'app.views.browse_specific_course'),
     url(r'^course_create/', 'app.views.course_create'),
 
     # Misc
