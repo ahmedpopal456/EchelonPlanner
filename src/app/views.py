@@ -500,13 +500,77 @@ def browse_all_courses(request):
     )
 # end browse_all_courses
 
-def browse_specific_course(request,deptnum=""):
+
+def browse_specific_course(request, deptnum=""):
     if deptnum == "":
         return browse_all_courses(request)
 
     else:
-        course_info ={}
+        specificcourse = Course.objects.get(pk=deptnum)
+
+        prereqs = []
+        for i in specificcourse.prerequisites.all():
+            prereqs.append(i.deptnum)
+
+        allLectures = specificcourse.lecture_set.all()
+        lectures = []
         # build a dictionary with all info related to the course
+        for lect in allLectures:
+            tutorials = []
+            allTutorials = lect.tutorial_set.all()
+
+            for tut in allTutorials:
+                allLabs = tut.lab_set.all()
+                labs = []
+
+                for lab in allLabs:
+                    labs.append({"section": lab.section,
+                                 "days": lab.event.days,
+                                 "starttime": lab.event.getActualStart(),
+                                 "endtime": lab.event.getActualEnd(),
+                                 "location": lab.event.location})
+
+                tutorials.append({"section": tut.section,
+                                  "days": tut.event.days,
+                                  "starttime": tut.event.getActualStart(),
+                                  "endtime": tut.event.getActualEnd(),
+                                  "location": tut.event.location,
+                                  "lab": labs})
+
+            if len(allTutorials) == 0 and len(lect.lab_set.all()) != 0:
+                allLabs = lect.lab_set.all()
+                labs = []
+
+                for lab in allLabs:
+                    labs.append({"section": lab.section,
+                                 "days": lab.event.days,
+                                 "starttime": lab.event.getActualStart(),
+                                 "endtime": lab.event.getActualEnd(),
+                                 "location": lab.event.location})
+
+                tutorials.append({"lab": labs})
+
+
+            lectures.append({
+                             "semster": lect.semester,
+                              "section": lect.section,
+                              "days": lect.event.days,
+                              "starttime": lect.event.getActualStart(),
+                              "endtime": lect.event.getActualEnd(),
+                              "prof": lect.prof,
+                              "location": lect.event.location,
+                              "tutorial": tutorials})
+
+
+        course_info = {"department": specificcourse.department,
+                       "number": specificcourse.number,
+                       "name": specificcourse.name,
+                       "Credits": specificcourse.credits,
+                       "prereq": prereqs,
+                       "Lecture": lectures}
+
+        print(course_info)
+
         return render(
             request,
             'app/browse_specific_course.html',
