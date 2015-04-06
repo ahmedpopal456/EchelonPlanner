@@ -354,7 +354,7 @@ def schedule_view(request):
     timeSlots=["8:45","9:00","9:15","9:30","9:45","10:00","10:15","10:30","10:45","11:00","11:15","11:30","11:45","12:00","12:15","12:30","12:45","13:00","13:15","13:30","13:45","14:00","14:15","14:30","14:45","15:00","15:15","15:30","15:45","16:00","16:15","16:30","16:45","17:00","17:15","17:30","17:45","18:00","18:15","18:30","18:45","19:00","19:15","19:30","19:45","20:00","20:15","20:30","20:45","21:00","21:15","21:30","21:45","22:00","22:15","22:30","22:45","23:00"]
     len(timeSlots)
     max_years = [1, 2, 3, 4, 5]
-    semesterCycle=["Summer 1","Summer 2", "Autumn", "Winter"]
+    semesterCycle=["Summer 1", "Summer 2", "Fall", "Winter"]
     feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")
 
     return render(
@@ -363,7 +363,7 @@ def schedule_view(request):
         {'timeSlots': timeSlots,
         'max_years': max_years,
          'feasable_courses': feasable_courses,
-         'semesterCycle':semesterCycle}
+         'semesterCycle': semesterCycle}
     )
 
 @login_required
@@ -538,75 +538,7 @@ def browse_specific_course(request, deptnum=""):
 
         specificcourse = specificcourse[0]
 
-        prereqs = []
-        for i in specificcourse.prerequisites.all():
-            prereqs.append(i.deptnum)
-
-        allLectures = specificcourse.lecture_set.all()
-        lectures = []
-        # build a dictionary with all info related to the course
-        for lect in allLectures:
-            tutorials = []
-            allTutorials = lect.tutorial_set.all()
-
-            for tut in allTutorials:
-                allLabs = tut.lab_set.all()
-                labs = []
-
-                for lab in allLabs:
-                    labs.append({"section": lab.section,
-                                 "days": lab.event.days,
-                                 "starttime": lab.event.getActualStart(),
-                                 "endtime": lab.event.getActualEnd(),
-                                 "location": lab.event.location})
-
-                tutorials.append({"section": tut.section,
-                                  "days": tut.event.days,
-                                  "starttime": tut.event.getActualStart(),
-                                  "endtime": tut.event.getActualEnd(),
-                                  "location": tut.event.location,
-                                  "lab": labs})
-
-            if len(allTutorials) == 0 and len(lect.lab_set.all()) != 0:
-                allLabs = lect.lab_set.all()
-                labs = []
-
-                for lab in allLabs:
-                    labs.append({"section": lab.section,
-                                 "days": lab.event.days,
-                                 "starttime": lab.event.getActualStart(),
-                                 "endtime": lab.event.getActualEnd(),
-                                 "location": lab.event.location})
-
-                tutorials.append({"section": None,
-                                  "lab": labs})
-
-            lectures.append({"semester": lect.semester,
-                             "section": lect.section,
-                             "days": lect.event.days,
-                             "starttime": lect.event.getActualStart(),
-                             "endtime": lect.event.getActualEnd(),
-                             "prof": lect.prof,
-                             "location": lect.event.location,
-                             "tutorial": tutorials})
-
-
-        course_info = {"department": specificcourse.department,
-                       "number": specificcourse.number,
-                       "name": specificcourse.name,
-                       "credits": specificcourse.credits,
-                       "prereq": prereqs,
-                       "lectures": lectures}
-        serialized = json.dumps(course_info)
-        print(serialized)
-        # testing purpose/example of use
-        # for lect in course_info["Lecture"]:
-        #     print(lect["section"])
-        #     for tut in lect["tutorial"]:
-        #         if tut["section"] is not None:
-        #             print(tut["section"])
-        #         for lab in tut["lab"]:
-        #             print(lab["section"])
+        course_info = CourseCatalog.seralizeCourseForSemester(specificcourse)
 
         return render(
             request,
@@ -616,7 +548,7 @@ def browse_specific_course(request, deptnum=""):
 # end browse_specific_course
 
 @login_required()
-def course_dispatcher(request,deptnum=""):
+def course_dispatcher(request, deptnum=""):
     if not deptnum == "":
         specificCourse = CourseCatalog.searchCoursesThroughPartialName(deptnum)
         # specificCourse = specificCourse
@@ -650,7 +582,9 @@ This method sends back a dictionary with ALL serialized subcourse objects (Lectu
 """
 def serializeSubCourseItems(request):
     # TODO: CHECK AGAINST A 'semester' PARAMATER SUPPLIED IN COURSE.
+    # TODO: REfactor and use   CourseCatalog.seralizeCourseForSemester(specificcourse, semester):
     if request.method == "POST":
+        print(request.POST)
         # 1. Get the Course
         specificCourse = CourseCatalog.searchCoursesThroughPartialName(request.POST['course'])
         specificCourse = specificCourse[0]
