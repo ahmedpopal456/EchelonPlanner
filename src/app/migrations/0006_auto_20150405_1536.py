@@ -21,6 +21,6 @@ class Migration(migrations.Migration):
             model_name='student',
             name='homephone',
             field=models.CharField(default='+1-XXX-XXX-XXXX', max_length=15),
-            # preserve_default=True,
+            preserve_default=True,
         ),
     ]

@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
             model_name='option',
             name='option',
             field=models.IntegerField(default=4),
-            # preserve_default=True,
+            preserve_default=True,
         ),
     ]
