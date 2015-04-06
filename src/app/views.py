@@ -483,7 +483,10 @@ def browse_all_courses(request):
         search_string = request.POST['custom_string']
 
         if search_string == "":
-            department_list = list(Course.objects.filter(department=department))
+            if not department == "":
+                department_list = list(Course.objects.filter(department=department))
+            else:
+                department_list = Course.objects.all()
             credit_list = CourseCatalog.searchCoursesByCredits(0, course_credits)
             intersection_set = set(department_list).intersection(credit_list)
             courseList = list(intersection_set)
@@ -506,7 +509,8 @@ def browse_specific_course(request, deptnum=""):
         return browse_all_courses(request)
 
     else:
-        specificcourse = Course.objects.get(pk=deptnum)
+        specificcourse = CourseCatalog.searchCoursesThroughPartialName(deptnum)
+        specificcourse = specificcourse[0]
 
         prereqs = []
         for i in specificcourse.prerequisites.all():
@@ -552,7 +556,7 @@ def browse_specific_course(request, deptnum=""):
 
 
             lectures.append({
-                             "semster": lect.semester,
+                             "semester": lect.semester,
                               "section": lect.section,
                               "days": lect.event.days,
                               "starttime": lect.event.getActualStart(),
@@ -565,9 +569,9 @@ def browse_specific_course(request, deptnum=""):
         course_info = {"department": specificcourse.department,
                        "number": specificcourse.number,
                        "name": specificcourse.name,
-                       "Credits": specificcourse.credits,
+                       "credits": specificcourse.credits,
                        "prereq": prereqs,
-                       "Lecture": lectures}
+                       "lectures": lectures}
 
         print(course_info)
 
