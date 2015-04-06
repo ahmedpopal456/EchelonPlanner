@@ -373,7 +373,7 @@ def schedule_generator(request):
     max_years = [1, 2, 3, 4, 5]
     feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")
     for allCourses in feasable_courses:
-        pass # build some diction
+        pass  # build some diction
 
     testTestList=["a","b","c"]
     if request.method == "POST":
