@@ -88,7 +88,7 @@ class Event(models.Model):
         if differencefromfifteen == 0:
             return self.starttime.strftime("%H:%M")
         else:
-            timetoadd = datetime.timedelta(minute=(15 - differencefromfifteen))
+            timetoadd = datetime.timedelta(minutes=(15 - differencefromfifteen))
             returntime = datetime.datetime.combine(datetime.datetime.today(), self.starttime)+timetoadd
 
             return returntime.strftime("%H:%M")
