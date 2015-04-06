@@ -493,6 +493,17 @@ def browse_all_courses(request):
         {'courseList': courseList}  # Send it off to the template for rendering
     )
 
+
+def course_dispatcher(request,deptnum=""):
+    if not deptnum == "":
+        print(deptnum)
+    if request.method == "POST":
+        print(request.POST)
+
+    else:
+        return browse_all_courses(request)
+# end course_dispatcher
+
 ##################################################################################################
 # Serialization methods for classes
 """
@@ -556,7 +567,7 @@ def work_in_progress(request):
 @csrf_exempt
 def nullhandler(request):
     # This method does nothing other than print out the stuff it is receiving
-
+    print(request.build_absolute_uri())
     if request.method == "POST":
         return serializeSubCourseItems(request)
     else:

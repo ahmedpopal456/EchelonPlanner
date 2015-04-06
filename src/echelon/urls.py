@@ -30,5 +30,8 @@ urlpatterns = patterns('',
     url(r'^concordia_resources/', 'app.views.concordia_resources'),
     url(r'^schedule_generator/', 'app.views.schedule_generator'),
     url(r'^sched_gen_1/', 'app.views.sched_gen_1'),
-    url(r'^favicon.ico$', RedirectView.as_view(url='/static/favicon.ico'))
+    url(r'^favicon.ico$', RedirectView.as_view(url='/static/favicon.ico')),
+    ####
+    # API STUFF
+    url(r'^course/(?P<deptnum>[A-z]{4}[0-9]{3})','app.views.course_dispatcher')
 )
