@@ -33,7 +33,6 @@ class ScheduleGenerator(object):
 
     # end doDaysConflict
 
-
     """
     Takes two sections, and determines if time conflicts. Sections can be of any type, lecture/tut/labt
     """
