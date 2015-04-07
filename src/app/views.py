@@ -355,6 +355,7 @@ def schedule_view(request):
         # NOTE: HARD CODED TO MAIN SCHEDULE
         # TODO: CHANGE FOR DYNAMIC FUNCTION.
         viewing_table = request.user.student.academicRecord.mainSchedule.schedule_package()
+        print(viewing_table)
     else:
         viewing_table = {}
     # max_years = [1, 2, 3, 4, 5]
