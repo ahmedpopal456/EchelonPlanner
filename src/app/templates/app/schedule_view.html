@@ -118,11 +118,23 @@
         {#                        <td rowspan="2">Example</td>#}
 
                             {# Populate day by day #}
+                            {% for class in schedule.Monday %}
+                                {% if class.RoundedStart == time %}
+                                    {% if class.Course != None %}
+                                <td rowspan="{{ class.Duration }}">{{ class.Course }} {{ class.Type }}</td>
+                                    {% else %}
+                                <td rowspan="{{ class.Duration }}"></td>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+
+                            {# Test Code - TODO: Cleanup #}
                                 {% for day in schedule %}
                                     {% if day == "Monday" %}
-                                        {% for class in days %}
+                                        {% for class in schedule.Monday %}
+{#                                            <td>{{ class }}</td>#}
                                             {% if class.ActualStart == time %}
-                                                <td>YES</td>
+{#                                                <td>YES</td>#}
                                             {% endif %}
                                         {% endfor %}
                                     {% endif %}
