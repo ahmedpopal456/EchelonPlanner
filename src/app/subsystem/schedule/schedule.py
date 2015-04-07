@@ -56,10 +56,25 @@ class Schedule(models.Model):
                 blankitem = Lecture(event=e)
                 blanklist.append(blankitem)
 
+            #Also check if it is the only section for the day
+            #create blank before and after then continue.
+
+            if len(listitem) == 1:
+                if listitem[0].event.starttime != minstart:
+                    e = Event(starttime=minstart, endtime=listitem[0].event.starttime, location="Blank")
+                    blankitem = Lecture(event=e)
+                    blanklist.append(blankitem)
+                if listitem[0].event.endtime != maxend:
+                    e = Event(starttime=listitem[0].event.endtime, endtime=maxend, location="Blank")
+                    blankitem = Lecture(event=e)
+                    blanklist.append(blankitem)
+                continue
+
             for i, item in enumerate(listitem):
                 #Check if at last section in day, and if it ends at 23:00 or not
                 # if not fill in blank
                 # break out of for loop if last
+
                 if i == len(listitem)-1:
                     if item.event.endtime != maxend:
                         e = Event(starttime=item.event.endtime, endtime=maxend, location="Blank")
