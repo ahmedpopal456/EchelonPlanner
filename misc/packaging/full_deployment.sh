@@ -130,7 +130,7 @@
 		echo "Installing Python PIP modules"
 		installPythonDependencies
 
-		echo "Dependency installation is complete"
+		echo "config installation is complete"
 	}
 
 	installPythonDependencies()
@@ -184,8 +184,8 @@
 	#2nd Part, Enable SSL
 		mkdir -v /etc/apache2/ssl
 		# Copy the certificates
-		cp -v apache.key /etc/apache2/ssl/apache.key
-		cp -v apache.crt /etc/apache2/ssl/apache.crt
+		cp -v config/apache.key /etc/apache2/ssl/apache.key
+		cp -v config/apache.crt /etc/apache2/ssl/apache.crt
 		
 		a2ensite enable ssl
 		a2ensite default-ssl
@@ -196,8 +196,8 @@
 	#3rd Part, Finish putting up the site
 		echo "Overwriting Deafult Apache files"
 		# Copy over the apache config files
-		cp -v 000-default.conf /etc/apache2/sites-enabled/000-default.conf
-		cp -v default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
+		cp -v config/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+		cp -v config/default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
 	}
 
 	configureSQL()
@@ -208,7 +208,7 @@
 		mysql -u root -p -e "create user 'eve'@'localhost' identified by PASSWORD '*EC1C5005C380E9E2B4E50EE8749AC9AA4EA96F15'"
 		mysql -u root -p -e "create database echelon;"
 		# Read in the database image that has been packaged
-		mysql -u root -p < echelon_db_backup.sql
+		mysql -u root -p < config/echelon_db_backup.sql
 		
 		echo "MySQL has been configured."
 	}
