@@ -39,7 +39,7 @@ class TestSchedule(TestCase):
         """
         myLecture = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].lecture_set.all()[0]
         mySchedule = Schedule()
-        mySchedule.add_course(myLecture)
+        mySchedule.add_item(myLecture)
         coursesInMySchedule = mySchedule.view_schedule()
         TestCase.assertIn(self, myLecture, coursesInMySchedule, "The course was not added to the schedule")
         mySchedule.remove_item(myLecture)
@@ -54,7 +54,7 @@ class TestSchedule(TestCase):
         myLecture = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].lecture_set.all()[0]
         myTutorial = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].tutorial_set.all()[0]
         mySchedule = Schedule()
-        mySchedule.add_course(myTutorial)
+        mySchedule.add_item(myTutorial)
         coursesInMySchedule = mySchedule.view_schedule()
         TestCase.assertIn(self, myTutorial, coursesInMySchedule, "The course was not added to the schedule")
         TestCase.assertIn(self, myLecture, coursesInMySchedule, "The course was not added to the schedule")
@@ -71,7 +71,7 @@ class TestSchedule(TestCase):
         myTutorial = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].tutorial_set.all()[0]
         myLab = self.myCourseCatalog.searchCoursesThroughPartialName("COEN428")[0].lab_set.all()[0]
         mySchedule = Schedule()
-        mySchedule.add_course(myLab)
+        mySchedule.add_item(myLab)
         coursesInMySchedule = mySchedule.view_schedule()
         TestCase.assertIn(self, myLab, coursesInMySchedule, "The course was not added to the schedule")
         TestCase.assertIn(self, myTutorial, coursesInMySchedule, "The course was not added to the schedule")

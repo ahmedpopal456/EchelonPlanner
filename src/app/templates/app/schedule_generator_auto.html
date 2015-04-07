@@ -63,7 +63,7 @@
                 {% for slot in max_courses %}
                 <div class="col-xs-2"> {# We expect there to be 5 classes at max. #}
                         <h2>Course {{ forloop.counter }}</h2>
-                        <select class="form-control inline-group" name="course">
+                        <select class="form-control inline-group" name="courses">
                             <option selected disabled>COURSE</option>
                             {% for course in feasable_courses %}
                             <option value="{{ course.deptnum }}">{{  course.deptnum }}:{{ course.name }}</option>
@@ -77,6 +77,8 @@
         <br>
         <!-- Submit! -->
         <div class="col-xs-12 text-center">
+            <input type="hidden" value="{{ currentSemester }}" name="semester">
+            <input type="hidden" value="{{ currentYear }}" name="year">
             <button class="btn btn-lg btn-primary" type="submit">Submit and Load Schedule</button>
         </div>
 
