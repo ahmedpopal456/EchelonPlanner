@@ -1758,7 +1758,9 @@ table th[class*="col-"] {
 
 td.mytdclass {
   /*color: black;*/
-  /*background-color: white;*/
+  background-color: #cccccc;
+    border-style: solid;
+    border-color: #000000;
 }
 td.mytdclass:hover {
     background-color: #faf2cc;
