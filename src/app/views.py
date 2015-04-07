@@ -274,10 +274,12 @@ def change_details(request):
         address = request.POST['address']
         homePhone = request.POST['homePhone']
         cellPhone = request.POST['cellPhone']
-        # TODO: check if Empty and avoid updating field
-        request.user.student.address = address
-        request.user.student.homephone = homePhone
-        request.user.student.cellphone = cellPhone
+        if len(request.POST['address']) > 0:
+            request.user.student.address = address
+        if len(request.POST['homePhone']) > 0:
+            request.user.student.homephone = homePhone
+        if len(request.POST['cellPhone']) > 0:
+            request.user.student.cellphone = cellPhone
         request.user.student.save()
         loadPage = str()
     return render(
