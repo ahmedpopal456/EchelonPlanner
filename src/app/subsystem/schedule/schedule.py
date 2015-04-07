@@ -71,7 +71,7 @@ class Schedule(models.Model):
                 # Hack to set location to blank
                 if i == 0:
                     if item.event.starttime != minstart:
-                        e = Event(starttime=minstart, endtime=datetime.time(item.event.starttime), location="Blank")
+                        e = Event(starttime=minstart, endtime=item.event.starttime, location="Blank")
                         blankitem = Lecture(event=e)
                         blanklist.append(blankitem)
                 # check time difference between current item and next.
