@@ -33,39 +33,39 @@
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
 
-        <div class="blank">
-        <h2>Select Year / Semester</h2>
-            <div class="btn-group blank" data-toggle="buttons">
-               <div id="yearDiv" class="dropdown blank" style="position:relative">
-
-                                    <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                                       data-toggle="dropdown" data-bind="label" name="selectYear"
-                                       value="">Select Year
-                                        <span class="caret"></span>&nbsp;</a>
-                                    <ul class="dropdown-menu">
-                                        {% for year in max_years %}
-                                            <li>
-                                                <a class="vortex0" href="#" name="{{ semester }}">{{ year }}</a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-               </div>
-
-                <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">
-                                     <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                                       data-toggle="dropdown" data-bind="label" name="selectSemester"
-                                       value="">Select Semester
-                                        <span class="caret"></span>&nbsp;</a>
-                                    <ul class="dropdown-menu">
-                                        {% for semester in semesterCycle %}
-                                            <li>
-                                                <a class="vortex1" href="#" name="{{ semester }}">{{ semester }}</a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                </div>
-            </div>
-        </div>
+{#        <div class="blank">#}
+{#        <h2>Select Year / Semester</h2>#}
+{#            <div class="btn-group blank" data-toggle="buttons">#}
+{#               <div id="yearDiv" class="dropdown blank" style="position:relative">#}
+{##}
+{#                                    <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"#}
+{#                                       data-toggle="dropdown" data-bind="label" name="selectYear"#}
+{#                                       value="">Select Year#}
+{#                                        <span class="caret"></span>&nbsp;</a>#}
+{#                                    <ul class="dropdown-menu">#}
+{#                                        {% for year in max_years %}#}
+{#                                            <li>#}
+{#                                                <a class="vortex0" href="#" name="{{ semester }}">{{ year }}</a>#}
+{#                                            </li>#}
+{#                                        {% endfor %}#}
+{#                                    </ul>#}
+{#               </div>#}
+{##}
+{#                <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">#}
+{#                                     <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"#}
+{#                                       data-toggle="dropdown" data-bind="label" name="selectSemester"#}
+{#                                       value="">Select Semester#}
+{#                                        <span class="caret"></span>&nbsp;</a>#}
+{#                                    <ul class="dropdown-menu">#}
+{#                                        {% for semester in semesterCycle %}#}
+{#                                            <li>#}
+{#                                                <a class="vortex1" href="#" name="{{ semester }}">{{ semester }}</a>#}
+{#                                            </li>#}
+{#                                        {% endfor %}#}
+{#                                    </ul>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
 
         {# Used to be class="hidden" for multiview #}
         <div id="surprise">
@@ -86,7 +86,7 @@
                         {% for time in timeSlots %}
                             <tr>
                                 <td id="time">{{ time }}</td>
-
+                            {# TODO: we can have some fancy manipulation of format in our rows... #}
                             {# Populate day by day #}
                             {% for class in schedule.Monday %}
                                 {% if time == class.RoundedStart %}
