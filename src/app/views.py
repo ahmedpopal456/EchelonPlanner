@@ -457,6 +457,7 @@ def sched_gen_1(request):
 
 @login_required()
 def sched_gen_auto(request):
+    print(request.POST)
     max_courses = list(range(1,6))
     if StudentCatalog.getStudent(request.user.username):
         feasable_courses = CourseCatalog.coursesWithMetPrereqs(request.user.student, "Fall", 1)
@@ -476,17 +477,46 @@ def sched_gen_auto(request):
                  'currentYear': 1,
                  'currentSemester': "Fall"}
             )
-        given_courses = request.POST['courses']
+        given_courses = request.POST.getlist('courses')
+        print(given_courses)
+        course_objects = []
+        for specific_course in given_courses:
+            course = CourseCatalog.searchCoursesThroughPartialName(specific_course)
+            if course:
+                course = course[0]
+                course_objects.append(course)
         semester = request.POST['semester']
+        year = request.POST['year']
         # Make a new schedule
-        section_items = ScheduleGenerator.findUnconflictingSectionsForOneSemester(given_courses,semester)
-        for anItem in section_items:
-            request.user.student.academicRecord.mainSchedule.add_item(anItem)
+        section_items = ScheduleGenerator.findUnconflictingSectionsForOneSemester(course_objects,semester)
+        print(section_items )
+        if len(section_items) < 1:
+            return render(
+                request,
+                'app/schedule_generator_auto.html',
+                {'max_courses': max_courses,
+                 'feasable_courses': feasable_courses,
+                 'currentYear': 1,
+                 'currentSemester': "Fall"}
+            )
 
+        # Now take care in saving it.
+        main_schedule = Schedule()
+        main_schedule.semester = semester
+        main_schedule.year = year
+        main_schedule.save()
+        for anItem in section_items:
+            if main_schedule.add_item(anItem):
+                main_schedule.save()
+            else:
+                print("Could not add "+str(anItem))
+
+        # TODO: Does the user have a saved schedule?
+        main_schedule.save()
+        request.user.student.academicRecord.mainSchedule = main_schedule
         request.user.student.academicRecord.mainSchedule.save()
         request.user.student.academicRecord.save()
         request.user.student.save()
-
         # if all was successful, let's redirect for the user to view his schedule!
         return HttpResponseRedirect('/schedule_view/')
 
