@@ -119,7 +119,7 @@
 
                             {# Populate day by day #}
                             {% for class in schedule.Monday %}
-                                {% if class.RoundedStart == time %}
+                                {% if time == class.RoundedStart %}
                                     {% if class.Course != None %}
                                 <td rowspan="{{ class.Duration }}">{{ class.Course }} {{ class.Type }}</td>
                                     {% else %}
