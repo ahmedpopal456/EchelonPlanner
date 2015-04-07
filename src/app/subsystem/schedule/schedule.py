@@ -6,6 +6,7 @@ from ..event.event import Event
 import json
 #from ..database.coursecatalog import CourseCatalog
 
+
 class Schedule(models.Model):
     # Stuff stored by the Schedule
     lectureList = models.ManyToManyField(Lecture, null=True, blank=False, symmetrical=False)
@@ -70,7 +71,7 @@ class Schedule(models.Model):
                 # Hack to set location to blank
                 if i == 0:
                     if item.event.starttime != minstart:
-                        e = Event(starttime=minstart, endtime=datetime.time(item.starttime), location="Blank")
+                        e = Event(starttime=minstart, endtime=datetime.time(item.event.starttime), location="Blank")
                         blankitem = Lecture(event=e)
                         blanklist.append(blankitem)
                 # check time difference between current item and next.
@@ -123,10 +124,7 @@ class Schedule(models.Model):
                         }
 
         return scheduledict
-        #print(json.dumps(scheduledict))
-
-
-
+        # print(json.dumps(scheduledict))
 
 
     # Returns List of Lecture, Tutorials and Lab
