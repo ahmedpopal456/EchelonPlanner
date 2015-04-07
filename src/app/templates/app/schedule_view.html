@@ -16,24 +16,25 @@
 {% include "app/navbar.html" %}
 {% csrf_token %}
 <script>
+    {# code for viewing multiple schedules #}
+{#    $(function () {#}
+{#        $(".vortex0").click(function () {#}
+{#            $("#yearDiv").find("#year").text($(this).text());#}
+{#            $("#yearDiv").find("#year").attr("name",$(this).text());#}
+{#            $("#semesterDiv").removeClass("hidden");#}
+{#            $("#surprise").addClass("hidden");#}
+{#        });#}
+{#    });#}
+{#       $(function () {#}
+{#        $(".vortex1").click(function () {#}
+{##}
+{#            $("#semesterDiv").find("#semester").text($(this).text());#}
+{#            $("#semesterDiv").find("#semester").attr("name",$(this).text());#}
+{#            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") +" ("+$("#semester").attr("name")+"):");#}
+{#            $("#surprise").removeClass("hidden");#}
+{#        });#}
+{#    });#}
 
-    $(function () {
-        $(".vortex0").click(function () {
-            $("#yearDiv").find("#year").text($(this).text());
-            $("#yearDiv").find("#year").attr("name",$(this).text());
-            $("#semesterDiv").removeClass("hidden");
-            $("#surprise").addClass("hidden");
-        });
-    });
-       $(function () {
-        $(".vortex1").click(function () {
-
-            $("#semesterDiv").find("#semester").text($(this).text());
-            $("#semesterDiv").find("#semester").attr("name",$(this).text());
-            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") +" ("+$("#semester").attr("name")+"):");
-            $("#surprise").removeClass("hidden");
-        });
-    });
     {# Code to dynamically populate table, td by td.#}
 {#    $(document).ready( function(){#}
 {#        var table = document.getElementById("schedule_table");#}
@@ -57,78 +58,80 @@
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
 
-<div class="blank">
-<h2>Select Year / Semester</h2>
-    <div class="btn-group blank" data-toggle="buttons">
-       <div id="yearDiv" class="dropdown blank" style="position:relative">
+        <div class="blank">
+        <h2>Select Year / Semester</h2>
+            <div class="btn-group blank" data-toggle="buttons">
+               <div id="yearDiv" class="dropdown blank" style="position:relative">
 
-                            <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                               data-toggle="dropdown" data-bind="label" name="selectYear"
-                               value="">Select Year
-                                <span class="caret"></span>&nbsp;</a>
-                            <ul class="dropdown-menu">
-                                {% for year in max_years %}
-                                    <li>
-                                        <a class="vortex0" href="#" name="{{ semester }}">{{ year }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-       </div>
+                                    <a id="year" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                                       data-toggle="dropdown" data-bind="label" name="selectYear"
+                                       value="">Select Year
+                                        <span class="caret"></span>&nbsp;</a>
+                                    <ul class="dropdown-menu">
+                                        {% for year in max_years %}
+                                            <li>
+                                                <a class="vortex0" href="#" name="{{ semester }}">{{ year }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+               </div>
 
-        <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">
-                             <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"
-                               data-toggle="dropdown" data-bind="label" name="selectSemester"
-                               value="">Select Semester
-                                <span class="caret"></span>&nbsp;</a>
-                            <ul class="dropdown-menu">
-                                {% for semester in semesterCycle %}
-                                    <li>
-                                        <a class="vortex1" href="#" name="{{ semester }}">{{ semester }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
+                <div id="semesterDiv" class="dropdown hidden blank" style="position:relative">
+                                     <a id="semester" href="#" class="btn btn-primary dropdown-toggle giveSpace"
+                                       data-toggle="dropdown" data-bind="label" name="selectSemester"
+                                       value="">Select Semester
+                                        <span class="caret"></span>&nbsp;</a>
+                                    <ul class="dropdown-menu">
+                                        {% for semester in semesterCycle %}
+                                            <li>
+                                                <a class="vortex1" href="#" name="{{ semester }}">{{ semester }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<div id="surprise" class="hidden">
-            <h2 id="changeForever">Current Semester Schedule</h2>
-            <table class="table table-hover" id="schedule_table">
-                <thead>
-                <tr>
-                    <th>Time</th>
-                    <th class="mon">Monday</th>
-                    <th class="tue">Tuesday</th>
-                    <th class="wed">Wednesday</th>
-                    <th class="thu">Thursday</th>
-                    <th class="fri">Friday</th>
-                    <th class="sat">Saturday</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for time in timeSlots %}
-                    <tr>
-                        <td id="time">{{ time }}</td>
-{#                    {% if forloop.first %}#}
-{#                        <td rowspan="{{ timeSlots|length }}" class="tue">Empty Classes</td>#}
-{#                    {% endif %}#}
-{#                        <td rowspan="{{ timeSlots|length }}"></td>#}
-{#                        <td rowspan="2">Example</td>#}
 
-                        {% for class in currentSchedule %}
-                            {% if class.startTime ==  time%}
-                                <td colspan = {{class.timeSlotLength }} class="{% cycle "mon" "tue" "wed" "thu" "fri" "sat" as days%}">
-                                {% if days == class.day %}
-                                    {{ class.schedInfo }}
+        {# Used to be class="hidden" for multiview #}
+        <div id="surprise">
+                    <h2 id="changeForever">Current Semester Schedule</h2>
+                    <table class="table table-hover" id="schedule_table">
+                        <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th class="mon">Monday</th>
+                            <th class="tue">Tuesday</th>
+                            <th class="wed">Wednesday</th>
+                            <th class="thu">Thursday</th>
+                            <th class="fri">Friday</th>
+                            <th class="sat">Saturday</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for time in timeSlots %}
+                            <tr>
+                                <td id="time">{{ time }}</td>
+        {#                    {% if forloop.first %}#}
+        {#                        <td rowspan="{{ timeSlots|length }}" class="tue">Empty Classes</td>#}
+        {#                    {% endif %}#}
+        {#                        <td rowspan="{{ timeSlots|length }}"></td>#}
+        {#                        <td rowspan="2">Example</td>#}
+
+                                {% for class in currentSchedule %}
+                                    {% if class.startTime ==  time%}
+                                        <td colspan = {{class.timeSlotLength }} class="{% cycle "mon" "tue" "wed" "thu" "fri" "sat" as days%}">
+                                        {% if days == class.day %}
+                                            {{ class.schedInfo }}
+                                            {% endif %}
+                                        </td>
                                     {% endif %}
-                                </td>
-                            {% endif %}
+                                {% endfor %}
+                            </tr>
                         {% endfor %}
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        </div>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
         <div class="col-xs-1"></div>
     </div>
 </div>

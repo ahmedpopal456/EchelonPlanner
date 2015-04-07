@@ -241,9 +241,6 @@ def change_pass(request):
 def logouthandler(request):
     logout(request)
     return HttpResponseRedirect('/', {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
-    return render(request,
-                  'app/login.html',
-                  {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
 
 
 @login_required
@@ -353,17 +350,26 @@ def schedule_view(request):
     # for i in {7..20}:{00..59..15}; do completeList=$completeList","`echo \"$i\"`; done
     timeSlots=["8:45","9:00","9:15","9:30","9:45","10:00","10:15","10:30","10:45","11:00","11:15","11:30","11:45","12:00","12:15","12:30","12:45","13:00","13:15","13:30","13:45","14:00","14:15","14:30","14:45","15:00","15:15","15:30","15:45","16:00","16:15","16:30","16:45","17:00","17:15","17:30","17:45","18:00","18:15","18:30","18:45","19:00","19:15","19:30","19:45","20:00","20:15","20:30","20:45","21:00","21:15","21:30","21:45","22:00","22:15","22:30","22:45","23:00"]
     len(timeSlots)
-    max_years = [1, 2, 3, 4, 5]
-    semesterCycle=["Summer 1", "Summer 2", "Fall", "Winter"]
-    feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")
+
+    if StudentCatalog.getStudent(request.user.username):
+        # NOTE: HARD CODED TO MAIN SCHEDULE
+        # TODO: CHANGE FOR DYNAMIC FUNCTION.
+        viewing_table = request.user.student.academicRecord.mainSchedule.schedule_package()
+    else:
+        viewing_table = {}
+    # max_years = [1, 2, 3, 4, 5]
+    # semesterCycle=["Summer 1", "Summer 2", "Fall", "Winter"]
+    # feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")
+
 
     return render(
         request,
         'app/schedule_view.html',
         {'timeSlots': timeSlots,
-        'max_years': max_years,
-         'feasable_courses': feasable_courses,
-         'semesterCycle': semesterCycle}
+        # 'max_years': max_years,
+        #  'semesterCycle': semesterCycle,
+        'schedule': viewing_table
+        }
     )
 
 @login_required
@@ -439,7 +445,7 @@ def sched_gen_1(request):
 
     # Phase 1: Ask for Semester.
     semesterCycle=["Summer1","Summer2", "Fall", "Winter"]
-    max_years = [1, 2, 3, 4, 5]
+    max_years = list(range(1,6)) # from 1 to 5
 
     return render(
         request,
@@ -448,6 +454,52 @@ def sched_gen_1(request):
          'semesterCycle': semesterCycle}
     )
 #end sched_gen_1
+
+@login_required()
+def sched_gen_auto(request):
+    max_courses = list(range(1,6))
+    if StudentCatalog.getStudent(request.user.username):
+        feasable_courses = CourseCatalog.coursesWithMetPrereqs(request.user.student, "Fall", 1)
+    else:
+        feasable_courses = []
+
+    # If serving a POST request, it must be to consolidate schedules
+    if request.method == "POST":
+        # If the user did not submit anything, send him back the same page
+        # TODO: add a message for this.
+        if "courses" not in request.POST:
+            return render(
+                request,
+                'app/schedule_generator_auto.html',
+                {'max_courses': max_courses,
+                 'feasable_courses': feasable_courses,
+                 'currentYear': 1,
+                 'currentSemester': "Fall"}
+            )
+        given_courses = request.POST['courses']
+        semester = request.POST['semester']
+        # Make a new schedule
+        section_items = ScheduleGenerator.findUnconflictingSectionsForOneSemester(given_courses,semester)
+        for anItem in section_items:
+            request.user.student.academicRecord.mainSchedule.add_item(anItem)
+
+        request.user.student.academicRecord.mainSchedule.save()
+        request.user.student.academicRecord.save()
+        request.user.student.save()
+
+        # if all was successful, let's redirect for the user to view his schedule!
+        return HttpResponseRedirect('/schedule_view/')
+
+    # If just rendering the page.
+    else:
+        return render(
+            request,
+            'app/schedule_generator_auto.html',
+            {'max_courses': max_courses,
+             'feasable_courses': feasable_courses,
+             'currentYear': 1,
+             'currentSemester': "Fall"}
+        )
 
 #TODO: CLEANUP
 @login_required

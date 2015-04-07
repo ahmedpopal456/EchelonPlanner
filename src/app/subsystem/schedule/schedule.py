@@ -146,7 +146,7 @@ class Schedule(models.Model):
         return returnlist
 
     # Adds a Lecture/Tutorial/Lab to the schedule. Must do Type Inference to store correctly
-    def add_course(self, subcourse_item):
+    def add_item(self, subcourse_item):
 
         # Need to make sure that item does not already exist in schedule
         for item in self.lectureList.all():
