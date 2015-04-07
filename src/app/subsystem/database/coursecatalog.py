@@ -98,8 +98,9 @@ class CourseCatalog(object):
             return True
         except Course.DoesNotExist:
             logger.warn("Course not found: " + department + str(number) + ". Cannot add to Course")
-            e.delete()
-            l.delete()
+            # These variables do not exist at the time the exception is triggered
+            # e.delete()
+            # l.delete()
             return False
         except django.db.IntegrityError:
             e.delete()
@@ -194,8 +195,9 @@ class CourseCatalog(object):
 
         except Course.DoesNotExist:
             logger.warn("Course not found: " + department + str(number) + ". Cannot add to Course")
-            tut.delete()
-            e.delete()
+            # These variables do not exist at the time the exception is triggered
+            # tut.delete()
+            # e.delete()
             return False
         except django.db.IntegrityError:
             logger.warn("Tutorial already in DB, it cannot be added to courses".format(department, number, section, semester))
