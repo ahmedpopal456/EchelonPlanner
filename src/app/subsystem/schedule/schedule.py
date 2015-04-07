@@ -68,6 +68,11 @@ class Schedule(models.Model):
                     e = Event(starttime=listitem[0].event.endtime, endtime=maxend, location="Blank")
                     blankitem = Lecture(event=e)
                     blanklist.append(blankitem)
+                #transfer from blanklist to listitem at end.
+                for blank in blanklist:
+                    listitem.append(blank)
+                # then resort:
+                listitem.sort(key=lambda x: x.event.starttime)
                 continue
 
             for i, item in enumerate(listitem):
