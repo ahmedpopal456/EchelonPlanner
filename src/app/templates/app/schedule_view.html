@@ -117,14 +117,25 @@
         {#                        <td rowspan="{{ timeSlots|length }}"></td>#}
         {#                        <td rowspan="2">Example</td>#}
 
-                                {% for class in currentSchedule %}
-                                    {% if class.startTime ==  time%}
-                                        <td colspan = {{class.timeSlotLength }} class="{% cycle "mon" "tue" "wed" "thu" "fri" "sat" as days%}">
-                                        {% if days == class.day %}
-                                            {{ class.schedInfo }}
+                            {# Populate day by day #}
+                                {% for day in schedule %}
+                                    {% if day == "Monday" %}
+                                        {% for class in days %}
+                                            {% if class.ActualStart == time %}
+                                                <td>YES</td>
                                             {% endif %}
-                                        </td>
+                                        {% endfor %}
                                     {% endif %}
+
+
+{#                                    <td>{{ day }}</td>#}
+{#                                    {% if class.startTime ==  time%}#}
+{#                                        <td colspan = {{class.timeSlotLength }} class="{% cycle "mon" "tue" "wed" "thu" "fri" "sat" as days%}">#}
+{#                                        {% if days == class.day %}#}
+{#                                            {{ class.schedInfo }}#}
+{#                                            {% endif %}#}
+{#                                        </td>#}
+{#                                    {% endif %}#}
                                 {% endfor %}
                             </tr>
                         {% endfor %}

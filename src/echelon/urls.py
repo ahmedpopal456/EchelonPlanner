@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^glorious_schedule_assembly/', 'app.views.glorious_schedule_assembly'),
     url(r'^schedule_generator/', 'app.views.schedule_generator'),
     url(r'^sched_gen_1/', 'app.views.sched_gen_1'),
+    url(r'^sched_gen_auto/', 'app.views.sched_gen_auto'),
 
     # Course URLs
     url(r'^browse_all_courses/', 'app.views.browse_all_courses'),
