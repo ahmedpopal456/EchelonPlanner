@@ -14,43 +14,18 @@
 <body>
 <!-- Load the Navbar at the top of the page.-->
 {% include "app/navbar.html" %}
-{% csrf_token %}
-<script>
-    {# code for viewing multiple schedules #}
-{#    $(function () {#}
-{#        $(".vortex0").click(function () {#}
-{#            $("#yearDiv").find("#year").text($(this).text());#}
-{#            $("#yearDiv").find("#year").attr("name",$(this).text());#}
-{#            $("#semesterDiv").removeClass("hidden");#}
-{#            $("#surprise").addClass("hidden");#}
-{#        });#}
-{#    });#}
-{#       $(function () {#}
-{#        $(".vortex1").click(function () {#}
-{##}
-{#            $("#semesterDiv").find("#semester").text($(this).text());#}
-{#            $("#semesterDiv").find("#semester").attr("name",$(this).text());#}
-{#            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") +" ("+$("#semester").attr("name")+"):");#}
-{#            $("#surprise").removeClass("hidden");#}
-{#        });#}
-{#    });#}
 
-    {# Code to dynamically populate table, td by td.#}
-{#    $(document).ready( function(){#}
-{#        var table = document.getElementById("schedule_table");#}
-{#        var rows = $('#schedule_table > tbody > tr');#}
-{#        console.log(rows);#}
-{#        rowLength = rows.length;#}
-{#        $('#schedule_table > tbody > tr').eq(0).append('<td rowspan="25"></td>');#}
-{#        $('#schedule_table > tbody > tr').eq(0).append('<td rowspan="34"></td>');#}
-{#        $('#schedule_table > tbody > tr').eq(2).append('<td>SomeClass</td>');#}
-{#        $('#schedule_table > tbody > tr').append('<td>SomeOtherClass</td>');#}
-{#        $('#schedule_table > tbody > tr').append('<td>D</td>');#}
-{#        for ( var i =0; i<rowLength; i++) {#}
-{#            console.log(rows[i]);#}
-{#        }#}
-{#        console.log(table);#}
-{#    });#}
+
+<script type="text/javascript">
+// NOTE: PUTTING JAVASCRIPT ON HTML IS HORRIBLE, HORRIBLE PRACTICE
+
+    //Currently, this function knows which table row was selected and can read its ID
+    {# TODO: make an On Click that can Open up this course #}
+    $('body').on('click','tr', function() {
+{#            window.location.href = '/browse_specific_course/'+{{ department }}{{ number }}+'/'#}
+        });
+
+    {# TODO: Also incorporate the Javascript PrintToPdf from our Table. #}
 
 </script>
 <div class="container body-content">
@@ -95,7 +70,7 @@
         {# Used to be class="hidden" for multiview #}
         <div id="surprise">
                     <h2 id="changeForever">Current Semester Schedule</h2>
-                    <table class="table table-hover" id="schedule_table">
+                    <table class="table" id="schedule_table">
                         <thead>
                         <tr>
                             <th>Time</th>
@@ -111,17 +86,12 @@
                         {% for time in timeSlots %}
                             <tr>
                                 <td id="time">{{ time }}</td>
-        {#                    {% if forloop.first %}#}
-        {#                        <td rowspan="{{ timeSlots|length }}" class="tue">Empty Classes</td>#}
-        {#                    {% endif %}#}
-        {#                        <td rowspan="{{ timeSlots|length }}"></td>#}
-        {#                        <td rowspan="2">Example</td>#}
 
                             {# Populate day by day #}
                             {% for class in schedule.Monday %}
                                 {% if time == class.RoundedStart %}
                                     {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}">{{ class.Course }} {{ class.Type }}</td>
+                                <td rowspan="{{ class.Duration }}" class="mytdclass">{{ class.Course }} {{ class.Type }}</td>
                                     {% else %}
                                 <td rowspan="{{ class.Duration }}" class=""></td>
                                     {% endif %}
@@ -131,7 +101,7 @@
                             {% for class in schedule.Tuesday %}
                                 {% if time == class.RoundedStart %}
                                     {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}">{{ class.Course }} {{ class.Type }}</td>
+                                <td rowspan="{{ class.Duration }}" class="mytdclass">{{ class.Course }} {{ class.Type }}</td>
                                     {% else %}
                                 <td rowspan="{{ class.Duration }}" class=""></td>
                                     {% endif %}
@@ -141,7 +111,7 @@
                             {% for class in schedule.Wednesday %}
                                 {% if time == class.RoundedStart %}
                                     {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}">{{ class.Course }} {{ class.Type }}</td>
+                                <td rowspan="{{ class.Duration }}" class="mytdclass">{{ class.Course }} {{ class.Type }}</td>
                                     {% else %}
                                 <td rowspan="{{ class.Duration }}" class=""></td>
                                     {% endif %}
@@ -151,7 +121,7 @@
                             {% for class in schedule.Thursday %}
                                 {% if time == class.RoundedStart %}
                                     {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}">{{ class.Course }} {{ class.Type }}</td>
+                                <td rowspan="{{ class.Duration }}" class="mytdclass">{{ class.Course }} {{ class.Type }}</td>
                                     {% else %}
                                 <td rowspan="{{ class.Duration }}" class=""></td>
                                     {% endif %}
@@ -161,74 +131,21 @@
                             {% for class in schedule.Friday %}
                                 {% if time == class.RoundedStart %}
                                     {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}">{{ class.Course }} {{ class.Type }}</td>
+                                <td rowspan="{{ class.Duration }}" class="mytdclass">{{ class.Course }} {{ class.Type }}</td>
                                     {% else %}
                                 <td rowspan="{{ class.Duration }}" class=""></td>
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}
-
-                            {# Test Code - TODO: Cleanup #}
-                                {% for day in schedule %}
-                                    {% if day == "Monday" %}
-                                        {% for class in schedule.Monday %}
-{#                                            <td>{{ class }}</td>#}
-                                            {% if class.ActualStart == time %}
-{#                                                <td>YES</td>#}
-                                            {% endif %}
-                                        {% endfor %}
+                            {% for class in schedule.Saturday %}
+                                {% if time == class.RoundedStart %}
+                                    {% if class.Course != None %}
+                                <td rowspan="{{ class.Duration }}" class="mytdclass">{{ class.Course }} {{ class.Type }}</td>
+                                    {% else %}
+                                <td rowspan="{{ class.Duration }}" class=""></td>
                                     {% endif %}
-                                    {% if day == "Tuesday" %}
-                                        {% for class in schedule.Tuesday %}
-{#                                            <td>{{ class }}</td>#}
-                                            {% if class.ActualStart == time %}
-{#                                                <td>YES</td>#}
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if day == "Wednesday" %}
-                                        {% for class in schedule.Wednesday %}
-{#                                            <td>{{ class }}</td>#}
-                                            {% if class.ActualStart == time %}
-{#                                                <td>YES</td>#}
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if day == "Thursday" %}
-                                        {% for class in schedule.Thursday %}
-{#                                            <td>{{ class }}</td>#}
-                                            {% if class.ActualStart == time %}
-{#                                                <td>YES</td>#}
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if day == "Friday" %}
-                                        {% for class in schedule.Friday %}
-{#                                            <td>{{ class }}</td>#}
-                                            {% if class.ActualStart == time %}
-{#                                                <td>YES</td>#}
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if day == "Saturday" %}
-                                        {% for class in schedule.Saturday %}
-{#                                            <td>{{ class }}</td>#}
-                                            {% if class.ActualStart == time %}
-{#                                                <td>YES</td>#}
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-
-
-{#                                    <td>{{ day }}</td>#}
-{#                                    {% if class.startTime ==  time%}#}
-{#                                        <td colspan = {{class.timeSlotLength }} class="{% cycle "mon" "tue" "wed" "thu" "fri" "sat" as days%}">#}
-{#                                        {% if days == class.day %}#}
-{#                                            {{ class.schedInfo }}#}
-{#                                            {% endif %}#}
-{#                                        </td>#}
-{#                                    {% endif %}#}
-                                {% endfor %}
+                                {% endif %}
+                            {% endfor %}
                             </tr>
                         {% endfor %}
                         </tbody>
