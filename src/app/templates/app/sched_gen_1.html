@@ -34,7 +34,7 @@
             $("#semesterDiv").find("#semester").text($(this).text());
             $("#semesterDiv").find("#semester").attr("name", $(this).text());
             $("#semesterDiv").find("#semesterOut").val($(this).text());
-            $("#select_gen_type").removeClass("hidden");
+            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") + " (" + $("#semester").attr("name") + "):");
         });
     });
 
@@ -103,7 +103,6 @@
                                     </li>
                                 {% endfor %}
                             </ul>
-
                         </div>
 
                         <div id="select_gen_type" class="hidden list-inline toggle-buttons" data-toggle="buttons-radio">
@@ -113,6 +112,9 @@
                         </div>
                         <input type="hidden" id="gen-type" name="gen-type"/>
                     </div>
+                <div>
+                    <input type="submit" class="btn btn-lg">
+                </div>
 
                     <div class="hidden" id="final_step">
                         <h1>Ready?</h1>
@@ -126,11 +128,17 @@
         <div class="col-xs-5">
             <h1>General Information</h1>
             <h3>Let's make a new schedule</h3>
-            <p>Here you will start selecting your schedule [bla bla bla]</p>
+            <p>Here you will start selecting your schedule. Follow these steps to create your schedule</p>
+            <p>1. Select the year you are scheduling for. This year is your yat concordia. For example, if you are scheduling for your first year, select 1.</p>
+            <p>2. Select the semester you are scheduling for.</p>
+            <p>3. Select the type of generation you are scheduling for, either automatic or manual.</p>
+            <p>4. Hit submit.</p>
             <div id="hover_over_help">
                 <!-- TODO: Make hover over links to display help! -->
-                <h4>[Help Item 1]</h4>
-                <p id="auto_gen">[enter any help text here]</p>
+                <h4>For sequence information use the following link:</h4>
+                <a class="btn btn-lg btn-primary btn-block" href='http://www.concordia.ca/encs/students/sas/undergrad-program-info/course-sequences/software.html'
+                target = '_blank'>SOEN Course Sequences</a>
+                <p id="auto_gen">For further aid, visit our resources page.</p>
             </div>
 
         </div>
