@@ -206,7 +206,10 @@
 		echo "Configuring local MySQL instance. You will have to input your ROOT password several times"
 		echo "Password will not be echoed"
 		mysql -u root -p -e "create user 'eve'@'localhost' identified by PASSWORD '*EC1C5005C380E9E2B4E50EE8749AC9AA4EA96F15'"
-		mysql -u root -p -e "create database echelon;"
+        echo "Calling Django to create Database"
+        python3 /var/www/src/manage.py syncdb
+#		mysql -u root -p -e "create database echelon;"
+
 		# Read in the database image that has been packaged
 		mysql -u root -p < config/echelon_db_backup.sql
 		

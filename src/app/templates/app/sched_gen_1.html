@@ -34,7 +34,7 @@
             $("#semesterDiv").find("#semester").text($(this).text());
             $("#semesterDiv").find("#semester").attr("name", $(this).text());
             $("#semesterDiv").find("#semesterOut").val($(this).text());
-            $("#changeForever").text("Select Courses for Year " + $("#year").attr("name") + " (" + $("#semester").attr("name") + "):");
+            $("#select_gen_type").removeClass("hidden");
         });
     });
 
@@ -112,9 +112,6 @@
                         </div>
                         <input type="hidden" id="gen-type" name="gen-type"/>
                     </div>
-                <div>
-                    <input type="submit" class="btn btn-lg">
-                </div>
 
                     <div class="hidden" id="final_step">
                         <h1>Ready?</h1>
