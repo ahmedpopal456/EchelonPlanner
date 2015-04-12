@@ -3,8 +3,13 @@ from .. import *
 from .schedulegenerator import ScheduleGenerator
 import datetime
 from ..event.event import Event
+import django.db
+import logging
+
 import json
 #from ..database.coursecatalog import CourseCatalog
+
+logger = logging.getLogger(__name__)
 
 
 class Schedule(models.Model):
@@ -43,7 +48,7 @@ class Schedule(models.Model):
 
         # order this based on starttime
 
-        minstart = datetime.time(8, 45)
+        minstart = datetime.time(8, 30)
         maxend = datetime.time(23, 0)
 
         for listitem in weeksectionlist:
@@ -218,6 +223,35 @@ class Schedule(models.Model):
 
             if subcourse_item.tutorial is not None:
                 self.tutorialList.remove(subcourse_item.tutorial)
+
+    #Takes deptnum i.e : SOEN341, find all elements of SOEN341 (Lecture, lab, Tutorial)
+    #and removes them from schedule
+
+    def remove_course(self, deptnum):
+        #TODO: import CourseCatalog doesn't seem to work, using course directly, with catching exception
+        # coursetoremove = CourseCatalog.searchCoursesThroughPartialName(deptnum)
+        # coursetoremove = coursetoremove[0]
+        try:
+            coursetoremove = Course.objects.get(pk=deptnum)
+
+            #  Check if has labs, if it does, then that is lowest subcourse item
+            #  Elif has tutorials, then that is lowest subcourse item
+            #  else, lectures is lowest
+            if coursetoremove.hasLabs():
+                for lab in self.labList.all():
+                    if lab.course == coursetoremove:
+                        self.remove_item(lab)
+            elif coursetoremove.hasTutorials():
+                for tutorial in self.tutorialList.all():
+                    if tutorial.course == coursetoremove:
+                        self.remove_item(tutorial)
+            else:
+                for lecture in self.lectureList.all():
+                    if lecture.course == coursetoremove:
+                        self.remove_item(lecture)
+        except Course.DoesNotExist:
+            logger.warn("Course not found: " + deptnum + ". Cannot remove Course")
+            return False
 
 
     class Meta:

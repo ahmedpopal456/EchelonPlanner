@@ -511,14 +511,13 @@ class ScheduleGenerator(object):
         # course2 = input('Enter course 2:')
         testCourseList = [Course.objects.get(pk="ENGR202"), Course.objects.get(pk="ENGR201")]
         # testCourse = Course.objects.get(pk="ENGR202").lecture_set.all()
-        testPrefs = Preferences.createPreferences("--W----", ["afternoon", "evening"], ["SGW"])
+        testPrefs = Preferences("--W----", ["afternoon", "evening"], ["SGW"])
 
         # testCourseResult = ScheduleGenerator.meetsPreferences(testCourse, testPrefs)
 
         testCourseResult = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(testCourseList, "Fall", testPrefs)
 
         print(testCourseResult)
-
 
     def __init__(self):
         self.studentPreferences = None
