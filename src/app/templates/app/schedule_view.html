@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
     <script src="{% static 'app/scripts/jquery.min.js' %}"></script>
     <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/css2pdf/xepOnline.jqPlugin.js' %}"></script>
 
 
 </head>
@@ -25,14 +26,14 @@
 {#            window.location.href = '/browse_specific_course/'+{{ department }}{{ number }}+'/'#}
         });
 
-    {# TODO: Also incorporate the Javascript PrintToPdf from our Table. #}
-
 </script>
 <div class="container body-content">
     <div class="row" >
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
 
+        {% comment %}
+        Section below used to describe the dropdown buttons that showed the table. This may be used later.
 {#        <div class="blank">#}
 {#        <h2>Select Year / Semester</h2>#}
 {#            <div class="btn-group blank" data-toggle="buttons">#}
@@ -66,10 +67,11 @@
 {#                </div>#}
 {#            </div>#}
 {#        </div>#}
-
+    {% endcomment %}
         {# Used to be class="hidden" for multiview #}
         <div id="surprise">
                     <h2 id="changeForever">Current Semester Schedule</h2>
+                    <a href="/schedule_print_view">Print View</a>
                     <table class="table" id="schedule_table">
                         <thead>
                         <tr>

@@ -7418,7 +7418,7 @@ button .navbar-toggle{
 }
 
 .full-screen-media{
-   margin: 0px;
+   margin: 1px;
    min-height: 100%;
    width: 100%;
 }
