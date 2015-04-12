@@ -25,6 +25,13 @@ def index(request):
     return home(request)  # We'll have it hardcoded for now...
 
 
+def help_site(request):
+    return render(
+        request,
+        'app/help.html'
+    )
+
+
 @cache_control(no_cache=True, must_revalidate=True)
 def home(request):
     assert isinstance(request, HttpRequest)

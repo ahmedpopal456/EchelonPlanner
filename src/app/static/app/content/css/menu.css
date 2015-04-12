@@ -7416,3 +7416,9 @@ button .navbar-toggle{
     display:inline-block;
     min-width:340px;
 }
+
+.full-screen-media{
+   margin: 0px;
+   min-height: 100%;
+   width: 100%;
+}
