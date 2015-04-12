@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class ScheduleGenerator(object):
+
     def generateSchedules(self, preferences):
         pass
 
@@ -387,8 +388,9 @@ class ScheduleGenerator(object):
 
         #Base Case, if all sections are found
         if len(sectionlist) == lengthOfCourseList:
-            Solutions.append(sectionlist)
-            print (sectionlist)
+            sectionlist2 = list(sectionlist)
+            Solutions.append(sectionlist2)
+            print(sectionlist)
             return
 
         for course in courselist:
@@ -413,6 +415,7 @@ class ScheduleGenerator(object):
         solutions = []
         i = 0
         ## Preferences could be filtered at this step, speeding things up
+        ##Import preferences from student and filter
 
         while i < len(coursesList):
             if coursesList[i].hasLabs():
