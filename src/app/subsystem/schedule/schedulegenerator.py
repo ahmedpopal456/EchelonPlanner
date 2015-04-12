@@ -4,6 +4,7 @@ from ..courses.tutorial import Tutorial
 from ..courses.lab import Lab
 from ..event.event import Event
 from itertools import chain
+from .preferences.preferences import Preferences
 import logging
 import django.db
 
@@ -410,7 +411,7 @@ class ScheduleGenerator(object):
                 sectionlist.pop()
 
     @staticmethod
-    def findListOfUnconflictingSectionsForOneSemester(coursesList, semester):
+    def findListOfUnconflictingSectionsForOneSemester(coursesList, semester, preferences):
         courses = []
         solutions = []
         i = 0
@@ -428,12 +429,95 @@ class ScheduleGenerator(object):
                 courses.append(coursesList[i].lecture_set.all().filter(event__semester=semester))
                 i += 1
 
-        ScheduleGenerator.recursiveFindListOfUnconflictingSectionsForOneSemester([], courses, len(coursesList), solutions)
+        coursesWithPreferences = []
+        for course in courses:
+            newCourse = ScheduleGenerator.meetsPreferences(course, preferences)
+            coursesWithPreferences.append(newCourse)
+
+        ScheduleGenerator.recursiveFindListOfUnconflictingSectionsForOneSemester([], coursesWithPreferences, len(coursesList), solutions)
         return solutions
 
+    @staticmethod
+    def meetsPreferences(course, preferences):
+        thisCourse = Course.objects.get(pk=list(course)[0].course.deptnum)
+        # check the days off preferences:
+        for letter in preferences.daysOff:
+            if letter is not "-":
+                course = course.exclude(event__days__icontains=letter)
+                if thisCourse.hasLabs():
+                    course = course.exclude(lecture__event__days__icontains=letter)
+                    if thisCourse.hasTutorials():
+                        course = course.exclude(tutorial__event__days__icontains=letter)
+                elif thisCourse.hasTutorials():
+                    course = course.exclude(lecture__event__days__icontains=letter)
 
+        # check the timeOfDay preference:
+        if "morning" not in preferences.timeOfDay:
+            course = course.exclude(event__starttime__lte="11:59")
+            if thisCourse.hasLabs():
+                course = course.exclude(lecture__event__starttime__lte="11:59")
+                if thisCourse.hasTutorials():
+                    course = course.exclude(tutorial__event__starttime__lte="11:59")
+            elif thisCourse.hasTutorials():
+                course = course.exclude(lecture__event__starttime__lte="11:59")
+        if "afternoon" not in preferences.timeOfDay:
+            course = course.filter(event__starttime__lte="11:59", event__endtime__gte="17:00")
+            if thisCourse.hasLabs():
+                course = course.exclude(lecture__event__starttime__lte="11:59", lecture__event__endtime__gte="17:00")
+                if thisCourse.hasTutorials():
+                    course = course.exclude(lecture__event__starttime__lte="11:59", lecture__event__endtime__gte="17:00")
+            elif thisCourse.hasTutorials():
+                course = course.exclude(lecture__event__starttime__lte="11:59", lecture__event__endtime__gte="17:00")
+        if "evening" not in preferences.timeOfDay:
+            course = course.exclude(event__starttime__gte="17:00")
+            if thisCourse.hasLabs():
+                course = course.exclude(lecture__event__starttime__gte="17:00")
+                if thisCourse.hasTutorials():
+                    course = course.exclude(tutorial__event__starttime__gte="17:00")
+            elif thisCourse.hasTutorials():
+                course = course.exclude(lecture__event__starttime__gte="17:00")
 
+        # check the location preference
+        if "LOY" not in preferences.location:
+            course = course.exclude(event__location__icontains="loy")
+            if thisCourse.hasLabs():
+                course = course.exclude(lecture__event__location__icontains="loy")
+                if thisCourse.hasTutorials():
+                    course = course.exclude(tutorial__event__location__icontains="loy")
+            elif thisCourse.hasTutorials():
+                course = course.exclude(lecture__event__location__icontains="loy")
+        if "SGW" not in preferences.location:
+            course = course.exclude(event__location__icontains="sgw")
+            if thisCourse.hasLabs():
+                course = course.exclude(lecture__event__location__icontains="sgw")
+                if thisCourse.hasTutorials():
+                    course = course.exclude(tutorial__event__location__icontains="sgw")
+            elif thisCourse.hasTutorials():
+                course = course.exclude(lecture__event__location__icontains="sgw")
+        if "Online" not in preferences.location:
+            course = course.exclude(event__location__icontains="Online")
+            if thisCourse.hasLabs():
+                course = course.exclude(lecture__event__location__icontains="Online")
+                if thisCourse.hasTutorials():
+                    course = course.exclude(tutorial__event__location__icontains="Online")
+            elif thisCourse.hasTutorials():
+                course = course.exclude(lecture__event__location__icontains="Online")
 
+        return course
+
+    @staticmethod
+    def testShit():
+        # course1 = input('Enter course 1:')
+        # course2 = input('Enter course 2:')
+        testCourseList = [Course.objects.get(pk="ENGR202"), Course.objects.get(pk="ENGR201")]
+        # testCourse = Course.objects.get(pk="ENGR202").lecture_set.all()
+        testPrefs = Preferences.createPreferences("--W----", ["afternoon", "evening"], ["SGW"])
+
+        # testCourseResult = ScheduleGenerator.meetsPreferences(testCourse, testPrefs)
+
+        testCourseResult = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(testCourseList, "Fall", testPrefs)
+
+        print(testCourseResult)
 
 
     def __init__(self):
