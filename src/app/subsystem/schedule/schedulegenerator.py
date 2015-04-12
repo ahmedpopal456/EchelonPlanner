@@ -98,7 +98,6 @@ class ScheduleGenerator(object):
     # or lecture if no lab/tut
     # end compareLabTutLect
 
-    #TODO: This isn't complete, not sure if we still need this
     @staticmethod
     def conflicts(section1, section2):
 
@@ -371,6 +370,48 @@ class ScheduleGenerator(object):
         return []
 
     # end findUnconflictingSectionsForOneSemester
+
+    @staticmethod
+    def recursiveFindListOfUnconflictingSectionsForOneSemester(sectionlist, courselist, lengthOfCourseList, Solutions):
+
+        #Base Case, if all sections are found
+        if len(sectionlist) == lengthOfCourseList:
+            Solutions.append(sectionlist)
+            return sectionlist
+
+        for course in courselist:
+            for section in course:
+                if not ScheduleGenerator.conflictswithlist(section, sectionlist):
+                    sectionlist.append(section)
+                    result = ScheduleGenerator.recursiveFindListOfUnconflictingSectionsForOneSemester(sectionlist, courselist[1:],lengthOfCourseList, Solutions)
+                    if(result): #not False
+                        return result  # with added section
+                    else:
+                        return sectionlist  #without added section
+
+        return False
+    @staticmethod
+    def findListOfUnconflictingSectionsForOneSemester(coursesList, semester):
+        courses = []
+        solutions = []
+        i = 0
+        while i < len(coursesList):
+            if coursesList[i].hasLabs():
+                courses.append(coursesList[i].lab_set.all().filter(event__semester=semester))
+                i += 1
+            elif coursesList[i].hasTutorials():
+                courses.append(coursesList[i].tutorial_set.all().filter(event__semester=semester))
+                i += 1
+            else:
+                courses.append(coursesList[i].lecture_set.all().filter(event__semester=semester))
+                i += 1
+
+        ScheduleGenerator.recursiveFindListOfUnconflictingSectionsForOneSemester([], courses, len(coursesList), solutions)
+        return solutions
+
+
+
+
 
 
     def __init__(self):
