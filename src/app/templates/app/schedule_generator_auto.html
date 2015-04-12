@@ -46,6 +46,9 @@
         <div class="col-xs-11">
             <h1>Automatic Schedule Generation</h1>
             <h2 id="changeForever">Courses for Year {{ currentYear }} - {{ currentSemester }} Semester:</h2>
+            {% if message %}
+            <p style="color: #ff171c">{{ message }}</p>
+            {% endif %}
         </div>
         <div class="col-xs-1"></div>
     </div>
@@ -56,15 +59,11 @@
     {% csrf_token %}
         <!-- Picker Row-->
         <div class="row">
-                <div class="col-xs-1">
-
-                </div>
-
                 {% for slot in max_courses %}
                 <div class="col-xs-2"> {# We expect there to be 5 classes at max. #}
                         <h2>Course {{ forloop.counter }}</h2>
                         <select class="form-control inline-group" name="courses">
-                            <option selected disabled>COURSE</option>
+                            <option selected>COURSE</option>
                             {% for course in feasable_courses %}
                             <option value="{{ course.deptnum }}">{{  course.deptnum }}:{{ course.name }}</option>
                             {% endfor %}
