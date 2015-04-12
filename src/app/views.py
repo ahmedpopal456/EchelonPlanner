@@ -436,7 +436,7 @@ def sched_gen_1(request):
 
     if request.method == "POST": # get the response back
         #If POST, then
-        max_courses = [1, 2, 3, 4, 5]
+        max_courses = [1, 2, 3, 4, 5,6]
         # request.POST['semester'] # will return given semester!
         # TODO: CHECK FEASIBLE COURSES AGAINST SEMESTER SUPPLIED
         currentSemester = request.POST['semester']
@@ -492,7 +492,7 @@ def sched_gen_1(request):
 @login_required()
 def sched_gen_auto(request):
     print(request.POST)
-    max_courses = list(range(1,6))
+    max_courses = list(range(1,7))
     if StudentCatalog.getStudent(request.user.username):
         feasable_courses = CourseCatalog.coursesWithMetPrereqs(request.user.student, "Fall", 1)
     else:
@@ -500,19 +500,22 @@ def sched_gen_auto(request):
 
     # If serving a POST request, it must be to consolidate schedules
     if request.method == "POST":
-        # If the user did not submit anything, send him back the same page
-        # TODO: add a message for this.
-        if "courses" not in request.POST:
+        # If the user did not submit anything, send him back the same page with a message
+        given_courses = request.POST.getlist('courses')
+        given_courses = list(set(given_courses))
+        given_courses.remove("COURSE")
+        print(given_courses)
+        if not len(given_courses) >0 :
             return render(
                 request,
                 'app/schedule_generator_auto.html',
                 {'max_courses': max_courses,
                  'feasable_courses': feasable_courses,
                  'currentYear': 1,
-                 'currentSemester': "Fall"}
+                 'currentSemester': "Fall",
+                'message': "ERROR: Please Pick at least one course! (Repeating courses will be ignored automatically and you do not need to fill in all)"}
             )
-        given_courses = request.POST.getlist('courses')
-        print(given_courses)
+
         course_objects = []
         for specific_course in given_courses:
             course = CourseCatalog.searchCoursesThroughPartialName(specific_course)
