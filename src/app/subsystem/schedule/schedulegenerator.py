@@ -101,6 +101,11 @@ class ScheduleGenerator(object):
     @staticmethod
     def conflicts(section1, section2):
 
+        # If two sections are from same course, they must conflict too
+
+        if section1.course == section2.course:
+            return True
+
         if section1.name() == "Lecture":  # Compare Lecture to rest, nothing should be under lecture.
             if(ScheduleGenerator.comparetoLabTutLect(section1, section2)):
                 return True
@@ -374,27 +379,41 @@ class ScheduleGenerator(object):
     @staticmethod
     def recursiveFindListOfUnconflictingSectionsForOneSemester(sectionlist, courselist, lengthOfCourseList, Solutions):
 
+        # if solutions exceed 10
+
+        # if len(Solutions) > 20:
+        #     print(Solutions)
+        #     return
+
         #Base Case, if all sections are found
         if len(sectionlist) == lengthOfCourseList:
             Solutions.append(sectionlist)
-            return sectionlist
+            print (sectionlist)
+            return
 
         for course in courselist:
+        # Construct list of valid sections of course that the current sectionlist
+            candidateSections = []
             for section in course:
                 if not ScheduleGenerator.conflictswithlist(section, sectionlist):
-                    sectionlist.append(section)
-                    result = ScheduleGenerator.recursiveFindListOfUnconflictingSectionsForOneSemester(sectionlist, courselist[1:],lengthOfCourseList, Solutions)
-                    if(result): #not False
-                        return result  # with added section
-                    else:
-                        return sectionlist  #without added section
+                    candidateSections.append(section)
 
-        return False
+        # Now process each candidate, by adding it to sectionList, and seeing if it fails
+
+            for candidate in candidateSections:
+                sectionlist.append(candidate)
+                # call recursive:
+                ScheduleGenerator.recursiveFindListOfUnconflictingSectionsForOneSemester(sectionlist, courselist[1:], lengthOfCourseList, Solutions)
+                # pop this before going on
+                sectionlist.pop()
+
     @staticmethod
     def findListOfUnconflictingSectionsForOneSemester(coursesList, semester):
         courses = []
         solutions = []
         i = 0
+        ## Preferences could be filtered at this step, speeding things up
+
         while i < len(coursesList):
             if coursesList[i].hasLabs():
                 courses.append(coursesList[i].lab_set.all().filter(event__semester=semester))
