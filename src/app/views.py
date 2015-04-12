@@ -524,36 +524,43 @@ def sched_gen_auto(request):
                 course_objects.append(course)
         semester = request.POST['semester']
         year = request.POST['year']
-        # Make a new schedule
-        section_items = ScheduleGenerator.findUnconflictingSectionsForOneSemester(course_objects,semester)
-        print(section_items )
-        if len(section_items) < 1:
+        # Find a list of possible schedules
+        # TODO: Change to accept other preferences
+        default = Preferences()
+
+        all_schedules = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(course_objects,semester,default) #TODO CHANGE!
+        print(all_schedules )
+        # If no possible schedules, notify the user!
+        if len(all_schedules) < 1:
             return render(
                 request,
                 'app/schedule_generator_auto.html',
                 {'max_courses': max_courses,
                  'feasable_courses': feasable_courses,
                  'currentYear': 1,
-                 'currentSemester': "Fall"}
+                 'currentSemester': "Fall",
+                 'message': 'ERROR: No Schedule match was found. Try different courses or reduce your preferences.'}
             )
 
-        # Now take care in saving it.
-        main_schedule = Schedule()
-        main_schedule.semester = semester
-        main_schedule.year = year
-        main_schedule.save()
-        for anItem in section_items:
-            if main_schedule.add_item(anItem):
-                main_schedule.save()
-            else:
-                print("Could not add "+str(anItem))
+        # Now take care in saving it (All of them)
+        for aSchedule in all_schedules:
+            cached_schedule = Schedule()
+            cached_schedule.semester = semester
+            cached_schedule.year = year
+            cached_schedule.save()
+            for anItem in aSchedule:
+                if cached_schedule.add_item(anItem):
+                    schedule.save()
+                else:
+                    print("Could not add "+str(anItem))
 
-        # TODO: Does the user have a saved schedule?
-        main_schedule.save()
-        request.user.student.academicRecord.mainSchedule = main_schedule
-        request.user.student.academicRecord.mainSchedule.save()
-        request.user.student.academicRecord.save()
-        request.user.student.save()
+            # TODO: Does the user have a saved schedule?
+            cached_schedule.save()
+            # request.user.student.academicRecord.mainSchedule = schedule
+            request.user.student.academicRecord.scheduleCache.add(cached_schedule)
+            request.user.student.academicRecord.scheduleCache.save()
+            request.user.student.academicRecord.save()
+            request.user.student.save()
         # if all was successful, let's redirect for the user to view his schedule!
         return HttpResponseRedirect('/schedule_view/')
 
