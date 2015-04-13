@@ -146,10 +146,10 @@ def register(request):
                 newRecord = StudentRecord()
                 newRecord.save()
                 studentUser.academicRecord = newRecord
-                # We need to create and save a main schedule as well to the student
-                mainSchedule = Schedule()
-                mainSchedule.save()
-                studentUser.academicRecord.mainSchedule = mainSchedule
+                # # We need to create and save a main schedule as well to the student
+                # mainSchedule = Schedule()
+                # mainSchedule.save()
+                # studentUser.academicRecord.mainSchedule = mainSchedule
                 # Student ID must also be saved
                 studentUser.IDNumber = studentID
                 # standardUser.save()
@@ -390,7 +390,10 @@ def schedule_view(request):
     if StudentCatalog.getStudent(request.user.username):
         # NOTE: HARD CODED TO MAIN SCHEDULE
         # TODO: CHANGE FOR DYNAMIC FUNCTION.
-        viewing_table = request.user.student.academicRecord.mainSchedule.schedule_package()
+        if request.user.student.academicRecord.mainSchedule is not None:
+            viewing_table = request.user.student.academicRecord.mainSchedule.schedule_package()
+        else:
+            viewing_table = {}
         print(viewing_table)
     else:
         viewing_table = {}
@@ -417,7 +420,10 @@ def schedule_print_view(request):
     if StudentCatalog.getStudent(request.user.username):
         # NOTE: HARD CODED TO MAIN SCHEDULE
         # TODO: CHANGE FOR DYNAMIC FUNCTION.
-        viewing_table = request.user.student.academicRecord.mainSchedule.schedule_package()
+        if request.user.student.academicRecord.mainSchedule is not None:
+            viewing_table = request.user.student.academicRecord.mainSchedule.schedule_package()
+        else:
+            viewing_table = {}
         print(viewing_table)
     else:
         viewing_table = {}
