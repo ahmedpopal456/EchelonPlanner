@@ -25,10 +25,11 @@
 
             $.ajax({
                 type: 'post',
-                url: "/nullhandler/",
+                url: "/course_data/",
                 dataType: 'html',
                 data: {
-                    'course': 'SOEN228',
+                    'deptnum': 'SOEN228',
+                    'semester': '{{ currentSemester }}',
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function (data) {
@@ -37,9 +38,9 @@
                     //1. Unpack the JSON dictionary (gives back deptnum, lectures, tutorials, labs)
                     var newObj = jQuery.parseJSON(data.valueOf());
                     //2. Unpack the SECOND JSON from hell (gives back the array of Django Models)
-                    var newNewObj = jQuery.parseJSON(newObj['lectures']);
-                    $('#Testerstest').html(newObj['deptnum'] + ": Hey ");
-                    //console.log(newObj.length+ " " +newNewObj.type + " ")
+{#                    var newNewObj = jQuery.parseJSON(newObj['lectures']);#}
+                    $('#Testerstest').html(newObj);
+                    console.log((newObj['lectures'].first)['professor']+ " ");
                 },
                 failure: function (data) {
                     alert('Got an error');
@@ -90,6 +91,7 @@
                 dataType: 'html',
                 data: {
                     'deptnum': $(this).attr('deptnum'),
+                    'semester': {{ currentSemester }},
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function (data) {
