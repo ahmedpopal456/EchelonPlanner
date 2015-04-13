@@ -583,7 +583,7 @@ def sched_gen_auto(request):
             cached_schedule.save()
             for anItem in aSchedule:
                 if cached_schedule.add_item(anItem):
-                    schedule.save()
+                    cached_schedule.save()
                 else:
                     print("Could not add "+str(anItem))
 
