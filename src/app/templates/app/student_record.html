@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Echelon Planner</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="{% static 'app/scripts/jquery.min.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+
+
+</head>
+
+<body>
+<!-- Load  the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+<!-- notify of some error -->
+
+{% if message %}
+    <div class="text-center">
+        <p><b>{{ message }}</b></p>
+    </div>
+{% endif %}
+<div class="container body-content" id="test">
+
+    <div class="row">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-10">
+            <div class="container" id="loginblock">
+                   <div class="row">
+                       <h2>Record</h2>
+                       <p>Full Name: {{ firstname }} {{ lastname }}</p>
+                       <p>Program: {{ academicProgram }}</p>
+                       <p>GPA: {{ gpa }}</p>
+                       <p>Current Standing: {{ currentStanding }}</p>
+                       <p>Current Credits: {{ currentCredits }}</p>
+                       <p>Remaining Credits: {{ remainingCredits }}</p>
+                   </div>
+                   <div class="row">
+                       <h2>Track Record</h2>
+                       {% for course in coursesTaken %}
+                           <p>{{ course.deptnum }}: {{ course.name }} ({{ course.sectionInfo }})</p>
+                           <p>{{ course.grade }}</p>
+                       {% endfor %}
+                   </div>
+                   <div class="row">
+                        <h2>Current Schedule</h2>
+                        <p>{{ mainSchedule.year }} - {{ mainSchedule.semester }} <button class="btn-sm">View</button> <button class="btn-sm">Edit</button> <button class="btn-sm">Delete</button></p>
+
+                       <h2>Schedules Saved</h2>
+                       {% for schedule in scheduleCache %}
+                           <p> {{ schedule.year }} - {{ schedule.semester }} <button class="btn-sm">View</button> <button class="btn-sm">Edit</button> <button class="btn-sm">Delete</button></p>
+                       {% endfor %}
+                   </div>
+            </div>
+
+        </div>
+        <div class="col-xs-1"></div>
+    </div>
+</div>
+</body>
+</html>
