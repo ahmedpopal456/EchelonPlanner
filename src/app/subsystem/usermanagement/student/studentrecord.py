@@ -40,18 +40,111 @@ class StudentRecord(models.Model):
     def listProgramCourses(self):
         pass
 
-    def addTakenCourse(self, coursestring):  # takes deptnum as primary key to add
+    def moveScheduleFromCacheToMain(self):
+
+         # Means there are no more courses in MainSchedule and something from scheduleCache needs to take it's place:
+        if len(self.mainSchedule.lectureList.all()) == 0 and len(self.scheduleCache.all()) > 0:
+            currentYear = self.mainSchedule.year
+            currentSemester = self.mainSchedule.semester
+
+            nextyearavailable = []
+            tempnexthighestyear = 99
+            allcacheSchedule = self.scheduleCache.all()
+            # Find lowest years in schedule cache
+            for schedule in allcacheSchedule:
+                if tempnexthighestyear > schedule.year:
+                    tempnexthighestyear = schedule.year
+            lowestSemesterAvailableList = []
+            for schedule in allcacheSchedule:
+                if schedule.year == tempnexthighestyear:
+                    nextyearavailable.append(schedule)
+                    lowestSemesterAvailableList.append(schedule.semester)
+
+            lowestSemester = ""
+            if "Summer1" in lowestSemesterAvailableList:
+                lowestSemester = "Summer1"
+            elif "Summer2" in lowestSemesterAvailableList:
+                lowestSemester = "Summer2"
+            elif "Fall" in lowestSemesterAvailableList:
+                lowestSemester = "Fall"
+            elif "Winter" in lowestSemesterAvailableList:
+                lowestSemester = "Winter"
+
+            for schedule in nextyearavailable:
+                if schedule.semester == lowestSemester:
+                    self.mainSchedule = schedule
+                    self.scheduleCache.remove(schedule)
+                    self.save()
+            return
+
+    # Used to move course from Main Schedule to CoursesTaken
+    def passCourse(self, deptnum):
+
+        self.mainSchedule.remove_course(deptnum)
+        self.addTakenCourse(deptnum)
+
+        # Check if mainSchedule is empty, if so, then find replacement
+        if len(self.mainSchedule.lectureList.all()) == 0:
+            self.moveScheduleFromCacheToMain()
+
+
+
+    # Used to move course from Main Schedule to CoursesTaken
+    def failCourse(self, deptnum):
+
+        self.mainSchedule.remove_course(deptnum)
+
+
+        # Check if mainSchedule is empty, if so, then find replacement
+        if len(self.mainSchedule.lectureList.all()) == 0:
+            self.moveScheduleFromCacheToMain()
+
+        #TODO: Failing a course should invalidate all future schedules
+        # A few assumptions: a main schedule is the current year, all past must be courses taken,
+
+
+
+    # Used to invalidate a schedule either in main or cache
+    def removeSchedule(self, year, semester):
+
+        if self.mainSchedule.semester == semester and self.mainSchedule.year ==year:
+            self.mainSchedule = None
+            self.save()
+            return
+        else:
+            for schedule in self.scheduleCache.all():
+                if schedule.semester == semester and schedule.year == year:
+                    self.scheduleCache.remove(schedule)
+                    self.save()
+                    return
+
+
+    def addTakenCourse(self, deptnum):  # takes deptnum as primary key to add
 
         try:
-            course = Course.objects.get(pk=coursestring)
+            course = Course.objects.get(pk=deptnum)
             self.coursesTaken.add(course)
+
+            # Need to decrement remaining credits
+            remainingCredits = self.remainingCredits
+            remainingCredits -= course.credits
+            self.remainingCredits = remainingCredits
+
+            #increment taken credits
+            currentCredits = self.currentCredits
+            currentCredits += course.credits
+            self.currentCredits = currentCredits
+
+            # Save record
+            self.save()
+
             return True
         except Course.DoesNotExist:
-            logger.warn("Course does not exist: "+coursestring)
+            logger.warn("Course does not exist: "+deptnum)
             return False
 
     class Meta:
         app_label = 'app'
-        managed= True
+        managed = True
 
 # End class StudentRecord

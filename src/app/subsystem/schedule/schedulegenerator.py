@@ -518,6 +518,7 @@ class ScheduleGenerator(object):
         testCourseResult = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(testCourseList, "Fall", testPrefs)
 
         print(testCourseResult)
+        return testCourseResult
 
     def __init__(self):
         self.studentPreferences = None
