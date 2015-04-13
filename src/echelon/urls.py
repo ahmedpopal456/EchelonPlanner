@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^change_details/', 'app.views.change_details'),
     url(r'^change_pass/', 'app.views.change_pass'),
     url(r'^change_email/', 'app.views.change_email'),
+    url(r'^student_record/','app.views.student_record'),
 
     # Schedule URLs
     url(r'^schedule_make/', 'app.views.schedule_make'),
@@ -40,6 +41,7 @@ urlpatterns = patterns('',
     url(r'^browse_all_courses/', 'app.views.browse_all_courses'),
     url(r'^browse_specific_course/(?P<deptnum>[A-z]{4}[0-9]{3})', 'app.views.browse_specific_course'),
     url(r'^course_create/', 'app.views.course_create'),
+    url(r'^course_data/','app.views.serializeCourseForSemester'),
 
     # Misc
     url(r'^concordia_resources/', 'app.views.concordia_resources'),

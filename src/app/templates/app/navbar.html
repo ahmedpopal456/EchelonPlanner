@@ -22,6 +22,7 @@
                     <ul class="dropdown-menu">
                         <li class=""><a href="/sched_gen_1" style = "color: #ffffff;">Generate</a></li>
                         <li class=""><a href="/schedule_view" style = "color: #ffffff;">View</a></li>
+                        <li class=""><a href="/inspect_schedule" style = "color: #ffffff;">Saved Schedules</a></li>
                         <li class=""><a href="/work_in_progress" style = "color: #ffffff;">Manage preferences</a></li>
                         <li class=""><a href="/browse_all_courses" style = "color: #ffffff;">Browse all courses</a></li>
                     </ul>
@@ -31,6 +32,9 @@
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle" title="View your student record and online profile" style = "color: #ffffff;">Profile <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li ><a href="/user_profile" style = "color: #ffffff;">Inspect</a></li>
+                        {% if user.student %}
+                        <li ><a href="/student_record" style = "color: #ffffff;">Student Record</a></li>
+                        {% endif %}
                         <li class=""><a href="/change_details" style = "color: #ffffff;">Modify Details</a></li>
                         <li class=""><a href="/change_email" style = "color: #ffffff;">Change Email</a></li>
                         <li class=""><a href="/change_pass" style = "color: #ffffff;">Change Password</a></li>
