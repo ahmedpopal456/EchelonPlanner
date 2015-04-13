@@ -275,31 +275,70 @@ class CourseCatalog(object):
     def coursesWithMetPrereqs(student, semester, year):
         # TODO: Have a extra parameters that come from the generation page, indicating classes they are taking. via POST?
 
+        # Need to explicitly convert year to int
+        year = int(year)
+
         metprereq = []
         courselist = Course.objects.all().filter(lecture__semester=semester) # start with a list of all courses offered in that semester
         courseswithnoprereq = Course.objects.all().filter(prerequisites__isnull=True)
         #list of prereq and courses, individually packaged
+
         prereqdict = Course.objects.values("deptnum","prerequisites").exclude(prerequisites__isnull=True)
 
-        coursesTaken = student.academicRecord.coursesTaken.all()  # start creating list of all taken courses
-        if student.academicRecord.mainSchedule is not None:
-            for schedules in student.academicRecord.mainSchedule.objects.all():
-                if semester == "Summer1": # Only take into account courses being taken in summer of same year
-                    if schedules.year <= year and schedules.semester == "Summer1":
-                        for lecture in schedules.lecturelist.objects.all():
+        coursesTaken = list(student.academicRecord.coursesTaken.all())  # start creating list of all taken courses
+        if len(student.academicRecord.scheduleCache.all()) > 0:
+            for schedules in student.academicRecord.scheduleCache.all():
+                # Only take into account courses being in previous years
+                if semester == "Summer1":
+                    if schedules.year < year:
+                        for lecture in schedules.lectureList.all():
                             coursesTaken.append(lecture.course)
-                elif semester == "Summer2": # Only take into account courses being taken in summer of same year
-                    if schedules.year <= year and schedules.semester == "Summer2":
-                        for lecture in schedules.lecturelist.objects.all():
+                # Only take into account courses being taken in summer1 of same year and all of previous years
+                elif semester == "Summer2":
+                    if (schedules.year <= year and schedules.semester == "Summer1") or schedules.year < year:
+                        for lecture in schedules.lectureList.all():
                             coursesTaken.append(lecture.course)
-                elif semester == "Fall": # Only take into account courses being taken in summer amd Fall of same year
-                    if schedules.year <= year and (schedules.semester == "Summer" or schedules.semester == "Fall"):
-                        for lecture in schedules.lecturelist.objects.all():
+                # Only take into account courses being taken in summer1 amd summer2 of same year, and all previous years
+                elif semester == "Fall":
+                    if (schedules.year <= year and (schedules.semester == "Summer1" or schedules.semester == "Summer2"))\
+                            or (schedules.year < year):
+                        for lecture in schedules.lectureList.all():
                             coursesTaken.append(lecture.course)
-                elif semester == "Winter": # take into account everthing in same year
-                    if schedules.year <= year:
-                        for lecture in schedules.lecturelist.objects.all():
+                # take into account everything in same year, except winter and all previous years
+                elif semester == "Winter":
+                    if schedules.year < year or (schedules.year == year and
+                        (schedules.semester == "Summer2" or schedules.semester == "Summer1"
+                                 or schedules.semester == "Fall")):
+                        for lecture in schedules.lectureList.all():
                             coursesTaken.append(lecture.course)
+
+        # also check if the main schedule currently is at an earlier time then the one you are creating
+        mainSchedule = student.academicRecord.mainSchedule
+        if mainSchedule is not None and mainSchedule.year <= year:
+            if semester == "Summer1":
+                if mainSchedule.year < year:
+                        for lecture in mainSchedule.lectureList.all():
+                            coursesTaken.append(lecture.course)
+            # Only take into account courses being taken in summer1 of same year and all of previous years
+            elif semester == "Summer2":
+                if (mainSchedule.semester == "Summer1") or mainSchedule.year < year:
+                    for lecture in mainSchedule.lectureList.all():
+                        coursesTaken.append(lecture.course)
+            # Only take into account courses being taken in summer1 amd summer2 of same year, and all previous years
+            elif semester == "Fall":
+                if (mainSchedule.year <= year and (mainSchedule.semester == "Summer1" or mainSchedule.semester == "Summer2"))\
+                        or (mainSchedule.year < year):
+                    for lecture in mainSchedule.lectureList.all():
+                        coursesTaken.append(lecture.course)
+            # take into account everything in same year, except winter and all previous years
+            elif semester == "Winter":
+                if mainSchedule.year < year or (mainSchedule.year == year and
+                    (mainSchedule.semester == "Summer2" or mainSchedule.semester == "Summer1"
+                             or mainSchedule.semester == "Fall")):
+                    for lecture in mainSchedule.lectureList.all():
+                        coursesTaken.append(lecture.course)
+
+
 
         # full list of courses taken that can be used as prerequisites
 
@@ -312,6 +351,11 @@ class CourseCatalog(object):
 
         for prereq in unmetprereq:
             courselist = courselist.exclude(pk=prereq["deptnum"])
+
+        # TODO: IF we assume all courses in coursesTaken is passed this must also be excluded at this step,
+        # make sure this is tested rigorously
+        for takencourse in student.academicRecord.coursesTaken.all():
+            courselist = courselist.exclude(pk=takencourse.deptnum)
 
         return sorted(list(set(list(courselist))), key=lambda x: x.deptnum, reverse=False)  # remove duplicates and sort
 
