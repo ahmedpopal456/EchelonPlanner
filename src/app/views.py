@@ -575,6 +575,8 @@ def sched_gen_auto(request):
                  'message': 'ERROR: No Schedule match was found. Try different courses or reduce your preferences.'}
             )
 
+
+        # TODO: We're storing these options in the session data not in database
         # Now take care in saving it (All of them)
         for aSchedule in all_schedules:
             cached_schedule = Schedule()
@@ -591,7 +593,8 @@ def sched_gen_auto(request):
             cached_schedule.save()
             # request.user.student.academicRecord.mainSchedule = schedule
             request.user.student.academicRecord.scheduleCache.add(cached_schedule)
-            request.user.student.academicRecord.scheduleCache.save()
+            # You do not need to save to add
+            # request.user.student.academicRecord.scheduleCache.save()
             request.user.student.academicRecord.save()
             request.user.student.save()
         # if all was successful, let's redirect for the user to view his schedule!

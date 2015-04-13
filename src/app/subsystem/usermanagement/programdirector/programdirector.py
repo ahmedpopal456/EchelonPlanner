@@ -11,6 +11,6 @@ class ProgramDirector(models.Model):
 
     class Meta:
         app_label = 'app'
-        managed= True
+        managed = True
 
 # End class ProgramDirector
