@@ -557,9 +557,30 @@ def sched_gen_auto(request):
                 course_objects.append(course)
         semester = request.POST['semester']
         year = request.POST['year']
-        # Find a list of possible schedules
-        # TODO: Change to accept other preferences
-        default = Preferences()
+        # Now, let's find a list of possible schedules
+
+        # Parse from received preferences
+        given_locations = request.POST.getlist('location')
+        given_timesOfDay = request.POST.getlist('timeOfDay')
+        given_daysOff = request.POST.getlist('daysOff')
+        day_set = ['M','T','W','J','F','S','D']
+        string_daysOff = ""
+
+        for i in range(0,7):
+            if day_set[i] in given_daysOff:
+                string_daysOff+=day_set[i]
+            else:
+                string_daysOff+="-"
+        # end for loop
+
+        # Null out any unset/unreceived options to keep preferences consistent when building
+        if len(given_locations) < 0:
+            given_locations = None
+        if len(given_timesOfDay) < 0:
+            given_timesOfDay = None
+
+        # Construct new preferences object and pass it on.
+        default = Preferences(given_daysOff,given_timesOfDay,given_locations)
 
         all_schedules = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(course_objects,semester,default) #TODO CHANGE!
         print(all_schedules )
@@ -610,25 +631,7 @@ def sched_gen_auto(request):
              'currentYear': 1,
              'currentSemester': "Fall"}
         )
-
-#TODO: CLEANUP
-@login_required
-def glorious_schedule_assembly(request):
-    max_courses = [1, 2, 3, 4, 5]
-    feasable_courses = CourseCatalog.searchCoursesThroughPartialName("SOEN")  # Not sure what method to use to call electives related to the user's academic program
-    if request.method == 'POST':
-        prelim_choices = []
-        print(request.POST)
-        for item in range(1, 12):
-            prelim_choices.append(request.POST["choice" + str(item)])
-    testTestList=["a","b","c"]
-    return render(
-        request,
-        'app/glorious_schedule_assembly.html',
-        {'max_courses': max_courses,
-         'feasable_courses': feasable_courses,
-        'testTestList':testTestList}
-    )
+# end sched_gen_auto
 
 @login_required
 def course_create(request):
@@ -655,7 +658,7 @@ def course_create(request):
         request,
         'app/course_create.html',
     )
-
+# end course_create
 
 @login_required
 def browse_all_courses(request):
