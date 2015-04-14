@@ -42,25 +42,64 @@
 
     <!--Title Row -->
     <div class="row">
-        <div class="col-xs-1"></div>
-        <div class="col-xs-11">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
             <h1>Automatic Schedule Generation</h1>
             <h2 id="changeForever">Courses for Year {{ currentYear }} - {{ currentSemester }} Semester:</h2>
             {% if message %}
             <p style="color: #ff171c">{{ message }}</p>
             {% endif %}
         </div>
-        <div class="col-xs-1"></div>
+        <div class="col-md-1"></div>
     </div>
 
 
 
     <form class="form-group" method="post" action="/sched_gen_auto/">
     {% csrf_token %}
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+            <h2>Preferences Selection</h2>
+
+                <div class="row container">
+                    <div class="col-md-4">
+                        <p>Day of the week off</p>
+                        <ul class="list-inline">
+                            <li><input type="checkbox" name="daysOff" value="Monday"> Monday</li>
+                            <li><input type="checkbox" name="daysOff" value="Tuesday"> Tuesday</li>
+                            <li><input type="checkbox" name="daysOff" value="Wednesday"> Wednesday</li>
+                            <li><input type="checkbox" name="daysOff" value="Thursday"> Thursday</li>
+                            <li><input type="checkbox" name="daysOff" value="Friday"> Friday</li>
+                            <li><input type="checkbox" name="daysOff" value="Friday"> Saturday</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <p>Prefered time of day</p>
+                        <ul class="list-inline">
+                            <li><input type="checkbox" name="timeOfDay" value="morning"> Morning (08:00 to 12:00)</li>
+                            <li><input type="checkbox" name="timeOfDay" value="afternoon"> Afternoon (12:00 to 18:00)</li>
+                            <li><input type="checkbox" name="timeOfDay" value="Monday"> Evening (18:00 to 23:00)</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <p>Location</p>
+                        <ul class="list-inline">
+                            <li><input type="checkbox" name="location" value="SGW"> SGW (Downtown)</li>
+                            <li><input type="checkbox" name="location" value="LOY"> Loyola (NDG)</li>
+                            <li><input type="checkbox" name="vehicle" value="Online"> Online </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
         <!-- Picker Row-->
         <div class="row">
                 {% for slot in max_courses %}
-                <div class="col-xs-2"> {# We expect there to be 5 classes at max. #}
+                <div class="col-md-2"> {# We expect there to be 5 classes at max. #}
                         <h2>Course {{ forloop.counter }}</h2>
                         <select class="form-control inline-group" name="courses">
                             <option selected>COURSE</option>
@@ -75,7 +114,7 @@
         </div>
         <br>
         <!-- Submit! -->
-        <div class="col-xs-12 text-center">
+        <div class="col-md-12 text-center">
             <input type="hidden" value="{{ currentSemester }}" name="semester">
             <input type="hidden" value="{{ currentYear }}" name="year">
             <button class="btn btn-lg btn-primary" type="submit">Submit and Load Schedule</button>
