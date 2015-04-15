@@ -1,13 +1,13 @@
 	#!/bin/bash
 
-	# This script takes care of everything related to setting up the Echelon Planner
+	# This script takes care of everything related to setting up the EchelonPlanner
 	# in a working Linux distro with the 'apt' package manager
 	# It is separated into 3 sections:
 	#   1. Global Variable Declaration
 	#   2. Function Section
 	#   3. Main Function and final call to Main
 	#
-	# Installation of Echelon Planner (User must have root privileges)
+	# Installation of EchelonPlanner (User must have root privileges)
 	# It is expected that the installation of the application be straightforward and modular with this script
 	# Therefore, the following are valid parameters:
 	#   "install"
@@ -235,7 +235,7 @@
 		# Check if Root
 		if [[ $EUID -ne 0 ]]
 		then
-			echo "Must be root to install Echelon Planner" 2>&1
+			echo "Must be root to install EchelonPlanner" 2>&1
 			echo "Exiting."
 			exit 1
 		else				
