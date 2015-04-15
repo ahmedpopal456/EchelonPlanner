@@ -37,24 +37,31 @@
                        <p>Current Credits: {{ currentCredits }}</p>
                        <p>Remaining Credits: {{ remainingCredits }}</p>
                    </div>
+                    <br>
                    <div class="row">
-                       <h2>Track Record</h2>
+                   <table class="table">
+                   <tr>
+                       <th>Track Record</th>
+                   </tr>
                        {% for course in coursesTaken %}
-                           <p>{{ course.deptnum }}: {{ course.name }} ({{ course.sectionInfo }})</p>
-                           <p>{{ course.grade }}</p>
+                           <tr>
+                           <td>{{ course.deptnum }}: {{ course.name }} ({{ course.sectionInfo }})</td>
+                           <td>{{ course.grade }}</td>
+                           </tr>
                        {% endfor %}
+                   </table>
                    </div>
                    <div class="row">
-                        <h2>Current Schedule</h2>
-                        <p>{{ mainSchedule.year }} - {{ mainSchedule.semester }} <button class="btn-sm">View</button> <button class="btn-sm">Edit</button> <button class="btn-sm">Delete</button></p>
-
-                       <h2>Schedules Saved</h2>
+                        <table class="table">
+                            <tr><th>Current Schedule</th></tr>
+                            <tr><td>{{ mainSchedule.year }} - {{ mainSchedule.semester }}</td> <td><button class="btn-sm">View</button></td> <td><button class="btn-sm">Edit</button></td> <td><button class="btn-sm">Delete</button></td></tr>
+                            <tr><th>Schedules Saved</th></tr>
                        {% for schedule in scheduleCache %}
-                           <p> {{ schedule.year }} - {{ schedule.semester }} <button class="btn-sm">View</button> <button class="btn-sm">Edit</button> <button class="btn-sm">Delete</button></p>
+                           <tr><td>{{ schedule.year }} - {{ schedule.semester }}</td> <td><button class="btn-sm">View</button></td> <td><button class="btn-sm">Edit</button></td> <td><button class="btn-sm">Delete</button></td></tr>
                        {% endfor %}
+                        </table>
                    </div>
             </div>
-
         </div>
         <div class="col-xs-1"></div>
     </div>
