@@ -7426,3 +7426,23 @@ button .navbar-toggle{
     margin-left: auto;
     margin-right: auto;
 }
+
+.mypanel {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.echelonpanel {
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 4px 4px 4px 4px;
+    padding-top:1px;
+    padding-bottom: 20px;
+    padding-left:20px;
+    padding-right:20px;
+    border: thin solid #191016;
+    font-family: "Prototype", Prototype, Prototype, sans-serif;
+}

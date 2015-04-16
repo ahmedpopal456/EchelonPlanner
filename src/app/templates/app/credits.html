@@ -13,19 +13,21 @@
 
 <body>
 <!-- Load  the Navbar at the top of the page.-->
+{% if request.user.authenticated %}
 {% include "app/navbar.html" %}
-
+{% endif %}
 
 <div class="container body-content">
     <div class="row" >
         <div class="col-xs-2"></div>
-        <div class="col-xs-8">
-            <h1>This website was brought to you by:</h1>
+        <div class="col-xs-8 text-center echelonpanel">
+            <h1>Echelon Planner was brought to you by</h1>
 
-            <h2>The Echelon Team</h2>
+            <h2>The EVE Team</h2>
+            <p>Computer Engineering Students of Concordia University</p>
 
             <h3>Front-End</h3>
-            <p>Mario Felipe Muñoz Ferrante</p>
+            <p>Mario Felipe Muñoz Ferrante (Software Engineering Student)</p>
             <p>Javier Fajardo</p>
             <p>Arsalan Ali</p>
 
@@ -47,6 +49,7 @@
         <div class="col-xs-2">
         </div>
     </div>
+    <div class="row"><br></div>
 </div>
 </body>
 </html>

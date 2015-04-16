@@ -13,13 +13,14 @@
 
 <body>
 <!-- Load  the Navbar at the top of the page.-->
+{% if request.user.authenticated %}
 {% include "app/navbar.html" %}
-
+{% endif %}
 
 <div class="container body-content">
     <div class="row" >
         <div class="col-xs-2"></div>
-        <div class="col-xs-8">
+        <div class="col-xs-8 echelonpanel">
             <h1>HERE'S A SONG TO EXPLAIN ALL OF THIS</h1>
             <br>
             <p>I am the very model of a project quite intangible</p>
@@ -41,6 +42,7 @@
         <div class="col-xs-2">
         </div>
     </div>
+    <div class="row"><br></div>
 </div>
 </body>
 </html>

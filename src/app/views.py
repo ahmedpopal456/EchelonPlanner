@@ -257,14 +257,14 @@ def concordia_resources(request):
         'app/concordia_resources.html'
     )
 
-@login_required
-def credits(request):
+
+def credits_page(request):
     return render(
         request,
         'app/credits.html'
     )
 
-@login_required
+
 def about(request):
     return render(
         request,
@@ -272,7 +272,6 @@ def about(request):
     )
 
 
-@login_required
 def error_404(request):
     return render(
         request,
