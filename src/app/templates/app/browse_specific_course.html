@@ -122,8 +122,9 @@
                             <tr>
                                 <th>Tutorial</th>
                                 <th></th>
-                                <th>stuff</th>
-                                <th>More Stuff</th>
+                                <th>Days</th>
+                                <th>Location</th>
+                                <th>Hours</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -144,6 +145,7 @@
                                     {% endif %}
 
                                     <td>{{ tutorials.location }}</td>
+                                    <td>{{ tutorials.starttime }} - {{ tutorials.endtime }}</td>
 
                                 </tr>
                                 {% for labs in tutorials.lab %}
@@ -151,6 +153,7 @@
                                     <td> Lab {{ labs.section }}</td>
                                     <td>{{ labs.days }}</td>
                                     <td>{{ labs.location }}</td>
+                                    <td>{{ labs.starttime }} - {{ labs.endtime }}</td>
                                 </tr>
                                 {% endfor %}
                             {% endfor %}
