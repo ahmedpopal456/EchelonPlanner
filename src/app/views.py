@@ -301,15 +301,17 @@ def change_details(request):
         if len(request.POST['cellPhone']) > 0:
             request.user.student.cellphone = cellPhone
         request.user.student.save()
-        loadPage = str()
-    return render(
-        request,
-        'app/user_profile.html',
-        {'alternate': loadPage, 'message': message,
-        'homePhone': oldHomePhone,
-        'cellPhone': oldCellPhone,
-        'address': oldAddress}
-    )
+        return user_profile(request)
+
+    else:
+        return render(
+            request,
+            'app/user_profile.html',
+            {'alternate': loadPage, 'message': message,
+            'homePhone': oldHomePhone,
+            'cellPhone': oldCellPhone,
+            'address': oldAddress}
+        )
 # end change_details
 
 

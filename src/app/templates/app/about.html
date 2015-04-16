@@ -13,7 +13,7 @@
 
 <body>
 <!-- Load  the Navbar at the top of the page.-->
-{% if request.user.authenticated %}
+{% if user.is_authenticated %}
 {% include "app/navbar.html" %}
 {% endif %}
 
@@ -42,7 +42,8 @@
         <div class="col-xs-2">
         </div>
     </div>
-    <div class="row"><br></div>
+    <br>
+    {% include "app/footer.html" %}
 </div>
 </body>
 </html>
