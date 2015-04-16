@@ -18,24 +18,7 @@
 
 <script type="text/javascript">
     //TODO: Make loading page with this!
-    //Function to submit our courses
-    function do_heavy_lifting(argument) {
 
-        //First collect all courses
-
-        $.ajax({
-            type: 'POST',
-            data: { argument: argument }, // if necesarry
-            url: '/heavy_lifting_django_view_url/',
-            beforeSend: function() {
-                $('#loading').show();
-            },
-            success: function(data) {
-                //
-            },
-            cache: false
-        });
-    }
 </script>
 
 <div class="container body-content">
