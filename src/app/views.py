@@ -258,7 +258,7 @@ def concordia_resources(request):
     )
 
 @login_required
-def about(request):
+def credits(request):
     return render(
         request,
         'app/credits.html'
