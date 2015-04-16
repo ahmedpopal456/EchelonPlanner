@@ -257,6 +257,12 @@ def concordia_resources(request):
         'app/concordia_resources.html'
     )
 
+@login_required
+def about(request):
+    return render(
+        request,
+        'app/credits.html'
+    )
 
 @login_required
 def about(request):
