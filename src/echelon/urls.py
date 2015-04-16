@@ -45,6 +45,7 @@ urlpatterns = patterns('',
     # Misc
     url(r'^concordia_resources/', 'app.views.concordia_resources'),
     url(r'^help/', 'app.views.help_site'),
+    url(r'^about/', 'app.views.about'),
     url(r'^favicon.ico$', RedirectView.as_view(url='/static/favicon.ico')),
 
     # REST API URLs
