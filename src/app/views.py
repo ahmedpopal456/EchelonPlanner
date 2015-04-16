@@ -369,15 +369,29 @@ def schedule_select(request): #Needs to be looked at
 
 @login_required
 def student_record(request):
-    firstname = User().first_name   #how does this wizardry work?
-    lastname = User().last_name     #how does this wizardry work?
-    academicProgram = "Bestest Program" #please replace with proper one
-    gpa = "Bestest GPA" #please replace with proper one
-    currentStanding = "Bestest Standing" #please replace with proper one
-    currentCredits = "Bestest Credits" #please replace with proper one
-    remainingCredits = "ALL OF THE CREDITS" #please replace with proper one
-    coursesTaken = [1,2,3,4] #please replace with proper one
-    allSchedules = [1,2,3,4] #please replace with proper one
+    firstname = request.user.first_name
+    lastname = request.user.last_name
+    this_student = StudentCatalog.getStudent(request.user.username)
+
+    # If we didn't find the student, stop trying to render the page.
+    if not this_student:
+        return render(
+            request,
+            'app/student_record.html',
+            {'firstname': firstname,
+             'lastname': lastname}
+        )
+
+    # Else, we continue.
+    this_record = this_student.academicRecord
+    academicProgram = this_record.academicProgram
+    gpa = this_record.GPA
+    currentStanding = this_record.currentStanding #please replace with proper one
+    currentCredits = this_record.currentCredits #please replace with proper one
+    remainingCredits = this_record.remainingCredits #please replace with proper one
+    coursesTaken = this_record.coursesTaken.all() #please replace with proper one
+    allSchedules = this_record.scheduleCache.all() #please replace with proper one
+    mainSchedule = this_record.mainSchedule
     return render(
         request,
         'app/student_record.html',
@@ -389,7 +403,8 @@ def student_record(request):
          'currentCredits': currentCredits,
          'remainingCredits': remainingCredits,
          'coursesTaken': coursesTaken,
-         'allSchedules': allSchedules}
+         'allSchedules': allSchedules,
+         'mainSchedule': mainSchedule}
     )
 
 

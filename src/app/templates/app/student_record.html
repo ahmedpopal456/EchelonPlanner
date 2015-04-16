@@ -15,50 +15,86 @@
 <!-- Load  the Navbar at the top of the page.-->
 {% include "app/navbar.html" %}
 
-<!-- notify of some error -->
-
+{#notify of some error if needed#}
 {% if message %}
     <div class="text-center">
         <p><b>{{ message }}</b></p>
     </div>
 {% endif %}
+
 <div class="container body-content" id="test">
 
     <div class="row">
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
             <div class="container" id="loginblock">
-                   <div class="row">
-                       <h2>Record</h2>
+                   <div class="row echelonpanel ">
+                       <h2>Student Record</h2>
                        <p>Full Name: {{ firstname }} {{ lastname }}</p>
-                       <p>Program: {{ academicProgram }}</p>
-                       <p>GPA: {{ gpa }}</p>
-                       <p>Current Standing: {{ currentStanding }}</p>
-                       <p>Current Credits: {{ currentCredits }}</p>
-                       <p>Remaining Credits: {{ remainingCredits }}</p>
+                       <div class="list-inline">
+                           <ul class="list-inline">
+                               <li>Program: {{ academicProgram }}</li>
+                               <li>GPA: {{ gpa }}</li>
+                           </ul>
+                           <ul class="list-inline">
+                              <li>Current Standing: {{ currentStanding }}</li>
+                              <li>Current Credits: {{ currentCredits }}</li>
+                           </ul>
+                           <ul class="list-inline">
+                               <li>Remaining Credits: {{ remainingCredits }}</li>
+                           </ul>
+                       </div>
+
                    </div>
                     <br>
                    <div class="row">
-                   <table class="table">
-                   <tr>
-                       <th>Track Record</th>
-                   </tr>
+                   <table class="table table-hover">
+                    <h3>Courses Taken</h3>
+                        {% if coursesTaken %}
                        {% for course in coursesTaken %}
-                           <tr>
+                       <tr>
                            <td>{{ course.deptnum }}: {{ course.name }} ({{ course.sectionInfo }})</td>
                            <td>{{ course.grade }}</td>
-                           </tr>
+                       </tr>
                        {% endfor %}
+                        {% else %}
+                        <tr><td>No Courses to be listed yet</td></tr>
+                        {% endif %}
                    </table>
                    </div>
                    <div class="row">
-                        <table class="table">
+                   <h3>User Schedules</h3>
+                        <table class="table table-hover">
                             <tr><th>Current Schedule</th></tr>
-                            <tr><td>{{ mainSchedule.year }} - {{ mainSchedule.semester }}</td> <td><button class="btn-sm">View</button></td> <td><button class="btn-sm">Edit</button></td> <td><button class="btn-sm">Delete</button></td></tr>
+                            {% if mainSchedule %}
+                            <tr>
+                                <td>{{ mainSchedule.year }} - {{ mainSchedule.semester }}</td>
+                                <td><a href="/work_in_progress/"><button class="btn-sm">View</button></a></td>
+                                <td><a href="/work_in_progress/"><button class="btn-sm">Edit</button></a></td>
+                                <td><a href="/work_in_progress/"><button class="btn-sm">Delete</button></a></td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td></td>
+                                <td>No Main Schedule to Display. Create one <a href="/sched_gen_1/">Now!</a> </td>
+                            </tr>
+                            {% endif %}
                             <tr><th>Schedules Saved</th></tr>
+                        {% if scheduleCache %}
                        {% for schedule in scheduleCache %}
-                           <tr><td>{{ schedule.year }} - {{ schedule.semester }}</td> <td><button class="btn-sm">View</button></td> <td><button class="btn-sm">Edit</button></td> <td><button class="btn-sm">Delete</button></td></tr>
+                           <tr>
+                               <td>{{ schedule.year }} - {{ schedule.semester }}</td>
+                                <td><a href="/work_in_progress/"><button class="btn-sm">View</button></a></td>
+                                <td><a href="/work_in_progress/"><button class="btn-sm">Edit</button></a></td>
+                                <td><a href="/work_in_progress/"><button class="btn-sm">Delete</button></a></td>
+                           </tr>
                        {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td></td>
+                                <td>No Saved Schedules</td>
+                            </tr>
+                        {% endif %}
                         </table>
                    </div>
             </div>
