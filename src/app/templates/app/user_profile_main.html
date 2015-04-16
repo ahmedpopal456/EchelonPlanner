@@ -4,70 +4,47 @@
     <div class="row">
         <div class="col-xs-3"></div>
         <div class="col-xs-6">
-            <div class="container" id="loginblock">
-                    <h1>Account Settings</h1>
+            <div class="container echelonpanel" id="loginblock">
+                <h1>Account Settings</h1>
 
-                    {% if firstname %}
-                        <p>First Name: {{firstname}}</p>
-                    {% else %}
-                        <p>Who are you?</p>
-                    {% endif %}
+                <p>First Name: {{firstname}}</p>
+                <p>Last Name: {{lastname}}</p>
+                <p>Email: {{email}} </p>
 
-                    {% if lastname %}
-                        <p>Last Name: {{lastname}}</p>
-                    {% else %}
-                        <p>Who are you?</p>
-                    {% endif %}
+                <a class="btn btn-lg btn-primary btn-block" href="/change_pass">Change Password</a>
+                <a class="btn btn-lg btn-primary btn-block" href="/change_email">Change Email</a>
 
-                    {% if email %}
-                        <p>Email: {{email}} </p>
-                    {% else %}
-                        <p>You don't have an email?</p>
-                    {% endif %}
+                <p>Note: if you want to change your name or last name, talk to our excellent staff!</p>
+                <hr>
 
-                    <a class="btn btn-lg btn-primary btn-block" href="/change_pass">Change Password</a>
-                    <a class="btn btn-lg btn-primary btn-block" href="/change_email">Change Email</a>
+                <h1>User Details</h1>
+                <p>Home Phone Number: {{homephone}}</p>
+                <p>Home Phone Number: {{cellphone}}</p>
+                <p>Address: {{address}}</p>
 
-                    <p>Note: if you want to change your name or last name, talk to our excellent staff at a campus near you.</p>
+                <h2>Academic Record</h2>
+                <p><a href="/student_record/">View</a></p>
 
-                    <h1>User Details</h1>
+                {% comment %}
+                {# We need to put the Program Directors Power here #}
+                {% if user.professor %}
+                    <p>Engineer status: {{isengineer}}</p>
+                {% endif %}
+                {% endcomment %}
 
-                    {% if homephone %}
-                        <p>Home Phone Number: {{homephone}}</p>
-                    {% else %}
-                        <p>You don't have a home phone number?</p>
-                    {% endif %}
+                {% if user.programdirector %}
+                    <hr>
+                    <p>Department: {{dept}} </p>
+                {% endif %}
 
-                    {% if cellphone %}
-                        <p>Home Phone Number: {{cellphone}}</p>
-                    {% else %}
-                        <p>You don't have a cellphone number?</p>
-                    {% endif %}
-
-                    {% if address %}
-                        <p>Address: {{address}}</p>
-                    {% else %}
-                        <p>You don't have an address?</p>
-                    {% endif %}
-
-                    {% if professor %}
-                        <p>Engineer status: {{isengineer}}</p>
-                    {% endif %}
-
-                    {% if isDirector %}
-                        {% if hasDept %}
-                        <p>Department: {{dept}} </p>
-                        {% else %}
-                        <p>You are not assigned to a department.</p>
-                        {% endif %}
-                    {% endif %}
-
-                    <a class="btn btn-lg btn-primary btn-block" href="/change_details">Change Details</a>
+                <a class="btn btn-lg btn-primary btn-block" href="/change_details">Change Details</a>
 
             </div>
 
         </div>
         <div class="col-xs-3"></div>
     </div>
+    <br>
+    {% include "app/footer.html" %}
 
 </div>
