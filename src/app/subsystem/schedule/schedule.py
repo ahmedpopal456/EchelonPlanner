@@ -22,6 +22,90 @@ class Schedule(models.Model):
     semester = models.CharField(max_length=120, default="Fall")
     year = models.IntegerField(default=1)
 
+
+    def serializeScheduleForSemester(self):
+
+        subcourseitemlist = []
+        courselist = []
+
+        for lab in self.labList.all():
+            subcourseitemlist.append(lab)
+            courselist.append(lab.course)
+
+        for tutorial in self.tutorialList.exclude(course__in=courselist):
+            subcourseitemlist.append(tutorial)
+            courselist.append(tutorial.course)
+
+        for lecture in self.lectureList.exclude(course__in=courselist):
+            subcourseitemlist.append(lecture)
+            courselist.append(lecture.course)
+
+        print(subcourseitemlist)
+        print(courselist)
+
+        lectures = []
+
+        for subcourseitem in subcourseitemlist:
+                lab = {}
+                tutorial = {"section": None,
+                            "lab": lab}
+                lecture = {}
+                if subcourseitem.name() == "Lab":
+                    lab = {"section": subcourseitem.section,
+                           "days": subcourseitem.event.days,
+                           "starttime": subcourseitem.event.getActualStart(),
+                           "endtime": subcourseitem.event.getActualEnd(),
+                           "location": subcourseitem.event.location}
+                    if subcourseitem.course.hasTutorials():
+                        tutorial = {"section": subcourseitem.tutorial.section,
+                                  "days": subcourseitem.tutorial.event.days,
+                                  "starttime": subcourseitem.tutorial.event.getActualStart(),
+                                  "endtime": subcourseitem.tutorial.event.getActualEnd(),
+                                  "location": subcourseitem.tutorial.event.location,
+                                  "lab": lab}
+                    else:
+                        # Append to a blank tutorial section
+                        tutorial = {"section": None,
+                                    "lab": lab}
+                if subcourseitem.name() == "Tutorial":
+                    tutorial = {"section": subcourseitem.section,
+                                  "days": subcourseitem.event.days,
+                                  "starttime": subcourseitem.event.getActualStart(),
+                                  "endtime": subcourseitem.event.getActualEnd(),
+                                  "location": subcourseitem.event.location,
+                                  "lab": lab}
+                    # If only lecture, then make lecture serialized, with empty lab and tut
+                if subcourseitem.name() == "Lecture":
+                    lecture = {"Course": subcourseitem.course.deptnum,
+                            "semester": subcourseitem.semester,
+                             "section": subcourseitem.section,
+                             "days": subcourseitem.event.days,
+                             "starttime": subcourseitem.event.getActualStart(),
+                             "endtime": subcourseitem.event.getActualEnd(),
+                             "prof": subcourseitem.prof,
+                             "location": subcourseitem.event.location,
+                             "tutorial": tutorial}
+                # Else, you can append the tutorial formed above to subcourseitem.lecture
+                else:
+                    lecture = {"Course": subcourseitem.course.deptnum,
+                            "semester": subcourseitem.lecture.semester,
+                             "section": subcourseitem.lecture.section,
+                             "days": subcourseitem.lecture.event.days,
+                             "starttime": subcourseitem.lecture.event.getActualStart(),
+                             "endtime": subcourseitem.lecture.event.getActualEnd(),
+                             "prof": subcourseitem.lecture.prof,
+                             "location": subcourseitem.lecture.event.location,
+                             "tutorial": tutorial}
+
+                lectures.append(lecture)
+
+        serializedSchedule = {"lectures": lectures}
+
+        return serializedSchedule
+
+
+
+
     # Need to create a dictionary organized by days to send to views
 
     def schedule_package(self):
@@ -30,6 +114,8 @@ class Schedule(models.Model):
         sectionslist = self.view_schedule()
         weekdictlist = [[],[],[],[],[],[],[]]
         weeksectionlist = [[],[],[],[],[],[],[]]
+        onlineSectionList = []
+        onlineSectionDict = []
 
         # separate sections into separate daylists
         for section in sectionslist:
@@ -47,6 +133,8 @@ class Schedule(models.Model):
                 weeksectionlist[5].append(section)
             if section.event.isSunday():
                 weeksectionlist[6].append(section)
+            if section.event.isOnline():
+                onlineSectionList.append(section)
 
         # order this based on starttime
 
@@ -129,16 +217,27 @@ class Schedule(models.Model):
                     blocktype = "Blank"
                 if block.course is None:
                     coursename = None
+                    sectionname = None
                 else:
                     coursename = block.course.deptnum
+                    sectionname = block.section
                 weekdictlist[i].append({"RoundedStart": block.event.getRoundedStart(),
                                         "Duration": block.event.getDuration(),
                                         "Type": blocktype,
                                         "ActualStart": block.event.getActualStart(),
                                         "ActualEnd": block.event.getActualEnd(),
                                         "Location": block.event.location,
-                                        "Course": coursename
+                                        "Course": coursename,
+                                        "Section":sectionname
                                         })
+
+        # serialize online sections as well
+
+        for onlinesection in onlineSectionList:
+            onlineSectionDict.append({"Course": onlinesection.course,
+                                      "Section": onlinesection.section,
+                                      "Type": onlinesection.name()})
+
 
 
         scheduledict = {"Monday": weekdictlist[0],
@@ -149,7 +248,8 @@ class Schedule(models.Model):
                         "Saturday": weekdictlist[5],
                         "Sunday": weekdictlist[6],
                         "Year": self.year,
-                        "Semester": self.semester
+                        "Semester": self.semester,
+                        "Online": onlineSectionDict
                         }
 
         return scheduledict
