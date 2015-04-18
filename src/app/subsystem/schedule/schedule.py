@@ -1,5 +1,6 @@
 from django.db import models
-from .. import *
+# from .. import *
+from ..courses import *
 from .schedulegenerator import ScheduleGenerator
 import datetime
 from ..event.event import Event
@@ -11,6 +12,7 @@ import json
 
 logger = logging.getLogger(__name__)
 
+# NOTE: Schedule objects may be temporarily kept in the sessions dictionary.
 
 class Schedule(models.Model):
     # Stuff stored by the Schedule

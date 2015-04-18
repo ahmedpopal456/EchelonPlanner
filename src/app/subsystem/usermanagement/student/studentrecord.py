@@ -21,7 +21,8 @@ class StudentRecord(models.Model):
     registeredCourses = models.ManyToManyField(Course, null=True, blank=True, symmetrical=False, related_name="current_semester_course")
     coursesTaken = models.ManyToManyField(Course, null=True, blank=True, symmetrical=False, related_name="course_previously_taken")
     scheduleCache = models.ManyToManyField(Schedule, null=True, blank=True, symmetrical=False, related_name="all_generated_schedules")
-    mainSchedule = models.ForeignKey(Schedule, null=True, blank=True, related_name="main_schedule")
+    mainSchedule = models.OneToOneField(Schedule, null=True, blank=True, related_name="main_schedule")
+
     # Information related to academic performance and progress
     GPA = models.FloatField(default=4.0, primary_key=False)
     currentStanding = models.CharField(max_length=120, null=False, blank=False, default="Good", primary_key=False)
