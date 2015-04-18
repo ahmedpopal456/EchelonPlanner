@@ -32,9 +32,16 @@
                         {# Random Test with divs #}
                     <div class="col-md-6">
                         <div class="echelonpanel-inner">
-                            <h5>Some text here</h5>
+                            <div class="row">
+                                <ul class="list-inline">
+                                    <li><h5>Some text here</h5></li>
+                                    <li><h5>Some text here</h5></li>
+                                    <li><h5>Some text</h5></li>
+                                </ul>
+                            </div>
+
                             <table class="table-condensed table-hover">
-                                <tr>
+                                <tr id="{{ item.pk }}">
                                     {% for lecture in item.lectureList.all %}
                                     <td>{{ lecture.course }}/{{ lecture.section }}</td>
                                     {% endfor %}
@@ -45,9 +52,9 @@
                     {% endfor %}
 
                     {# END TODO #}
-                {% endif %}
 
-                {% if oldSchedules %}
+
+                {% elif oldSchedules and not newSchedules %}
                     <h3>Generated Schedules from Previous Session</h3>
                     <p>Below you'll see the schedules generated in your last session. Pick one and we'll save it!</p>
                     <p>There are {{ oldSchedules|length }} Schedule(s) in Total</p>
@@ -57,7 +64,7 @@
                         <div class="echelonpanel-inner">
                             <h5>Some text here</h5>
                             <table class="table-condensed table-hover">
-                                <tr>
+                                <tr id="{{ item.pk }}">
                                     {% for lecture in item.lectureList.all %}
                                     <td>{{ lecture.course }}/{{ lecture.section }}</td>
                                     {% endfor %}
