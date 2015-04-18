@@ -1,58 +1,74 @@
 {% load staticfiles %}
 
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" data-target="#our-collapses" data-toggle="collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img src="{% static 'app/images/logo_small.png' %}"></a>
 
-    <a class="navbar-brand pull-left" href="/"><img src="{% static 'app/images/logo_small.png' %}"></a>
+        </div>
 
-    <button class="navbar-toggle pull-right" data-target=".nav-collapse" data-toggle="collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
+        <div class="collapse nav-collapse" id="our-collapses">
+            <ul class="nav nav-tabs-justified">
 
-  <div class="navbar-inner">
-    <div class="container">
-      <div class="nav-collapse">
-        <ul class="nav nav-tabs-justified">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" title="Manage your schedule and registration"  style = "color: #ffffff;">Schedule Management <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li class=""><a href="/sched_gen_1" style = "color: #ffffff;">Generate</a></li>
+                            <li class=""><a href="/schedule_view" style = "color: #ffffff;">View Current Schedule</a></li>
+                            <li class=""><a href="/schedule_select" style = "color: #ffffff;">Generated Schedules</a></li>
+                            <li class=""><a href="/work_in_progress" style = "color: #ffffff;">Manage preferences</a></li>
+                            <li class=""><a href="/browse_all_courses" style = "color: #ffffff;">Browse all courses</a></li>
+                        </ul>
+                    </li>
 
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle" title="Manage your schedule and registration"  style = "color: #ffffff;">Schedule Management <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li class=""><a href="/sched_gen_1" style = "color: #ffffff;">Generate</a></li>
-                        <li class=""><a href="/schedule_view" style = "color: #ffffff;">View Current Schedule</a></li>
-                        <li class=""><a href="/schedule_select" style = "color: #ffffff;">Generated Schedules</a></li>
-                        <li class=""><a href="/work_in_progress" style = "color: #ffffff;">Manage preferences</a></li>
-                        <li class=""><a href="/browse_all_courses" style = "color: #ffffff;">Browse all courses</a></li>
-                    </ul>
-                </li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" title="View your student record and online profile" style = "color: #ffffff;">Profile <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li ><a href="/user_profile" style = "color: #ffffff;">Inspect</a></li>
+                            {% if user.student %}
+                            <li ><a href="/student_record" style = "color: #ffffff;">Student Record</a></li>
+                            {% endif %}
+                            <li class=""><a href="/change_details" style = "color: #ffffff;">Modify Details</a></li>
+                            <li class=""><a href="/change_email" style = "color: #ffffff;">Change Email</a></li>
+                            <li class=""><a href="/change_pass" style = "color: #ffffff;">Change Password</a></li>
+                        </ul>
+                    </li>
 
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle" title="View your student record and online profile" style = "color: #ffffff;">Profile <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li ><a href="/user_profile" style = "color: #ffffff;">Inspect</a></li>
-                        {% if user.student %}
-                        <li ><a href="/student_record" style = "color: #ffffff;">Student Record</a></li>
-                        {% endif %}
-                        <li class=""><a href="/change_details" style = "color: #ffffff;">Modify Details</a></li>
-                        <li class=""><a href="/change_email" style = "color: #ffffff;">Change Email</a></li>
-                        <li class=""><a href="/change_pass" style = "color: #ffffff;">Change Password</a></li>
-                    </ul>
-                </li>
+                    <li>
+                        <a href="/concordia_resources" title="Helpful links to other sites" style = "color: #ffffff;">Resources</a>
+                    </li>
 
-                <li>
-                    <a href="/concordia_resources" title="Helpful links to other sites" style = "color: #ffffff;">Resources</a>
-                </li>
-
-                <li><a href="/help/" title="Site help section" style = "color: #ffffff;">Help</a></li>
-                <li><a href="/about/" title="About" style = "color: #ffffff;">About</a></li>
-                <li><a href="/credits/" title="Credits" style = "color: #ffffff;">Credits</a></li>
-                <li><a href="/logout" title="Last Section" style = "color: #ffffff;">Logout</a></li>
+                    <li><a href="/help/" title="Site help section" style = "color: #ffffff;">Help</a></li>
+                    <li><a href="/about/" title="About" style = "color: #ffffff;">About</a></li>
+                    <li><a href="/credits/" title="Credits" style = "color: #ffffff;">Credits</a></li>
+                    <li><a href="/logout" title="Last Section" style = "color: #ffffff;">Logout</a></li>
 
 
             </ul>
-      </div><!-- /.nav-collapse -->
-    </div><!-- /.container -->
-  </div><!-- /.navbar-inner -->
-</div><!-- /.navbar -->
+        </div><!-- /.nav-collapse -->
+
+    </div>
+
+
+
+
+
+
+
+
+
+{#  <div class="navbar-inner">#}
+{#    <div class="container-fluid">#}
+{##}
+{#    </div><!-- /.container -->#}
+{#  </div><!-- /.navbar-inner -->#}
+
+
+</nav><!-- /.navbar -->

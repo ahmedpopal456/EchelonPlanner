@@ -75,92 +75,98 @@
     {% endcomment %}
         {# Used to be class="hidden" for multiview #}
         <div id="surprise" class="echelonpanel">
-                    {% if is_current %}
-                    <h2 id="changeForever">Current Semester Schedule</h2>
-                    {% else %}
-                    <h2 id="changeForever">{{ semester }} Schedule for Year {{ year }}</h2>
-                    {% endif %}
-                    <a href="/schedule_print_view">Print View</a>
-                    <table class="table table-condensed" id="schedule_table">
-                        <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th class="mon">Monday</th>
-                            <th class="tue">Tuesday</th>
-                            <th class="wed">Wednesday</th>
-                            <th class="thu">Thursday</th>
-                            <th class="fri">Friday</th>
-                            <th class="sat">Saturday</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for time in timeSlots %}
-                            <tr>
-                                <td id="time">{{ time }}</td>
-                            {# TODO: we can have some fancy manipulation of format in our rows... #}
-                            {# Populate day by day #}
-                            {% for class in schedule.Monday %}
-                                {% if time == class.RoundedStart %}
-                                    {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
-                                    {% else %}
-                                <td rowspan="{{ class.Duration }}" class=""></td>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
+            {% if is_current %}
+            <h2 id="changeForever">Current Semester Schedule</h2>
+            {% else %}
+            <h2 id="changeForever">{{ semester }} Schedule for Year {{ year }}</h2>
+            {% endif %}
 
-                            {% for class in schedule.Tuesday %}
-                                {% if time == class.RoundedStart %}
-                                    {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
-                                    {% else %}
-                                <td rowspan="{{ class.Duration }}" class=""></td>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
+            <p>
+                <a href="/schedule_print_view">Print View</a>
+                {% if specific %}
+                 - <a onclick="history.go(-1);">Go Back</a>
+                {% endif %}
+            </p>
+            <table class="table table-condensed" id="schedule_table">
+                <thead>
+                <tr>
+                    <th>Time</th>
+                    <th class="mon">Monday</th>
+                    <th class="tue">Tuesday</th>
+                    <th class="wed">Wednesday</th>
+                    <th class="thu">Thursday</th>
+                    <th class="fri">Friday</th>
+                    <th class="sat">Saturday</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for time in timeSlots %}
+                    <tr>
+                        <td id="time">{{ time }}</td>
+                    {# TODO: we can have some fancy manipulation of format in our rows... #}
+                    {# Populate day by day #}
+                    {% for class in schedule.Monday %}
+                        {% if time == class.RoundedStart %}
+                            {% if class.Course != None %}
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
+                            {% else %}
+                        <td rowspan="{{ class.Duration }}" class=""></td>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
 
-                            {% for class in schedule.Wednesday %}
-                                {% if time == class.RoundedStart %}
-                                    {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
-                                    {% else %}
-                                <td rowspan="{{ class.Duration }}" class=""></td>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
+                    {% for class in schedule.Tuesday %}
+                        {% if time == class.RoundedStart %}
+                            {% if class.Course != None %}
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
+                            {% else %}
+                        <td rowspan="{{ class.Duration }}" class=""></td>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
 
-                            {% for class in schedule.Thursday %}
-                                {% if time == class.RoundedStart %}
-                                    {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
-                                    {% else %}
-                                <td rowspan="{{ class.Duration }}" class=""></td>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
+                    {% for class in schedule.Wednesday %}
+                        {% if time == class.RoundedStart %}
+                            {% if class.Course != None %}
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
+                            {% else %}
+                        <td rowspan="{{ class.Duration }}" class=""></td>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
 
-                            {% for class in schedule.Friday %}
-                                {% if time == class.RoundedStart %}
-                                    {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
-                                    {% else %}
-                                <td rowspan="{{ class.Duration }}" class=""></td>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                            {% for class in schedule.Saturday %}
-                                {% if time == class.RoundedStart %}
-                                    {% if class.Course != None %}
-                                <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
-                                    {% else %}
-                                <td rowspan="{{ class.Duration }}" class=""></td>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                    {% for class in schedule.Thursday %}
+                        {% if time == class.RoundedStart %}
+                            {% if class.Course != None %}
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
+                            {% else %}
+                        <td rowspan="{{ class.Duration }}" class=""></td>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for class in schedule.Friday %}
+                        {% if time == class.RoundedStart %}
+                            {% if class.Course != None %}
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
+                            {% else %}
+                        <td rowspan="{{ class.Duration }}" class=""></td>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% for class in schedule.Saturday %}
+                        {% if time == class.RoundedStart %}
+                            {% if class.Course != None %}
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
+                            {% else %}
+                        <td rowspan="{{ class.Duration }}" class=""></td>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
                 </div>
                 </div>
         <div class="col-md-1"></div>
