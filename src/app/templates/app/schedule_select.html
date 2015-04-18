@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>EchelonPlanner</title>
     {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/bootstrap.css' %}"/>
     <script src="{% static 'app/scripts/jquery.min.js' %}"></script>
     <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
 
@@ -15,46 +15,87 @@
 <!-- Load the Navbar at the top of the page.-->
 {% include "app/navbar.html" %}
 
-<div class="container body-content">
+<script type="text/javascript">
+    $('#save_alert').on('show.bs.modal', function (event) {
+        console.log("MODAL!");
+        var button = $(event.relatedTarget);// Button that triggered the modal
+        var recipient = button.data('key');// Extract info from data-* attributes
+        var modal = $(this);
+        modal.find('.modal-title').text('New message to ' + recipient);
+        modal.find('.modal-body input').val(recipient)
+    });
+
+    {# AJAX request for saving and overwriting schedules #}
+    do_a_save = function(){
+        alert("SAVING!");
+    };
+</script>
+<div class=" body-content">
+<div class="container">
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8 echelonpanel">
             <h2>Generated Schedules</h2>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                  </div>
+                  <div class="modal-body">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn-sm" data-toggle="modal" data-target="#myModal">Testy</button>
+            <!-- Modal -->
+
+
+
             {% if newSchedules or oldSchedules %}
                 {% if newSchedules %}
+                <div class="">
                     <h3>New Automatically Generated Schedules</h3>
                     <p>Below you'll see the newly generated schedules. Pick one and we'll save it!</p>
                     <p>There are {{ newSchedules|length }} Schedule(s) in Total</p>
-                    {# TODO: FIX DISPLAY MECHANISM #}
 
                     {% for item in newSchedules %}
-
-                        {# Random Test with divs #}
                     <div class="col-md-6">
                         <div class="echelonpanel-inner">
                             <div class="row">
-                                <ul class="list-inline">
-                                    <li><h5>Some text here</h5></li>
-                                    <li><h5>Some text here</h5></li>
-                                    <li><h5>Some text</h5></li>
+                                <ul class="list-inline text-right">
+                                    <li><h4>Schedule {{ forloop.counter }}</h4></li>
+                                    <li><a href="/schedule_view/recent/{{ item.pk }}"><button class="btn-sm">Preview</button></a></li>
+                                    <li><a href="/work_in_progress/"><button class="btn-sm">Save</button></a></li>
                                 </ul>
                             </div>
 
                             <table class="table-condensed table-hover">
-                                <tr id="{{ item.pk }}">
-                                    {% for lecture in item.lectureList.all %}
+                                {% for lecture in item.lectureList.all %}
+                                <tr>
                                     <td>{{ lecture.course }}/{{ lecture.section }}</td>
-                                    {% endfor %}
+                                    <td>{{ lecture.event.days }}</td>
+                                    <td>{{ lecture.event.starttime }}</td>
+                                    <td>{{ lecture.event.endtime }}</td>
+                                    <td>{{ lecture.event.location }}</td>
                                 </tr>
+                                {% endfor %}
                             </table>
                         </div>
                     </div>
                     {% endfor %}
-
+                </div>
                     {# END TODO #}
 
 
                 {% elif oldSchedules and not newSchedules %}
+                <div class="">
                     <h3>Generated Schedules from Previous Session</h3>
                     <p>Below you'll see the schedules generated in your last session. Pick one and we'll save it!</p>
                     <p>There are {{ oldSchedules|length }} Schedule(s) in Total</p>
@@ -62,17 +103,26 @@
                         {# Random Test with divs #}
                     <div class="col-md-6">
                         <div class="echelonpanel-inner">
-                            <h5>Some text here</h5>
+                            <div class="row">
+                                <ul class="list-inline text-right">
+                                    <li><h4>Schedule {{ forloop.counter }}</h4></li>
+                                    <li><a href="/schedule_view/recent/{{ item.pk }}"><button class="btn-sm">Preview</button></a></li>
+                                    <li><a href="/work_in_progress/"><button class="btn-sm">Save</button></a></li>
+                                </ul>
+                            </div>
+
                             <table class="table-condensed table-hover">
-                                <tr id="{{ item.pk }}">
+                                <tr>
                                     {% for lecture in item.lectureList.all %}
                                     <td>{{ lecture.course }}/{{ lecture.section }}</td>
+                                    <td>{{ lecture.event }}</td>
                                     {% endfor %}
                                 </tr>
                             </table>
                         </div>
                     </div>
                     {% endfor %}
+                </div>
                 {% endif %}
             {% else %}
             <h3>You have no previously generated schedules!</h3>
@@ -82,74 +132,34 @@
         <div class="col-md-2"></div>
     </div>
 
-{#    <div class="row">#}
-{#        <form class="form" method="post" action="/schedule_select/">#}
-{#            {% csrf_token %}#}
-{#            <h1 class="form">Schedule Select</h1>#}
-{#            <table class="table table-hover table-bordered" id="centertable">#}
-{#                <thead>#}
-{#                <tr>#}
-{#                    <th></th>#}
-{#                    <th colspan=4>Year 1</th>#}
-{#                    <th colspan=4>Year 2</th>#}
-{#                    <th colspan=4>Year 3</th>#}
-{#                    <th colspan=4>Year 4</th>#}
-{#                </tr>#}
-{#                <tr>#}
-{#                    <th>Course</th>#}
-{#                    <th>Sum 1</th>#}
-{#                    <th>Sum 2</th>#}
-{#                    <th>Autumn</th>#}
-{#                    <th>Winter</th>#}
-{#                    <th>Sum 1</th>#}
-{#                    <th>Sum 2</th>#}
-{#                    <th>Autumn</th>#}
-{#                    <th>Winter</th>#}
-{#                    <th>Sum 1</th>#}
-{#                    <th>Sum 2</th>#}
-{#                    <th>Autumn</th>#}
-{#                    <th>Winter</th>#}
-{#                    <th>Sum 1</th>#}
-{#                    <th>Sum 2</th>#}
-{#                    <th>Autumn</th>#}
-{#                    <th>Winter</th>#}
-{#                </tr>#}
-{#                </thead>#}
-{#                <tbody>#}
-{#                {% for course in partialSelection %}#}
-{#                   <tr>#}
-{#                    <td>{{ course.deptnum }}</td>#}
-{#                    <div class="btn-group" data-toggle="buttons" name = "choice">#}
-{#                        {% for year in maxYear %}#}
-{#                            {% if course.duringSummer1 %}#}
-{#                        <td><label class="btn btn-default">#}
-{#                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Summer1"></label>#}
-{#                        </td>#}
-{#                            {% endif %}#}
-{#                            {% if course.duringSummer2 %}#}
-{#                        <td><label class="btn btn-default">#}
-{#                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Summer2"></label></td>#}
-{#                            {% endif %}#}
-{#                            {% if course.duringAutumn %}#}
-{#                        <td><label class="btn btn-default">#}
-{#                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Autumn"></label></td>#}
-{#                            {% endif %}#}
-{#                            {% if course.duringSummer %}#}
-{#                        <td><label class="btn btn-default">#}
-{#                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Winter">#}
-{#                        </label></td>#}
-{#                            {% endif %}#}
-{#                        {% endfor %}#}
-{#                    </div>#}
-{#                    </tr>#}
-{#                {% endfor %}#}
-{#                </tbody>#}
-{#            </table>#}
-{#        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>#}
-{#        </form>#}
-{#    </div>#}
+{# TODO: FIX MODAL GREY OUT PROBLEM (only works in firefox now) #}
+{#<div class="modal fade" id="save_alert">#}
+{#  <div class="modal-dialog">#}
+{#    <div class="modal-content">#}
+{#      <div class="modal-header">#}
+{#        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+{#        <h2 class="modal-title">Save This Schedule?</h2>#}
+{#      </div>#}
+{#      <div class="modal-body">#}
+{#        <p>Are you sure you want to save this schedule</p>#}
+{#      </div>#}
+{#      <div class="modal-footer">#}
+{#        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+{#        <button type="button" class="btn btn-primary" onclick="do_a_save()">Save changes</button>#}
+{#      </div>#}
+{#    </div><!-- /.modal-content -->#}
+{#  </div><!-- /.modal-dialog -->#}
+{#</div><!-- /.modal -->#}
+
     <br>
     {% include "app/footer.html" %}
+
+
 </div>
+
+</div>
+
+
+
 </body>
 </html>

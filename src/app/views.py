@@ -248,6 +248,13 @@ def change_pass(request):
 
 
 def logouthandler(request):
+    # Cleanup any schedule objects associated to session!
+    if 'auto_schedules' in request.session:
+        list_to_clean = serializers.deserialize('json', request.session['auto_schedules'])
+        for oldSchedule in list_to_clean:
+            oldSchedule.object.delete()
+    # NOTE: calling logout clears the session line for a given session_key,
+    #       That's why we had to delete everything before closing.
     logout(request)
     return HttpResponseRedirect('/', {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
 
@@ -439,7 +446,7 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
                         print(serializedSchedules)
                         intermediary = serializers.deserialize('json', serializedSchedules)
                         # Yes, there needs to be an intermediary data var to append the two lists together
-                        schedule_data = schedule_data + list(intermediary)
+                        schedule_data = list(schedule_data) + list(intermediary)
 
             # Cached schedules in DB
             elif search_mode == "saved" and len(request.user.student.academicRecord.scheduleCache.all())>0:
@@ -491,7 +498,8 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
          'schedule': viewing_table,
          'is_current': is_current,
          'year': year,
-         'semester': semester}
+         'semester': semester,
+         'specific': specific}
     )
 # end schedule_view
 
@@ -716,42 +724,48 @@ def sched_gen_auto(request):
 
 @login_required
 def schedule_select(request):
-    schedule_data = []
-    new_package = []
-    old_schedules = []
-    old_package = []
+    # Handle my AJAX!
+    if request.method == "POST":
+        pass
 
-    # Unserialize whatever is in the users current session
-    if 'auto_schedules' in request.session:
-        schedule_data = serializers.deserialize('json', request.session['auto_schedules'])
-    # Unserialize anything from previous sessions too
-    prevSessionKey = request.user.student.previousSession
-    if prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
-        # Find it!
-        prevSession = Session.objects.filter(session_key=prevSessionKey)
-        if len(prevSession) > 0:
-            prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
-            serializedSchedules = prevSession['auto_schedules']
-            scheduleObjects = serializers.deserialize('json', serializedSchedules)
-            old_schedules = list(scheduleObjects)
+    # Do a normal render
+    else:
+        schedule_data = []
+        new_package = []
+        old_schedules = []
+        old_package = []
 
-    # Package all objects
-    for item in schedule_data:
-        new_package.append(item.object)
+        # Unserialize whatever is in the users current session
+        if 'auto_schedules' in request.session:
+            schedule_data = serializers.deserialize('json', request.session['auto_schedules'])
+        # Unserialize anything from previous sessions too
+        prevSessionKey = request.user.student.previousSession
+        if prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
+            # Find it!
+            prevSession = Session.objects.filter(session_key=prevSessionKey)
+            if len(prevSession) > 0:
+                prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
+                serializedSchedules = prevSession['auto_schedules']
+                scheduleObjects = serializers.deserialize('json', serializedSchedules)
+                old_schedules = list(scheduleObjects)
 
-    for item in old_schedules:
-        old_package.append(item.object)
+        # Package all objects
+        for item in schedule_data:
+            new_package.append(item.object)
 
-    print(old_package)
-    print(new_package)
+        for item in old_schedules:
+            old_package.append(item.object)
 
-    return render(
-        request,
-        'app/schedule_select.html',
-        { 'newSchedules': new_package,
-          'oldSchedules': old_package}
-    )
+        print(old_package)
+        print(new_package)
 
+        return render(
+            request,
+            'app/schedule_select.html',
+            { 'newSchedules': new_package,
+              'oldSchedules': old_package}
+        )
+# end schedule_select
 
 @login_required
 def course_create(request):
@@ -936,6 +950,22 @@ def nullhandler(request):
             print(data)
     else:
         print("No Auto Schedules!")
+
+    if StudentCatalog.getStudent(request.user.username):
+        prevSessionKey = request.user.student.previousSession
+        if prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
+            # Find it!
+            prevSession = Session.objects.filter(session_key=prevSessionKey)
+            if len(prevSession) > 0:
+                prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
+                serializedSchedules = prevSession['auto_schedules']
+                print(serializedSchedules)
+                scheduleObjects = serializers.deserialize('json', serializedSchedules)
+                # Flush it out!
+                for oldSchedule in scheduleObjects:
+                    print(oldSchedule.object.pk)
+        print(request.user.student.previousSession)
+
 
     print(request.session.session_key)
 

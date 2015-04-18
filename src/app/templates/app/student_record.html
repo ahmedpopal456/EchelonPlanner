@@ -22,16 +22,17 @@
     </div>
 {% endif %}
 
-<div class="container body-content" id="test">
+<div class="container body-content" id="main">
 
     <div class="row">
         <div class="col-xs-1"></div>
         <div class="col-xs-10">
-            <div class="container" id="loginblock">
+            <div class="container">
                    <div class="row echelonpanel ">
                        <h2>Student Record</h2>
+                        <hr>
                        <p>Full Name: {{ firstname }} {{ lastname }}</p>
-                       <div class="list-inline">
+                       <div class="col-md-4 list-inline">
                            <ul class="list-inline">
                                <li>Program: {{ academicProgram }}</li>
                                <li>GPA: {{ gpa }}</li>
@@ -44,24 +45,22 @@
                                <li>Remaining Credits: {{ remainingCredits }}</li>
                            </ul>
                        </div>
+                       <div class="col-md-8 list-inline">
+                           <p>Courses Taken ({{ coursesTaken|length }}):</p>
+                            {% if coursesTaken %}
+                           <ul class="list-inline">
+                               {% for course in coursesTaken %}
+                               <li>{{ course.deptnum }}: {{ course.name }}</li>
+                               {% endfor %}
+                           </ul>
+                            {% else %}
+                            <p>You have not taken any courses yet!</p>
+                            {% endif %}
+
+                       </div>
 
                    </div>
                     <br>
-                   <div class="row">
-                   <table class="table table-hover">
-                    <h3>Courses Taken</h3>
-                        {% if coursesTaken %}
-                       {% for course in coursesTaken %}
-                       <tr>
-                           <td>{{ course.deptnum }}: {{ course.name }} ({{ course.sectionInfo }})</td>
-                           <td>{{ course.grade }}</td>
-                       </tr>
-                       {% endfor %}
-                        {% else %}
-                        <tr><td>No Courses to be listed yet</td></tr>
-                        {% endif %}
-                   </table>
-                   </div>
                    <div class="row">
                    <h3>User Schedules</h3>
                         <table class="table table-hover">
@@ -69,7 +68,7 @@
                             {% if mainSchedule %}
                             <tr>
                                 <td>{{ mainSchedule.year }} - {{ mainSchedule.semester }}</td>
-                                <td><a href="/work_in_progress/"><button class="btn-sm">View</button></a></td>
+                                <td><a href="/schedule_view/"><button class="btn-sm">View</button></a></td>
                                 <td><a href="/work_in_progress/"><button class="btn-sm">Edit</button></a></td>
                                 <td><a href="/work_in_progress/"><button class="btn-sm">Delete</button></a></td>
                             </tr>
