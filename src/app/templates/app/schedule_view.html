@@ -22,7 +22,7 @@
 
     //Currently, this function knows which table row was selected and can read its ID
     $('body').on('click','td', function() {
-        if(this.id)
+        if(this.id && this.id!='time')
             window.location.href = '/browse_specific_course/'+this.id+'/'
         });
 
@@ -81,7 +81,7 @@
                     <h2 id="changeForever">{{ semester }} Schedule for Year {{ year }}</h2>
                     {% endif %}
                     <a href="/schedule_print_view">Print View</a>
-                    <table class="table" id="schedule_table">
+                    <table class="table table-condensed" id="schedule_table">
                         <thead>
                         <tr>
                             <th>Time</th>
