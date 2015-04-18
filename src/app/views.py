@@ -355,16 +355,6 @@ def schedule_make(request):  # Might as well rework this method from scratch, bu
          'availableElectives': availableElectives}
     )
 
-
-@login_required
-def schedule_select(request):
-    # TODO: Place method for listing schedules here!
-    return render(
-        request,
-        'app/schedule_select.html',
-    )
-
-
 @login_required
 def student_record(request):
     firstname = request.user.first_name
@@ -483,11 +473,25 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
     else:
         viewing_table = {}
 
+    # Final rendering details
+    if specific=='':
+        is_current = True
+        year = 0
+        semester =""
+    else:
+        is_current = False
+        year = viewing_table.get('Year')
+        semester = viewing_table.get('Semester')
+
+
     return render(
         request,
         render_template,
         {'timeSlots': timeSlots,
-         'schedule': viewing_table}
+         'schedule': viewing_table,
+         'is_current': is_current,
+         'year': year,
+         'semester': semester}
     )
 # end schedule_view
 
@@ -688,7 +692,13 @@ def sched_gen_auto(request):
         print(listOfSchedulesGenerated)
         request.user.student.previousSession = request.session.session_key
         request.user.student.save()
-        request.session['auto_schedules'] = serializers.serialize('json', listOfSchedulesGenerated)
+        final_data = serializers.serialize('json', listOfSchedulesGenerated)
+        if 'auto_schedules' in request.session:
+            longstring = request.session['auto_schedules']
+            longstring = longstring + final_data
+            request.session['auto_schedule'] = longstring
+        else:
+            request.session['auto_schedules'] = final_data
         return HttpResponseRedirect('/schedule_view/')
 
     # If just rendering the page.
@@ -702,6 +712,46 @@ def sched_gen_auto(request):
              'currentSemester': "Fall"}
         )
 # end sched_gen_auto
+
+
+@login_required
+def schedule_select(request):
+    schedule_data = []
+    new_package = []
+    old_schedules = []
+    old_package = []
+
+    # Unserialize whatever is in the users current session
+    if 'auto_schedules' in request.session:
+        schedule_data = serializers.deserialize('json', request.session['auto_schedules'])
+    # Unserialize anything from previous sessions too
+    prevSessionKey = request.user.student.previousSession
+    if prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
+        # Find it!
+        prevSession = Session.objects.filter(session_key=prevSessionKey)
+        if len(prevSession) > 0:
+            prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
+            serializedSchedules = prevSession['auto_schedules']
+            scheduleObjects = serializers.deserialize('json', serializedSchedules)
+            old_schedules = list(scheduleObjects)
+
+    # Package all objects
+    for item in schedule_data:
+        new_package.append(item.object)
+
+    for item in old_schedules:
+        old_package.append(item.object)
+
+    print(old_package)
+    print(new_package)
+
+    return render(
+        request,
+        'app/schedule_select.html',
+        { 'newSchedules': new_package,
+          'oldSchedules': old_package}
+    )
+
 
 @login_required
 def course_create(request):

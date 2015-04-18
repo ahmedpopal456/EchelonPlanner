@@ -75,7 +75,11 @@
     {% endcomment %}
         {# Used to be class="hidden" for multiview #}
         <div id="surprise" class="echelonpanel">
+                    {% if is_current %}
                     <h2 id="changeForever">Current Semester Schedule</h2>
+                    {% else %}
+                    <h2 id="changeForever">{{ semester }} Schedule for Year {{ year }}</h2>
+                    {% endif %}
                     <a href="/schedule_print_view">Print View</a>
                     <table class="table" id="schedule_table">
                         <thead>

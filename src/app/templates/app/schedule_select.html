@@ -17,71 +17,104 @@
 
 <div class="container body-content">
     <div class="row">
-        <form class="form" method="post" action="/schedule_select/">
-            {% csrf_token %}
-            <h1 class="form">Schedule Select</h1>
-            <table class="table table-hover table-bordered" id="centertable">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th colspan=4>Year 1</th>
-                    <th colspan=4>Year 2</th>
-                    <th colspan=4>Year 3</th>
-                    <th colspan=4>Year 4</th>
-                </tr>
-                <tr>
-                    <th>Course</th>
-                    <th>Sum 1</th>
-                    <th>Sum 2</th>
-                    <th>Autumn</th>
-                    <th>Winter</th>
-                    <th>Sum 1</th>
-                    <th>Sum 2</th>
-                    <th>Autumn</th>
-                    <th>Winter</th>
-                    <th>Sum 1</th>
-                    <th>Sum 2</th>
-                    <th>Autumn</th>
-                    <th>Winter</th>
-                    <th>Sum 1</th>
-                    <th>Sum 2</th>
-                    <th>Autumn</th>
-                    <th>Winter</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for course in partialSelection %}
-                   <tr>
-                    <td>{{ course.deptnum }}</td>
-                    <div class="btn-group" data-toggle="buttons" name = "choice">
-                        {% for year in maxYear %}
-                            {% if course.duringSummer1 %}
-                        <td><label class="btn btn-default">
-                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Summer1"></label>
-                        </td>
-                            {% endif %}
-                            {% if course.duringSummer2 %}
-                        <td><label class="btn btn-default">
-                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Summer2"></label></td>
-                            {% endif %}
-                            {% if course.duringAutumn %}
-                        <td><label class="btn btn-default">
-                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Autumn"></label></td>
-                            {% endif %}
-                            {% if course.duringSummer %}
-                        <td><label class="btn btn-default">
-                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Winter">
-                        </label></td>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-        </form>
+        <div class="col-md-2"></div>
+        <div class="col-md-8 echelonpanel">
+            <h2>Generated Schedules</h2>
+            {% if newSchedules or oldSchedules %}
+                {% if newSchedules %}
+                    <h3>Automatically Generated Schedules</h3>
+                    <p>Below you'll see the newly generated schedules. Pick one and we'll save it!</p>
+                    {# TODO: FIX DISPLAY MECHANISM #}
+                    <ul>
+                    {% for item in newSchedules %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                    </ul>
+                    {# END TODO #}
+                {% endif %}
+
+                {% if oldSchedules %}
+                    <h3>Saved Schedules from Previous Session</h3>
+                    <p>Below you'll see the schedules generated in your last session. Pick one and we'll save it!</p>
+                    {% for item in oldSchedules %}
+                        {# Random Test with divs #}
+                    <div class="col-md-6"><div class="echelonpanel-inner"><p>Some text here</p></div></div>
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+            <h3>You have no previously generated schedules!</h3>
+            <p>Head over to <a href="/sched_gen_1/">Schedule Generation</a> and let's plan your time at Concordia!</p>
+            {% endif %}
+        </div>
+        <div class="col-md-2"></div>
     </div>
+
+{#    <div class="row">#}
+{#        <form class="form" method="post" action="/schedule_select/">#}
+{#            {% csrf_token %}#}
+{#            <h1 class="form">Schedule Select</h1>#}
+{#            <table class="table table-hover table-bordered" id="centertable">#}
+{#                <thead>#}
+{#                <tr>#}
+{#                    <th></th>#}
+{#                    <th colspan=4>Year 1</th>#}
+{#                    <th colspan=4>Year 2</th>#}
+{#                    <th colspan=4>Year 3</th>#}
+{#                    <th colspan=4>Year 4</th>#}
+{#                </tr>#}
+{#                <tr>#}
+{#                    <th>Course</th>#}
+{#                    <th>Sum 1</th>#}
+{#                    <th>Sum 2</th>#}
+{#                    <th>Autumn</th>#}
+{#                    <th>Winter</th>#}
+{#                    <th>Sum 1</th>#}
+{#                    <th>Sum 2</th>#}
+{#                    <th>Autumn</th>#}
+{#                    <th>Winter</th>#}
+{#                    <th>Sum 1</th>#}
+{#                    <th>Sum 2</th>#}
+{#                    <th>Autumn</th>#}
+{#                    <th>Winter</th>#}
+{#                    <th>Sum 1</th>#}
+{#                    <th>Sum 2</th>#}
+{#                    <th>Autumn</th>#}
+{#                    <th>Winter</th>#}
+{#                </tr>#}
+{#                </thead>#}
+{#                <tbody>#}
+{#                {% for course in partialSelection %}#}
+{#                   <tr>#}
+{#                    <td>{{ course.deptnum }}</td>#}
+{#                    <div class="btn-group" data-toggle="buttons" name = "choice">#}
+{#                        {% for year in maxYear %}#}
+{#                            {% if course.duringSummer1 %}#}
+{#                        <td><label class="btn btn-default">#}
+{#                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Summer1"></label>#}
+{#                        </td>#}
+{#                            {% endif %}#}
+{#                            {% if course.duringSummer2 %}#}
+{#                        <td><label class="btn btn-default">#}
+{#                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Summer2"></label></td>#}
+{#                            {% endif %}#}
+{#                            {% if course.duringAutumn %}#}
+{#                        <td><label class="btn btn-default">#}
+{#                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Autumn"></label></td>#}
+{#                            {% endif %}#}
+{#                            {% if course.duringSummer %}#}
+{#                        <td><label class="btn btn-default">#}
+{#                            <input type="radio" name={{ course.deptnum }}+"" value="{{ course.deptnum }} {{ year }}Winter">#}
+{#                        </label></td>#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+{#                    </div>#}
+{#                    </tr>#}
+{#                {% endfor %}#}
+{#                </tbody>#}
+{#            </table>#}
+{#        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>#}
+{#        </form>#}
+{#    </div>#}
     <br>
     {% include "app/footer.html" %}
 </div>
