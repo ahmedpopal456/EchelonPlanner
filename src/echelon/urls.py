@@ -28,13 +28,21 @@ urlpatterns = patterns('',
     url(r'^student_record/','app.views.student_record'),
 
     # Schedule URLs
+    url(r'^sched_gen_1/', 'app.views.sched_gen_1'),                 # Schedule Generation Selector (Manual v. Auto)
+    url(r'^schedule_generator/', 'app.views.schedule_generator'),   # Manual Mode
+    url(r'^sched_gen_auto/', 'app.views.sched_gen_auto'),           # Auto Mode
+    url(r'^schedule_select/', 'app.views.schedule_select'),         # Select after Auto.
+    url(r'^schedule_view/$', 'app.views.schedule_view', {'render_type': 'normal'}),       # Display Main Schedule
+    url(r'^schedule_print_view/$', 'app.views.schedule_view', {'render_type': 'basic'}),  # Print View of Main Schedule
+    # Selective Schedule View URLs
+    url(r'^schedule_view/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'normal'}),
+    url(r'^schedule_print_view/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'basic'}),
+    # Probably Deprecated.
     url(r'^schedule_make/', 'app.views.schedule_make'),
-    url(r'^schedule_select/', 'app.views.schedule_select'),
-    url(r'^schedule_view/', 'app.views.schedule_view'),
-    url(r'^schedule_print_view/', 'app.views.schedule_print_view'),
-    url(r'^schedule_generator/', 'app.views.schedule_generator'),
-    url(r'^sched_gen_1/', 'app.views.sched_gen_1'),
-    url(r'^sched_gen_auto/', 'app.views.sched_gen_auto'),
+
+
+
+
 
     # Course URLs
     url(r'^browse_all_courses/', 'app.views.browse_all_courses'),
