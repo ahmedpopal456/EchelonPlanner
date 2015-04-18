@@ -6,6 +6,8 @@ from .studentrecord import StudentRecord
 class Student(models.Model):
     # This line is required. Links to a User model instance.
     user = models.OneToOneField(User)
+    previousSession = models.CharField(max_length=64, null=True, blank=False)
+
     # Student's unique academic record
     academicRecord = models.OneToOneField(StudentRecord, null=True)
 

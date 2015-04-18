@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
 from django.db import IntegrityError
 from django.contrib.auth import hashers
 from django.contrib.sessions.backends.base import SessionBase
@@ -78,6 +79,7 @@ def login_handler(request):
             login(request, user)
             if "remember-me" not in request.POST:
                 request.session.set_expiry(0) # Basically, close after the browser closes.
+
             return HttpResponseRedirect('/')  # This eliminates the login_handler from the path
 
         else:
@@ -355,15 +357,11 @@ def schedule_make(request):  # Might as well rework this method from scratch, bu
 
 
 @login_required
-def schedule_select(request): #Needs to be looked at
-    partialSelection = set(prelim_choices).union(database.academicprogram.course) #I want it to show the union between the courses in the academic program, but  I want it to exclude any other optional course not present in the prelim_choices. This does not do that.
-    if request.method == 'Post':
-        rawSchedule = request.POST('choice') #Needs to send the selected radio buttons' values to schedule_select_continue
+def schedule_select(request):
+    # TODO: Place method for listing schedules here!
     return render(
         request,
         'app/schedule_select.html',
-        {'partialSelection': partialSelection,
-         'maxYear': 4} # hardcorded max years
     )
 
 
@@ -386,11 +384,11 @@ def student_record(request):
     this_record = this_student.academicRecord
     academicProgram = this_record.academicProgram
     gpa = this_record.GPA
-    currentStanding = this_record.currentStanding #please replace with proper one
-    currentCredits = this_record.currentCredits #please replace with proper one
-    remainingCredits = this_record.remainingCredits #please replace with proper one
-    coursesTaken = this_record.coursesTaken.all() #please replace with proper one
-    allSchedules = this_record.scheduleCache.all() #please replace with proper one
+    currentStanding = this_record.currentStanding
+    currentCredits = this_record.currentCredits
+    remainingCredits = this_record.remainingCredits
+    coursesTaken = this_record.coursesTaken.all()
+    allSchedules = this_record.scheduleCache.all()
     mainSchedule = this_record.mainSchedule
     return render(
         request,
@@ -406,6 +404,7 @@ def student_record(request):
          'allSchedules': allSchedules,
          'mainSchedule': mainSchedule}
     )
+# end student_record
 
 
 
@@ -467,7 +466,7 @@ def schedule_print_view(request):
         'schedule': viewing_table
         }
     )
-# end schedule_view
+# end schedule_print_view
 
 @login_required
 def schedule_generator(request):
@@ -552,10 +551,12 @@ def sched_gen_1(request):
     )
 #end sched_gen_1
 
+
 @login_required()
 def sched_gen_auto(request):
-    print(request.POST)
+
     max_courses = list(range(1,7))
+
     if StudentCatalog.getStudent(request.user.username):
         feasable_courses = CourseCatalog.coursesWithMetPrereqs(request.user.student, "Fall", 1)
     else:
@@ -563,12 +564,14 @@ def sched_gen_auto(request):
 
     # If serving a POST request, it must be to consolidate schedules
     if request.method == "POST":
+
         # If the user did not submit anything, send him back the same page with a message
         given_courses = request.POST.getlist('courses')
         given_courses = list(set(given_courses))
         given_courses.remove("COURSE")
         print(given_courses)
-        if not len(given_courses) >0 :
+
+        if not len(given_courses) > 0:  # No Courses Given, ERROR!
             return render(
                 request,
                 'app/schedule_generator_auto.html',
@@ -580,14 +583,15 @@ def sched_gen_auto(request):
             )
 
         course_objects = []
-        for specific_course in given_courses:
+
+        for specific_course in given_courses:  # Retrieve all the objects
             course = CourseCatalog.searchCoursesThroughPartialName(specific_course)
             if course:
                 course = course[0]
                 course_objects.append(course)
+
         semester = request.POST['semester']
         year = request.POST['year']
-        # Now, let's find a list of possible schedules
 
         # Parse from received preferences
         given_locations = request.POST.getlist('location')
@@ -596,12 +600,11 @@ def sched_gen_auto(request):
         day_set = ['M','T','W','J','F','S','D']
         string_daysOff = ""
 
-        for i in range(0,7):
+        for i in range(0,7):  # Check all the days!
             if day_set[i] in given_daysOff:
-                string_daysOff+=day_set[i]
+                string_daysOff += day_set[i]
             else:
-                string_daysOff+="-"
-        # end for loop
+                string_daysOff += "-"
 
         # Null out any unset/unreceived options to keep preferences consistent when building
         if len(given_locations) < 0:
@@ -610,12 +613,13 @@ def sched_gen_auto(request):
             given_timesOfDay = None
 
         # Construct new preferences object and pass it on.
-        default = Preferences(given_daysOff,given_timesOfDay,given_locations)
+        default = Preferences(given_daysOff, given_timesOfDay, given_locations)
 
+        # Make all the Schedules now.
         all_schedules = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(course_objects,semester,default) #TODO CHANGE!
-        print(all_schedules )
-        # If no possible schedules, notify the user!
-        if len(all_schedules) < 1:
+        print(all_schedules)
+
+        if len(all_schedules) < 1:  # If no possible schedules, notify the user!
             return render(
                 request,
                 'app/schedule_generator_auto.html',
@@ -626,9 +630,23 @@ def sched_gen_auto(request):
                  'message': 'ERROR: No Schedule match was found. Try different courses or reduce your preferences.'}
             )
 
+        # NOTE: Here comes the tricky part, we're storing the new schedules as serialized objects in the Session
 
-        # TODO: We're storing these options in the session data not in database
-        # Now take care in saving it (All of them)
+        # Step 1: Check if there was a previous session and delete old schedules.
+        prevSessionKey = request.user.student.previousSession
+        if prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
+            # Find it!
+            prevSession = Session.objects.filter(session_key=prevSessionKey)
+            if len(prevSession) > 0:
+                prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
+                serializedSchedules = prevSession['auto_schedules']
+                scheduleObjects = serializers.deserialize('json', serializedSchedules)
+                # Flush it out!
+                for oldSchedule in scheduleObjects:
+                    oldSchedule.object.delete()
+
+        # Step 2: Take care of saving the newly generated ones.
+        listOfSchedulesGenerated = []
         for aSchedule in all_schedules:
             cached_schedule = Schedule()
             cached_schedule.semester = semester
@@ -640,15 +658,14 @@ def sched_gen_auto(request):
                 else:
                     print("Could not add "+str(anItem))
 
-            # TODO: Does the user have a saved schedule?
             cached_schedule.save()
-            # request.user.student.academicRecord.mainSchedule = schedule
-            request.user.student.academicRecord.scheduleCache.add(cached_schedule)
-            # You do not need to save to add
-            # request.user.student.academicRecord.scheduleCache.save()
-            request.user.student.academicRecord.save()
-            request.user.student.save()
-        # if all was successful, let's redirect for the user to view his schedule!
+            listOfSchedulesGenerated.append(cached_schedule)
+
+        # Step 3: If all was successful, let's save to session and redirect the user to view his schedule!
+        print(listOfSchedulesGenerated)
+        request.user.student.previousSession = request.session.session_key
+        request.user.student.save()
+        request.session['auto_schedules'] = serializers.serialize('json', listOfSchedulesGenerated)
         return HttpResponseRedirect('/schedule_view/')
 
     # If just rendering the page.
@@ -835,6 +852,19 @@ def nullhandler(request):
     print(request.build_absolute_uri())
     if request.method == "POST":
         print(str(request.POST))
+
+    if 'auto_schedules' in request.session:
+        testy = request.session['auto_schedules']
+        print(testy)
+        if len(testy) >0:
+            data = serializers.deserialize('json',testy)
+            for something in data:
+                print(something.object.year)
+            print(data)
+    else:
+        print("No Auto Schedules!")
+
+    print(request.session.session_key)
 
     html = "<html><body>Transaction Logged</body></html>"
 
