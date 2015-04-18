@@ -733,7 +733,7 @@ def schedule_select(request):
         schedyear = scheduletosave.year
         schedsemester = scheduletosave.semester
 
-        if
+
 
     # Do a normal render
     else:
