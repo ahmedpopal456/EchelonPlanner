@@ -22,23 +22,49 @@
             <h2>Generated Schedules</h2>
             {% if newSchedules or oldSchedules %}
                 {% if newSchedules %}
-                    <h3>Automatically Generated Schedules</h3>
+                    <h3>New Automatically Generated Schedules</h3>
                     <p>Below you'll see the newly generated schedules. Pick one and we'll save it!</p>
+                    <p>There are {{ newSchedules|length }} Schedule(s) in Total</p>
                     {# TODO: FIX DISPLAY MECHANISM #}
-                    <ul>
+
                     {% for item in newSchedules %}
-                        <li>{{ item }}</li>
+
+                        {# Random Test with divs #}
+                    <div class="col-md-6">
+                        <div class="echelonpanel-inner">
+                            <h5>Some text here</h5>
+                            <table class="table-condensed table-hover">
+                                <tr>
+                                    {% for lecture in item.lectureList.all %}
+                                    <td>{{ lecture.course }}/{{ lecture.section }}</td>
+                                    {% endfor %}
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                     {% endfor %}
-                    </ul>
+
                     {# END TODO #}
                 {% endif %}
 
                 {% if oldSchedules %}
-                    <h3>Saved Schedules from Previous Session</h3>
+                    <h3>Generated Schedules from Previous Session</h3>
                     <p>Below you'll see the schedules generated in your last session. Pick one and we'll save it!</p>
+                    <p>There are {{ oldSchedules|length }} Schedule(s) in Total</p>
                     {% for item in oldSchedules %}
                         {# Random Test with divs #}
-                    <div class="col-md-6"><div class="echelonpanel-inner"><p>Some text here</p></div></div>
+                    <div class="col-md-6">
+                        <div class="echelonpanel-inner">
+                            <h5>Some text here</h5>
+                            <table class="table-condensed table-hover">
+                                <tr>
+                                    {% for lecture in item.lectureList.all %}
+                                    <td>{{ lecture.course }}/{{ lecture.section }}</td>
+                                    {% endfor %}
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                     {% endfor %}
                 {% endif %}
             {% else %}
