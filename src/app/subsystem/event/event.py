@@ -79,6 +79,13 @@ class Event(models.Model):
         else:
             return False
 
+    def isOnline(self):
+
+        if "-------" in self.days:
+            return True
+        else:
+            return False
+
     #END of day checking functions#
 
     # Next two functions allow frontend to get the start/end time rounded to the nearest 15minutes
