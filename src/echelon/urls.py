@@ -35,8 +35,10 @@ urlpatterns = patterns('',
     url(r'^schedule_view/$', 'app.views.schedule_view', {'render_type': 'normal'}),       # Display Main Schedule
     url(r'^schedule_print_view/$', 'app.views.schedule_view', {'render_type': 'basic'}),  # Print View of Main Schedule
     # Selective Schedule View URLs
-    url(r'^schedule_view/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'normal'}),
-    url(r'^schedule_print_view/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'basic'}),
+    url(r'^schedule_view/recent/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'normal', 'search_mode': 'recent'}),
+    url(r'^schedule_view/saved/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'normal','search_mode': 'saved'}),
+    url(r'^schedule_print_view/recent/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'basic','search_mode': 'recent'}),
+    url(r'^schedule_print_view/saved/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'basic','search_mode': 'saved'}),
     # Probably Deprecated.
     url(r'^schedule_make/', 'app.views.schedule_make'),
 
