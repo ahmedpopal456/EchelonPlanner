@@ -17,7 +17,16 @@
 
 
 <script type="text/javascript">
-    //TODO: Make loading page with this!
+{#    //TODO: Make loading page with this!#}
+{#    $('#myModal').on('show.bs.modal', function (event) {#}
+{#      var button = $(event.relatedTarget) // Button that triggered the modal#}
+{#        console.log("SHOW MODAL!")#}
+{#      var recipient = button.data('whatever') // Extract info from data-* attributes#}
+{#      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).#}
+{#      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.#}
+{#      var modal = $(this)#}
+{#      modal.find('.modal-title').text('New message to ' + recipient)#}
+{#    });#}
 
 </script>
 
@@ -27,6 +36,7 @@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-11">
+{#            <button type="button" data-toggle="modal" data-target="#myModal">Launch modal</button>#}
             <h1>Automatic Schedule Generation</h1>
             <h2 id="changeForever">Courses for Year {{ currentYear }} - {{ currentSemester }} Semester:</h2>
             {% if message %}
@@ -101,15 +111,30 @@
         <div class="col-md-12 text-center">
             <input type="hidden" value="{{ currentSemester }}" name="semester">
             <input type="hidden" value="{{ currentYear }}" name="year">
-            <button class="btn btn-lg btn-primary" type="submit">Submit and Load Schedule</button>
+            <button class="btn btn-lg btn-primary" type="submit" data-toggle="modal" data-target="#myModal">Submit and Load Schedule</button>
         </div>
 
     </form>
     <br>
     {% include "app/footer.html" %}
 
-
+<div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Your New Schedule is being generated</h4>
+      </div>
+      <div class="modal-body text-center">
+          <p><img src="{% static 'app/images/loading.gif' %}"></p>
+        <p>Please wait while we search the galaxy for all possible schedules.</p>
+        <p>This may take a while, but, do not hesitate. You will be redirected when we're done.</p>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </div>
+
+
 
 </body>
 </html>

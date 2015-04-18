@@ -699,7 +699,7 @@ def sched_gen_auto(request):
             request.session['auto_schedule'] = longstring
         else:
             request.session['auto_schedules'] = final_data
-        return HttpResponseRedirect('/schedule_view/')
+        return HttpResponseRedirect('/schedule_select/')
 
     # If just rendering the page.
     else:
