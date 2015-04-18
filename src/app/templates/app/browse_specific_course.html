@@ -96,11 +96,14 @@
                 <h2> "{{ name }}" - ({{ credits }} CR)</h2>
                 <div></div>
                 {# Show Prereqs #}
+                {% if prereq %}
                 <h3>Prerequisites:</h3>
-                <p> {% for items in prereq %}
-                        {{ items }}
+                <p>
+                    {% for items in prereq %}
+                        <a href="/browse_specific_course/{{ items }}/">{{ items }}</a>
                     {% endfor %}
                 </p>
+                {% endif %}
                 {# Show the Actual Lecture #}
                 <h3>Lectures</h3>
                 {% for sections in lectures %}

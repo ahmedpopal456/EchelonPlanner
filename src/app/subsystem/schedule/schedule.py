@@ -147,7 +147,9 @@ class Schedule(models.Model):
                         "Thursday": weekdictlist[3],
                         "Friday": weekdictlist[4],
                         "Saturday": weekdictlist[5],
-                        "Sunday": weekdictlist[6]
+                        "Sunday": weekdictlist[6],
+                        "Year": self.year,
+                        "Semester": self.semester
                         }
 
         return scheduledict

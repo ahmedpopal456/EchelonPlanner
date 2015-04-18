@@ -7446,3 +7446,17 @@ button .navbar-toggle{
     border: thin solid #191016;
     font-family: "Prototype", Prototype, Prototype, sans-serif;
 }
+
+.echelonpanel-inner {
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 4px 4px 4px 4px;
+    margin-outside: 4px;
+    margin-bottom: 10px;
+    /*margin-right: 5px;*/
+    padding-top:1px;
+    padding-bottom: 20px;
+    padding-left:20px;
+    padding-right:20px;
+    border: thin solid #191016;
+    font-family: "Prototype", Prototype, Prototype, sans-serif;
+}
