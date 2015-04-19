@@ -88,6 +88,23 @@ class StudentRecord(models.Model):
         if len(self.mainSchedule.lectureList.all()) == 0:
             self.moveScheduleFromCacheToMain()
 
+    # Check if a schedule exists with the same year/semester,
+    # returns the schedule if it is, if not, then None
+    def doesScheduleForSemesterYearExist(self, year, semester):
+
+        if self.mainSchedule.semester == semester and self.mainSchedule.year == year:
+            return self.mainSchedule
+
+        for schedule in self.scheduleCache.all():
+            if schedule.year == year and schedule.semester == semester:
+                return schedule
+
+        # If no schedule is found, then return None, safe to save
+        return None
+
+
+
+
 
 
     # Used to move course from Main Schedule to CoursesTaken
@@ -108,7 +125,7 @@ class StudentRecord(models.Model):
     # Used to invalidate a schedule either in main or cache
     def removeSchedule(self, year, semester):
 
-        if self.mainSchedule.semester == semester and self.mainSchedule.year ==year:
+        if self.mainSchedule.semester == semester and self.mainSchedule.year == year:
             self.mainSchedule = None
             self.save()
             return
@@ -134,6 +151,30 @@ class StudentRecord(models.Model):
             #increment taken credits
             currentCredits = self.currentCredits
             currentCredits += course.credits
+            self.currentCredits = currentCredits
+
+            # Save record
+            self.save()
+
+            return True
+        except Course.DoesNotExist:
+            logger.warn("Course does not exist: "+deptnum)
+            return False
+
+    def removeTakenCourse(self, deptnum):  # takes deptnum as primary key to add
+
+        try:
+            course = Course.objects.get(pk=deptnum)
+            self.coursesTaken.remove(course)
+
+            # Need to increment remaining credits
+            remainingCredits = self.remainingCredits
+            remainingCredits += course.credits
+            self.remainingCredits = remainingCredits
+
+            #decrement taken credits
+            currentCredits = self.currentCredits
+            currentCredits -= course.credits
             self.currentCredits = currentCredits
 
             # Save record

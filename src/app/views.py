@@ -727,11 +727,50 @@ def sched_gen_auto(request):
 def schedule_select(request):
     # Handle my AJAX!
     if request.method == "POST":
-        schedulepk = request.POST["pk"]
+        # Seems like request.POST is the PK of schedule
+        # TODO: Check the post request param names
+        print(request.POST)
+        #TODO: just for testing for now
+        schedulepk = 1
+        mode = "cautious"
+
+        if request.POST["pk"]:
+            schedulepk = request.POST["pk"]
+
+        if request.POST["mode"]:
+            mode = request.POST["mode"]
+
 
         scheduletosave = Schedule.objects.get(pk=schedulepk)
         schedyear = scheduletosave.year
         schedsemester = scheduletosave.semester
+        scheduletoreplace = request.user.student.academicRecord.doesScheduleForSemesterYearExist(schedyear, schedsemester)
+
+        if mode == "cautious":
+
+            if scheduletoreplace:
+                # Something exists need to send back confirmation
+                return HttpResponse(False)
+
+            else:
+                request.user.student.academicRecord.scheduleCache.add(scheduletosave)
+                # Call function to move to main if needed
+                request.user.student.academicRecord.moveScheduleFromCacheToMain()
+                return HttpResponse(True)
+
+        if mode == "assert":
+            # Need to remove scheduletoreplace, and add scheduletosave
+            try:
+                request.user.student.academicRecord.removeSchedule(scheduletoreplace.year, scheduletoreplace.semester)
+                request.user.student.academicRecord.scheduleCache.add(scheduletosave)
+                # Call function to move to main if needed
+                request.user.student.academicRecord.moveScheduleFromCacheToMain()
+                return HttpResponse(True)
+            except Schedule.DoesNotExist:
+                return HttpResponse(False)
+
+
+
 
 
 
