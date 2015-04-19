@@ -383,9 +383,9 @@ class ScheduleGenerator(object):
 
         # if solutions exceed 10
 
-        # if len(Solutions) > 20:
-        #     print(Solutions)
-        #     return
+        if len(Solutions) > 60:
+            print(Solutions)
+            return
 
         #Base Case, if all sections are found
         if len(sectionlist) == lengthOfCourseList:
@@ -419,6 +419,8 @@ class ScheduleGenerator(object):
                 ScheduleGenerator.recursiveFindListOfUnconflictingSectionsForOneSemester(sectionlist, courselist[1:], lengthOfCourseList, Solutions)
                 # pop this before going on
                 sectionlist.pop()
+                if len(Solutions) > 60:
+                    break
 
     @staticmethod
     def findListOfUnconflictingSectionsForOneSemester(coursesList, semester, preferences):
