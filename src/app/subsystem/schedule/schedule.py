@@ -40,66 +40,31 @@ class Schedule(models.Model):
             subcourseitemlist.append(lecture)
             courselist.append(lecture.course)
 
-        print(subcourseitemlist)
-        print(courselist)
-
-        lectures = []
+        serializedSchedule = []
 
         for subcourseitem in subcourseitemlist:
-                lab = {}
-                tutorial = {"section": None,
-                            "lab": lab}
-                lecture = {}
-                if subcourseitem.name() == "Lab":
-                    lab = {"section": subcourseitem.section,
-                           "days": subcourseitem.event.days,
-                           "starttime": subcourseitem.event.getActualStart(),
-                           "endtime": subcourseitem.event.getActualEnd(),
-                           "location": subcourseitem.event.location}
-                    if subcourseitem.course.hasTutorials():
-                        tutorial = {"section": subcourseitem.tutorial.section,
-                                  "days": subcourseitem.tutorial.event.days,
-                                  "starttime": subcourseitem.tutorial.event.getActualStart(),
-                                  "endtime": subcourseitem.tutorial.event.getActualEnd(),
-                                  "location": subcourseitem.tutorial.event.location,
-                                  "lab": lab}
-                    else:
-                        # Append to a blank tutorial section
-                        tutorial = {"section": None,
-                                    "lab": lab}
-                if subcourseitem.name() == "Tutorial":
-                    tutorial = {"section": subcourseitem.section,
-                                  "days": subcourseitem.event.days,
-                                  "starttime": subcourseitem.event.getActualStart(),
-                                  "endtime": subcourseitem.event.getActualEnd(),
-                                  "location": subcourseitem.event.location,
-                                  "lab": lab}
-                    # If only lecture, then make lecture serialized, with empty lab and tut
-                if subcourseitem.name() == "Lecture":
-                    lecture = {"Course": subcourseitem.course.deptnum,
-                            "semester": subcourseitem.semester,
-                             "section": subcourseitem.section,
-                             "days": subcourseitem.event.days,
-                             "starttime": subcourseitem.event.getActualStart(),
-                             "endtime": subcourseitem.event.getActualEnd(),
-                             "prof": subcourseitem.prof,
-                             "location": subcourseitem.event.location,
-                             "tutorial": tutorial}
-                # Else, you can append the tutorial formed above to subcourseitem.lecture
+            lecturetriplet = []
+            if subcourseitem.name() == "Lab":
+
+                if subcourseitem.course.hasTutorials():
+                    lecturetriplet.append({"Lab": subcourseitem,
+                                           "Tutorial":subcourseitem.tutorial,
+                                           "Lecture": subcourseitem.lecture})
                 else:
-                    lecture = {"Course": subcourseitem.course.deptnum,
-                            "semester": subcourseitem.lecture.semester,
-                             "section": subcourseitem.lecture.section,
-                             "days": subcourseitem.lecture.event.days,
-                             "starttime": subcourseitem.lecture.event.getActualStart(),
-                             "endtime": subcourseitem.lecture.event.getActualEnd(),
-                             "prof": subcourseitem.lecture.prof,
-                             "location": subcourseitem.lecture.event.location,
-                             "tutorial": tutorial}
-
-                lectures.append(lecture)
-
-        serializedSchedule = {"lectures": lectures}
+                    # Append to a blank tutorial section
+                    lecturetriplet.append({"Lab": subcourseitem,
+                                           "Tutorial": None,
+                                           "Lecture": subcourseitem.lecture})
+            if subcourseitem.name() == "Tutorial":
+                    lecturetriplet.append({"Lab": None,
+                                           "Tutorial": subcourseitem,
+                                           "Lecture": subcourseitem.lecture})
+                # If only lecture, then make lecture serialized, with empty lab and tut
+            if subcourseitem.name() == "Lecture":
+                    lecturetriplet.append({"Lab": None,
+                                           "Tutorial": None,
+                                           "Lecture": subcourseitem})
+            serializedSchedule.append(lecturetriplet)
 
         return serializedSchedule
 

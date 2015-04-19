@@ -603,7 +603,8 @@ def sched_gen_auto(request):
         # If the user did not submit anything, send him back the same page with a message
         given_courses = request.POST.getlist('courses')
         given_courses = list(set(given_courses))
-        given_courses.remove("COURSE")
+        if "COURSE" in given_courses:
+            given_courses.remove("COURSE")
         print(given_courses)
 
         if not len(given_courses) > 0:  # No Courses Given, ERROR!
@@ -726,7 +727,13 @@ def sched_gen_auto(request):
 def schedule_select(request):
     # Handle my AJAX!
     if request.method == "POST":
-        pass
+        schedulepk = request.POST["pk"]
+
+        scheduletosave = Schedule.objects.get(pk=schedulepk)
+        schedyear = scheduletosave.year
+        schedsemester = scheduletosave.semester
+
+
 
     # Do a normal render
     else:
