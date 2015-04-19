@@ -16,6 +16,7 @@ from django.contrib.auth import hashers
 from django.contrib.sessions.backends.base import SessionBase
 from .subsystem import *
 import logging
+import time
 
 # For Dev Purposes Only. This logger object can be identified as 'apps.view'
 logger = logging.getLogger(__name__)
@@ -398,7 +399,7 @@ def student_record(request):
          'currentCredits': currentCredits,
          'remainingCredits': remainingCredits,
          'coursesTaken': coursesTaken,
-         'allSchedules': allSchedules,
+         'scheduleCache': allSchedules,
          'mainSchedule': mainSchedule}
     )
 # end student_record
@@ -667,7 +668,8 @@ def sched_gen_auto(request):
             )
 
         # NOTE: Here comes the tricky part, we're storing the new schedules as serialized objects in the Session
-
+        # request.session['backup'] = serializers.serialize('json',all_schedules)  # This won't work cause lists are not directly serializable
+        # request.user.student.testy = all_schedules  # This also doesn't work since it is not persistent throughout requests.
         # Step 1: Check if there was a previous session and delete old schedules.
         prevSessionKey = request.user.student.previousSession
         if prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
@@ -675,14 +677,19 @@ def sched_gen_auto(request):
             prevSession = Session.objects.filter(session_key=prevSessionKey)
             if len(prevSession) > 0:
                 prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
-                serializedSchedules = prevSession['auto_schedules']
-                scheduleObjects = serializers.deserialize('json', serializedSchedules)
-                # Flush it out!
-                for oldSchedule in scheduleObjects:
-                    oldSchedule.object.delete()
+                if 'auto_schedules' in prevSession:
+                    serializedSchedules = prevSession['auto_schedules']
+                    scheduleObjects = serializers.deserialize('json', serializedSchedules)
+                    # Flush it out!
+                    for oldSchedule in scheduleObjects:
+                        oldSchedule.object.delete()
 
         # Step 2: Take care of saving the newly generated ones.
         listOfSchedulesGenerated = []
+        # I just profiled this segment. Guys, We have a bottleneck :/
+        # My Fault for thinking we'd get away with an n^2 (Javier)
+        start_time = time.time()
+        #START BOTTLENECK
         for aSchedule in all_schedules:
             cached_schedule = Schedule()
             cached_schedule.semester = semester
@@ -696,6 +703,9 @@ def sched_gen_auto(request):
 
             cached_schedule.save()
             listOfSchedulesGenerated.append(cached_schedule)
+        # END BOTTLENECK
+        end_time = time.time()
+        print("Total Time Cost:"+str(end_time-start_time))
 
         # Step 3: If all was successful, let's save to session and redirect the user to view his schedule!
         print(listOfSchedulesGenerated)
@@ -704,10 +714,13 @@ def sched_gen_auto(request):
         final_data = serializers.serialize('json', listOfSchedulesGenerated)
         if 'auto_schedules' in request.session:
             longstring = request.session['auto_schedules']
-            longstring = longstring + final_data
-            request.session['auto_schedule'] = longstring
+            longstring = longstring[0:-1] + ", " + final_data[1:len(final_data)]
+            print(longstring)
+            del request.session['auto_schedules']
+            request.session['auto_schedules'] = longstring
         else:
             request.session['auto_schedules'] = final_data
+        request.session.modified = True
         return HttpResponseRedirect('/schedule_select/')
 
     # If just rendering the page.
@@ -784,9 +797,9 @@ def schedule_select(request):
                 return HttpResponse(False)
 
             else:
-                # request.user.student.academicRecord.scheduleCache.add(scheduletosave)
+                request.user.student.academicRecord.scheduleCache.add(scheduletosave)
                 # Call function to move to main if needed
-                # request.user.student.academicRecord.moveScheduleFromCacheToMain()
+                request.user.student.academicRecord.moveScheduleFromCacheToMain()
                 print("True")
                 return HttpResponse(True)
 
@@ -811,6 +824,7 @@ def schedule_select(request):
         # Unserialize whatever is in the users current session
         if 'auto_schedules' in request.session:
             schedule_data = serializers.deserialize('json', request.session['auto_schedules'])
+            # print(list(schedule_data))
         # Unserialize anything from previous sessions too
         prevSessionKey = request.user.student.previousSession
         if prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
@@ -818,9 +832,10 @@ def schedule_select(request):
             prevSession = Session.objects.filter(session_key=prevSessionKey)
             if len(prevSession) > 0:
                 prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
-                serializedSchedules = prevSession['auto_schedules']
-                scheduleObjects = serializers.deserialize('json', serializedSchedules)
-                old_schedules = list(scheduleObjects)
+                if 'auto_schedules' in prevSession:
+                    serializedSchedules = prevSession['auto_schedules']
+                    scheduleObjects = serializers.deserialize('json', serializedSchedules)
+                    old_schedules = list(scheduleObjects)
 
         # Package all objects
         for item in schedule_data:
@@ -1021,6 +1036,8 @@ def nullhandler(request):
             for something in data:
                 print(something.object.pk)
             print(data)
+        # del request.session['auto_schedules']
+        # request.session.modified = True
     else:
         print("No Auto Schedules!")
 

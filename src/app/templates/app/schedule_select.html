@@ -18,21 +18,21 @@
 
 <script type="text/javascript">
 
-    {# AJAX request for saving and overwriting schedules #}
-    do_a_save = function(schedule_pk){
+    do_a_save = function(schedule_pk) {
         $("#save_alert").modal('show');
-        $('#confirm_save').unbind('click').click(function() {
+        // We only really care about the confirm button
+        $('#confirm_save').unbind('click').click(function () {
             $("#save_alert").modal('hide');
             continue_save(schedule_pk);
         });
         return;
+    };
 
-        $('#save_alert').$('#confirm_save').click(continue_save(schedule_pk));
-        $("#save_alert").on('click','#dismiss',continue_save(schedule_pk));
-        return;
-        $("#save_alert").modal('hide');
+    continue_save = function(schedule_pk){
+        console.log(schedule_pk);
         $("#save_progress").modal('show');
-        $.ajax({
+        {# AJAX request for saving and overwriting schedules #}
+        $.ajax({ //Ask if we can save this schedule
             type: 'post',
             url: "/schedule_select/",
             dataType: 'html',
@@ -44,9 +44,17 @@
             success: function (data) {
                 $("#save_progress").modal('hide');
                 console.log(data.valueOf());
-                if(data.valueOf()=="True")
-                    console.log("It was true, wasn't it?")
+                if(data.valueOf()=="True") {
+                    $("#schedule_saved").modal('show');
 
+                }
+                else if(data.valueOf()=="False"){
+                    $("#overwrite_alert").modal('show');
+                    $('#overwrite_alert').unbind('click').click(function () {
+                        $("#overwrite_alert").modal('hide');
+                        do_an_overwrite(schedule_pk);
+                    });
+                }
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 if (xhr.status == 404 || xhr.status == 400) {
@@ -56,17 +64,42 @@
                 }
             }
         });
+{#        return false;#}
     };
 
-    continue_save = function(schedule_pk){
+    do_an_overwrite = function(schedule_pk){
         console.log(schedule_pk);
-        alert("it works. buggy, but works.");
-        return false;
+        $("#save_progress").modal('show');
+        {# AJAX request for saving and overwriting schedules #}
+        $.ajax({ //Ask if we can save this schedule
+            type: 'post',
+            url: "/schedule_select/",
+            dataType: 'html',
+            data: {
+                'mode': 'assert', //Tell them we mean business!
+                'pk': schedule_pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (data) {
+                $("#save_progress").modal('hide');
+                console.log(data.valueOf());
+                if (data.valueOf() == "True") {
+                    $("#schedule_saved").modal('show');
+                }
+                else {
+                    alert("A fatal error has occurred from this transaction");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 404 || xhr.status == 400) {
+                    $("#save_progress").modal('hide');
+                    alert(thrownError);
+                    console.log("ERROR!");
+                }
+            }
+        });
     };
 
-    do_an_overwrite = function(){
-
-    };
 </script>
 <div class=" body-content">
 <div class="container">
@@ -91,7 +124,7 @@
                         <div class="echelonpanel-inner">
                             <div class="row">
                                 <ul class="list-inline text-right">
-                                    <li><h4>Schedule {{ forloop.counter }}</h4></li>
+                                    <li><h4>{{ forloop.counter }}. {{ item.semester }} Year {{ item.year }}</h4></li>
                                     <li><a href="/schedule_view/recent/{{ item.pk }}"><button class="btn-sm">Preview</button></a></li>
                                     <li><a onclick="do_a_save({{ item.pk }})"><button class="btn-sm">Save</button></a></li>
                                 </ul>
@@ -126,7 +159,7 @@
                         <div class="echelonpanel-inner">
                             <div class="row">
                                 <ul class="list-inline text-right">
-                                    <li><h4>Schedule {{ forloop.counter }}</h4></li>
+                                    <li><h4>{{ forloop.counter }}. {{ item.semester }} Year {{ item.year }}</h4></li>
                                     <li><a href="/schedule_view/recent/{{ item.pk }}"><button class="btn-sm">Preview</button></a></li>
                                     <li><a onclick="do_a_save({{ item.pk }})"><button class="btn-sm">Save</button></a></li>
                                 </ul>
@@ -162,7 +195,7 @@
 </div>
 
 </div>
-
+{# save_alert prompt modal: for asking user if he wants to save #}
 <div class="modal fade" id="save_alert">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -181,35 +214,41 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+{# save_progress modal: so users don't get impatient! #}
 <div class="modal fade" id="save_progress" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-body">
-        <h1>Please Wait...</h1>
+      <div class="modal-body text-center">
+          <h1>Please Wait...</h1>
+          <p><img src="{% static 'app/images/loading.gif' %}"></p>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+{# overwrite_alert prompt modal: for asking user if he REALLY wants to continue saving and overwrite #}
 <div class="modal fade" id="overwrite_alert">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h2 class="modal-title">Save This Schedule?</h2>
+        <h2 class="modal-title">Warning</h2>
       </div>
       <div class="modal-body">
-        <p>Are you sure you want to save this schedule</p>
+          <p>An existing schedule was found in the system</p>
+          <p>We need to overwrite this schedule before saving</p>
+          <p>Do you wish to continue and overwrite?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="confirm_overwrite">Confirm and Save</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" id="save_confirm">
+{# schedule_saved dialog modal: user knows he's gotten a new schedule! #}
+<div class="modal fade" id="schedule_saved">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

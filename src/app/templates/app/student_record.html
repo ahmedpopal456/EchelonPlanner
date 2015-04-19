@@ -63,39 +63,41 @@
                    </div>
                     <br>
                    <div class="row">
-                   <h3>User Schedules</h3>
-                        <table class="table table-hover">
-                            <tr><th>Current Schedule</th></tr>
-                            {% if mainSchedule %}
-                            <tr>
-                                <td>{{ mainSchedule.year }} - {{ mainSchedule.semester }}</td>
-                                <td><a href="/schedule_view/"><button class="btn-sm">View</button></a></td>
-                                <td><a href="/work_in_progress/"><button class="btn-sm">Edit</button></a></td>
-                                <td><a href="/work_in_progress/"><button class="btn-sm">Delete</button></a></td>
-                            </tr>
-                            {% else %}
-                            <tr>
-                                <td></td>
-                                <td>No Main Schedule to Display. Create one <a href="/sched_gen_1/">Now!</a> </td>
-                            </tr>
-                            {% endif %}
-                            <tr><th>Schedules Saved</th></tr>
-                        {% if scheduleCache %}
-                       {% for schedule in scheduleCache %}
-                           <tr>
-                               <td>{{ schedule.year }} - {{ schedule.semester }}</td>
-                                <td><a href="/work_in_progress/"><button class="btn-sm">View</button></a></td>
-                                <td><a href="/work_in_progress/"><button class="btn-sm">Edit</button></a></td>
-                                <td><a href="/work_in_progress/"><button class="btn-sm">Delete</button></a></td>
-                           </tr>
-                       {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td></td>
-                                <td>No Saved Schedules</td>
-                            </tr>
-                        {% endif %}
-                        </table>
+                       <h3>User Schedules</h3>
+                       <table class="table table-hover">
+                           <tr><th>Current Schedule</th></tr>
+                           {% if mainSchedule %}
+                               <tr>
+                                   <td>{{ mainSchedule.year }} - {{ mainSchedule.semester }}</td>
+                                   <td><a href="/schedule_view/"><button class="btn-sm">View</button></a></td>
+                                   <td><a href="/work_in_progress/"><button class="btn-sm">Edit</button></a></td>
+                                   <td><a href="/work_in_progress/"><button class="btn-sm">Delete</button></a></td>
+                               </tr>
+                           {% else %}
+                               <tr>
+                                   <td></td>
+                                   <td>No Main Schedule to Display. Create one <a href="/sched_gen_1/">Now!</a> </td>
+                               </tr>
+                           {% endif %}
+                       </table>
+                       <table class="table table-hover">
+                           <tr><th>Schedules Saved</th></tr>
+                           {% if scheduleCache %}
+                               {% for schedule in scheduleCache %}
+                                   <tr>
+                                       <td>{{ schedule.year }} - {{ schedule.semester }}</td>
+                                       <td><a href="/work_in_progress/"><button class="btn-sm">View</button></a></td>
+                                       <td><a href="/work_in_progress/"><button class="btn-sm">Edit</button></a></td>
+                                       <td><a href="/work_in_progress/"><button class="btn-sm">Delete</button></a></td>
+                                   </tr>
+                               {% endfor %}
+                           {% else %}
+                               <tr>
+                                   <td></td>
+                                   <td>No Saved Schedules</td>
+                               </tr>
+                           {% endif %}
+                       </table>
                    </div>
             </div>
         </div>
