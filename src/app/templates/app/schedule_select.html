@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EchelonPlanner</title>
     {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/bootstrap.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
     <script src="{% static 'app/scripts/jquery.min.js' %}"></script>
     <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
 
@@ -113,12 +113,14 @@
                             </div>
 
                             <table class="table-condensed table-hover">
+                                {% for lecture in item.lectureList.all %}
                                 <tr>
-                                    {% for lecture in item.lectureList.all %}
+
                                     <td>{{ lecture.course }}/{{ lecture.section }}</td>
                                     <td>{{ lecture.event }}</td>
-                                    {% endfor %}
+
                                 </tr>
+                                {% endfor %}
                             </table>
                         </div>
                     </div>
