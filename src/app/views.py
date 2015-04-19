@@ -11,7 +11,7 @@ from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.contrib.auth import hashers
 from django.contrib.sessions.backends.base import SessionBase
 from .subsystem import *
@@ -589,6 +589,7 @@ def sched_gen_1(request):
 
 
 @login_required()
+@transaction.commit_manually
 def sched_gen_auto(request):
 
     max_courses = list(range(1,7))
@@ -609,6 +610,7 @@ def sched_gen_auto(request):
         print(given_courses)
 
         if not len(given_courses) > 0:  # No Courses Given, ERROR!
+            transaction.rollback()
             return render(
                 request,
                 'app/schedule_generator_auto.html',
@@ -655,8 +657,10 @@ def sched_gen_auto(request):
         # Make all the Schedules now.
         all_schedules = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(course_objects,semester,default) #TODO CHANGE!
         print(all_schedules)
+        print(len(all_schedules))
 
         if len(all_schedules) < 1:  # If no possible schedules, notify the user!
+            transaction.rollback()
             return render(
                 request,
                 'app/schedule_generator_auto.html',
@@ -704,6 +708,7 @@ def sched_gen_auto(request):
             cached_schedule.save()
             listOfSchedulesGenerated.append(cached_schedule)
         # END BOTTLENECK
+        transaction.commit()
         end_time = time.time()
         print("Total Time Cost:"+str(end_time-start_time))
 
@@ -721,10 +726,12 @@ def sched_gen_auto(request):
         else:
             request.session['auto_schedules'] = final_data
         request.session.modified = True
+        transaction.commit()
         return HttpResponseRedirect('/schedule_select/')
 
     # If just rendering the page.
     else:
+        transaction.rollback()
         return render(
             request,
             'app/schedule_generator_auto.html',
