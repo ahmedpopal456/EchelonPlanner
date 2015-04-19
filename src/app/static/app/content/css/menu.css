@@ -4256,7 +4256,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar {
     position: relative;
-    z-index: 1000;
+    /*z-index: 1000;*/
     min-height: 50px;
     margin-bottom: 20px;
     border: 1px solid transparent;
@@ -5915,7 +5915,7 @@ body.modal-open,
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1045;
+    z-index: 1040;
 }
 
 .modal.fade .modal-dialog {
@@ -5941,7 +5941,7 @@ body.modal-open,
     margin-right: auto;
     width: auto;
     padding: 10px;
-    z-index: 1050;
+    /*z-index: 1050;*/
 }
 
 .modal-content {
@@ -5962,7 +5962,7 @@ body.modal-open,
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1030;
+    /*z-index: 1030;*/
     background-color: #000000;
 }
 
