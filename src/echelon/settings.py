@@ -87,18 +87,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'echelon',  # MySQL must contain this DB.
-        'USER': 'eve',
+        'USER': 'root',
         'PASSWORD': 'SOEN341echelon!',
-        'HOST': 'bbbtimmy.noip.me',
+        'HOST': 'localhost',
         'PORT': '3306',
-        'TEST': {
-            'NAME': 'test_echelon',
-            'CREATE_DB': 'False',
-            'CREATE_USER': 'False',
-            'USER': 'korra',
-            'PASSWORD': 'SOEN341echelon!',
-            'TBLSPACE': 'test_echelon',
-            }
+        # 'TEST': {
+        #     'NAME': 'test_echelon',
+        #     'CREATE_DB': 'False',
+        #     'CREATE_USER': 'False',
+        #     'USER': 'korra',
+        #     'PASSWORD': 'SOEN341echelon!',
+        #     'TBLSPACE': 'test_echelon',
+        #     }
     }
 }
 
