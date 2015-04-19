@@ -389,10 +389,20 @@ class ScheduleGenerator(object):
 
         #Base Case, if all sections are found
         if len(sectionlist) == lengthOfCourseList:
-            sectionlist2 = list(sectionlist)
-            Solutions.append(sectionlist2)
-            print(sectionlist)
-            return
+            if len(Solutions) == 0:
+                sectionlist2 = list(sectionlist)
+                Solutions.append(sectionlist2)
+                print(sectionlist)
+                return
+            if sectionlist[len(sectionlist)-1].event.days == Solutions[len(Solutions)-1][len(sectionlist)-1].event.days and\
+                sectionlist[len(sectionlist)-1].course == Solutions[len(Solutions)-1][len(sectionlist)-1].course and\
+                sectionlist[len(sectionlist)-1].event.starttime == Solutions[len(Solutions)-1][len(sectionlist)-1].event.starttime:
+                return
+            else:
+                sectionlist2 = list(sectionlist)
+                Solutions.append(sectionlist2)
+                print(sectionlist)
+                return
 
         for course in courselist:
         # Construct list of valid sections of course that the current sectionlist
@@ -503,22 +513,23 @@ class ScheduleGenerator(object):
             elif thisCourse.hasTutorials():
                 course = course.exclude(lecture__event__location__icontains="Online")
 
-        return course
+        return course.order_by("section").distinct()
+
 
     @staticmethod
     def testShit():
         # course1 = input('Enter course 1:')
         # course2 = input('Enter course 2:')
-        testCourseList = [Course.objects.get(pk="ENGR202"), Course.objects.get(pk="ENGR201")]
+        testCourseList = [Course.objects.get(pk="ENGR213"), Course.objects.get(pk="COMP248"), Course.objects.get(pk="ENGR201")]
         # testCourse = Course.objects.get(pk="ENGR202").lecture_set.all()
-        testPrefs = Preferences("--W----", ["afternoon", "evening"], ["SGW"])
+        testPrefs = Preferences("-------", ["morning", "afternoon", "evening"], ["SGW"])
 
         # testCourseResult = ScheduleGenerator.meetsPreferences(testCourse, testPrefs)
 
         testCourseResult = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(testCourseList, "Fall", testPrefs)
 
         print(testCourseResult)
-        return testCourseResult
+        return len(testCourseResult)
 
     def __init__(self):
         self.studentPreferences = None
