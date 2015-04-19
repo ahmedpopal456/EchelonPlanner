@@ -17,18 +17,55 @@
 {% include "app/navbar.html" %}
 
 <script type="text/javascript">
-    $('#save_alert').on('show.bs.modal', function (event) {
-        console.log("MODAL!");
-        var button = $(event.relatedTarget);// Button that triggered the modal
-        var recipient = button.data('key');// Extract info from data-* attributes
-        var modal = $(this);
-        modal.find('.modal-title').text('New message to ' + recipient);
-        modal.find('.modal-body input').val(recipient)
-    });
 
     {# AJAX request for saving and overwriting schedules #}
-    do_a_save = function(){
-        alert("SAVING!");
+    do_a_save = function(schedule_pk){
+        $("#save_alert").modal('show');
+        $('#confirm_save').unbind('click').click(function() {
+            $("#save_alert").modal('hide');
+            continue_save(schedule_pk);
+        });
+        return;
+
+        $('#save_alert').$('#confirm_save').click(continue_save(schedule_pk));
+        $("#save_alert").on('click','#dismiss',continue_save(schedule_pk));
+        return;
+        $("#save_alert").modal('hide');
+        $("#save_progress").modal('show');
+        $.ajax({
+            type: 'post',
+            url: "/schedule_select/",
+            dataType: 'html',
+            data: {
+                'mode': 'cautious',
+                'pk': schedule_pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (data) {
+                $("#save_progress").modal('hide');
+                console.log(data.valueOf());
+                if(data.valueOf()=="True")
+                    console.log("It was true, wasn't it?")
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 404 || xhr.status == 400) {
+                    $("#save_progress").modal('hide');
+                    alert(thrownError);
+                    console.log("ERROR!");
+                }
+            }
+        });
+    };
+
+    continue_save = function(schedule_pk){
+        console.log(schedule_pk);
+        alert("it works. buggy, but works.");
+        return false;
+    };
+
+    do_an_overwrite = function(){
+
     };
 </script>
 <div class=" body-content">
@@ -37,24 +74,7 @@
         <div class="col-md-2"></div>
         <div class="col-md-8 echelonpanel">
             <h2>Generated Schedules</h2>
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                  </div>
-                  <div class="modal-body">
-                    ...
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button class="btn-sm" data-toggle="modal" data-target="#myModal">Testy</button>
+            <button class="btn-sm" data-toggle="modal" data-target="#save_alert">Testy</button>
             <!-- Modal -->
 
 
@@ -73,7 +93,7 @@
                                 <ul class="list-inline text-right">
                                     <li><h4>Schedule {{ forloop.counter }}</h4></li>
                                     <li><a href="/schedule_view/recent/{{ item.pk }}"><button class="btn-sm">Preview</button></a></li>
-                                    <li><a href="/work_in_progress/"><button class="btn-sm">Save</button></a></li>
+                                    <li><a onclick="do_a_save({{ item.pk }})"><button class="btn-sm">Save</button></a></li>
                                 </ul>
                             </div>
 
@@ -108,7 +128,7 @@
                                 <ul class="list-inline text-right">
                                     <li><h4>Schedule {{ forloop.counter }}</h4></li>
                                     <li><a href="/schedule_view/recent/{{ item.pk }}"><button class="btn-sm">Preview</button></a></li>
-                                    <li><a href="/work_in_progress/"><button class="btn-sm">Save</button></a></li>
+                                    <li><a onclick="do_a_save({{ item.pk }})"><button class="btn-sm">Save</button></a></li>
                                 </ul>
                             </div>
 
@@ -135,26 +155,6 @@
         <div class="col-md-2"></div>
     </div>
 
-{# TODO: FIX MODAL GREY OUT PROBLEM (only works in firefox now) #}
-{# MODAL is broken on menu.CSS. THIS MUST BE FIXED #}
-{#<div class="modal fade" id="save_alert">#}
-{#  <div class="modal-dialog">#}
-{#    <div class="modal-content">#}
-{#      <div class="modal-header">#}
-{#        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
-{#        <h2 class="modal-title">Save This Schedule?</h2>#}
-{#      </div>#}
-{#      <div class="modal-body">#}
-{#        <p>Are you sure you want to save this schedule</p>#}
-{#      </div>#}
-{#      <div class="modal-footer">#}
-{#        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
-{#        <button type="button" class="btn btn-primary" onclick="do_a_save()">Save changes</button>#}
-{#      </div>#}
-{#    </div><!-- /.modal-content -->#}
-{#  </div><!-- /.modal-dialog -->#}
-{#</div><!-- /.modal -->#}
-
     <br>
     {% include "app/footer.html" %}
 
@@ -163,7 +163,68 @@
 
 </div>
 
+<div class="modal fade" id="save_alert">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">Save This Schedule?</h2>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to save this schedule</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" id="dismiss" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="confirm_save">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
+<div class="modal fade" id="save_progress" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1>Please Wait...</h1>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="overwrite_alert">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">Save This Schedule?</h2>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to save this schedule</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="save_confirm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">Your Schedule has been saved!</h2>
+      </div>
+      <div class="modal-body">
+        <p>[congratulatory text here]</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 </body>
 </html>

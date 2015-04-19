@@ -2,7 +2,7 @@ import json
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, HttpResponseNotFound, HttpResponseBadRequest
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
@@ -734,14 +734,44 @@ def schedule_select(request):
         schedulepk = 1
         mode = "cautious"
 
-        if request.POST["pk"]:
+        if 'pk' in request.POST and 'mode' in request.POST:
             schedulepk = request.POST["pk"]
-
-        if request.POST["mode"]:
             mode = request.POST["mode"]
+            schedulepk=int(schedulepk)
+            print(schedulepk)
+        else:
+            return HttpResponseBadRequest("Malformed POST request Rejected.")
 
+        scheduletosave = []
+        # Check where the key came from to assure the safety of the request
+        # Key came from the currently generated schedules?
+        if 'auto_schedules' in request.session:
+            session_schedules = serializers.deserialize('json', request.session['auto_schedules'])
+            session_schedules = list(session_schedules)
+            for scheduleObject in session_schedules:
+                if scheduleObject.object.pk == schedulepk:
+                    scheduletosave = Schedule.objects.filter(pk=schedulepk)
+                    break
+        # OR Key came from the previously generated schedules?
+        elif StudentCatalog.getStudent(request.user.username):
+            if request.user.student.previousSession:
+                prevSessionKey = request.user.student.previousSession
+                prevSession = Session.objects.filter(session_key=prevSessionKey)
+                if len(prevSession) > 0:
+                    prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
+                    serializedSchedules = prevSession['auto_schedules']
+                    session_schedules = serializers.deserialize('json', serializedSchedules)
+                    session_schedules = list(session_schedules)
+                    for scheduleObject in session_schedules:
+                        if scheduleObject.object.pk == schedulepk:
+                            scheduletosave = Schedule.objects.filter(pk=schedulepk)
+                            break
+        # The Catch all case.
+        if not scheduletosave:
+            # Schedule not found OR PrimaryKey is not his (Security Issue), Return an Error
+            return HttpResponseNotFound("No Schedule was found")
 
-        scheduletosave = Schedule.objects.get(pk=schedulepk)
+        scheduletosave = scheduletosave[0]
         schedyear = scheduletosave.year
         schedsemester = scheduletosave.semester
         scheduletoreplace = request.user.student.academicRecord.doesScheduleForSemesterYearExist(schedyear, schedsemester)
@@ -750,15 +780,17 @@ def schedule_select(request):
 
             if scheduletoreplace:
                 # Something exists need to send back confirmation
+                print("False")
                 return HttpResponse(False)
 
             else:
-                request.user.student.academicRecord.scheduleCache.add(scheduletosave)
+                # request.user.student.academicRecord.scheduleCache.add(scheduletosave)
                 # Call function to move to main if needed
-                request.user.student.academicRecord.moveScheduleFromCacheToMain()
+                # request.user.student.academicRecord.moveScheduleFromCacheToMain()
+                print("True")
                 return HttpResponse(True)
 
-        if mode == "assert":
+        elif mode == "assert":
             # Need to remove scheduletoreplace, and add scheduletosave
             try:
                 request.user.student.academicRecord.removeSchedule(scheduletoreplace.year, scheduletoreplace.semester)
@@ -768,11 +800,6 @@ def schedule_select(request):
                 return HttpResponse(True)
             except Schedule.DoesNotExist:
                 return HttpResponse(False)
-
-
-
-
-
 
     # Do a normal render
     else:
