@@ -2,6 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EchelonPlanner</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
@@ -13,8 +14,8 @@
 {% include "app/navbar.html" %}
 <div class="container body-content">
     <div class="row">
-        <div class="col-xs-2"></div>
-        <div class="col-xs-8 echelonpanel">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 echelonpanel">
             <h1>Concordia Resources</h1>
             <h2 class ="small">The following contain links for a few helpful concordia resources</h2>
             <p>
@@ -49,7 +50,7 @@
                 Course sequences for software engineers.
             </p>
         </div>
-        <div class="col-xs-2"></div>
+        <div class="col-md-2"></div>
     </div>
     <br>
     {% include "app/footer.html" %}

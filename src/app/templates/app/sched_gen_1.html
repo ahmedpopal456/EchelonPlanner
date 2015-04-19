@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EchelonPlanner</title>
     {% load staticfiles %}
     {% load cycle from future %}
@@ -62,8 +63,8 @@
 
 <div class="container body-content">
     <div class="row">
-        <div class="col-xs-1"></div>
-        <div class="col-xs-5">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-5">
 
             <div>
                 <h1>Generate New Schedule</h1>
@@ -122,7 +123,7 @@
                 </form>
             </div>
         </div>
-        <div class="col-xs-5 echelonpanel">
+        <div class="col-lg-5 echelonpanel">
             <h1>General Information</h1>
             <h3>Let's make a new schedule</h3>
             <p>Here you will start selecting your schedule. Follow these steps to create your schedule</p>
@@ -131,7 +132,6 @@
             <p>3. Select the type of generation you are scheduling for, either automatic or manual.</p>
             <p>4. Hit submit.</p>
             <div id="hover_over_help">
-                <!-- TODO: Make hover over links to display help! -->
                 <h4>For sequence information use the following link:</h4>
                 <a class="btn btn-lg btn-primary btn-block" href='http://www.concordia.ca/encs/students/sas/undergrad-program-info/course-sequences/software.html'
                 target = '_blank'>SOEN Course Sequences</a>
@@ -139,7 +139,7 @@
             </div>
 
         </div>
-        <div class="col-xs-1"></div>
+        <div class="col-lg-1"></div>
     </div>
     <br>
     {% include "app/footer.html" %}

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EchelonPlanner</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
@@ -27,7 +28,7 @@
 
 <div class="container body-content">
     <div class="row" >
-        <div class="col-xs-3">
+        <div class="col-md-3">
                         <h1>Filter Courses</h1>
             <form class="form-signin" method="post" action="/browse_all_courses/">
                 {% csrf_token %}
@@ -88,7 +89,7 @@
             <!--end schedule -->
         </div>
 
-        <div class="col-xs-8">
+        <div class="col-md-8">
         <a onclick="history.go(-1);"><button type="button" class="btn btn-primary">Back to Previous</button></a>
             {# If we have the Course Info to Bake here#}
             {% if department %}
@@ -169,7 +170,7 @@
             {% endif %} {# if condition to check stuff #}
         </div>
 
-        <div class="col-xs-1">
+        <div class="col-md-1">
 
         </div>
     </div>

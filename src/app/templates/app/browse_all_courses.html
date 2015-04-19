@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EchelonPlanner</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
@@ -27,7 +28,7 @@
 
 <div class="container body-content">
     <div class="row" >
-        <div class="col-xs-3">
+        <div class="col-md-3">
             <h1>Filter Courses</h1>
             <form class="form-signin" method="post" action="/browse_all_courses/">
                 {% csrf_token %}
@@ -87,7 +88,7 @@
             {% endif %}
             <!--end schedule -->
         </div>
-        <div class="col-xs-8">
+        <div class="col-md-8">
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -107,7 +108,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-xs-1"></div>
+        <div class="col-md-1"></div>
     </div>
     <br>
     {% include "app/footer.html" %}
