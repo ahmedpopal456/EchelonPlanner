@@ -247,9 +247,10 @@ def change_pass(request):
     )
 # end change_pass
 
-
+@transaction.commit_manually()
 def logouthandler(request):
     # Cleanup any schedule objects associated to session!
+    # TODO: Spawn off a thread that can take care of this cleanup!
     if 'auto_schedules' in request.session:
         list_to_clean = serializers.deserialize('json', request.session['auto_schedules'])
         for oldSchedule in list_to_clean:
@@ -257,6 +258,7 @@ def logouthandler(request):
     # NOTE: calling logout clears the session line for a given session_key,
     #       That's why we had to delete everything before closing.
     logout(request)
+    transaction.commit()
     return HttpResponseRedirect('/', {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
 
 
@@ -676,7 +678,7 @@ def sched_gen_auto(request):
         # request.user.student.testy = all_schedules  # This also doesn't work since it is not persistent throughout requests.
         # Step 1: Check if there was a previous session and delete old schedules.
         prevSessionKey = request.user.student.previousSession
-        if prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
+        if prevSessionKey!=request.session.session_key and prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
             # Find it!
             prevSession = Session.objects.filter(session_key=prevSessionKey)
             if len(prevSession) > 0:
