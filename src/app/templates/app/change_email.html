@@ -1,16 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>EchelonPlanner</title>
-    {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
-    <script src="{% static 'app/scripts/jquery.min.js' %}"></script>
-    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
-
-</head>
--->
 <body>
 
 <!-- Load  the Navbar at the top of the page.-->
@@ -18,8 +5,8 @@
 
 <div class="container body-content">
     <div class="row" >
-        <div class="col-xs-2"></div>
-        <div class="col-xs-8">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
             <!-- not sure if form-signin should be class -->
             <form class="form echelonpanel" method="post" action="/change_email/" id="giveSpace">
                 {% csrf_token %}
@@ -35,7 +22,7 @@
             </form>
 
         </div>
-        <div class="col-xs-2"></div>
+        <div class="col-md-2"></div>
     </div>
     <br>
     {% include "app/footer.html" %}

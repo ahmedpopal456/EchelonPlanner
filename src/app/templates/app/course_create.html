@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EchelonPlanner</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
@@ -19,8 +20,8 @@
 
 <div class="container body-content">
     <div class="row" >
-        <div class="col-xs-2"></div>
-        <div class="col-xs-8"><h2>Create Course</h2>
+        <div class="col-md-2"></div>
+        <div class="col-md-8"><h2>Create Course</h2>
             <form class="form-signin" method="post" action="/courseCreate/" id="giveSpace">
             <label for="inputName" class="sr-only">Enter Name</label>
                     <input id="inputName" class="form-control" placeholder="Enter Name" name="name" type="text">
@@ -41,7 +42,7 @@
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
             </form>
         </div>
-        <div class="col-xs-2"></div>
+        <div class="col-md-2"></div>
     </div>
     <br>
     {% include "app/footer.html" %}

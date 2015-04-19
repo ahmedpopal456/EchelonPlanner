@@ -1,7 +1,7 @@
 <div class="container body-content">
     <div class="row" >
-        <div class="col-xs-2"></div>
-        <div class="col-xs-8">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
             <!-- not sure if form-signin should be class -->
             <form class="form echelonpanel" method="post" action="/change_details/" id="giveSpace">
                     {% csrf_token %}
@@ -36,7 +36,7 @@
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Save Changes</button>
                 </form>
         </div>
-        <div class="col-xs-2"></div>
+        <div class="col-md-2"></div>
     </div>
     <br>
     {% include "app/footer.html" %}
