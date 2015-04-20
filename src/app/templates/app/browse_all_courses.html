@@ -21,8 +21,9 @@
 
     //Currently, this function knows which table row was selected and can read its ID
     $('body').on('click','tr', function() {
+        if(this.id)
             window.location.href = '/browse_specific_course/'+this.id+'/'
-        });
+    });
 
 </script>
 
