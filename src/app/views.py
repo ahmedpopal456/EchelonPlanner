@@ -71,8 +71,7 @@ def menu(request):
         return register(request)
 
 
-def login_handler(request, hasheduser=""):
-    print("HashedUser login_handler= "+hasheduser)
+def login_handler(request):
     # Handle login_handler at any level and redirect to Menu.html
     if request.method == 'POST':
         print(str(request.POST))
@@ -84,7 +83,8 @@ def login_handler(request, hasheduser=""):
 
         if user:
             # verify that the account has been confirmed by email
-            if hasheduser is user.email.__hash__():
+            print("HashedUser login_handler= "+hasheduser+" and the new hashed value is: "+str(user.email.__hash__()))
+            if hasheduser == str(user.email.__hash__()):
                 user.is_active = True
                 user.save()
             # verify that the user has been confirmed
@@ -96,8 +96,8 @@ def login_handler(request, hasheduser=""):
                 return HttpResponseRedirect('/')  # This eliminates the login_handler from the path
             else:
                 return render(request,
-                          'app/login.html',
-                          {'hasMessage': True, 'message': 'Login not successful. Please check your email for a confirmation message.'})
+                              'app/login.html',
+                              {'hasMessage': True, 'message': 'Login not successful. Please check your email for a confirmation message.'})
         else:
             # print ("Invalid login_handler details: {0}, {1}".format(username, password))
             return render(request,
@@ -179,7 +179,9 @@ def register(request):
                 # Else, just register with no confirmation.
                 if "inux" in platform.system():
                     subject, from_email, to = 'Echelon Planner Confirmation', 'echelonplanner@gmail.com', str(standardUser.email)
-                    authLink = "echelonplanner.me/emailconfirmation/" + str(standardUser.email.__hash__())
+                    hasheduser = str(str(standardUser.email).__hash__())
+                    print("HashedUser to be sent : " + hasheduser)
+                    authLink = "echelonplanner.me/emailconfirmation/" + hasheduser
                     html_content = '<p>Please click on the following link to confirm your Echelon Planner account: </p><p><a href='+authLink+'>'+authLink+'</a></p>'
                     msg = EmailMultiAlternatives(subject, html_content, from_email, [standardUser.email])
                     msg.content_subtype = "html"
