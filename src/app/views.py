@@ -20,6 +20,7 @@ import time
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 import platform
+import hashlib
 
 # For Dev Purposes Only. This logger object can be identified as 'apps.view'
 logger = logging.getLogger(__name__)
@@ -27,7 +28,6 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 
 def index(request, hasheduser=""):
-    print("HashedUser index = "+hasheduser)
     return home(request, hasheduser)  # We'll have it hardcoded for now...
 
 
@@ -40,7 +40,6 @@ def help_site(request):
 
 @cache_control(no_cache=True, must_revalidate=True)
 def home(request, hasheduser=""):
-    print("HashedUser home= "+hasheduser)
     assert isinstance(request, HttpRequest)
     if request.user.is_authenticated():
         return menu(request)
@@ -83,8 +82,7 @@ def login_handler(request):
 
         if user:
             # verify that the account has been confirmed by email
-            print("HashedUser login_handler= "+hasheduser+" and the new hashed value is: "+str(user.email.__hash__()))
-            if hasheduser == str(user.email.__hash__()):
+            if hasheduser == str(hashlib.sha256(user.email.encode()).hexdigest()):
                 user.is_active = True
                 user.save()
             # verify that the user has been confirmed
@@ -179,13 +177,12 @@ def register(request):
                 # Else, just register with no confirmation.
                 if "inux" in platform.system():
                     subject, from_email, to = 'Echelon Planner Confirmation', 'echelonplanner@gmail.com', str(standardUser.email)
-                    hasheduser = str(str(standardUser.email).__hash__())
-                    print("HashedUser to be sent : " + hasheduser)
+                    hasheduser = str(hashlib.sha256(standardUser.email.encode()).hexdigest())
                     authLink = "echelonplanner.me/emailconfirmation/" + hasheduser
                     html_content = '<p>Please click on the following link to confirm your Echelon Planner account: </p><p><a href='+authLink+'>'+authLink+'</a></p>'
                     msg = EmailMultiAlternatives(subject, html_content, from_email, [standardUser.email])
                     msg.content_subtype = "html"
-                    msg.send()
+                    # msg.send()
                 else:
                     standardUser.is_active = True
                     standardUser.save()
