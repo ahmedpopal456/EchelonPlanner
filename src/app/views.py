@@ -76,7 +76,10 @@ def login_handler(request):
         print(str(request.POST))
         username = request.POST['username']
         password = request.POST['password']
-        hasheduser = request.POST['hasheduser']
+        if 'hasheduser' in request.POST:
+            hasheduser = request.POST['hasheduser']
+        else:
+            hasheduser = str()
 
         user = authenticate(username=username, password=password)
 
@@ -141,8 +144,8 @@ def register(request):
         if email == "" or '@' not in str(email):
             message.append("Please fill in the email address block")
 
-        if studentID is None or len(studentID) > 8 or len(studentID) < 7:
-            message.append("The ID Number provided is invalid")
+        # if studentID is None or len(studentID) > 8 or len(studentID) < 7:
+        #     message.append("The ID Number provided is invalid")
 
         if (password1 == password2) and (message == []):
             # Everything checks out and is all working fine :)
@@ -156,7 +159,7 @@ def register(request):
             standardUser.is_staff = False
             standardUser.is_superuser = False
             try:
-                standardUser.save() # Save the Django user in the Database.
+                standardUser.save()  # Save the Django user in the Database.
                 # Now let's try putting that Student user in the DB
                 studentUser.user = standardUser
                 newRecord = StudentRecord()
@@ -167,7 +170,7 @@ def register(request):
                 # mainSchedule.save()
                 # studentUser.academicRecord.mainSchedule = mainSchedule
                 # Student ID must also be saved
-                studentUser.IDNumber = studentID
+                # studentUser.IDNumber = studentID
                 # standardUser.save()
                 studentUser.save()
                 isregistered = True
