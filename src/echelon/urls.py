@@ -64,5 +64,5 @@ urlpatterns = patterns('',
     url(r'^course/(?P<deptnum>[A-z]{4}[0-9]{3})','app.views.course_dispatcher'),
 
     # Email confirmation URLs
-    url(r'^emailconfirmation/(?P<hasheduser>[\w{}.-]{64})','app.views.index'),
+    url(r'^confirm/(?P<hasheduser>[\w{}.-]{64})','app.views.index'),
 )
