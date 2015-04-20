@@ -181,7 +181,7 @@ def register(request):
                 if "inux" in platform.system():
                     subject, from_email, to = 'Echelon Planner Confirmation', 'echelonplanner@gmail.com', str(standardUser.email)
                     hasheduser = str(hashlib.sha256(standardUser.email.encode()).hexdigest())
-                    authLink = "echelonplanner.me/emailconfirmation/" + hasheduser
+                    authLink = "echelonplanner.me/confirm/" + hasheduser
                     html_content = '<p>Please click on the following link to confirm your Echelon Planner account: </p><p><a href='+authLink+'>'+authLink+'</a></p>'
                     msg = EmailMultiAlternatives(subject, html_content, from_email, [standardUser.email])
                     msg.content_subtype = "html"
@@ -197,9 +197,14 @@ def register(request):
         # end last If check
 
         if isregistered:
-            return render(request,
+            if standardUser.is_active:
+                return render(request,
                       'app/login.html',
                       {'hasMessage': True, 'message': ['Registration is successful.'], 'registered': isregistered})
+            else:
+                return render(request,
+                      'app/login.html',
+                      {'hasMessage': True, 'message': ['Registration is successful. Please check your email for a confirmation link before you login.'], 'registered': isregistered})
 
         else:  # User was not registered
             return render_to_response(
