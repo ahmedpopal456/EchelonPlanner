@@ -182,7 +182,7 @@ def register(request):
                     html_content = '<p>Please click on the following link to confirm your Echelon Planner account: </p><p><a href='+authLink+'>'+authLink+'</a></p>'
                     msg = EmailMultiAlternatives(subject, html_content, from_email, [standardUser.email])
                     msg.content_subtype = "html"
-                    # msg.send()
+                    msg.send()
                 else:
                     standardUser.is_active = True
                     standardUser.save()
