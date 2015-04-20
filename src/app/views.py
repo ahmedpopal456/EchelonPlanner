@@ -181,7 +181,7 @@ def register(request):
                 if "inux" in platform.system():
                     subject, from_email, to = 'Echelon Planner Confirmation', 'echelonplanner@gmail.com', str(standardUser.email)
                     hasheduser = str(hashlib.sha256(standardUser.email.encode()).hexdigest())
-                    authLink = "echelonplanner.me/confirm/" + hasheduser
+                    authLink = str(request.get_host()+"/confirm/" + hasheduser)
                     html_content = '<p>Please click on the following link to confirm your Echelon Planner account: </p><p><a href='+authLink+'>'+authLink+'</a></p>'
                     msg = EmailMultiAlternatives(subject, html_content, from_email, [standardUser.email])
                     msg.content_subtype = "html"
@@ -1103,6 +1103,7 @@ def nullhandler(request):
 
 
     print(request.session.session_key)
+    print(request.get_host())
 
     html = "<html><body>Transaction Logged</body></html>"
 
