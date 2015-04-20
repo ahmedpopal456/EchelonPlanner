@@ -17,14 +17,18 @@ from django.contrib.sessions.backends.base import SessionBase
 from .subsystem import *
 import logging
 import time
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+import platform
 
 # For Dev Purposes Only. This logger object can be identified as 'apps.view'
 logger = logging.getLogger(__name__)
 
 # Create your views here.
 
-def index(request):
-    return home(request)  # We'll have it hardcoded for now...
+def index(request, hasheduser=""):
+    print("HashedUser index = "+hasheduser)
+    return home(request, hasheduser)  # We'll have it hardcoded for now...
 
 
 def help_site(request):
@@ -35,14 +39,15 @@ def help_site(request):
 
 
 @cache_control(no_cache=True, must_revalidate=True)
-def home(request):
+def home(request, hasheduser=""):
+    print("HashedUser home= "+hasheduser)
     assert isinstance(request, HttpRequest)
     if request.user.is_authenticated():
         return menu(request)
     # else, then redirect
     return render(
         request,
-        'app/login.html'
+        'app/login.html', {'hasheduser':hasheduser}
         # #Below info is not needed for now.
         # context_instance = RequestContext(request,
         # {
@@ -66,23 +71,33 @@ def menu(request):
         return register(request)
 
 
-def login_handler(request):
+def login_handler(request, hasheduser=""):
+    print("HashedUser login_handler= "+hasheduser)
     # Handle login_handler at any level and redirect to Menu.html
     if request.method == 'POST':
         print(str(request.POST))
         username = request.POST['username']
         password = request.POST['password']
+        hasheduser = request.POST['hasheduser']
 
         user = authenticate(username=username, password=password)
 
         if user:
-            # If successful,
-            login(request, user)
-            if "remember-me" not in request.POST:
-                request.session.set_expiry(0) # Basically, close after the browser closes.
-
-            return HttpResponseRedirect('/')  # This eliminates the login_handler from the path
-
+            # verify that the account has been confirmed by email
+            if hasheduser is user.email.__hash__():
+                user.is_active = True
+                user.save()
+            # verify that the user has been confirmed
+            if user.is_active:
+                # If successful,
+                login(request, user)
+                if "remember-me" not in request.POST:
+                    request.session.set_expiry(0) # Basically, close after the browser closes.
+                return HttpResponseRedirect('/')  # This eliminates the login_handler from the path
+            else:
+                return render(request,
+                          'app/login.html',
+                          {'hasMessage': True, 'message': 'Login not successful. Please check your email for a confirmation message.'})
         else:
             # print ("Invalid login_handler details: {0}, {1}".format(username, password))
             return render(request,
@@ -139,7 +154,7 @@ def register(request):
             standardUser.email = email
             standardUser.first_name = firstname
             standardUser.last_name = lastname
-            standardUser.is_active = True
+            standardUser.is_active = False
             standardUser.is_staff = False
             standardUser.is_superuser = False
             try:
@@ -158,6 +173,20 @@ def register(request):
                 # standardUser.save()
                 studentUser.save()
                 isregistered = True
+                # send an email with an SSH hash of the user as a confirmation link:
+                # since it will cause errors on Windows and most development is being done on windows,
+                # first check that we are on Linux before attempting to send email.
+                # Else, just register with no confirmation.
+                if "inux" in platform.system():
+                    subject, from_email, to = 'Echelon Planner Confirmation', 'echelonplanner@gmail.com', str(standardUser.email)
+                    authLink = "echelonplanner.me/emailconfirmation/" + str(standardUser.email.__hash__())
+                    html_content = '<p>Please click on the following link to confirm your Echelon Planner account: </p><p><a href='+authLink+'>'+authLink+'</a></p>'
+                    msg = EmailMultiAlternatives(subject, html_content, from_email, [standardUser.email])
+                    msg.content_subtype = "html"
+                    msg.send()
+                else:
+                    standardUser.is_active = True
+                    standardUser.save()
             except IntegrityError as problem:
                 # Student or auth_user was duplicate
                 isregistered = False
