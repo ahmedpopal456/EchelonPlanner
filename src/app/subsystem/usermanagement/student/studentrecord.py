@@ -42,41 +42,60 @@ class StudentRecord(models.Model):
         pass
 
     def moveScheduleFromCacheToMain(self):
+        semester_list = ["Summer1", "Summer2", "Fall", "Winter"]
+        if self.mainSchedule:  # Delete the previously kept schedule if needed.
+            self.mainSchedule.delete()
 
-         # Means there are no more courses in MainSchedule and something from scheduleCache needs to take it's place:
-        if len(self.mainSchedule.lectureList.all()) == 0 and len(self.scheduleCache.all()) > 0:
-            currentYear = self.mainSchedule.year
-            currentSemester = self.mainSchedule.semester
-
-            nextyearavailable = []
-            tempnexthighestyear = 99
-            allcacheSchedule = self.scheduleCache.all()
-            # Find lowest years in schedule cache
-            for schedule in allcacheSchedule:
-                if tempnexthighestyear > schedule.year:
-                    tempnexthighestyear = schedule.year
-            lowestSemesterAvailableList = []
-            for schedule in allcacheSchedule:
-                if schedule.year == tempnexthighestyear:
-                    nextyearavailable.append(schedule)
-                    lowestSemesterAvailableList.append(schedule.semester)
-
-            lowestSemester = ""
-            if "Summer1" in lowestSemesterAvailableList:
-                lowestSemester = "Summer1"
-            elif "Summer2" in lowestSemesterAvailableList:
-                lowestSemester = "Summer2"
-            elif "Fall" in lowestSemesterAvailableList:
-                lowestSemester = "Fall"
-            elif "Winter" in lowestSemesterAvailableList:
-                lowestSemester = "Winter"
-
-            for schedule in nextyearavailable:
-                if schedule.semester == lowestSemester:
-                    self.mainSchedule = schedule
-                    self.scheduleCache.remove(schedule)
-                    self.save()
-            return
+        # Go find a new one
+        for i in range(1, 6):
+            cached_schedules = self.scheduleCache.filter(year=i)
+            if cached_schedules:
+                for j in range(0, 4):
+                    possible_replacement = cached_schedules.filter(semester=semester_list[i])
+                    if possible_replacement:
+                        self.mainSchedule = possible_replacement[0]  # Always take the first of the elements.
+                        self.scheduleCache.remove(possible_replacement)
+                        self.save()
+        return
+    # end moveScheduleFromCacheToMain()
+        #
+        #
+        # # TODO: Logic needs to be reworked.
+        # #       There's no guarantee that mainSchedule has no more courses when this is called!
+        # # Means there are no more courses in MainSchedule and something from scheduleCache needs to take it's place:
+        # elif len(self.mainSchedule.lectureList.all()) == 0 and len(self.scheduleCache.all()) > 0:
+        #     currentYear = self.mainSchedule.year
+        #     currentSemester = self.mainSchedule.semester
+        #
+        #     nextyearavailable = []
+        #     tempnexthighestyear = 99
+        #     allcacheSchedule = self.scheduleCache.all()
+        #     # Find lowest years in schedule cache
+        #     for schedule in allcacheSchedule:
+        #         if tempnexthighestyear > schedule.year:
+        #             tempnexthighestyear = schedule.year
+        #     lowestSemesterAvailableList = []
+        #     for schedule in allcacheSchedule:
+        #         if schedule.year == tempnexthighestyear:
+        #             nextyearavailable.append(schedule)
+        #             lowestSemesterAvailableList.append(schedule.semester)
+        #
+        #     lowestSemester = ""
+        #     if "Summer1" in lowestSemesterAvailableList:
+        #         lowestSemester = "Summer1"
+        #     elif "Summer2" in lowestSemesterAvailableList:
+        #         lowestSemester = "Summer2"
+        #     elif "Fall" in lowestSemesterAvailableList:
+        #         lowestSemester = "Fall"
+        #     elif "Winter" in lowestSemesterAvailableList:
+        #         lowestSemester = "Winter"
+        #
+        #     for schedule in nextyearavailable:
+        #         if schedule.semester == lowestSemester:
+        #             self.mainSchedule = schedule
+        #             self.scheduleCache.remove(schedule)
+        #             self.save()
+        # return  #CAREFUL WITH THE INDENTS!
 
     # Used to move course from Main Schedule to CoursesTaken
     def passCourse(self, deptnum):
