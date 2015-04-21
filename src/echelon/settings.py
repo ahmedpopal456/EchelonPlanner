@@ -87,9 +87,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'echelon',  # MySQL must contain this DB.
-        'USER': 'eve',
+        'USER': 'root',
         'PASSWORD': 'SOEN341echelon!',
-        'HOST': 'bbbtimmy.noip.me',
+        'HOST': 'localhost',
         'PORT': '3306',
         # 'TEST': {
         #     'NAME': 'test_echelon',
