@@ -29,7 +29,7 @@
                 url: "/course_data/",
                 dataType: 'html',
                 data: {
-                    'deptnum': 'SOEN228',
+                    'deptnum': 'COMP232',
                     'semester': '{{ currentSemester }}',
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
@@ -39,9 +39,12 @@
                     //1. Unpack the JSON dictionary (gives back deptnum, lectures, tutorials, labs)
                     var newObj = jQuery.parseJSON(data.valueOf());
                     //2. Unpack the SECOND JSON from hell (gives back the array of Django Models)
-{#                    var newNewObj = jQuery.parseJSON(newObj['lectures']);#}
-                    $('#Testerstest').html(newObj);
-                    console.log((newObj['lectures'].first)['professor']+ " ");
+                    {#                    var newNewObj = jQuery.parseJSON(newObj['lectures']);#}
+
+                    var somelist = newObj['lectures'];
+                    console.log(somelist);
+                    $('#Testerstest').html("Yo");
+                    console.log(somelist[0]['tutorial'][0]);
                 },
                 failure: function (data) {
                     alert('Got an error');
@@ -72,12 +75,12 @@
 
             $("#tutDiv" + currentNo).find("#tutDiv" + currentNo + "Text").attr('course', currentCourse);
             $("#tutDivDrop" + currentNo).html("");
-            $("#tutDiv" + currentNo + "Text").html("Tutorial "+currentNo+" <span class='caret'></span>&nbsp;");
+            $("#tutDiv" + currentNo + "Text").html("Tutorial " + currentNo + " <span class='caret'></span>&nbsp;");
             $("#tutDiv" + currentNo + "Text").val("");
 
             $("#labDiv" + currentNo).find("#labDiv" + currentNo + "Text").attr('course', currentCourse);
             $("#labDivDrop" + currentNo).html("");
-            $("#labDiv" + currentNo + "Text").html("Lab "+currentNo+" <span class='caret'></span>&nbsp;");
+            $("#labDiv" + currentNo + "Text").html("Lab " + currentNo + " <span class='caret'></span>&nbsp;");
             $("#labDiv" + currentNo + "Text").val("");
 
             $("#lectDiv" + currentNo).find("#lectDiv" + currentNo + "Text").removeClass("disabled");
@@ -97,31 +100,32 @@
                 },
                 success: function (data) {
                     var newObj = jQuery.parseJSON(data.valueOf());
-                    console.log(newObj.toString());
 
+                    console.log(newObj.toString());
                     $('#Testerstest').html(newObj['deptnum'] + ": Hey ");
                     //console.log(newObj.length+ " " +newNewObj.type + " ")
-                    var lectureList = jQuery.parseJSON(courseData['lectures']);
-                    var tutList = jQuery.parseJSON(courseData['tutorials']);
-                    var labList = jQuery.parseJSON(courseData['labs']);
+
+                    var lectureList = newObj['lectures'];
+                    //var tutList = jQuery.parseJSON(courseData['tutorials']);
+                    //var labList = jQuery.parseJSON(courseData['labs']);
 
                     $("#lectDrop" + currentNo).html("");
-                    $("#lectDiv" + currentNo + "Text").html("Lecture "+currentNo+" <span class='caret'></span>&nbsp;");
+                    $("#lectDiv" + currentNo + "Text").html("Lecture " + currentNo + " <span class='caret'></span>&nbsp;");
                     $("#lectDiv" + currentNo + "Text").val("");
 
 
                     //populating lectures (handles .one links)
                     for (var lectNo = 0; lectNo < lectureList.length; lectNo++) {
-                        var $leText = lectureList[lectNo].fields['section']+" ";
+                        var $leText = lectureList[lectNo]['section'] + " ";
                         var newListItem = $("<li>");
-                        var newListLink = $("<a>").attr('id', 'lectNo'+lectNo);
-                        newListLink.attr('href','#');
+                        var newListLink = $("<a>").attr('id', 'lectNo' + lectNo);
+                        newListLink.attr('href', '#');
                         newListLink.addClass('one');
                         newListLink.attr('number', currentNo);
-                        newListLink.attr('lect',lectureList[lectNo].fields['section']);
-                        newListLink.attr('course',lectureList[lectNo].fields['course']);
-                        newListLink.attr('pk',lectureList[lectNo].pk);
-                        newListLink.attr('value',lectureList[lectNo].pk);
+                        newListLink.attr('lect', lectureList[lectNo]['section']);
+                        newListLink.attr('course', lectureList[lectNo]['course']);
+                        //newListLink.attr('pk', lectureList[lectNo].pk);  //what was pk again?
+                        //newListLink.attr('value', lectureList[lectNo].pk);  //what was pk again?
                         newListLink.text($leText);
                         newListLink.bind("click", function () {
 
@@ -131,25 +135,25 @@
                             $("#lectDiv" + currentNo + "Text").val($(this).text());
                             $("#lectInput" + currentNo).val($(this).text());
                             //end of that
-
+                            var tutList = newObj[lectNo]['tutorial'];
                             //checking for tutorials and doing what needs to be done to the tut lists accordingly
-                            if(tutList.length != 0 ) {
-                            $("#tutDiv" + currentNo).find("#tutDiv" + currentNo + "Text").removeClass("disabled");
-                            $("#tutDiv" + currentNo).find("#tutDiv" + currentNo + "Text").attr('course', currentCourse);
-                            $("#tutDivDrop" + currentNo).html("");
-                            $("#tutDiv" + currentNo + "Text").html("Tutorial "+currentNo+" <span class='caret'></span>&nbsp;");
-                            $("#tutDiv" + currentNo + "Text").val("");
-                                for(var tutNo = 0; tutNo<tutList.length; tutNo++ ){
-                                    var $tuText = tutList[tutNo].fields['section']+" ";
+                            if (tutList.length != 0) {
+                                $("#tutDiv" + currentNo).find("#tutDiv" + currentNo + "Text").removeClass("disabled");
+                                $("#tutDiv" + currentNo).find("#tutDiv" + currentNo + "Text").attr('course', currentCourse);
+                                $("#tutDivDrop" + currentNo).html("");
+                                $("#tutDiv" + currentNo + "Text").html("Tutorial " + currentNo + " <span class='caret'></span>&nbsp;");
+                                $("#tutDiv" + currentNo + "Text").val("");
+                                for (var tutNo = 0; tutNo < tutList.length; tutNo++) {
+                                    var $tuText = tutList[tutNo]['section'] + " ";
                                     var newListItem = $("<li>");
-                                    var newListLink = $("<a>").attr('id', 'lectNo'+tutNo);
-                                    newListLink.attr('href','#');
+                                    var newListLink = $("<a>").attr('id', 'lectNo' + tutNo);
+                                    newListLink.attr('href', '#');
                                     newListLink.addClass('two');
                                     newListLink.attr('number', currentNo);
-                                    newListLink.attr('tut',tutList[tutNo].fields['section']);
-                                    newListLink.attr('course',tutList[tutNo].fields['course']);
-                                    newListLink.attr('pk',tutList[tutNo].pk);
-                                    newListLink.attr('value',tutList[tutNo].pk);
+                                    newListLink.attr('tut', tutList[tutNo]['section']);
+                                    newListLink.attr('course', tutList[tutNo]['course']);
+                                    //newListLink.attr('pk', tutList[tutNo].pk);    //what was pk again?
+                                    //newListLink.attr('value', tutList[tutNo].pk);  //what was pk again?
                                     newListLink.text($tuText);
                                     newListLink.bind("click", function () {
                                         console.log("tut");
@@ -157,62 +161,66 @@
                                         $("#tutDiv" + currentNo + "Text").text($(this).text());
                                         $("#tutDiv" + currentNo + "Text").val($(this).text());
                                         $("#tutInput" + currentNo).val($(this).text());
+
                                         //end of that
+
+                                        var labList = newObj[lectNo][tutNo]['lab'];
+
+                                        //checking for labs and doing what needs to be done to the lab lists accordingly
+                                        if (labList.length != 0) {
+                                            $("#labDiv" + currentNo).find("#labDiv" + currentNo + "Text").removeClass("disabled");
+                                            $("#labDiv" + currentNo).find("#labDiv" + currentNo + "Text").attr('course', currentCourse);
+                                            $("#labDivDrop" + currentNo).html("");
+                                            $("#labDiv" + currentNo + "Text").html("Lab " + currentNo + " <span class='caret'></span>&nbsp;");
+                                            $("#labDiv" + currentNo + "Text").val("");
+                                            for (var labNo = 0; labNo < labList.length; labNo++) {
+                                                var $labText = labList[labNo]['section'] + " ";
+                                                var newListItem = $("<li>");
+                                                var newListLink = $("<a>").attr('id', 'lectNo' + labNo);
+                                                newListLink.attr('href', '#');
+                                                newListLink.addClass('three');
+                                                newListLink.attr('number', currentNo);
+                                                newListLink.attr('lab', labList[labNo]['section']);
+                                                newListLink.attr('course', labList[labNo]['course']);
+                                                //newListLink.attr('pk', labList[labNo].pk);  //what was pk again?
+                                                //newListLink.attr('value', labList[labNo].pk);  //what was pk again?
+                                                newListLink.text($labText);
+                                                newListLink.bind("click", function () {
+                                                    console.log("lab");
+                                                    //this changes the text and value of the lab dropdown after a click
+                                                    $("#labDiv" + currentNo + "Text").text($(this).text());
+                                                    $("#labDiv" + currentNo + "Text").val($(this).text());
+                                                    $("#labInput" + currentNo).val($(this).text());
+                                                    //end of that
+                                                });
+                                                newListItem.append(newListLink);
+                                                $("#labDrop" + currentNo).append(newListItem);
+                                            }
+                                            //lab list populated
+                                        }
+                                        else {
+                                            $("#labDiv" + currentNo).find("#labDiv" + currentNo + "Text").addClass("disabled");
+                                            $("#labDiv" + currentNo).find("#labDiv" + currentNo + "Text").attr('course', currentCourse);
+                                            $("#labDivDrop" + currentNo).html("");
+                                            $("#labDiv" + currentNo + "Text").html("Lab " + currentNo + " <span class='caret'></span>&nbsp;");
+                                            $("#labDiv" + currentNo + "Text").val("");
+                                        }
+                                        //end of lab handling
+
                                     });
                                     newListItem.append(newListLink);
                                     $("#tutDrop" + currentNo).append(newListItem);
                                 }
                                 //tutorial list populated
                             }
-                            else{
-                            $("#tutDiv" + currentNo).find("#tutDiv" + currentNo + "Text").addClass("disabled");
-                            $("#tutDiv" + currentNo).find("#tutDiv" + currentNo + "Text").attr('course', currentCourse);
-                            $("#tutDivDrop" + currentNo).html("");
-                            $("#tutDiv" + currentNo + "Text").html("Tutorial "+currentNo+" <span class='caret'></span>&nbsp;");
-                            $("#tutDiv" + currentNo + "Text").val("");
+                            else {
+                                $("#tutDiv" + currentNo).find("#tutDiv" + currentNo + "Text").addClass("disabled");
+                                $("#tutDiv" + currentNo).find("#tutDiv" + currentNo + "Text").attr('course', currentCourse);
+                                $("#tutDivDrop" + currentNo).html("");
+                                $("#tutDiv" + currentNo + "Text").html("Tutorial " + currentNo + " <span class='caret'></span>&nbsp;");
+                                $("#tutDiv" + currentNo + "Text").val("");
                             }
                             //end of tutorial handling
-
-                            //checking for labs and doing what needs to be done to the lab lists accordingly
-                            if(labList.length != 0 ) {
-                            $("#labDiv" + currentNo).find("#labDiv" + currentNo + "Text").removeClass("disabled");
-                            $("#labDiv" + currentNo).find("#labDiv" + currentNo + "Text").attr('course', currentCourse);
-                            $("#labDivDrop" + currentNo).html("");
-                            $("#labDiv" + currentNo + "Text").html("Lab "+currentNo+" <span class='caret'></span>&nbsp;");
-                            $("#labDiv" + currentNo + "Text").val("");
-                                for(var labNo = 0; labNo<labList.length; labNo++ ){
-                                    var $labText = labList[labNo].fields['section']+" ";
-                                    var newListItem = $("<li>");
-                                    var newListLink = $("<a>").attr('id', 'lectNo'+labNo);
-                                    newListLink.attr('href','#');
-                                    newListLink.addClass('three');
-                                    newListLink.attr('number', currentNo);
-                                    newListLink.attr('lab',labList[labNo].fields['section']);
-                                    newListLink.attr('course',labList[labNo].fields['course']);
-                                    newListLink.attr('pk',labList[labNo].pk);
-                                    newListLink.attr('value',labList[labNo].pk);
-                                    newListLink.text($labText);
-                                    newListLink.bind("click", function () {
-                                        console.log("lab");
-                                        //this changes the text and value of the lab dropdown after a click
-                                        $("#labDiv" + currentNo + "Text").text($(this).text());
-                                        $("#labDiv" + currentNo + "Text").val($(this).text());
-                                        $("#labInput" + currentNo).val($(this).text());
-                                        //end of that
-                                    });
-                                    newListItem.append(newListLink);
-                                    $("#labDrop" + currentNo).append(newListItem);
-                                }
-                                //lab list populated
-                            }
-                            else{
-                            $("#labDiv" + currentNo).find("#labDiv" + currentNo + "Text").addClass("disabled");
-                            $("#labDiv" + currentNo).find("#labDiv" + currentNo + "Text").attr('course', currentCourse);
-                            $("#labDivDrop" + currentNo).html("");
-                            $("#labDiv" + currentNo + "Text").html("Lab "+currentNo+" <span class='caret'></span>&nbsp;");
-                            $("#labDiv" + currentNo + "Text").val("");
-                            }
-                            //end of lab handling
 
                         });
                         newListItem.append(newListLink);
@@ -233,9 +241,9 @@
 
 
     /* //testing tools
-    console.log("IN");
-    $('#Testerstest').html("EYY LMAO");
-    */
+     console.log("IN");
+     $('#Testerstest').html("?");
+     */
 
 </script>
 
