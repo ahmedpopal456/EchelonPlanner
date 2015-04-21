@@ -842,7 +842,7 @@ def schedule_select(request):
             else:
                 request.user.student.academicRecord.scheduleCache.add(scheduletosave)
                 # Call function to move to main if needed
-                if not request.user.student.academicRecord.mainSchedule:
+                if request.user.student.academicRecord.mainSchedule is None:
                     request.user.student.academicRecord.moveScheduleFromCacheToMain()
                 print("True")
                 return HttpResponse(True)
