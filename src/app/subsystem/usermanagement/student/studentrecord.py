@@ -91,13 +91,13 @@ class StudentRecord(models.Model):
     # Check if a schedule exists with the same year/semester,
     # returns the schedule if it is, if not, then None
     def doesScheduleForSemesterYearExist(self, year, semester):
+        if self.mainSchedule:
+            if self.mainSchedule.semester == semester and self.mainSchedule.year == year:
+                return self.mainSchedule
 
-        if self.mainSchedule.semester == semester and self.mainSchedule.year == year:
-            return self.mainSchedule
-
-        for schedule in self.scheduleCache.all():
-            if schedule.year == year and schedule.semester == semester:
-                return schedule
+            for schedule in self.scheduleCache.all():
+                if schedule.year == year and schedule.semester == semester:
+                    return schedule
 
         # If no schedule is found, then return None, safe to save
         return None
