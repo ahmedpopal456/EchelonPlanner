@@ -5,10 +5,7 @@ class Preferences(object):
     location = []
 
     def __init__(self, daysOff=None, timeOfDay=None, location = None):
-
-        #TODO: make sure that what is received changes into the proper format as defined above!
-
-        # string of days that the user wants off. ex.: "----FSD" wants a long weekend
+        # string of days that the user wants off. ex.: "----FSD" wants a class on weekends
         if daysOff is not None:
             self.daysOff = daysOff
         else:
