@@ -165,6 +165,7 @@ def register(request):
                 newRecord = StudentRecord()
                 newRecord.save()
                 studentUser.academicRecord = newRecord
+                only_option = AcademicProgram.objects.get(pk=5)  # SOEN!
                 # # We need to create and save a main schedule as well to the student
                 # mainSchedule = Schedule()
                 # mainSchedule.save()
@@ -403,6 +404,10 @@ def schedule_make(request):  # Might as well rework this method from scratch, bu
 
 @login_required
 def student_record(request):
+    # TODO: Add schedule courses to Student Record!
+    # TODO: Dynamically change programs!
+    # TODO: Automatically change years!
+
     firstname = request.user.first_name
     lastname = request.user.last_name
     this_student = StudentCatalog.getStudent(request.user.username)
@@ -464,6 +469,7 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
         # Case 1: There were auto_generated schedules and User is requesting one by pk
         if specific != "":
             specific = int(specific)
+            specifiedSchedule = None
 
             # Select Search type
             # recently saved schedules
@@ -487,25 +493,30 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
                         # Yes, there needs to be an intermediary data var to append the two lists together
                         schedule_data = list(schedule_data) + list(intermediary)
 
+                        specifiedSchedule = []
+                        for item in schedule_data:
+                            if specific == item.object.pk:  # validated the PK, now get it and get out.
+                                specifiedSchedule = Schedule.objects.filter(id=specific)
+                                break
+                        if len(specifiedSchedule) > 0:
+                            specifiedSchedule = specifiedSchedule[0]
+                        else:
+                            print("Schedule not found by PK")
+                            specifiedSchedule = request.user.student.academicRecord.mainSchedule
+
             # Cached schedules in DB
             elif search_mode == "saved" and len(request.user.student.academicRecord.scheduleCache.all())>0:
                 # Retrieve Schedule Cache list
-                schedule_data = request.user.student.academicRecord.scheduleCache.all()
+                specifiedSchedule = request.user.student.academicRecord.scheduleCache.filter(pk=specific)
+                specifiedSchedule = specifiedSchedule[0]
             else:
                 # Stop and return here if needed
                 return schedule_view(request)
 
-            # If we haven't returned, operate on the common data of a search
-            specifiedSchedule = []
-            for item in schedule_data:
-                if specific == item.object.pk:  # validated the PK, now get it and get out.
-                    specifiedSchedule = Schedule.objects.filter(id=specific)
-                    break
-            if len(specifiedSchedule) > 0:
-                specifiedSchedule = specifiedSchedule[0]
-            else:
-                print("Schedule not found by PK")
-                specifiedSchedule = request.user.student.academicRecord.mainSchedule
+            if specifiedSchedule is None:
+                return schedule_view(request)
+
+            # Else, just keep going!
 
             viewing_table = specifiedSchedule.schedule_package()
 
@@ -573,9 +584,8 @@ def sched_gen_1(request):
 
     if request.method == "POST": # get the response back
         #If POST, then
-        max_courses = [1, 2, 3, 4, 5,6]
+        max_courses = [1, 2, 3, 4, 5, 6]
         # request.POST['semester'] # will return given semester!
-        # TODO: CHECK FEASIBLE COURSES AGAINST SEMESTER SUPPLIED
         currentSemester = request.POST['semester']
         currentYear = request.POST['year']
         student = StudentCatalog.getStudent(request.user.username)
@@ -692,7 +702,7 @@ def sched_gen_auto(request):
         default = Preferences(given_daysOff, given_timesOfDay, given_locations)
 
         # Make all the Schedules now.
-        all_schedules = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(course_objects,semester,default) #TODO CHANGE!
+        all_schedules = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(course_objects,semester,default)
         print(all_schedules)
         print(len(all_schedules))
 
@@ -848,6 +858,7 @@ def schedule_select(request):
                 if request.user.student.academicRecord.mainSchedule is None:
                     request.user.student.academicRecord.moveScheduleFromCacheToMain()
                 print("True")
+                #TODO Remove serialized list here
                 return HttpResponse(True)
 
         elif mode == "assert":
@@ -856,7 +867,9 @@ def schedule_select(request):
                 request.user.student.academicRecord.removeSchedule(scheduletoreplace.year, scheduletoreplace.semester)
                 request.user.student.academicRecord.scheduleCache.add(scheduletosave)
                 # Call function to move to main if needed
-                request.user.student.academicRecord.moveScheduleFromCacheToMain()
+                if request.user.student.academicRecord.mainSchedule is None:
+                    request.user.student.academicRecord.moveScheduleFromCacheToMain()
+                #TODO Remove serialized list here
                 return HttpResponse(True)
             except Schedule.DoesNotExist:
                 return HttpResponse(False)
@@ -874,7 +887,7 @@ def schedule_select(request):
             # print(list(schedule_data))
         # Unserialize anything from previous sessions too
         prevSessionKey = request.user.student.previousSession
-        if prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
+        if prevSessionKey!=request.session.session_key and prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
             # Find it!
             prevSession = Session.objects.filter(session_key=prevSessionKey)
             if len(prevSession) > 0:
@@ -922,7 +935,9 @@ def course_create(request):
         newCourse.course.prerequisites = prerequisites
         newCourse.course.equivalence = equivalence
         newCourse.course.yearSpan = yearSpan
+        # TODO: Reduce POST parameters to argument size
         CourseCatalog.addCourse(name, number, department, credits)
+
     return render(
         request,
         'app/course_create.html',
@@ -1015,8 +1030,6 @@ def serializeCourse(request):
 This method sends back a dictionary with ALL serialized subcourse objects (Lecture/Lab/Tutorials) of a given Course
 """
 def serializeSubCourseItems(request):
-    # TODO: CHECK AGAINST A 'semester' PARAMATER SUPPLIED IN COURSE.
-    # TODO: REfactor and use   CourseCatalog.seralizeCourseForSemester(specificcourse, semester):
     if request.method == "POST":
         print(request.POST)
         # 1. Get the Course

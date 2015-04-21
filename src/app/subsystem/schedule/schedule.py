@@ -318,9 +318,7 @@ class Schedule(models.Model):
     #and removes them from schedule
 
     def remove_course(self, deptnum):
-        #TODO: import CourseCatalog doesn't seem to work, using course directly, with catching exception
-        # coursetoremove = CourseCatalog.searchCoursesThroughPartialName(deptnum)
-        # coursetoremove = coursetoremove[0]
+        # NOTE: import CourseCatalog doesn't seem to work, using course directly, with catching exception
         try:
             coursetoremove = Course.objects.get(pk=deptnum)
 

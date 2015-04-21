@@ -273,15 +273,13 @@ class CourseCatalog(object):
 
     @staticmethod
     def coursesWithMetPrereqs(student, semester, year):
-        # TODO: Have a extra parameters that come from the generation page, indicating classes they are taking. via POST?
-
         # Need to explicitly convert year to int
         year = int(year)
 
         metprereq = []
-        courselist = Course.objects.all().filter(lecture__semester=semester) # start with a list of all courses offered in that semester
+        courselist = Course.objects.all().filter(lecture__semester=semester)  # start with a list of all courses offered in that semester
         courseswithnoprereq = Course.objects.all().filter(prerequisites__isnull=True)
-        #list of prereq and courses, individually packaged
+        # list of prereq and courses, individually packaged
 
         prereqdict = Course.objects.values("deptnum","prerequisites").exclude(prerequisites__isnull=True)
 
@@ -337,8 +335,6 @@ class CourseCatalog(object):
                              or mainSchedule.semester == "Fall")):
                     for lecture in mainSchedule.lectureList.all():
                         coursesTaken.append(lecture.course)
-
-
 
         # full list of courses taken that can be used as prerequisites
 

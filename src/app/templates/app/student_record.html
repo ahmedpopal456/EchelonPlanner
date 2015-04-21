@@ -86,7 +86,8 @@
                                {% for schedule in scheduleCache %}
                                    <tr>
                                        <td>{{ schedule.year }} - {{ schedule.semester }}</td>
-                                       <td><a href="/work_in_progress/"><button class="btn-sm">View</button></a></td>
+                                       <!-- TODO: FILL IN BUTTON FUNCTIONALITY!!!! -->
+                                       <td><a href="/schedule_view/saved/{{ schedule.pk }}"><button class="btn-sm">View</button></a></td>
                                        <td><a href="/work_in_progress/"><button class="btn-sm">Edit</button></a></td>
                                        <td><a href="/work_in_progress/"><button class="btn-sm">Delete</button></a></td>
                                    </tr>
