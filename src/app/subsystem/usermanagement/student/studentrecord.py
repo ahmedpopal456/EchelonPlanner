@@ -51,10 +51,12 @@ class StudentRecord(models.Model):
             cached_schedules = self.scheduleCache.filter(year=i)
             if cached_schedules:
                 for j in range(0, 4):
-                    possible_replacement = cached_schedules.filter(semester=semester_list[i])
+                    possible_replacement = cached_schedules.filter(semester=semester_list[j])
                     if possible_replacement:
+                        print("Replaced Main Schedule")
                         self.mainSchedule = possible_replacement[0]  # Always take the first of the elements.
-                        self.scheduleCache.remove(possible_replacement)
+                        self.mainSchedule.save()
+                        self.scheduleCache.remove(possible_replacement[0])
                         self.save()
         return
     # end moveScheduleFromCacheToMain()

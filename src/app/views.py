@@ -538,7 +538,8 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
          'is_current': is_current,
          'year': year,
          'semester': semester,
-         'specific': specific}
+         'specific': specific,
+         'search_mode':search_mode}
     )
 # end schedule_view
 
@@ -627,18 +628,17 @@ def sched_gen_1(request):
 
 
 @login_required()
-@transaction.commit_manually
 def sched_gen_auto(request):
 
     max_courses = list(range(1,7))
-
-    if StudentCatalog.getStudent(request.user.username):
+    theStudent = StudentCatalog.getStudent(request.user.username)
+    if theStudent:
         feasable_courses = CourseCatalog.coursesWithMetPrereqs(request.user.student, "Fall", 1)
     else:
         feasable_courses = []
 
     # If serving a POST request, it must be to consolidate schedules
-    if request.method == "POST":
+    if request.method == "POST" and theStudent:
 
         # If the user did not submit anything, send him back the same page with a message
         given_courses = request.POST.getlist('courses')
@@ -648,7 +648,6 @@ def sched_gen_auto(request):
         print(given_courses)
 
         if not len(given_courses) > 0:  # No Courses Given, ERROR!
-            transaction.rollback()
             return render(
                 request,
                 'app/schedule_generator_auto.html',
@@ -698,14 +697,14 @@ def sched_gen_auto(request):
         print(len(all_schedules))
 
         if len(all_schedules) < 1:  # If no possible schedules, notify the user!
-            transaction.rollback()
+            feasable_courses = CourseCatalog.coursesWithMetPrereqs(request.user.student, semester, year)
             return render(
                 request,
                 'app/schedule_generator_auto.html',
                 {'max_courses': max_courses,
                  'feasable_courses': feasable_courses,
-                 'currentYear': 1,
-                 'currentSemester': "Fall",
+                 'currentYear': year,
+                 'currentSemester': semester,
                  'message': 'ERROR: No Schedule match was found. Try different courses or reduce your preferences.'}
             )
 
@@ -713,63 +712,65 @@ def sched_gen_auto(request):
         # request.session['backup'] = serializers.serialize('json',all_schedules)  # This won't work cause lists are not directly serializable
         # request.user.student.testy = all_schedules  # This also doesn't work since it is not persistent throughout requests.
         # Step 1: Check if there was a previous session and delete old schedules.
-        prevSessionKey = request.user.student.previousSession
-        if prevSessionKey!=request.session.session_key and prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
-            # Find it!
-            prevSession = Session.objects.filter(session_key=prevSessionKey)
-            if len(prevSession) > 0:
-                prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
-                if 'auto_schedules' in prevSession:
-                    serializedSchedules = prevSession['auto_schedules']
-                    scheduleObjects = serializers.deserialize('json', serializedSchedules)
-                    # Flush it out!
-                    for oldSchedule in scheduleObjects:
-                        oldSchedule.object.delete()
+        # prevSessionKey = request.user.student.previousSession
+        # if prevSessionKey!=request.session.session_key and prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
+        #     # Find it!
+        #     prevSession = Session.objects.filter(session_key=prevSessionKey)
+        #     if len(prevSession) > 0:
+        #         prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
+        #         if 'auto_schedules' in prevSession:
+        #             serializedSchedules = prevSession['auto_schedules']
+        #             scheduleObjects = serializers.deserialize('json', serializedSchedules)
+        #             # Flush it out!
+        #             for oldSchedule in scheduleObjects:
+        #                 oldSchedule.object.delete()
 
         # Step 2: Take care of saving the newly generated ones.
         listOfSchedulesGenerated = []
         # I just profiled this segment. Guys, We have a bottleneck :/
         # My Fault for thinking we'd get away with an n^2 (Javier)
         start_time = time.time()
-        #START BOTTLENECK
-        for aSchedule in all_schedules:
-            cached_schedule = Schedule()
-            cached_schedule.semester = semester
-            cached_schedule.year = year
-            cached_schedule.save()
-            for anItem in aSchedule:
-                if cached_schedule.add_item(anItem):
-                    cached_schedule.save()
-                else:
-                    print("Could not add "+str(anItem))
 
-            cached_schedule.save()
-            listOfSchedulesGenerated.append(cached_schedule)
-        # END BOTTLENECK
-        transaction.commit()
+        # START BOTTLENECK #####################################
+        @transaction.commit_manually
+        def inner_saver():
+            for aSchedule in all_schedules:
+                cached_schedule = Schedule()
+                cached_schedule.semester = semester
+                cached_schedule.year = year
+                cached_schedule.save()
+                for anItem in aSchedule:
+                    cached_schedule.add_item_unsafely(anItem)
+
+                cached_schedule.save()
+                listOfSchedulesGenerated.append(cached_schedule)
+            transaction.commit()
+
+        # END BOTTLENECK ########################################
+        inner_saver()
         end_time = time.time()
         print("Total Time Cost:"+str(end_time-start_time))
 
         # Step 3: If all was successful, let's save to session and redirect the user to view his schedule!
         print(listOfSchedulesGenerated)
         request.user.student.previousSession = request.session.session_key
+        request.user.student.academicRecord.save()
         request.user.student.save()
         final_data = serializers.serialize('json', listOfSchedulesGenerated)
+        print("Saving Session to user")
         if 'auto_schedules' in request.session:
             longstring = request.session['auto_schedules']
             longstring = longstring[0:-1] + ", " + final_data[1:len(final_data)]
             print(longstring)
-            del request.session['auto_schedules']
             request.session['auto_schedules'] = longstring
         else:
             request.session['auto_schedules'] = final_data
         request.session.modified = True
-        transaction.commit()
         return HttpResponseRedirect('/schedule_select/')
 
     # If just rendering the page.
+    # TODO: calculate current year of student and current semester.
     else:
-        transaction.rollback()
         return render(
             request,
             'app/schedule_generator_auto.html',
@@ -783,6 +784,8 @@ def sched_gen_auto(request):
 
 @login_required
 def schedule_select(request):
+    # TODO: When a schedule is selected, remove it from the serialized list!!!
+
     # Handle my AJAX!
     if request.method == "POST":
         # Seems like request.POST is the PK of schedule

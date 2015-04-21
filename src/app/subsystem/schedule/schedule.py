@@ -273,6 +273,27 @@ class Schedule(models.Model):
                 self.tutorialList.add(subcourse_item.tutorial)
             return True
 
+    def add_item_unsafely(self,subcourse_item):
+        # if Lecture, must mean there isn't any lab or tutorial associated with it
+        if subcourse_item.name() == "Lecture":
+            self.lectureList.add(subcourse_item)
+            return True
+
+        # if Tutorial, must add tutorial and its Lecture
+        if subcourse_item.name() == "Tutorial":
+            self.tutorialList.add(subcourse_item)
+            self.lectureList.add(subcourse_item.lecture)
+            return True
+
+        # if Lab, must add Lecture. Then must check if there are tutorials to add as well.
+        if subcourse_item.name() == "Lab":
+            self.lectureList.add(subcourse_item.lecture)
+            self.labList.add(subcourse_item)
+            if subcourse_item.tutorial is not None:
+                self.tutorialList.add(subcourse_item.tutorial)
+            return True
+    #end add_item_unsafely()
+
     # Removes an Item from the schedule, must provide lowest possible section Lecture > Tutorial > Lab
     def remove_item(self, subcourse_item):
 
