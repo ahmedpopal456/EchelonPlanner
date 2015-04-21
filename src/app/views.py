@@ -786,9 +786,7 @@ def schedule_select(request):
     # Handle my AJAX!
     if request.method == "POST":
         # Seems like request.POST is the PK of schedule
-        # TODO: Check the post request param names
         print(request.POST)
-        #TODO: just for testing for now
         schedulepk = 1
         mode = "cautious"
 
@@ -844,7 +842,8 @@ def schedule_select(request):
             else:
                 request.user.student.academicRecord.scheduleCache.add(scheduletosave)
                 # Call function to move to main if needed
-                request.user.student.academicRecord.moveScheduleFromCacheToMain()
+                if not request.user.student.academicRecord.mainSchedule:
+                    request.user.student.academicRecord.moveScheduleFromCacheToMain()
                 print("True")
                 return HttpResponse(True)
 
