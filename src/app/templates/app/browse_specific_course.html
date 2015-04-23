@@ -24,6 +24,72 @@
             window.location.href = '/browse_specific_course/'+{{ department }}{{ number }}+'/'
         });
 
+    //Called from course_taken modal
+    taken_this_course = function(){
+        $("#course_taken").modal('hide');
+        $("#save_progress").modal('show');
+        //Add this course to the student record
+        $.ajax({ //Ask if we can save this schedule
+            type: 'post',
+            url: "/browse_specific_course/"+"{{ department }}{{ number }}",
+            dataType: 'html',
+            data: {
+                'mode': 'previously_taken',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (data) {
+                $("#save_progress").modal('hide');
+                console.log(data.valueOf());
+                if(data.valueOf()=="True") {
+                    $("#schedule_saved").modal('show');
+                }
+                else if(data.valueOf()=="False"){
+                    $("#error").modal('show');
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 404 || xhr.status == 400 || xhr.status == 500) {
+                    $("#save_progress").modal('hide');
+                    $("#error").modal('show');
+                    console.log("ERROR: The server replied back with "+xhr.status);
+                }
+            }
+        });
+    };
+
+    //Called from add_course modal
+    add_to_schedule = function(){
+       $("#add_course").modal('hide');
+        $("#save_progress").modal('show');
+        //Add this course to the student record
+        $.ajax({ //Ask if we can save this schedule
+            type: 'post',
+            url: "/browse_specific_course/"+"{{ department }}{{ number }}",
+            dataType: 'html',
+            data: {
+                'mode': 'add_to_schedule',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (data) {
+                $("#save_progress").modal('hide');
+                console.log(data.valueOf());
+                if(data.valueOf()=="True") {
+                    $("#confirm").modal('show');
+                }
+                else if(data.valueOf()=="False"){
+                    $("#error").modal('show');
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 404 || xhr.status == 400 || xhr.status == 500) {
+                    $("#save_progress").modal('hide');
+                    $("#error").modal('show');
+                    console.log("ERROR: The server replied back with "+xhr.status);
+                }
+            }
+        });
+    };
+
 </script>
 
 <div class="container body-content">
@@ -95,16 +161,22 @@
             {% if department %}
                 <h1> Course: {{ department }} {{ number }}</h1>
                 <h2> "{{ name }}" - ({{ credits }} CR)</h2>
-                <div></div>
-                {# Show Prereqs #}
-                {% if prereq %}
-                <h3>Prerequisites:</h3>
-                <p>
-                    {% for items in prereq %}
-                        <a href="/browse_specific_course/{{ items }}/">{{ items }}</a>
-                    {% endfor %}
-                </p>
-                {% endif %}
+                <div class="row">
+                    <div class="col-lg-8">
+                        {# Show Prereqs #}
+                        {% if prereq %}
+                            <h3>Prerequisites:</h3>
+                            <p>
+                                {% for items in prereq %}
+                                    <a href="/browse_specific_course/{{ items }}/">{{ items }}</a>
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-2"><br><p><button class="btn" data-toggle="modal" data-target="#course_taken">I've taken this course</button></p></div>
+                    <div class="col-lg-2"><br><p><button class="btn" data-toggle="modal" data-target="#add_course">Add to my schedule</button></p></div>
+                </div>
+                <br>
                 {# Show the Actual Lecture #}
                 <h3>Lectures</h3>
                 {% for sections in lectures %}
@@ -175,6 +247,96 @@
         </div>
     </div>
 </div>
+
+{# course_taken modal #}
+<div class="modal fade" id="course_taken">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">Want to add this to your student record?</h2>
+      </div>
+      <div class="modal-body">
+          <h3>If you already took this course, no need to take it again!</h3>
+          <p>Adding this course to your Student Record means that it will be taken into consideration when automatically making schedules.</p>
+          <p>But if you haven't taken this course, it will make other courses available that you might not have the pre-requisites for.</p>
+          <p>Do you wish to continue?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" onclick="taken_this_course()">Proceed</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{# add_course modal #}
+<div class="modal fade" id="add_course">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">Do you wish to add course to current schedule?</h2>
+      </div>
+      <div class="modal-body">
+          <p>This will add the first available, non-conflicting section to your main schedule.</p>
+          <p>If you did not have a schedule, an empty one will be made for you.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" onclick="add_to_schedule()">Proceed</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{# confirmation modal #}
+<div class="modal fade" id="done">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">All Done!</h2>
+      </div>
+      <div class="modal-body">
+          <p>You can keep browsing courses now!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{# confirmation modal #}
+<div class="modal fade" id="error">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">We couldn't do it!</h2>
+      </div>
+      <div class="modal-body">
+          <p>Something happened and this course was not added successfully.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Alright</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{# save_progress modal: so users don't get impatient! #}
+<div class="modal fade" id="save_progress" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+          <h1>Please Wait...</h1>
+          <p><img src="{% static 'app/images/loading.gif' %}"></p>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 </body>
 </html>
