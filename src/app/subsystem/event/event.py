@@ -1,6 +1,8 @@
 from django.db import models
 from django_enumfield import enum
 import datetime
+import time
+from time import mktime
 
 class RecurrenceType(enum.Enum):
     Daily = 1
@@ -23,6 +25,9 @@ class Event(models.Model):
     # Validity Variables
     semester = models.CharField(max_length=120, )
     yearSpan = models.CharField(max_length=120, null=True, blank=True, primary_key=False) #scrapper has this info, but not sure how to incorp
+
+    roundedstart = datetime.time()
+    roundedend = datetime.time()
 
     #Recurance (have not implemented yet)
 
@@ -93,10 +98,12 @@ class Event(models.Model):
 
         differencefromfifteen = (self.starttime.minute)%15
         if differencefromfifteen == 0:
+            self.roundedstart = datetime.datetime.combine(datetime.date.today(), self.starttime)
             return self.starttime.strftime("%H:%M")
         else:
             timetoadd = datetime.timedelta(minutes=(15 - differencefromfifteen))
-            returntime = datetime.datetime.combine(datetime.datetime.today(), self.starttime)+timetoadd
+            returntime = datetime.datetime.combine(datetime.date.today(), self.starttime)+timetoadd
+            self.roundedstart = returntime
 
             return returntime.strftime("%H:%M")
 
@@ -104,11 +111,13 @@ class Event(models.Model):
 
         differencefromfifteen = self.endtime.minute % 15
         if differencefromfifteen == 0:
+            self.roundedend = datetime.datetime.combine(datetime.date.today(), self.endtime)
             return self.endtime.strftime("%H:%M")
         else:
             timetoadd = datetime.timedelta(minutes=(15 - differencefromfifteen))
-            returntime = datetime.datetime.combine(datetime.datetime.today(), self.endtime)+timetoadd
+            returntime = datetime.datetime.combine(datetime.date.today(), self.endtime)+timetoadd
 
+            self.roundedend = returntime
             return returntime.strftime("%H:%M")
 
     #end of rounding functions
@@ -126,9 +135,11 @@ class Event(models.Model):
     # Rounded. Might need testing with boundary conditions. i.e 00:05 to 00:55 should return 3 blocks (same as 00:15-00:00)
 
     def getDuration(self):
+        self.getRoundedStart()
+        self.getRoundedEnd()
 
-        endtimeobject = datetime.datetime.combine(datetime.datetime.today(), self.endtime)
-        starttimeobject = datetime.datetime.combine(datetime.datetime.today(), self.starttime)
+        endtimeobject = self.roundedend
+        starttimeobject = self.roundedstart
         duration = endtimeobject - starttimeobject
 
         seconds = duration.total_seconds()
