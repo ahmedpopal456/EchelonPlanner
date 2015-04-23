@@ -976,6 +976,22 @@ def browse_all_courses(request):
 
 
 def browse_specific_course(request, deptnum=""):
+    # AJAX Handler
+    if request.method == "POST":
+        if 'mode' in request.POST and StudentCatalog.getStudent(request.user):
+            if request.POST['mode']=='previously_taken':
+                request.user.student.academicRecord.addTakenCourse(deptnum)
+                return HttpResponse(True)
+            elif request.POST['mode'] == 'add_to_schedule':
+                return HttpResponse(False)
+                # TODO: put method tht can transfer a section of this deptnum into schedule.
+            else:
+              return HttpResponseBadRequest("Request arguments were wrong.")
+        else:
+            return HttpResponseBadRequest("A malformed request was issued to the server. Check User and parameters.")
+    # end AJAX Handling.
+
+    # Normal Handler
     if deptnum == "":
         return browse_all_courses(request)
 
