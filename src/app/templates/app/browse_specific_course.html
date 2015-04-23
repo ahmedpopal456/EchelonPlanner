@@ -41,7 +41,7 @@
                 $("#save_progress").modal('hide');
                 console.log(data.valueOf());
                 if(data.valueOf()=="True") {
-                    $("#schedule_saved").modal('show');
+                    $("#done").modal('show');
                 }
                 else if(data.valueOf()=="False"){
                     $("#error").modal('show');
@@ -74,7 +74,7 @@
                 $("#save_progress").modal('hide');
                 console.log(data.valueOf());
                 if(data.valueOf()=="True") {
-                    $("#confirm").modal('show');
+                    $("#done").modal('show');
                 }
                 else if(data.valueOf()=="False"){
                     $("#error").modal('show');
@@ -156,27 +156,28 @@
         </div>
 
         <div class="col-md-8">
-        <a onclick="history.go(-1);"><button type="button" class="btn btn-primary">Back to Previous</button></a>
+        <br>
+        <div class="row">
+            <div class="col-xs-4 text-left">
+                <a onclick="history.go(-1);"><button type="button" class="btn btn-primary">Back to Previous</button></a>
+            </div>
+            <div class="col-xs-3 pull-right"><p><button class="btn" data-toggle="modal" data-target="#course_taken">I've taken this course</button></p></div>
+            <div class="col-xs-3 pull-right"><p><button class="btn" data-toggle="modal" data-target="#add_course">Add to my schedule</button></p></div>
+        </div>
             {# If we have the Course Info to Bake here#}
             {% if department %}
                 <h1> Course: {{ department }} {{ number }}</h1>
                 <h2> "{{ name }}" - ({{ credits }} CR)</h2>
-                <div class="row">
-                    <div class="col-lg-8">
-                        {# Show Prereqs #}
-                        {% if prereq %}
-                            <h3>Prerequisites:</h3>
-                            <p>
-                                {% for items in prereq %}
-                                    <a href="/browse_specific_course/{{ items }}/">{{ items }}</a>
-                                {% endfor %}
-                            </p>
-                        {% endif %}
-                    </div>
-                    <div class="col-lg-2"><br><p><button class="btn" data-toggle="modal" data-target="#course_taken">I've taken this course</button></p></div>
-                    <div class="col-lg-2"><br><p><button class="btn" data-toggle="modal" data-target="#add_course">Add to my schedule</button></p></div>
-                </div>
-                <br>
+
+                {# Show Prereqs #}
+                {% if prereq %}
+                    <h3>Prerequisites:</h3>
+                    <p>
+                        {% for items in prereq %}
+                            <a href="/browse_specific_course/{{ items }}/">{{ items }}</a>
+                        {% endfor %}
+                    </p>
+                {% endif %}
                 {# Show the Actual Lecture #}
                 <h3>Lectures</h3>
                 {% for sections in lectures %}
@@ -186,8 +187,6 @@
                         <li>Location: {{ sections.location }}</li>
                         <li>Professor: {{ sections.prof }}</li>
                     </ul>
-                    {# TODO: Have a nice button here to select a particular lecture #}
-                    {# TODO: Add an "I already took this course" Button. #}
 
                     {% if sections.tutorial or sections.labs %}
                     <div class="">
