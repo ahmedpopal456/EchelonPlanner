@@ -21,6 +21,7 @@ from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 import platform
 import hashlib
+from threading import Thread
 
 # For Dev Purposes Only. This logger object can be identified as 'apps.view'
 logger = logging.getLogger(__name__)
@@ -284,20 +285,23 @@ def change_pass(request):
     )
 # end change_pass
 
-@transaction.commit_manually()
+@login_required()
 def logouthandler(request):
-    # Cleanup any schedule objects associated to session!
-    # TODO: Spawn off a thread that can take care of this cleanup!
-    if 'auto_schedules' in request.session:
+    @transaction.commit_manually()
+    def cleanup():
         list_to_clean = serializers.deserialize('json', request.session['auto_schedules'])
         for oldSchedule in list_to_clean:
             oldSchedule.object.delete()
-    # NOTE: calling logout clears the session line for a given session_key,
-    #       That's why we had to delete everything before closing.
+        transaction.commit()
+
+    # Cleanup any schedule objects associated to session!
+    if 'auto_schedules' in request.session:
+        thread = Thread(target=cleanup())
+        thread.start()
+
     logout(request)
     transaction.commit()
     return HttpResponseRedirect('/', {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
-
 
 @login_required
 def concordia_resources(request):
@@ -480,29 +484,29 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
                     # Start unpacking session data
                     schedule_data = serializers.deserialize('json',request.session['auto_schedules'])
 
-                prevSessionKey = request.user.student.previousSession
-
-                # Search previous session
-                if prevSessionKey is not None or prevSessionKey != "":
-                    prevSession = Session.objects.filter(session_key=prevSessionKey)
-                    if len(prevSession) > 0:
-                        prevSession = prevSession[0].get_decoded()  # Previous Session is now a Dictionary
-                        serializedSchedules = prevSession['auto_schedules']
-                        print(serializedSchedules)
-                        intermediary = serializers.deserialize('json', serializedSchedules)
-                        # Yes, there needs to be an intermediary data var to append the two lists together
-                        schedule_data = list(schedule_data) + list(intermediary)
-
-                        specifiedSchedule = []
-                        for item in schedule_data:
-                            if specific == item.object.pk:  # validated the PK, now get it and get out.
-                                specifiedSchedule = Schedule.objects.filter(id=specific)
-                                break
-                        if len(specifiedSchedule) > 0:
-                            specifiedSchedule = specifiedSchedule[0]
-                        else:
-                            print("Schedule not found by PK")
-                            specifiedSchedule = request.user.student.academicRecord.mainSchedule
+                # prevSessionKey = request.user.student.previousSession
+                #
+                # # Search previous session
+                # if prevSessionKey is not None or prevSessionKey != "":
+                #     prevSession = Session.objects.filter(session_key=prevSessionKey)
+                #     if len(prevSession) > 0:
+                #         prevSession = prevSession[0].get_decoded()  # Previous Session is now a Dictionary
+                #         serializedSchedules = prevSession['auto_schedules']
+                #         print(serializedSchedules)
+                #         intermediary = serializers.deserialize('json', serializedSchedules)
+                #         # Yes, there needs to be an intermediary data var to append the two lists together
+                #         schedule_data = list(schedule_data) + list(intermediary)
+                #
+                #         specifiedSchedule = []
+                #         for item in schedule_data:
+                #             if specific == item.object.pk:  # validated the PK, now get it and get out.
+                #                 specifiedSchedule = Schedule.objects.filter(id=specific)
+                #                 break
+                #         if len(specifiedSchedule) > 0:
+                #             specifiedSchedule = specifiedSchedule[0]
+                #         else:
+                #             print("Schedule not found by PK")
+                #             specifiedSchedule = request.user.student.academicRecord.mainSchedule
 
             # Cached schedules in DB
             elif search_mode == "saved" and len(request.user.student.academicRecord.scheduleCache.all())>0:
@@ -539,7 +543,6 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
         is_current = False
         year = viewing_table.get('Year')
         semester = viewing_table.get('Semester')
-
 
     return render(
         request,
@@ -822,19 +825,19 @@ def schedule_select(request):
                     scheduletosave = Schedule.objects.filter(pk=schedulepk)
                     break
         # OR Key came from the previously generated schedules?
-        elif StudentCatalog.getStudent(request.user.username):
-            if request.user.student.previousSession:
-                prevSessionKey = request.user.student.previousSession
-                prevSession = Session.objects.filter(session_key=prevSessionKey)
-                if len(prevSession) > 0:
-                    prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
-                    serializedSchedules = prevSession['auto_schedules']
-                    session_schedules = serializers.deserialize('json', serializedSchedules)
-                    session_schedules = list(session_schedules)
-                    for scheduleObject in session_schedules:
-                        if scheduleObject.object.pk == schedulepk:
-                            scheduletosave = Schedule.objects.filter(pk=schedulepk)
-                            break
+        # elif StudentCatalog.getStudent(request.user.username):
+        #     if request.user.student.previousSession:
+        #         prevSessionKey = request.user.student.previousSession
+        #         prevSession = Session.objects.filter(session_key=prevSessionKey)
+        #         if len(prevSession) > 0:
+        #             prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
+        #             serializedSchedules = prevSession['auto_schedules']
+        #             session_schedules = serializers.deserialize('json', serializedSchedules)
+        #             session_schedules = list(session_schedules)
+        #             for scheduleObject in session_schedules:
+        #                 if scheduleObject.object.pk == schedulepk:
+        #                     scheduletosave = Schedule.objects.filter(pk=schedulepk)
+        #                     break
         # The Catch all case.
         if not scheduletosave:
             # Schedule not found OR PrimaryKey is not his (Security Issue), Return an Error
@@ -886,16 +889,16 @@ def schedule_select(request):
             schedule_data = serializers.deserialize('json', request.session['auto_schedules'])
             # print(list(schedule_data))
         # Unserialize anything from previous sessions too
-        prevSessionKey = request.user.student.previousSession
-        if prevSessionKey!=request.session.session_key and prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
-            # Find it!
-            prevSession = Session.objects.filter(session_key=prevSessionKey)
-            if len(prevSession) > 0:
-                prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
-                if 'auto_schedules' in prevSession:
-                    serializedSchedules = prevSession['auto_schedules']
-                    scheduleObjects = serializers.deserialize('json', serializedSchedules)
-                    old_schedules = list(scheduleObjects)
+        # prevSessionKey = request.user.student.previousSession
+        # if prevSessionKey!=request.session.session_key and prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
+        #     # Find it!
+        #     prevSession = Session.objects.filter(session_key=prevSessionKey)
+        #     if len(prevSession) > 0:
+        #         prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
+        #         if 'auto_schedules' in prevSession:
+        #             serializedSchedules = prevSession['auto_schedules']
+        #             scheduleObjects = serializers.deserialize('json', serializedSchedules)
+        #             old_schedules = list(scheduleObjects)
 
         # Package all objects
         for item in schedule_data:
