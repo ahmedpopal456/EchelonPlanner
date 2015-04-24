@@ -784,7 +784,10 @@ def sched_gen_auto(request):
         print("Saving Session to user")
         if 'auto_schedules' in request.session:
             longstring = request.session['auto_schedules']
-            longstring = longstring[0:-1] + ", " + final_data[1:len(final_data)]
+            if len(longstring)>3:
+                longstring = longstring[0:-1] + ", " + final_data[1:len(final_data)]
+            else:
+                longstring = final_data[1:len(final_data)]
             print(longstring)
             request.session['auto_schedules'] = longstring
         else:
@@ -873,6 +876,18 @@ def schedule_select(request):
                     request.user.student.academicRecord.moveScheduleFromCacheToMain()
                 print("True")
                 #TODO Remove serialized list here
+
+                if 'auto_schedules' in request.session:
+                    session_json = json.loads(request.session['auto_schedules'])
+
+                    for i, sched in enumerate(session_json):
+                        if sched['pk'] == schedulepk:
+                            session_json.pop(i)
+                            break
+                    request.session['auto_schedules'] = json.dumps(session_json)
+                    print(session_json)
+
+
                 return HttpResponse(True)
 
         elif mode == "assert":
@@ -884,6 +899,14 @@ def schedule_select(request):
                 if request.user.student.academicRecord.mainSchedule is None:
                     request.user.student.academicRecord.moveScheduleFromCacheToMain()
                 #TODO Remove serialized list here
+                session_json = json.loads(request.session['auto_schedules'])
+
+                for i, sched in enumerate(session_json):
+                    if sched['pk'] == schedulepk:
+                        session_json.pop(i)
+                        break
+                    request.session['auto_schedules'] = json.dumps(session_json)
+                    print(session_json)
                 return HttpResponse(True)
             except Schedule.DoesNotExist:
                 return HttpResponse(False)
