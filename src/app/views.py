@@ -48,12 +48,6 @@ def home(request, hasheduser=""):
     return render(
         request,
         'app/login.html', {'hasheduser':hasheduser}
-        # #Below info is not needed for now.
-        # context_instance = RequestContext(request,
-        # {
-        # 'title':'Home Page',
-        #     'year':datetime.now().year,
-        # })
     )
 
 
@@ -74,7 +68,6 @@ def menu(request):
 def login_handler(request):
     # Handle login_handler at any level and redirect to Menu.html
     if request.method == 'POST':
-        print(str(request.POST))
         username = request.POST['username']
         password = request.POST['password']
         if 'hasheduser' in request.POST:
@@ -168,12 +161,6 @@ def register(request):
                 studentUser.academicRecord = newRecord
                 only_option = AcademicProgram.objects.get(pk=5)  # SOEN!
                 # # We need to create and save a main schedule as well to the student
-                # mainSchedule = Schedule()
-                # mainSchedule.save()
-                # studentUser.academicRecord.mainSchedule = mainSchedule
-                # Student ID must also be saved
-                # studentUser.IDNumber = studentID
-                # standardUser.save()
                 studentUser.save()
                 isregistered = True
                 # send an email with an SSH hash of the user as a confirmation link:
@@ -235,13 +222,8 @@ def user_profile(request):
     all_info['dateJoined'] = mainProfile.date_joined
     all_info['lastLogin'] = mainProfile.last_login
 
-    a = StudentCatalog.getStudent(mainProfile.username)
-
-
-    # Check for specific info
-    #a = Student.objects.get(user_id=mainProfile.id)
-    if a:
-        specificProfile = a
+    if StudentCatalog.getStudent(mainProfile.username):
+        specificProfile = StudentCatalog.getStudent(mainProfile.username)
         specific_info = specificProfile.__unicode__()
         specific_info['professor']=False
 
@@ -292,7 +274,6 @@ def logouthandler(request):
         list_to_clean = serializers.deserialize('json', request.session['auto_schedules'])
         for oldSchedule in list_to_clean:
             oldSchedule.object.delete()
-
 
     # Cleanup any schedule objects associated to session!
     if 'auto_schedules' in request.session:
@@ -498,30 +479,6 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
                     # Start unpacking session data
                     schedule_data = serializers.deserialize('json',request.session['auto_schedules'])
 
-                # prevSessionKey = request.user.student.previousSession
-                #
-                # # Search previous session
-                # if prevSessionKey is not None or prevSessionKey != "":
-                #     prevSession = Session.objects.filter(session_key=prevSessionKey)
-                #     if len(prevSession) > 0:
-                #         prevSession = prevSession[0].get_decoded()  # Previous Session is now a Dictionary
-                #         serializedSchedules = prevSession['auto_schedules']
-                #         print(serializedSchedules)
-                #         intermediary = serializers.deserialize('json', serializedSchedules)
-                #         # Yes, there needs to be an intermediary data var to append the two lists together
-                #         schedule_data = list(schedule_data) + list(intermediary)
-                #
-                #         specifiedSchedule = []
-                #         for item in schedule_data:
-                #             if specific == item.object.pk:  # validated the PK, now get it and get out.
-                #                 specifiedSchedule = Schedule.objects.filter(id=specific)
-                #                 break
-                #         if len(specifiedSchedule) > 0:
-                #             specifiedSchedule = specifiedSchedule[0]
-                #         else:
-                #             print("Schedule not found by PK")
-                #             specifiedSchedule = request.user.student.academicRecord.mainSchedule
-
             # Cached schedules in DB
             elif search_mode == "saved" and len(request.user.student.academicRecord.scheduleCache.all())>0:
                 # Retrieve Schedule Cache list
@@ -617,7 +574,6 @@ def schedule_check(request, mode="edit", specific=None):
                         return HttpResponseBadRequest("No Course Provided!")
                 if request.POST['action_type'] == 'finished_semester':
                     passed_courses = request.POST.getlist('passed_courses')
-                    print(passed_courses)
                     for a_course in passed_courses:
                         request.user.student.academicRecord.passCourse(a_course)
                     if len(record.mainSchedule.lectureList.all()) > 0:
@@ -638,8 +594,6 @@ def schedule_check(request, mode="edit", specific=None):
     if original_schedule:
         year = original_schedule.year
         semester = original_schedule.semester
-
-    print(schedule_return)
 
     return render(
         request,
@@ -697,7 +651,6 @@ def sched_gen_1(request):
             feasable_courses= CourseCatalog.searchCoursesThroughPartialName("SOEN")
 
         testTestList=["a","b","c"] # REMOVE
-        print(request.POST) # DEBUGGING
 
         # Check if automatic
         if request.POST['gen-type'] == "Automatic":
@@ -746,7 +699,6 @@ def sched_gen_auto(request):
         given_courses = list(set(given_courses))
         if "COURSE" in given_courses:
             given_courses.remove("COURSE")
-        print(given_courses)
 
         if not len(given_courses) > 0:  # No Courses Given, ERROR!
             return render(
@@ -794,8 +746,8 @@ def sched_gen_auto(request):
 
         # Make all the Schedules now.
         all_schedules = ScheduleGenerator.findListOfUnconflictingSectionsForOneSemester(course_objects,semester,default)
-        print(all_schedules)
-        print(len(all_schedules))
+        # print(all_schedules)
+        # print(len(all_schedules))
 
         if len(all_schedules) < 1:  # If no possible schedules, notify the user!
             feasable_courses = CourseCatalog.coursesWithMetPrereqs(request.user.student, semester, year)
@@ -810,21 +762,6 @@ def sched_gen_auto(request):
             )
 
         # NOTE: Here comes the tricky part, we're storing the new schedules as serialized objects in the Session
-        # request.session['backup'] = serializers.serialize('json',all_schedules)  # This won't work cause lists are not directly serializable
-        # request.user.student.testy = all_schedules  # This also doesn't work since it is not persistent throughout requests.
-        # Step 1: Check if there was a previous session and delete old schedules.
-        # prevSessionKey = request.user.student.previousSession
-        # if prevSessionKey!=request.session.session_key and prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
-        #     # Find it!
-        #     prevSession = Session.objects.filter(session_key=prevSessionKey)
-        #     if len(prevSession) > 0:
-        #         prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
-        #         if 'auto_schedules' in prevSession:
-        #             serializedSchedules = prevSession['auto_schedules']
-        #             scheduleObjects = serializers.deserialize('json', serializedSchedules)
-        #             # Flush it out!
-        #             for oldSchedule in scheduleObjects:
-        #                 oldSchedule.object.delete()
 
         # Step 2: Take care of saving the newly generated ones.
         listOfSchedulesGenerated = []
@@ -853,19 +790,16 @@ def sched_gen_auto(request):
         print("Total Time Cost:"+str(end_time-start_time))
 
         # Step 3: If all was successful, let's save to session and redirect the user to view his schedule!
-        print(listOfSchedulesGenerated)
         request.user.student.previousSession = request.session.session_key
         request.user.student.academicRecord.save()
         request.user.student.save()
         final_data = serializers.serialize('json', listOfSchedulesGenerated)
-        print("Saving Session to user")
         if 'auto_schedules' in request.session:
             longstring = request.session['auto_schedules']
             if len(longstring) > 3:
                 longstring = final_data[0:-1] + ", " + longstring[1:len(longstring)]
             else:
                 longstring = final_data[1:len(final_data)]
-            print(longstring)
             request.session['auto_schedules'] = longstring
         else:
             request.session['auto_schedules'] = final_data
@@ -891,7 +825,6 @@ def schedule_select(request):
     # AJAX Handler
     if request.method == "POST":
         # Seems like request.POST is the PK of schedule
-        print(request.POST)
         schedulepk = 1
         mode = "cautious"
 
@@ -899,7 +832,6 @@ def schedule_select(request):
             schedulepk = request.POST["pk"]
             mode = request.POST["mode"]
             schedulepk=int(schedulepk)
-            print(schedulepk)
         else:
             return HttpResponseBadRequest("Malformed POST request Rejected.")
 
@@ -913,20 +845,6 @@ def schedule_select(request):
                 if scheduleObject.object.pk == schedulepk:
                     scheduletosave = Schedule.objects.filter(pk=schedulepk)
                     break
-        # OR Key came from the previously generated schedules?
-        # elif StudentCatalog.getStudent(request.user.username):
-        #     if request.user.student.previousSession:
-        #         prevSessionKey = request.user.student.previousSession
-        #         prevSession = Session.objects.filter(session_key=prevSessionKey)
-        #         if len(prevSession) > 0:
-        #             prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
-        #             serializedSchedules = prevSession['auto_schedules']
-        #             session_schedules = serializers.deserialize('json', serializedSchedules)
-        #             session_schedules = list(session_schedules)
-        #             for scheduleObject in session_schedules:
-        #                 if scheduleObject.object.pk == schedulepk:
-        #                     scheduletosave = Schedule.objects.filter(pk=schedulepk)
-        #                     break
         # The Catch all case.
         if not scheduletosave:
             # Schedule not found OR PrimaryKey is not his (Security Issue), Return an Error
@@ -941,7 +859,6 @@ def schedule_select(request):
 
             if scheduletoreplace:
                 # Something exists need to send back confirmation
-                print("False")
                 return HttpResponse(False)
 
             else:
@@ -949,7 +866,6 @@ def schedule_select(request):
                 # Call function to move to main if needed
                 if request.user.student.academicRecord.mainSchedule is None:
                     request.user.student.academicRecord.moveScheduleFromCacheToMain()
-                print("True")
 
 
                 if 'auto_schedules' in request.session:
@@ -960,7 +876,6 @@ def schedule_select(request):
                             session_json.pop(i)
                             break
                     request.session['auto_schedules'] = json.dumps(session_json)
-                    print(session_json)
 
 
                 return HttpResponse(True)
@@ -982,7 +897,6 @@ def schedule_select(request):
                         break
 
                 request.session['auto_schedules'] = json.dumps(session_json)
-                print(session_json)
                 return HttpResponse(True)
             except Schedule.DoesNotExist:
                 return HttpResponse(False)
@@ -1002,7 +916,6 @@ def schedule_select(request):
         for item in schedule_data:
             new_package.append(item.object.serializeScheduleForSemester())
 
-        print(new_package)
         end_time = time.time()
         print("Total Time in deserialization and packaging: "+str(end_time-start_time))
         return render(
@@ -1074,8 +987,6 @@ def browse_all_courses(request):
 
         else:
             courseList = CourseCatalog.searchCoursesThroughPartialName(search_string)
-        print(request.POST)
-        print(courseList)
 
     return render(
         request,
@@ -1241,7 +1152,6 @@ def serializeCourseForSemester(request):
 
 ##################################################################################################
 # Dev methods to test features and not break flow
-
 
 def work_in_progress(request):
   return render(
