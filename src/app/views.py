@@ -164,7 +164,7 @@ def register(request):
                 # since it will cause errors on Windows and most development is being done on windows,
                 # first check that we are on Linux before attempting to send email.
                 # Else, just register with no confirmation.
-                if "inux" in platform.system() and False:
+                if "inux" in platform.system():
                     subject, from_email, to = 'Echelon Planner Confirmation', 'echelonplanner@gmail.com', str(standardUser.email)
                     hasheduser = str(hashlib.sha256(standardUser.email.encode()).hexdigest())
                     authLink = str(request.get_host()+"/confirm/" + hasheduser)
