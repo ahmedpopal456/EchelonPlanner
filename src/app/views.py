@@ -278,7 +278,6 @@ def logouthandler(request):
         thread.start()
 
     logout(request)
-    transaction.commit()
     return HttpResponseRedirect('/', {'hasMessage': True, 'message': 'Logout succesful. We hope to see you again!'})
 
 @login_required
@@ -779,7 +778,6 @@ def sched_gen_auto(request):
 
                 cached_schedule.save()
                 listOfSchedulesGenerated.append(cached_schedule)
-            transaction.commit()
 
         # END BOTTLENECK ########################################
         inner_saver()
