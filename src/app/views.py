@@ -875,7 +875,7 @@ def schedule_select(request):
                 if request.user.student.academicRecord.mainSchedule is None:
                     request.user.student.academicRecord.moveScheduleFromCacheToMain()
                 print("True")
-                #TODO Remove serialized list here
+
 
                 if 'auto_schedules' in request.session:
                     session_json = json.loads(request.session['auto_schedules'])
@@ -898,7 +898,7 @@ def schedule_select(request):
                 # Call function to move to main if needed
                 if request.user.student.academicRecord.mainSchedule is None:
                     request.user.student.academicRecord.moveScheduleFromCacheToMain()
-                #TODO Remove serialized list here
+
                 session_json = json.loads(request.session['auto_schedules'])
 
                 for i, sched in enumerate(session_json):
