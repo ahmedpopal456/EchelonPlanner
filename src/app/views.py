@@ -903,10 +903,12 @@ def schedule_select(request):
 
                 for i, sched in enumerate(session_json):
                     if sched['pk'] == schedulepk:
-                        session_json.pop(i)
+                        testy = session_json.pop(i)
+                        print(testy)
                         break
-                    request.session['auto_schedules'] = json.dumps(session_json)
-                    print(session_json)
+
+                request.session['auto_schedules'] = json.dumps(session_json)
+                print(session_json)
                 return HttpResponse(True)
             except Schedule.DoesNotExist:
                 return HttpResponse(False)
