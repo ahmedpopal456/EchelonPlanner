@@ -16,6 +16,23 @@
 <!-- Load  the Navbar at the top of the page.-->
 {% include "app/navbar.html" %}
 
+<script type="text/javascript">
+// NOTE: PUTTING JAVASCRIPT ON HTML IS HORRIBLE, HORRIBLE PRACTICE
+
+    //Currently, this function knows which table row was selected and can read its ID
+    $('body').on('click','td', function() {
+        if(this.id && this.id!='time')
+            window.location.href = '/browse_specific_course/'+this.id+'/'
+        });
+
+    delete_schedule = function(pk){
+
+    }
+
+
+
+</script>
+
 {#notify of some error if needed#}
 {% if message %}
     <div class="text-center">
@@ -88,8 +105,9 @@
                                        <td>{{ schedule.year }} - {{ schedule.semester }}</td>
                                        <!-- TODO: FILL IN BUTTON FUNCTIONALITY!!!! -->
                                        <td><a href="/schedule_view/saved/{{ schedule.pk }}"><button class="btn-sm">View</button></a></td>
-                                       <td><a href="/work_in_progress/"><button class="btn-sm">Edit</button></a></td>
-                                       <td><a href="/work_in_progress/"><button class="btn-sm">Delete</button></a></td>
+                                       <td><a href="/check_schedule/edit/{{ schedule.pk }}"><button class="btn-sm">Edit</button></a></td>
+                                       <td><a onclick="delete_schedule({{ schedule.pk }})"><button class="btn-sm">Delete</button></a></td>
+                                       <td><a href="/check_schedule/done/{{ schedule.pk }}"><button class="btn-sm">Done</button></a></td>
                                    </tr>
                                {% endfor %}
                            {% else %}
