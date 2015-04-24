@@ -50,7 +50,7 @@
                 }
                 else if(data.valueOf()=="False"){
                     $("#overwrite_alert").modal('show');
-                    $('#overwrite_alert').unbind('click').click(function () {
+                    $('#overwrite_alert').find("#confirm_overwrite").unbind('click').click(function () {
                         $("#overwrite_alert").modal('hide');
                         do_an_overwrite(schedule_pk);
                     });
@@ -260,7 +260,7 @@
           <p>Now you might want to review your record in your <a href="/student_record/">Student Record</a> or continue <a href="/sched_gen_1/">making more schedules</a></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.reload();">Close</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
