@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EchelonPlanner</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="{% static 'app/scripts/jquery.min.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+
+
+</head>
+
+<body>
+<!-- Load  the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+<script type="text/javascript">
+    remove_from_schedule = function(pk){
+        var body_talk = $("#remove_alert").find("modal_body");
+        body_talk.remove("#parragraph");
+        body_talk.append("<p id='parragraph'>Are you sure you want to remove "+pk+" from your schedule?</p>")
+        $("#remove_alert").modal('show');
+        // We only really care about the confirm button
+        $('#confirm_remove').unbind('click').click(function () {
+            $("#remove_alert").modal('hide');
+            continue_remove(pk);
+        });
+
+    };
+
+    continue_remove = function(pk){
+        console.log(pk);
+        $("#save_progress").modal('show');
+        {# AJAX request for saving and overwriting schedules #}
+        $.ajax({ //Ask if we can save this schedule
+            type: 'post',
+            url: "/schedule_check/",
+            dataType: 'html',
+            data: {
+                'action_type': 'remove',
+                'deptnum': pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (data) {
+                $("#save_progress").modal('hide');
+                console.log(data.valueOf());
+                if(data.valueOf()=="True") {
+                    $("#schedule_saved").modal('show');
+
+                }
+                else {
+                   alert("An Error Occurred")
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 404 || xhr.status == 400) {
+                    $("#save_progress").modal('hide');
+                    alert(thrownError);
+                    console.log("ERROR!");
+                }
+            }
+        });
+    };
+
+</script>
+
+<div class="container body-content">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="row echelonpanel">
+            <h2>Check your Schedule</h2>
+            <h3>Year {{ year }}, {{ semester }} semester: {{ schedule|length }} course(s)</h3>
+            <table class="table echelonpanel">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Section</th>
+                        <th>Time</th>
+                        <th>Days</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                        {% if mode == 'done' %}
+                        <th>Pass?</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for all_lists in schedule %}
+                    {% for items in all_lists %}
+                    <tr>
+                        <td>{{ items.Lecture.course }}</td>
+                        <td>/{{ items.Lecture }}</td>
+                        <td>{{ items.Lecture.event.starttime }}-{{ items.Lecture.event.endtime }}</td>
+                        <td>{{ items.Lecture.event.days }}</td>
+                        <td>{{ items.Lecture.event.location }}</td>
+                        <td>
+                            <ul class="list-inline">
+                                <li><a><button class="btn" onclick="remove_from_schedule('{{ items.Lecture.course }}')">Remove</button></a></li>
+                                <li><a href="/browse_specific_course/{{ items.Lecture.course }}"><button class="btn" onclick="">View</button></a></li>
+                            </ul>
+                        </td>
+                        {% if mode == 'done' %}
+                        <td><input type="checkbox"></td>
+                        {% endif %}
+                    </tr>
+                    {% if items.Tutorial %}
+                    <tr>
+                        <td> <span style="margin-left: 10px">-</span> Tutorial</td>
+                        <td>/{{ items.Tutorial }}</td>
+                        <td>{{ items.Tutorial.event.starttime }}-{{ items.Tutorial.event.endtime }}</td>
+                        <td>{{ items.Tutorial.event.days }}</td>
+                        <td>{{ items.Tutorial.event.location }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if items.Lab %}
+                    <tr>
+                        <td> <span style="margin-left: 20px">-</span> Lab</td>
+                        <td>/{{ items.Lab }}</td>
+                        <td>{{ items.Lab.event.starttime }}-{{ items.Lab.event.endtime }}</td>
+                        <td>{{ items.Lab.event.days }}</td>
+                        <td>{{ items.Lab.event.location }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="/student_record/"><button class="btn btn-lg btn-primary" onclick="">Go Back</button></a>
+            {% if mode == 'done' %}
+            <button class="btn btn-lg btn-primary" onclick="pass_the_courses()">Finish with Schedule</button>
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+
+</div>
+
+{# remove_alert prompt modal: for asking user if he wants to remove the course #}
+<div class="modal fade" id="remove_alert">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">Remove this course?</h2>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to remove this course from the schedule?</p>
+        <p>Note that if this is your main schedule, you can always add it later.
+            If it's a saved schedule it might need to be regenerated from scratch though</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" id="dismiss" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="confirm_remove">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{# schedule_saved dialog modal: user knows he's gotten a new schedule! #}
+<div class="modal fade" id="schedule_saved">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title">Your Schedule has been saved!</h2>
+      </div>
+      <div class="modal-body">
+          <p>You can continue editing if you want</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.reload(); ">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{# save_progress modal: so users don't get impatient! #}
+<div class="modal fade" id="save_progress" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+          <h1>Please Wait...</h1>
+          <p><img src="{% static 'app/images/loading.gif' %}"></p>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+</body>
+</html>

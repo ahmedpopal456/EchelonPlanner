@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EchelonPlanner</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/css/menu.css' %}"/>
+    <script src="{% static 'app/scripts/jquery.min.js' %}"></script>
+    <script src="{% static 'app/scripts/bootjs/bootstrap.js' %}"></script>
+
+
+</head>
+
+<body>
+<!-- Load  the Navbar at the top of the page.-->
+{% include "app/navbar.html" %}
+
+<script type="text/javascript">
+    remove_from_schedule = function(pk){
+        var body_talk = $("#remove_alert").find("modal_body");
+        body_talk.remove("#parragraph");
+        body_talk.append("<p id='parragraph'>Are you sure you want to remove "+pk+" from your schedule?</p>")
+        $("#remove_alert").modal('show');
+        // We only really care about the confirm button
+        $('#confirm_remove').unbind('click').click(function () {
+            $("#remove_alert").modal('hide');
+            continue_remove(pk);
+        });
+
+    };
+
+    continue_remove = function(pk){
+        console.log(pk);
+        $("#save_progress").modal('show');
+        {# AJAX request for saving and overwriting schedules #}
+        $.ajax({ //Ask if we can save this schedule
+            type: 'post',
+            url: "/schedule_check/",
+            dataType: 'html',
+            data: {
+                'action_type': 'remove',
+                'deptnum': pk,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (data) {
+                $("#save_progress").modal('hide');
+                console.log(data.valueOf());
+                if(data.valueOf()=="True") {
+                    $("#schedule_saved").modal('show');
+
+                }
+                else {
+                   alert("An Error Occurred")
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 404 || xhr.status == 400) {
+                    $("#save_progress").modal('hide');
+                    alert(thrownError);
+                    console.log("ERROR!");
+                }
+            }
+        });
+    };
+
+</script>
+
+<div class="container body-content">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="row echelonpanel">
+            <form method="post" action="/schedule_check/done/{{ pk }}/">
+            {% csrf_token %}
+            <h2>Check your Schedule</h2>
+            <h3>Year {{ year }}, {{ semester }} semester: {{ schedule|length }} course(s)</h3>
+            <table class="table echelonpanel">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Section</th>
+                        <th>Time</th>
+                        <th>Days</th>
+                        <th>Location</th>
+                        {% if mode == 'done' %}
+                        <th class="text-center">Course Passed?</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for all_lists in schedule %}
+                    {% for items in all_lists %}
+                    <tr>
+                        <td>{{ items.Lecture.course }}</td>
+                        <td>/{{ items.Lecture }}</td>
+                        <td>{{ items.Lecture.event.starttime }}-{{ items.Lecture.event.endtime }}</td>
+                        <td>{{ items.Lecture.event.days }}</td>
+                        <td>{{ items.Lecture.event.location }}</td>
+                        {% if mode == 'done' %}
+                        <td class="text-center"><input type="checkbox" name="passed_courses" value="{{ items.Lecture.course }}"></td>
+                        {% endif %}
+                    </tr>
+                    {% if items.Tutorial %}
+                    <tr>
+                        <td> <span style="margin-left: 10px">-</span> Tutorial</td>
+                        <td>/{{ items.Tutorial }}</td>
+                        <td>{{ items.Tutorial.event.starttime }}-{{ items.Tutorial.event.endtime }}</td>
+                        <td>{{ items.Tutorial.event.days }}</td>
+                        <td>{{ items.Tutorial.event.location }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if items.Lab %}
+                    <tr>
+                        <td> <span style="margin-left: 20px">-</span> Lab</td>
+                        <td>/{{ items.Lab }}</td>
+                        <td>{{ items.Lab.event.starttime }}-{{ items.Lab.event.endtime }}</td>
+                        <td>{{ items.Lab.event.days }}</td>
+                        <td>{{ items.Lab.event.location }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <input type="hidden" name="action_type" value="finished_semester">
+            <button class="btn btn-lg btn-primary" type="submit">Finish with Schedule</button>
+            </form>
+            <br>
+            <a href="/student_record/"><button class="btn btn-lg btn-primary">Go Back</button></a>
+
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+
+</div>
+
+
+</body>
+</html>
