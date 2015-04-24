@@ -287,12 +287,12 @@ def change_pass(request):
 
 @login_required()
 def logouthandler(request):
-    @transaction.commit_manually()
+
     def cleanup():
         list_to_clean = serializers.deserialize('json', request.session['auto_schedules'])
         for oldSchedule in list_to_clean:
             oldSchedule.object.delete()
-        transaction.commit()
+
 
     # Cleanup any schedule objects associated to session!
     if 'auto_schedules' in request.session:
