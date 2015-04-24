@@ -121,10 +121,7 @@ def register(request):
         email = request.POST['email']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
-        studentID = request.POST['idnum']
-
-        # Log Everything
-        logger.debug(str(request.POST))
+        # studentID = request.POST['idnum']  # No ID number provided
 
         if username == "":
             message.append("Please enter a valid username")
