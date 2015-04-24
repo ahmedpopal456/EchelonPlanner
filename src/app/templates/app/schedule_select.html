@@ -118,7 +118,7 @@
                         <div class="echelonpanel-inner">
                             <div class="row">
                                 <ul class="list-inline text-right">
-                                    <li><h4>{{ forloop.counter }}. {{ item.0.0.Lecture.event.semester }} Year {{ item.year.0.0.Lecture.event.year }}</h4></li>
+                                    <li><h4>{{ forloop.counter }}. {{ item.0.0.Lecture.event.semester }} Year {{ item.0.0.Lecture.event.year }}</h4></li>
                                     <li><a href="/schedule_view/recent/{{ item.0.0.pk }}"><button class="btn-sm">Preview</button></a></li>
                                     <li><a onclick="do_a_save({{ item.0.0.pk }})"><button class="btn-sm">Save</button></a></li>
                                 </ul>
