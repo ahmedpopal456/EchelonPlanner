@@ -157,6 +157,21 @@ class StudentRecord(models.Model):
                     self.save()
                     return
 
+    def removeScheduleWithPk(self, pk):
+
+        if self.mainSchedule.semester == semester and self.mainSchedule.year == year:
+            self.mainSchedule = None
+            self.save()
+            return
+        else:
+            for schedule in self.scheduleCache.all():
+                if schedule.semester == semester and schedule.year == year:
+                    self.scheduleCache.remove(schedule)
+                    self.save()
+                    return
+
+
+
 
     def addTakenCourse(self, deptnum):  # takes deptnum as primary key to add
 

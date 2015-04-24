@@ -773,7 +773,10 @@ def sched_gen_auto(request):
         print("Saving Session to user")
         if 'auto_schedules' in request.session:
             longstring = request.session['auto_schedules']
-            longstring = longstring[0:-1] + ", " + final_data[1:len(final_data)]
+            if len(longstring)>3:
+                longstring = longstring[0:-1] + ", " + final_data[1:len(final_data)]
+            else:
+                longstring = final_data[1:len(final_data)]
             print(longstring)
             request.session['auto_schedules'] = longstring
         else:
