@@ -107,8 +107,6 @@
         <div class="col-md-2"></div>
         <div class="col-md-8 echelonpanel">
             <h2>Generated Schedules</h2>
-
-            {% if newSchedules or oldSchedules %}
                 {% if newSchedules %}
                 <div class="">
                     <h3>New Automatically Generated Schedules</h3>
@@ -120,62 +118,48 @@
                         <div class="echelonpanel-inner">
                             <div class="row">
                                 <ul class="list-inline text-right">
-                                    <li><h4>{{ forloop.counter }}. {{ item.semester }} Year {{ item.year }}</h4></li>
+                                    <li><h4>{{ forloop.counter }}. {{ item.0.0.Lecture.event.semester }} Year {{ item.year.0.0.Lecture.event.year }}</h4></li>
                                     <li><a href="/schedule_view/recent/{{ item.pk }}"><button class="btn-sm">Preview</button></a></li>
                                     <li><a onclick="do_a_save({{ item.pk }})"><button class="btn-sm">Save</button></a></li>
                                 </ul>
                             </div>
 
                             <table class="table-condensed table-hover">
-                                {% for lecture in item.lectureList.all %}
-                                <tr>
-                                    <td>{{ lecture.course }}/{{ lecture.section }}</td>
-                                    <td>{{ lecture.event.days }}</td>
-                                    <td>{{ lecture.event.starttime }}</td>
-                                    <td>{{ lecture.event.endtime }}</td>
-                                    <td>{{ lecture.event.location }}</td>
-                                </tr>
+                            {% for stuff in item %}
+                                {% for triplet in stuff %}
+
+                                    <tr>
+                                        <td>{{ triplet.Lecture.course }}/{{ triplet.Lecture.section }}</td>
+                                        <td>{{ triplet.Lecture.event.days }}</td>
+                                        <td>{{ triplet.Lecture.event.starttime }}</td>
+                                        <td>{{ triplet.Lecture.event.endtime }}</td>
+                                        <td>{{ triplet.Lecture.event.location }}</td>
+                                    </tr>
+                                    {% if triplet.Tutorial %}
+                                     <tr>
+                                        <td>-Tutorial/{{ triplet.Tutorial.section }}</td>
+                                        <td>{{ triplet.Tutorial.event.days }}</td>
+                                        <td>{{ triplet.Tutorial.event.starttime }}</td>
+                                        <td>{{ triplet.Tutorial.event.endtime }}</td>
+                                        <td>{{ triplet.Tutorial.event.location }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% if triplet.Lab %}
+                                     <tr>
+                                        <td>-Lab/{{ triplet.Lab.section }}</td>
+                                        <td>{{ triplet.Lab.event.days }}</td>
+                                        <td>{{ triplet.Lab.event.starttime }}</td>
+                                        <td>{{ triplet.Lab.event.endtime }}</td>
+                                        <td>{{ triplet.Lab.event.location }}</td>
+                                    </tr>
+                                    {% endif %}
                                 {% endfor %}
+                            {% endfor %}
                             </table>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
-
-
-                {% elif oldSchedules and not newSchedules %}
-                <div class="">
-                    <h3>Generated Schedules from Previous Session</h3>
-                    <p>Below you'll see the schedules generated in your last session. Pick one and we'll save it!</p>
-                    <p>There are {{ oldSchedules|length }} Schedule(s) in Total</p>
-                    {% for item in oldSchedules %}
-                        {# Random Test with divs #}
-                    <div class="col-md-6">
-                        <div class="echelonpanel-inner">
-                            <div class="row">
-                                <ul class="list-inline text-right">
-                                    <li><h4>{{ forloop.counter }}. {{ item.semester }} Year {{ item.year }}</h4></li>
-                                    <!-- TODO: DISPLAY THIS BETTER -->
-                                    <li><a href="/schedule_view/recent/{{ item.pk }}"><button class="btn-sm">Preview</button></a></li>
-                                    <li><a onclick="do_a_save({{ item.pk }})"><button class="btn-sm">Save</button></a></li>
-                                </ul>
-                            </div>
-
-                            <table class="table-condensed table-hover">
-                                {% for lecture in item.lectureList.all %}
-                                <tr>
-
-                                    <td>{{ lecture.course }}/{{ lecture.section }}</td>
-                                    <td>{{ lecture.event }}</td>
-
-                                </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
             {% else %}
             <h3>You have no previously generated schedules!</h3>
             <p>Head over to <a href="/sched_gen_1/">Schedule Generation</a> and let's plan your time at Concordia!</p>
