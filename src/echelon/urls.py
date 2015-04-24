@@ -39,6 +39,10 @@ urlpatterns = patterns('',
     url(r'^schedule_view/saved/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'normal','search_mode': 'saved'}),
     url(r'^schedule_print_view/recent/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'basic','search_mode': 'recent'}),
     url(r'^schedule_print_view/saved/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_view', {'render_type': 'basic','search_mode': 'saved'}),
+    # Editing specific schedules
+    url(r'^schedule_check/done/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_check', {'mode': 'done'}),
+    url(r'^schedule_check/edit/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_check', {'mode': 'edit'}),
+
     # Probably Deprecated.
     url(r'^schedule_make/', 'app.views.schedule_make'),
 

@@ -424,8 +424,13 @@ def student_record(request):
             {'firstname': firstname,
              'lastname': lastname}
         )
-
     # Else, we continue.
+
+    # Start AJAX Handler
+    #TODO: MAKE THE AJAX HANDLER for the delete button
+    if request.method == "POST":
+        pass
+
     this_record = this_student.academicRecord
     academicProgram = this_record.academicProgram
     gpa = this_record.GPA
@@ -556,6 +561,12 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
          'search_mode':search_mode}
     )
 # end schedule_view
+
+@login_required
+def schedule_check(request, mode="edit", specific=None):
+    # TODO: fill this in to complete the functionality of the template
+
+    pass
 
 @login_required
 def schedule_generator(request):
