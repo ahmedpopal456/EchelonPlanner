@@ -21,6 +21,9 @@
     <div class="row" >
         <div class="col-md-2"></div>
         <div class="col-md-8 echelonpanel"><h2>WELCOME TO THE EchelonPlanner</h2>
+            {% if hasmessage %}
+                <h3>{{ message }}</h3>
+            {% endif %}
             <p>Here you can create and maintain your schedule for software engineering at Concordia University.</p>
             <p>Use the navigation bar at the top or one of the following buttons to begin </p>
             <p>

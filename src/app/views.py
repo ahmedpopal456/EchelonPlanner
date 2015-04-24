@@ -1002,31 +1002,44 @@ def schedule_select(request):
 
 @login_required
 def course_create(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        number = request.POST['number']
-        department = request.POST['department']
-        type = request.POST['type']
-        credits = request.POST['credits']
-        prerequisites = request.POST['prerequisites']
-        equivalence = request.POST['equivalence']
-        yearSpan = request.POST['yearSpan']
-        newCourse = courses.Course.new()
-        newCourse.course.department = department
-        newCourse.course.type = type
-        newCourse.course.number = number
-        newCourse.course.credits = credits
-        newCourse.course.name = name
-        newCourse.course.prerequisites = prerequisites
-        newCourse.course.equivalence = equivalence
-        newCourse.course.yearSpan = yearSpan
-        # TODO: Reduce POST parameters to argument size
-        CourseCatalog.addCourse(name, number, department, credits)
-
-    return render(
-        request,
-        'app/course_create.html',
-    )
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            name = request.POST['name']
+            number = request.POST['number']
+            department = request.POST['department']
+            type = request.POST['type']
+            credits = request.POST['credits']
+            prerequisites = request.POST['prerequisites']
+            equivalence = request.POST['equivalence']
+            yearSpan = request.POST['yearSpan']
+            newCourse = courses.Course.new()
+            newCourse.course.department = department
+            newCourse.course.type = type
+            newCourse.course.number = number
+            newCourse.course.credits = credits
+            newCourse.course.name = name
+            newCourse.course.prerequisites = prerequisites
+            newCourse.course.equivalence = equivalence
+            newCourse.course.yearSpan = yearSpan
+            # TODO: Reduce POST parameters to argument size
+            CourseCatalog.addCourse(name, number, department, credits)
+            return render(
+                request,
+                'app/course_create.html',
+                { 'hasmessage':True,
+                  'message':"Course successfully added."}
+            )
+        return render(
+            request,
+            'app/course_create.html',
+        )
+    else:
+        return render(
+            request,
+            'app/menu.html',
+            { 'hasmessage':True,
+              'message':"Warning: You do not have sufficient privileges to access this feature"}
+        )
 # end course_create
 
 @login_required
@@ -1068,10 +1081,30 @@ def browse_specific_course(request, deptnum=""):
                 request.user.student.academicRecord.addTakenCourse(deptnum)
                 return HttpResponse(True)
             elif request.POST['mode'] == 'add_to_schedule':
-                return HttpResponse(False)
-                # TODO: put method tht can transfer a section of this deptnum into schedule.
+                try:
+                    coursetoadd = Course.objects.get(pk=deptnum)
+                    if coursetoadd in request.user.student.academicRecord.coursesTaken.all():
+                        return HttpResponse(False)
+                except:
+                    return HttpResponse(False)
+
+                # There is no MainSchedule, so one needs to be made
+                if not request.user.student.academicRecord.mainSchedule:
+                    newMainSchedule = Schedule(year=1, semester="Fall")
+                    newMainSchedule.save()
+                    request.user.student.academicRecord.scheduleCache.add(newMainSchedule)
+                    request.user.student.academicRecord.save()
+                    request.user.student.academicRecord.moveScheduleFromCacheToMain()
+                    request.user.student.academicRecord.save()
+
+                if request.user.student.academicRecord.mainSchedule.add_first_available_section(deptnum):
+                    return HttpResponse(True)
+                else:
+                    return HttpResponse(False)
+                # TODO: put method tht can transfer a section of this deptnum into schedule. DONE
+
             else:
-              return HttpResponseBadRequest("Request arguments were wrong.")
+                return HttpResponseBadRequest("Request arguments were wrong.")
         else:
             return HttpResponseBadRequest("A malformed request was issued to the server. Check User and parameters.")
     # end AJAX Handling.
@@ -1109,6 +1142,26 @@ def course_dispatcher(request, deptnum=""):
     # else:
     return HttpResponseNotFound()
 # end course_dispatcher
+
+@login_required()
+def display_students(request):
+    if request.user.is_superuser:
+        users = []
+        for user in User.objects.all():
+            users.append(user)
+        return render(
+            request,
+            'app/work_in_progress.html',
+            {'users':users}
+        )
+    else:
+        return render(
+            request,
+            'app/menu.html',
+            { 'has message':True,
+              'message':"Warning: You do not have sufficient privileges to access this feature."}
+        )
+    #TODO: Permissions message goes somewhere
 
 ##################################################################################################
 # Serialization methods for classes
