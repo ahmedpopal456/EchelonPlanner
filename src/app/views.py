@@ -1019,21 +1019,21 @@ def course_create(request):
             name = request.POST['name']
             number = request.POST['number']
             department = request.POST['department']
-            type = request.POST['type']
+            # type = request.POST['type']
             credits = request.POST['credits']
-            prerequisites = request.POST['prerequisites']
-            equivalence = request.POST['equivalence']
-            yearSpan = request.POST['yearSpan']
-            newCourse = courses.Course.new()
-            newCourse.course.department = department
-            newCourse.course.type = type
-            newCourse.course.number = number
-            newCourse.course.credits = credits
-            newCourse.course.name = name
-            newCourse.course.prerequisites = prerequisites
-            newCourse.course.equivalence = equivalence
-            newCourse.course.yearSpan = yearSpan
-            # TODO: Reduce POST parameters to argument size
+            # prerequisites = request.POST['prerequisites']
+            # equivalence = request.POST['equivalence']
+            # yearSpan = request.POST['yearSpan']
+            # newCourse = courses.Course.new()
+            # newCourse.course.department = department
+            # newCourse.course.type = type
+            # newCourse.course.number = number
+            # newCourse.course.credits = credits
+            # newCourse.course.name = name
+            # newCourse.save()
+            # newCourse.course.prerequisites = prerequisites
+            # newCourse.course.equivalence = equivalence
+            # newCourse.course.yearSpan = yearSpan
             CourseCatalog.addCourse(name, number, department, credits)
             return render(
                 request,
