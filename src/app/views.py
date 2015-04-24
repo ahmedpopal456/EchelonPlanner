@@ -956,31 +956,44 @@ def schedule_select(request):
 
 @login_required
 def course_create(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        number = request.POST['number']
-        department = request.POST['department']
-        type = request.POST['type']
-        credits = request.POST['credits']
-        prerequisites = request.POST['prerequisites']
-        equivalence = request.POST['equivalence']
-        yearSpan = request.POST['yearSpan']
-        newCourse = courses.Course.new()
-        newCourse.course.department = department
-        newCourse.course.type = type
-        newCourse.course.number = number
-        newCourse.course.credits = credits
-        newCourse.course.name = name
-        newCourse.course.prerequisites = prerequisites
-        newCourse.course.equivalence = equivalence
-        newCourse.course.yearSpan = yearSpan
-        # TODO: Reduce POST parameters to argument size
-        CourseCatalog.addCourse(name, number, department, credits)
-
-    return render(
-        request,
-        'app/course_create.html',
-    )
+    if request.user.is_superuser:
+        if request.method == 'POST':
+            name = request.POST['name']
+            number = request.POST['number']
+            department = request.POST['department']
+            type = request.POST['type']
+            credits = request.POST['credits']
+            prerequisites = request.POST['prerequisites']
+            equivalence = request.POST['equivalence']
+            yearSpan = request.POST['yearSpan']
+            newCourse = courses.Course.new()
+            newCourse.course.department = department
+            newCourse.course.type = type
+            newCourse.course.number = number
+            newCourse.course.credits = credits
+            newCourse.course.name = name
+            newCourse.course.prerequisites = prerequisites
+            newCourse.course.equivalence = equivalence
+            newCourse.course.yearSpan = yearSpan
+            # TODO: Reduce POST parameters to argument size
+            CourseCatalog.addCourse(name, number, department, credits)
+            return render(
+                request,
+                'app/course_create.html',
+                { 'hasmessage':True,
+                  'message':"Course successfully added."}
+            )
+        return render(
+            request,
+            'app/course_create.html',
+        )
+    else:
+        return render(
+            request,
+            'app/menu.html',
+            { 'hasmessage':True,
+              'message':"Warning: You do not have sufficient privileges to access this feature"}
+        )
 # end course_create
 
 @login_required
@@ -1063,6 +1076,26 @@ def course_dispatcher(request, deptnum=""):
     # else:
     return HttpResponseNotFound()
 # end course_dispatcher
+
+@login_required()
+def display_students(request):
+    if request.user.is_superuser:
+        users = []
+        for user in User.objects.all():
+            users.append(user)
+        return render(
+            request,
+            'app/work_in_progress.html',
+            {'users':users}
+        )
+    else:
+        return render(
+            request,
+            'app/menu.html',
+            { 'has message':True,
+              'message':"Warning: You do not have sufficient privileges to access this feature."}
+        )
+    #TODO: Permissions message goes somewhere
 
 ##################################################################################################
 # Serialization methods for classes
