@@ -383,7 +383,7 @@ class ScheduleGenerator(object):
 
         # if solutions exceed 10
 
-        if len(Solutions) > 60:
+        if len(Solutions) > 29:  # Reduced generated schedules to 30
             print(Solutions)
             return
 
