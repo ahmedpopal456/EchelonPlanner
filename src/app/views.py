@@ -408,10 +408,6 @@ def schedule_make(request):  # Might as well rework this method from scratch, bu
 
 @login_required
 def student_record(request):
-    # TODO: Add schedule courses to Student Record!
-    # TODO: Dynamically change programs!
-    # TODO: Automatically change years!
-
     firstname = request.user.first_name
     lastname = request.user.last_name
     this_student = StudentCatalog.getStudent(request.user.username)
@@ -427,9 +423,22 @@ def student_record(request):
     # Else, we continue.
 
     # Start AJAX Handler
-    #TODO: MAKE THE AJAX HANDLER for the delete button
     if request.method == "POST":
-        pass
+        if 'action_type' in request.POST:
+            if request.POST['action_type'] == 'undo_course':
+                if 'deptnum' in request.POST:
+                    request.user.student.academicRecord.removeTakenCourse(request.POST['deptnum'])
+                    return HttpResponse(True)
+            elif request.POST['action_type'] == 'remove_schedule':
+                if 'schedulepk' in request.POST:
+                    schedule_to_delete = Schedule.objects.filter(pk=request.POST['schedulepk'])
+                    if schedule_to_delete:
+                        schedule_to_delete[0].delete()
+                        return HttpResponse(True)
+                # Else, just return false
+                return HttpResponse(False)
+        else:
+            return HttpResponseBadRequest("Malformed Request")
 
     this_record = this_student.academicRecord
     academicProgram = this_record.academicProgram
@@ -606,14 +615,17 @@ def schedule_check(request, mode="edit", specific=None):
                         return HttpResponse(True)
                     else:
                         return HttpResponseBadRequest("No Course Provided!")
-                if request.POST['action_type'] == 'finished_semester' and specific == record.mainSchedule.pk:
+                if request.POST['action_type'] == 'finished_semester':
                     passed_courses = request.POST.getlist('passed_courses')
                     print(passed_courses)
                     for a_course in passed_courses:
                         request.user.student.academicRecord.passCourse(a_course)
                     if len(record.mainSchedule.lectureList.all()) > 0:
                         # Even if the list is not empty, forcibly pass to a new schedule.
+                        record.mainSchedule = None
+                        record.save()
                         record.moveScheduleFromCacheToMain()
+                        record.save()
 
                     return HttpResponseRedirect(
                         "/student_record/",
@@ -1002,7 +1014,7 @@ def schedule_select(request):
 
 @login_required
 def course_create(request):
-    if request.user.is_superuser:
+    if request.user.is_superuser or ProgramDirector.objects.filter(user_id=request.user.id):
         if request.method == 'POST':
             name = request.POST['name']
             number = request.POST['number']

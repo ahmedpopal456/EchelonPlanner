@@ -36,7 +36,7 @@
         {# AJAX request for saving and overwriting schedules #}
         $.ajax({ //Ask if we can save this schedule
             type: 'post',
-            url: "/schedule_check/",
+            url: "/schedule_check/edit/{{ pk }}/",
             dataType: 'html',
             data: {
                 'action_type': 'remove',
@@ -55,7 +55,7 @@
                 }
             },
             error: function(xhr, ajaxOptions, thrownError) {
-                if (xhr.status == 404 || xhr.status == 400) {
+                if (xhr.status == 404 || xhr.status == 400 || xhr.status == 500) {
                     $("#save_progress").modal('hide');
                     alert(thrownError);
                     console.log("ERROR!");

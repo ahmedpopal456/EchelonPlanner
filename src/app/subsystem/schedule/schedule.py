@@ -49,21 +49,25 @@ class Schedule(models.Model):
                 if subcourseitem.course.hasTutorials():
                     lecturetriplet.append({"Lab": subcourseitem,
                                            "Tutorial":subcourseitem.tutorial,
-                                           "Lecture": subcourseitem.lecture})
+                                           "Lecture": subcourseitem.lecture,
+                                           "pk":self.pk})
                 else:
                     # Append to a blank tutorial section
                     lecturetriplet.append({"Lab": subcourseitem,
                                            "Tutorial": None,
-                                           "Lecture": subcourseitem.lecture})
+                                           "Lecture": subcourseitem.lecture,
+                                           "pk": self.pk })
             if subcourseitem.name() == "Tutorial":
                     lecturetriplet.append({"Lab": None,
                                            "Tutorial": subcourseitem,
-                                           "Lecture": subcourseitem.lecture})
+                                           "Lecture": subcourseitem.lecture,
+                                           "pk":self.pk})
                 # If only lecture, then make lecture serialized, with empty lab and tut
             if subcourseitem.name() == "Lecture":
                     lecturetriplet.append({"Lab": None,
                                            "Tutorial": None,
-                                           "Lecture": subcourseitem})
+                                           "Lecture": subcourseitem,
+                                           "pk":self.pk})
             serializedSchedule.append(lecturetriplet)
 
         return serializedSchedule
