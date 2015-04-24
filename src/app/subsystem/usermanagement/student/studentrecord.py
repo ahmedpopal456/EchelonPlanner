@@ -43,8 +43,8 @@ class StudentRecord(models.Model):
 
     def moveScheduleFromCacheToMain(self):
         semester_list = ["Summer1", "Summer2", "Fall", "Winter"]
-        if self.mainSchedule:  # Delete the previously kept schedule if needed.
-            self.mainSchedule.delete()
+        # if self.mainSchedule:  # Delete the previously kept schedule if needed.
+        #     self.mainSchedule.delete()
 
         # Go find a new one
         for i in range(1, 6):
@@ -58,6 +58,14 @@ class StudentRecord(models.Model):
                         self.mainSchedule.save()
                         self.scheduleCache.remove(possible_replacement[0])
                         self.save()
+                        return
+
+        # IF we didn't find anything, assign an empty schedule
+        if not self.scheduleCache.all():
+            self.mainSchedule = None
+            self.mainSchedule.save()
+            self.save()
+
         return
     # end moveScheduleFromCacheToMain()
         #
@@ -103,11 +111,15 @@ class StudentRecord(models.Model):
     def passCourse(self, deptnum):
 
         self.mainSchedule.remove_course(deptnum)
-        self.addTakenCourse(deptnum)
+        course_previously_taken = self.coursesTaken.filter(pk=deptnum)
+        if not course_previously_taken:
+            self.addTakenCourse(deptnum)
 
-        # Check if mainSchedule is empty, if so, then find replacement
+        # # Check if mainSchedule is empty, if so, then find replacement
         if len(self.mainSchedule.lectureList.all()) == 0:
             self.moveScheduleFromCacheToMain()
+
+        return
 
     # Check if a schedule exists with the same year/semester,
     # returns the schedule if it is, if not, then None

@@ -598,22 +598,30 @@ def schedule_check(request, mode="edit", specific=None):
         # AJAX/POST Handler
         if request.method == "POST" and original_schedule:
             print(request.POST)
-            if 'action_type' in request.POST and 'deptnum' in request.POST:
-                course_given = request.POST['deptnum']
+            if 'action_type' in request.POST:
                 if request.POST['action_type'] == 'remove':
-                    original_schedule.remove_course(course_given)
-                    return HttpResponse(True)
+                    if 'deptnum' in request.POST:
+                        course_given = request.POST['deptnum']
+                        original_schedule.remove_course(course_given)
+                        return HttpResponse(True)
+                    else:
+                        return HttpResponseBadRequest("No Course Provided!")
                 if request.POST['action_type'] == 'finished_semester' and specific == record.mainSchedule.pk:
                     passed_courses = request.POST.getlist('passed_courses')
-                    for item in passed_courses:
-                        record.passCourse(item)
+                    print(passed_courses)
+                    for a_course in passed_courses:
+                        request.user.student.academicRecord.passCourse(a_course)
+                    if len(record.mainSchedule.lectureList.all()) > 0:
+                        # Even if the list is not empty, forcibly pass to a new schedule.
+                        record.moveScheduleFromCacheToMain()
+
                     return HttpResponseRedirect(
                         "/student_record/",
                         {'message': "You're schedule courses have been added to the list of taken courses!"}
                     )
             else:
                 return HttpResponseBadRequest("No Action for Schedule Editing Specified Or Bad Parameters for Action")
-        #End AJAX/POST Handler
+        # End AJAX/POST Handler
 
     if original_schedule:
         year = original_schedule.year
@@ -691,15 +699,8 @@ def sched_gen_1(request):
                  'currentSemester': currentSemester}
             )
 
-        return render(
-            request,
-            'app/schedule_generator.html',
-            {'max_courses': max_courses,
-             'feasable_courses': feasable_courses,
-             'testTestList': testTestList,
-             'currentYear': currentYear,
-             'currentSemester': currentSemester}
-        )
+        # Else, give them work in progress
+        return work_in_progress(request)
     # end if request is POST
 
     # Phase 1: Ask for Semester.
@@ -875,9 +876,7 @@ def sched_gen_auto(request):
 
 @login_required
 def schedule_select(request):
-    # TODO: When a schedule is selected, remove it from the serialized list!!!
-
-    # Handle my AJAX!
+    # AJAX Handler
     if request.method == "POST":
         # Seems like request.POST is the PK of schedule
         print(request.POST)
@@ -975,45 +974,29 @@ def schedule_select(request):
                 return HttpResponse(True)
             except Schedule.DoesNotExist:
                 return HttpResponse(False)
+    # end AJAX Handler
+
 
     # Do a normal render
     else:
         schedule_data = []
         new_package = []
-        old_schedules = []
-        old_package = []
-
+        start_time = time.time()
         # Unserialize whatever is in the users current session
         if 'auto_schedules' in request.session:
             schedule_data = serializers.deserialize('json', request.session['auto_schedules'])
-            # print(list(schedule_data))
-        # Unserialize anything from previous sessions too
-        # prevSessionKey = request.user.student.previousSession
-        # if prevSessionKey!=request.session.session_key and prevSessionKey is not None or prevSessionKey != "":  # There was a previous session
-        #     # Find it!
-        #     prevSession = Session.objects.filter(session_key=prevSessionKey)
-        #     if len(prevSession) > 0:
-        #         prevSession = prevSession[0].get_decoded()  # Previous Session is now the Dictionary of old Schedules
-        #         if 'auto_schedules' in prevSession:
-        #             serializedSchedules = prevSession['auto_schedules']
-        #             scheduleObjects = serializers.deserialize('json', serializedSchedules)
-        #             old_schedules = list(scheduleObjects)
 
         # Package all objects
         for item in schedule_data:
-            new_package.append(item.object)
+            new_package.append(item.object.serializeScheduleForSemester())
 
-        for item in old_schedules:
-            old_package.append(item.object)
-
-        print(old_package)
         print(new_package)
-
+        end_time = time.time()
+        print("Total Time in deserialization and packaging: "+str(end_time-start_time))
         return render(
             request,
             'app/schedule_select.html',
-            { 'newSchedules': new_package,
-              'oldSchedules': old_package}
+            { 'newSchedules': new_package,}
         )
 # end schedule_select
 
