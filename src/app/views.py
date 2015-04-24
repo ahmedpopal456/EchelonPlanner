@@ -766,7 +766,6 @@ def sched_gen_auto(request):
         start_time = time.time()
 
         # START BOTTLENECK #####################################
-        @transaction.commit_manually
         def inner_saver():
             for aSchedule in all_schedules:
                 cached_schedule = Schedule()
