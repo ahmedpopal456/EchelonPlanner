@@ -773,8 +773,8 @@ def sched_gen_auto(request):
         print("Saving Session to user")
         if 'auto_schedules' in request.session:
             longstring = request.session['auto_schedules']
-            if len(longstring)>3:
-                longstring = longstring[0:-1] + ", " + final_data[1:len(final_data)]
+            if len(longstring) > 3:
+                longstring = final_data[0:-1] + ", " + longstring[1:len(longstring)]
             else:
                 longstring = final_data[1:len(final_data)]
             print(longstring)
@@ -1108,6 +1108,8 @@ def serializeCourseForSemester(request):
             data = CourseCatalog.seralizeCourseForSemester(specific_course,request.POST['semester'])
             data = json.dumps(data)
             return HttpResponse(data)
+    return HttpResponseRedirect('/')
+
 
 # end serializeCourseForSemester
 
@@ -1131,6 +1133,7 @@ def nullhandler(request):
         print(str(request.POST))
 
     if 'auto_schedules' in request.session:
+        request.session['auto_schedules'] = ""
         testy = request.session['auto_schedules']
         print(testy)
         if len(testy) >0:

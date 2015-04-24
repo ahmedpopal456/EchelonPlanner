@@ -421,7 +421,7 @@ class CourseCatalog(object):
                        "credits": specificcourse.credits,
                        "prereq": prereqs,
                        "lectures": lectures}
-        serialized = json.dumps(course_info)
+
 
         return course_info  # or does it return serialized ?
 
