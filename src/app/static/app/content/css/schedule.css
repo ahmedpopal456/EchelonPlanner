@@ -1088,9 +1088,11 @@ td.mytdclass {
   background-color: #848482;
     border-style: solid;
     border-color: #000000;
+    text-align: center;
 }
 td.mytdclass:hover {
     background-color: #faf2cc;
     border-color: #f8e5be;
     color: #000000;
+    text-align: center;
 }
