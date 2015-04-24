@@ -1759,9 +1759,11 @@ table th[class*="col-"] {
 td.mytdclass {
   background-color: #848482;
     border: 1px solid #141011;
+    text-align: center;
 }
 td.mytdclass:hover {
     background-color: #74A3C2;
+    text-align: center;
 }
 
 @media (max-width: 700px) {

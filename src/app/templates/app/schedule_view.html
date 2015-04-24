@@ -110,7 +110,7 @@
                     {% for class in schedule.Monday %}
                         {% if time == class.RoundedStart %}
                             {% if class.Course != None %}
-                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}" about="Monday">{{ class.Course }} {{ class.Type }}</td>
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}" about="Monday"><h4>{{ class.Course }}</h4><p>{{ class.Type }} {{ class.Section }}<br>{{ class.ActualStart }}-{{ class.ActualEnd }}<br>{{ class.Location }}</p></td>
                             {% else %}
                         <td rowspan="{{ class.Duration }}" class="" about="Monday"></td>
                             {% endif %}
@@ -120,7 +120,7 @@
                     {% for class in schedule.Tuesday %}
                         {% if time == class.RoundedStart %}
                             {% if class.Course != None %}
-                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}" about="Tuesday">{{ class.Course }} {{ class.Type }}</td>
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}" about="Tuesday"><h4>{{ class.Course }}</h4><p>{{ class.Type }} {{ class.Section }}<br>{{ class.ActualStart }}-{{ class.ActualEnd }}<br>{{ class.Location }}</p></td>
                             {% else %}
                         <td rowspan="{{ class.Duration }}" class="" about="Tuesday"></td>
                             {% endif %}
@@ -130,7 +130,7 @@
                     {% for class in schedule.Wednesday %}
                         {% if time == class.RoundedStart %}
                             {% if class.Course != None %}
-                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}" about="Wednesday">{{ class.Course }} {{ class.Type }}</td>
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}" about="Wednesday"><h4>{{ class.Course }}</h4><p>{{ class.Type }} {{ class.Section }}<br>{{ class.ActualStart }}-{{ class.ActualEnd }}<br>{{ class.Location }}</p></td>
                             {% else %}
                         <td rowspan="{{ class.Duration }}" class="" about="Wednesday"></td>
                             {% endif %}
@@ -140,7 +140,7 @@
                     {% for class in schedule.Thursday %}
                         {% if time == class.RoundedStart %}
                             {% if class.Course != None %}
-                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}" about="Thursday">{{ class.Course }} {{ class.Type }}</td>
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}" about="Thursday"><h4>{{ class.Course }}</h4><p>{{ class.Type }} {{ class.Section }}<br>{{ class.ActualStart }}-{{ class.ActualEnd }}<br>{{ class.Location }}</p></td>
                             {% else %}
                         <td rowspan="{{ class.Duration }}" class="" about="Thursday"></td>
                             {% endif %}
@@ -150,7 +150,7 @@
                     {% for class in schedule.Friday %}
                         {% if time == class.RoundedStart %}
                             {% if class.Course != None %}
-                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}" about="Friday">{{ class.Course }} {{ class.Type }}</td>
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}" about="Friday"><h4>{{ class.Course }}</h4><p>{{ class.Type }} {{ class.Section }}<br>{{ class.ActualStart }}-{{ class.ActualEnd }}<br>{{ class.Location }}</p></td>
                             {% else %}
                         <td rowspan="{{ class.Duration }}" class="" about="Friday"></td>
                             {% endif %}
@@ -159,7 +159,7 @@
                     {% for class in schedule.Saturday %}
                         {% if time == class.RoundedStart %}
                             {% if class.Course != None %}
-                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}">{{ class.Course }} {{ class.Type }}</td>
+                        <td rowspan="{{ class.Duration }}" class="mytdclass" id="{{ class.Course }}"><h4>{{ class.Course }}</h4><p>{{ class.Type }} {{ class.Section }}<br>{{ class.ActualStart }}-{{ class.ActualEnd }}<br>{{ class.Location }}</p></td>
                             {% else %}
                         <td rowspan="{{ class.Duration }}" class=""></td>
                             {% endif %}
