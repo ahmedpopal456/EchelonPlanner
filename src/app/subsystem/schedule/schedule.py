@@ -294,6 +294,80 @@ class Schedule(models.Model):
             return True
     #end add_item_unsafely()
 
+    def get_subcourse_items(self, courselist=None):
+
+        subcourseitemlist = []
+        if courselist is None:
+            courselist = []
+
+        for lab in self.labList.all():
+            subcourseitemlist.append(lab)
+            courselist.append(lab.course)
+
+        for tutorial in self.tutorialList.exclude(course__in=courselist):
+            subcourseitemlist.append(tutorial)
+            courselist.append(tutorial.course)
+
+        for lecture in self.lectureList.exclude(course__in=courselist):
+            subcourseitemlist.append(lecture)
+            courselist.append(lecture.course)
+
+        return subcourseitemlist
+
+    """
+    Returns True, if it manages to add to main, False otherwise.
+     """
+
+    def add_first_available_section(self, deptnum):
+
+
+        listoflistofcandidates = []
+        courselist = []
+
+        subcourseitemlist = self.get_subcourse_items(courselist)
+
+        if len(subcourseitemlist) == 0:
+            try:
+                C = Course.objects.get(pk=deptnum)
+                if C.hasLabs():
+                    if len(C.lab_set.filter(event__semester="Fall")) > 0:
+                        self.add_item(C.lab_set.filter(event__semester="Fall")[0])
+                        return True
+                    else:
+                        return False
+                elif C.hasTutorials():
+                    if len(C.tutorial_set.filter(event__semester="Fall")) > 0:
+                        self.add_item(C.tutorial_set.filter(event__semester="Fall")[0])
+                        return True
+                    else:
+                        return False
+                else:
+                    if len(C.lecture_set.filter(event__semester="Fall")) > 0:
+                        self.add_item(C.lecture_set.filter(event__semester="Fall")[0])
+                        return True
+                    else:
+                        return False
+            except Course.DoesNotExist:
+                return False
+
+
+        for course in courselist:
+            if deptnum == course.deptnum:
+                return False
+
+        for subcourse in subcourseitemlist:
+            listoflistofcandidates.append(ScheduleGenerator.findUnconflictingSections(subcourse, deptnum))
+
+        result = list(set(listoflistofcandidates[0]).intersection(*listoflistofcandidates[:1]))
+
+        if len(result) > 0:
+            self.add_item(result[0])
+            return True
+        else:
+            return False
+
+
+
     # Removes an Item from the schedule, must provide lowest possible section Lecture > Tutorial > Lab
     def remove_item(self, subcourse_item):
 

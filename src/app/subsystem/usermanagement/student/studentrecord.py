@@ -189,6 +189,9 @@ class StudentRecord(models.Model):
 
         try:
             course = Course.objects.get(pk=deptnum)
+
+            if course in self.coursesTaken.all():
+                return False
             self.coursesTaken.add(course)
 
             # Need to decrement remaining credits
