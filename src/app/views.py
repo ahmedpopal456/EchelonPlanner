@@ -862,6 +862,18 @@ def schedule_select(request):
                     request.user.student.academicRecord.moveScheduleFromCacheToMain()
                 print("True")
                 #TODO Remove serialized list here
+
+                if 'auto_schedules' in request.session:
+                    session_json = json.loads(request.session['auto_schedules'])
+
+                    for i, sched in enumerate(session_json):
+                        if sched['pk'] == schedulepk:
+                            session_json.pop(i)
+                            break
+                    request.session['auto_schedules'] = json.dumps(session_json)
+                    print(session_json)
+
+
                 return HttpResponse(True)
 
         elif mode == "assert":
@@ -873,6 +885,14 @@ def schedule_select(request):
                 if request.user.student.academicRecord.mainSchedule is None:
                     request.user.student.academicRecord.moveScheduleFromCacheToMain()
                 #TODO Remove serialized list here
+                session_json = json.loads(request.session['auto_schedules'])
+
+                for i, sched in enumerate(session_json):
+                    if sched['pk'] == schedulepk:
+                        session_json.pop(i)
+                        break
+                    request.session['auto_schedules'] = json.dumps(session_json)
+                    print(session_json)
                 return HttpResponse(True)
             except Schedule.DoesNotExist:
                 return HttpResponse(False)
