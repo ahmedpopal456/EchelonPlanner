@@ -91,11 +91,11 @@
 
             $.ajax({
                 type: 'post',
-                url: "/browse_specific_course/",
+                url: "/course_data/",
                 dataType: 'html',
                 data: {
                     'deptnum': $(this).attr('deptnum'),
-                    'semester': {{ currentSemester }},
+                    'semester': "{{ currentSemester }}",
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function (data) {
@@ -127,7 +127,7 @@
                         //newListLink.attr('pk', lectureList[lectNo].pk);  //what was pk again?
                         //newListLink.attr('value', lectureList[lectNo].pk);  //what was pk again?
                         newListLink.text($leText);
-                        newListLink.bind("click", function () {
+                        newListLink.unbind("click").bind("click", function (e) {
 
                             //this changes the text and value of the lecture dropdown after a click
                             console.log("lect");
@@ -135,7 +135,9 @@
                             $("#lectDiv" + currentNo + "Text").val($(this).text());
                             $("#lectInput" + currentNo).val($(this).text());
                             //end of that
-                            var tutList = newObj[lectNo]['tutorial'];
+                            console.log(lectureList);
+                            console.log(currentNo);
+                            var tutList = lectureList[lectNo]['tutorial'];
                             //checking for tutorials and doing what needs to be done to the tut lists accordingly
                             if (tutList.length != 0) {
                                 $("#tutDiv" + currentNo).find("#tutDiv" + currentNo + "Text").removeClass("disabled");
@@ -164,7 +166,7 @@
 
                                         //end of that
 
-                                        var labList = newObj[lectNo][tutNo]['lab'];
+                                        var labList = tutList['lab'];
 
                                         //checking for labs and doing what needs to be done to the lab lists accordingly
                                         if (labList.length != 0) {
