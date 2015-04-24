@@ -791,15 +791,15 @@ def sched_gen_auto(request):
         request.user.student.academicRecord.save()
         request.user.student.save()
         final_data = serializers.serialize('json', listOfSchedulesGenerated)
-        if 'auto_schedules' in request.session:
-            longstring = request.session['auto_schedules']
-            if len(longstring) > 3:
-                longstring = final_data[0:-1] + ", " + longstring[1:len(longstring)]
-            else:
-                longstring = final_data[1:len(final_data)]
-            request.session['auto_schedules'] = longstring
-        else:
-            request.session['auto_schedules'] = final_data
+        # if 'auto_schedules' in request.session:
+        #     longstring = request.session['auto_schedules']
+        #     if len(longstring) > 3:
+        #         longstring = final_data[0:-1] + ", " + longstring[1:len(longstring)]
+        #     else:
+        #         longstring = final_data[1:len(final_data)]
+        #     request.session['auto_schedules'] = longstring
+        # else:
+        request.session['auto_schedules'] = final_data
         request.session.modified = True
         return HttpResponseRedirect('/schedule_select/')
 
