@@ -26,8 +26,12 @@
         });
 
     delete_schedule = function(pk){
+        //TODO: Implement an AJAX call to views.py
+    };
 
-    }
+    remove_course_from_record = function(deptnum){
+        //TODO: Implement an AJAX call to views.py
+    };
 
 
 
@@ -66,9 +70,13 @@
                        <div class="col-md-8 list-inline">
                            <p>Courses Taken ({{ coursesTaken|length }}):</p>
                             {% if coursesTaken %}
-                           <ul class="list-inline">
+                           <ul class="list-inline well">
                                {% for course in coursesTaken %}
-                               <li>{{ course.deptnum }}: {{ course.name }}</li>
+                               <li>
+                                   <button class="btn btn-primary" type="button" onclick="">
+                                       {{ course.deptnum }} <span class="badge">{{ course.credits }}</span>
+                                   </button>
+                               </li>
                                {% endfor %}
                            </ul>
                             {% else %}
@@ -81,14 +89,15 @@
                     <br>
                    <div class="row">
                        <h3>User Schedules</h3>
-                       <table class="table table-hover">
+                       <table class="table table-hover echelonpanel">
                            <tr><th>Current Schedule</th></tr>
                            {% if mainSchedule %}
                                <tr>
-                                   <td>{{ mainSchedule.year }} - {{ mainSchedule.semester }}</td>
-                                   <td><a href="/schedule_view/"><button class="btn-sm">View</button></a></td>
-                                   <td><a href="/work_in_progress/"><button class="btn-sm">Edit</button></a></td>
-                                   <td><a href="/work_in_progress/"><button class="btn-sm">Delete</button></a></td>
+                                   <td class="text-center"><h3>Year {{ mainSchedule.year }}, {{ mainSchedule.semester }} Semester</h3></td>
+                                       <td style="vertical-align:middle"><a href="/schedule_view/saved/{{ mainSchedule.pk }}"><button class="btn">View</button></a></td>
+                                       <td style="vertical-align:middle"><a href="/schedule_check/edit/{{ mainSchedule.pk }}"><button class="btn">Edit</button></a></td>
+                                       <td style="vertical-align:middle"><a onclick="delete_schedule({{ mainSchedule.pk }})"><button class="btn">Delete</button></a></td>
+                                       <td style="vertical-align:middle"><a href="/schedule_check/done/{{ mainSchedule.pk }}"><button class="btn">Done</button></a></td>
                                </tr>
                            {% else %}
                                <tr>
@@ -97,17 +106,15 @@
                                </tr>
                            {% endif %}
                        </table>
-                       <table class="table table-hover">
+                       <table class="table table-hover echelonpanel">
                            <tr><th>Schedules Saved</th></tr>
                            {% if scheduleCache %}
                                {% for schedule in scheduleCache %}
                                    <tr>
-                                       <td>{{ schedule.year }} - {{ schedule.semester }}</td>
-                                       <!-- TODO: FILL IN BUTTON FUNCTIONALITY!!!! -->
-                                       <td><a href="/schedule_view/saved/{{ schedule.pk }}"><button class="btn-sm">View</button></a></td>
-                                       <td><a href="/check_schedule/edit/{{ schedule.pk }}"><button class="btn-sm">Edit</button></a></td>
-                                       <td><a onclick="delete_schedule({{ schedule.pk }})"><button class="btn-sm">Delete</button></a></td>
-                                       <td><a href="/check_schedule/done/{{ schedule.pk }}"><button class="btn-sm">Done</button></a></td>
+                                       <td class="text-center"> <h4>Year {{ schedule.year }}, {{ schedule.semester }} Semester</h4></td>
+                                       <td style="vertical-align:middle"><a href="/schedule_view/saved/{{ schedule.pk }}"><button class="btn">View</button></a></td>
+                                       <td style="vertical-align:middle"><a href="/schedule_check/edit/{{ schedule.pk }}"><button class="btn">Edit</button></a></td>
+                                       <td style="vertical-align:middle"><a onclick="delete_schedule({{ schedule.pk }})"><button class="btn">Delete</button></a></td>
                                    </tr>
                                {% endfor %}
                            {% else %}

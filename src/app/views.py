@@ -517,7 +517,10 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
             elif search_mode == "saved" and len(request.user.student.academicRecord.scheduleCache.all())>0:
                 # Retrieve Schedule Cache list
                 specifiedSchedule = request.user.student.academicRecord.scheduleCache.filter(pk=specific)
-                specifiedSchedule = specifiedSchedule[0]
+                if specifiedSchedule:
+                    specifiedSchedule = specifiedSchedule[0]
+                else:
+                    specifiedSchedule = request.user.student.academicRecord.mainSchedule
             else:
                 # Stop and return here if needed
                 return schedule_view(request)
@@ -564,9 +567,70 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
 
 @login_required
 def schedule_check(request, mode="edit", specific=None):
-    # TODO: fill this in to complete the functionality of the template
+    main_student = StudentCatalog.getStudent(request.user.username)
+    schedule_return = []
+    original_schedule = None
+    year = str()
+    semester = str()
 
-    pass
+    if mode == 'edit':
+        site_to_return = 'app/schedule_check.html'
+    elif mode == 'done':
+        site_to_return = 'app/schedule_finish.html'
+    else:
+        return student_record(request)
+
+
+    if main_student:
+        specific = int(specific)
+        # Search for the requested schedule
+        record = main_student.academicRecord
+        if record.mainSchedule:
+            if record.mainSchedule.pk == specific:
+                original_schedule = record.mainSchedule
+                schedule_return = original_schedule.serializeScheduleForSemester()
+        if record.scheduleCache and not schedule_return:
+            schedule_return = record.scheduleCache.filter(pk=specific)
+            if schedule_return:
+                original_schedule = schedule_return[0]
+                schedule_return = original_schedule.serializeScheduleForSemester()
+
+        # AJAX/POST Handler
+        if request.method == "POST" and original_schedule:
+            print(request.POST)
+            if 'action_type' in request.POST and 'deptnum' in request.POST:
+                course_given = request.POST['deptnum']
+                if request.POST['action_type'] == 'remove':
+                    original_schedule.remove_course(course_given)
+                    return HttpResponse(True)
+                if request.POST['action_type'] == 'finished_semester' and specific == record.mainSchedule.pk:
+                    passed_courses = request.POST.getlist('passed_courses')
+                    for item in passed_courses:
+                        record.passCourse(item)
+                    return HttpResponseRedirect(
+                        "/student_record/",
+                        {'message': "You're schedule courses have been added to the list of taken courses!"}
+                    )
+            else:
+                return HttpResponseBadRequest("No Action for Schedule Editing Specified Or Bad Parameters for Action")
+        #End AJAX/POST Handler
+
+    if original_schedule:
+        year = original_schedule.year
+        semester = original_schedule.semester
+
+    print(schedule_return)
+
+    return render(
+        request,
+        site_to_return,
+        {'schedule': schedule_return,
+         'pk': specific,
+         'mode': mode,
+         'year': year,
+         'semester': semester}
+    )
+# end schedule_check
 
 @login_required
 def schedule_generator(request):
@@ -903,8 +967,7 @@ def schedule_select(request):
 
                 for i, sched in enumerate(session_json):
                     if sched['pk'] == schedulepk:
-                        testy = session_json.pop(i)
-                        print(testy)
+                        session_json.pop(i)
                         break
 
                 request.session['auto_schedules'] = json.dumps(session_json)
