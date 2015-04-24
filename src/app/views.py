@@ -1035,10 +1035,30 @@ def browse_specific_course(request, deptnum=""):
                 request.user.student.academicRecord.addTakenCourse(deptnum)
                 return HttpResponse(True)
             elif request.POST['mode'] == 'add_to_schedule':
-                return HttpResponse(False)
-                # TODO: put method tht can transfer a section of this deptnum into schedule.
+                try:
+                    coursetoadd = Course.objects.get(pk=deptnum)
+                    if coursetoadd in request.user.student.academicRecord.coursesTaken.all():
+                        return HttpResponse(False)
+                except:
+                    return HttpResponse(False)
+
+                # There is no MainSchedule, so one needs to be made
+                if not request.user.student.academicRecord.mainSchedule:
+                    newMainSchedule = Schedule(year=1, semester="Fall")
+                    newMainSchedule.save()
+                    request.user.student.academicRecord.scheduleCache.add(newMainSchedule)
+                    request.user.student.academicRecord.save()
+                    request.user.student.academicRecord.moveScheduleFromCacheToMain()
+                    request.user.student.academicRecord.save()
+
+                if request.user.student.academicRecord.mainSchedule.add_first_available_section(deptnum):
+                    return HttpResponse(True)
+                else:
+                    return HttpResponse(False)
+                # TODO: put method tht can transfer a section of this deptnum into schedule. DONE
+
             else:
-              return HttpResponseBadRequest("Request arguments were wrong.")
+                return HttpResponseBadRequest("Request arguments were wrong.")
         else:
             return HttpResponseBadRequest("A malformed request was issued to the server. Check User and parameters.")
     # end AJAX Handling.
