@@ -11,8 +11,6 @@ from django.contrib import admin
 urlpatterns = patterns('',
     # SUDO
     url(r'^admin/', include(admin.site.urls)),
-    # DEV ONLY URLS!!!!!!
-    url(r'^nullhandler/', 'app.views.nullhandler'),
     url(r'^work_in_progress/', 'app.views.work_in_progress'),
 
     # User Management and general navigation
@@ -42,13 +40,6 @@ urlpatterns = patterns('',
     # Editing specific schedules
     url(r'^schedule_check/done/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_check', {'mode': 'done'}),
     url(r'^schedule_check/edit/(?P<specific>[0-9]{1,16})/$', 'app.views.schedule_check', {'mode': 'edit'}),
-
-    # Probably Deprecated.
-    url(r'^schedule_make/', 'app.views.schedule_make'),
-
-
-
-
 
     # Course URLs
     url(r'^browse_all_courses/', 'app.views.browse_all_courses'),
