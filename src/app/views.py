@@ -477,6 +477,8 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
                     for item in schedule_data:
                         if item.object.pk == specific:
                             specifiedSchedule = Schedule.objects.filter(pk=specific)
+                            if specifiedSchedule:
+                                specifiedSchedule = specifiedSchedule[0]
 
             # Cached schedules in DB
             elif search_mode == "saved" and len(request.user.student.academicRecord.scheduleCache.all())>0:
