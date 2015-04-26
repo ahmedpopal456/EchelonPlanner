@@ -473,10 +473,10 @@ def schedule_view(request, specific='', render_type='normal', search_mode='recen
                 # Search current session
                 if 'auto_schedules' in request.session:
                     # Start unpacking session data
-                    schedule_data = json.loads(request.session['auto_schedules'])
-                    search_string = str("\"pk\": "+str(specific)+" ")
-                    if search_string in schedule_data:
-                        specifiedSchedule = Schedule.objects.filter(pk=specific)
+                    schedule_data = list(serializers.deserialize('json', request.session['auto_schedules']))
+                    for item in schedule_data:
+                        if item.object.pk == specific:
+                            specifiedSchedule = Schedule.objects.filter(pk=specific)
 
             # Cached schedules in DB
             elif search_mode == "saved" and len(request.user.student.academicRecord.scheduleCache.all())>0:
