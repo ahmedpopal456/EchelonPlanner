@@ -1,4 +1,4 @@
-# [EchelonPlanner](https://echelonplanner.me)
+# [EchelonPlanner](https://echelonplanner.noip.me)
 SOEN341 Team Project for a Multiyear planner for Software Engineering Students
 
 A Project made in Python's Django using MySQL
